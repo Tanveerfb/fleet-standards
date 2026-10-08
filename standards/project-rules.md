@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.0.0
+**Version:** 3.1.0
 **Applies to:** All Next.js projects
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
@@ -74,11 +74,15 @@ issues is the churn, status is the current position.
 
 ## §ASK — Asking before assuming
 
-- **Whenever input is needed from the owner, use the question tool.** It is
-  the default, not an option — a question buried in prose gets missed, and the
+- **Choices go through the question tool.** When the owner is choosing between
+  options, it is the default — a choice buried in prose gets missed, and the
   tool notifies the owner's phone. Two to four short mutually exclusive options,
-  the recommended one first, one to four questions at a time. Prose questions
-  only where the tool is unavailable, and then say so
+  the recommended one first, one to four questions at a time
+- **Open questions go in plain prose.** When an answer needs explaining — what
+  something should feel like, what was meant, what is missing — ask it as a
+  short numbered list in the message, so the owner can answer in their own
+  words, including by speech-to-text. Never force an open question into fixed
+  options
 - **Never assume design values.** Ask first; propose only when invited
 - **Ask once per technical decision.** Once confirmed, apply consistently
 - **Ask before structural decisions** — navigation, auth strategy, folder
@@ -184,7 +188,15 @@ does not restate them.
 - **Mobile is first-class** — it must work properly on a phone, not merely not break
 - **Consistency, modularisation, QoL — on everything touched**, not only on work with a
   spec. If a change introduces a second version of something the repo already has, it is
-  wrong
+  wrong. Where the project has a motif (§DESIGN), it is held to the same standard: every
+  visual change fits it
+- **Don't state the obvious.** Interface text that repeats what a component already makes
+  clear is noise. A light/dark toggle is a switch with a sun and a moon — no "Light mode"
+  label beside it. No helper text explaining a self-evident control, no caption restating a
+  heading, no "Click here to…". Two limits: an icon-only control still has an accessible
+  name (`aria-label`, usually a tooltip), which screen readers need and which is not visible
+  text; and an icon that is not universally understood gets its label. What is *not*
+  obvious still gets said — an empty state still says what to do next (§QOL)
 - **The existing code is not the benchmark.** Check a pattern against this file before
   copying it
 - **Shared primitives are never restyled to suit one page.** That is a repo-wide visual
@@ -576,27 +588,41 @@ Where Tailwind becomes unreadable, the answer is a component, not a stylesheet.
 
 ---
 
-## §DESIGN — Design direction
+## §DESIGN — Design motif and system
 
-Every project has a `design-system.md` defining palette, typography, spacing,
-density, motion and exclusions. Build nothing before it exists.
+Every project has a `design-system.md` defining its motif, palette, typography,
+spacing, density, motion and exclusions. Build nothing before it exists.
 
-**Propose a direction before building one.** Offer two to four named directions
-with a sentence each on why they suit this subject and audience, and let the
-owner choose. A starting vocabulary — not exhaustive, and often none of these
-is right:
+**Every project has a motif** — one theme the interface is designed around,
+carried through palette, type, shapes, texture, iconography, copy voice and
+motion. The catalogue, and how each motif is used, is
+[`motifs.md`](./motifs.md) in the master copy of this standard.
 
-| Direction | Suits |
-|---|---|
-| Classroom / school | Learning tools, onboarding, anything instructional |
-| Cyberpunk / high-contrast dark | Developer tools, monitoring, gaming adjacent |
-| Minimalist / editorial | Content-led products, portfolios, reading |
-| Industrial / dispatch board | Operations, logistics, field service, dense state |
-| NDIS / accessibility-standard | Care, health, government, disability services |
-| Consumer-warm | Marketplaces, hospitality, lifestyle |
-
-Ground the choice in subject and audience. A tool used outdoors on a phone and a
-dashboard read at a desk are different design problems.
+- **Choose it before designing** — at a new project, or at a redesign or design
+  overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,
+  *decide for me* from a description of the site's purpose and audience,
+  *surprise me* from the motifs that suit it, or bring your own. Each motif is a
+  family: once one is picked, offer its named variants, one or two suggested
+  variants — one built from the existing tokens where the project has them —
+  Custom, and *decide for me*. Ground every suggestion in subject and audience:
+  a tool used outdoors on a phone and a dashboard read at a desk are different
+  design problems
+- **A project that already has a motif keeps it.** Record it; do not re-choose
+- **Universe-inspired** (a motif drawn from a fictional world) has no option
+  list: ask which world, research it on the web, ask scoping questions, and get
+  a written brief confirmed before any design work — the process is in
+  `motifs.md`. Inspired, never copied
+- **One motif.** A blend only with the owner's approval, recorded as its own
+  motif
+- **Record it** in `design-system.md` (the block is in `motifs.md`) and the
+  choice in `decisions.md`. From then on it is a standing rule: new interface
+  work fits the motif, and anything that does not is the owner's call
+- **Restraint.** The motif lives in signature places; forms, tables and body
+  text stay plainly readable
+- **Starter kits and full motif specs** are produced on request — proposals,
+  approved through the mockup loop (§OWNER) like any visual change
+- **The `design-motif` skill runs this whole process** — use it rather than
+  improvising one. `new-project` calls it before any interface work
 
 Then, always:
 
@@ -747,10 +773,13 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
 
 ## Checklist — new project
 
+The `new-project` skill walks this list with the owner.
+
+
 - [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias
 - [ ] `.gitignore` covers `.secrets/` and `.env*` — first commit, before code
 - [ ] `tsconfig.json` strict confirmed
-- [ ] Design direction proposed and chosen (§DESIGN)
+- [ ] Motif proposed and chosen, recorded in `design-system.md` (§DESIGN)
 - [ ] `design-system.md` written and tokens in `@theme` before any UI work
 - [ ] shadcn initialised and primitives customised to the tokens (§SHADCN)
 - [ ] Navigation style confirmed with the owner

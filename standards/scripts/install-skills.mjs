@@ -18,7 +18,7 @@ const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repo = resolve(standards, "..");
 const skillTargets = [join(homedir(), ".agents", "skills"), join(homedir(), ".codex", "skills")];
 const fleetRoot = join(homedir(), ".agents", "fleet");
-const reference = ["project-rules.md", "CHANGELOG.md", "adopting-the-standard.md", "templates"];
+const reference = ["project-rules.md", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "templates"];
 const yes = process.argv.includes("--yes");
 const rl = createInterface({ input: process.stdin, output: process.stdout });
 

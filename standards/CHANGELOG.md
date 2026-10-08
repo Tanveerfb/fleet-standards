@@ -33,6 +33,46 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.1.0 — 2026-10-08
+
+- **§DESIGN — every project has a motif.** The six-row "design direction" vocabulary is
+  replaced by a catalogue in the new `standards/motifs.md`: 35 motif families in seven groups
+  (paper and craft, soft and tactile, bold and graphic, retro and nostalgic, dark and techy,
+  calm and refined, institutional and product; the old six among them), with 92 named
+  variants, plus **Universe-inspired** and **Custom**. Each family offers named variants
+  (Cyberpunk: neon, a 2077-inspired yellow, and corpo), agent-suggested variants —
+  one built from the project's existing tokens where it has them — custom, and *decide for
+  me*. Four ways in, so the owner chooses how much to decide: **browse**, **recommend**
+  (*decide for me*, from the site's purpose and audience), **surprise me** (*I'm feeling
+  lucky*, a random pick among motifs that suit the project), or **bring your own**. Every
+  route ends in a mockup and the mockup loop. A motif is chosen at a new project or a redesign,
+  kept where a project already has one, recorded in `design-system.md`, and from then on a
+  standing rule like consistency and QoL. One motif; blends only with the owner's approval.
+  Restraint is part of the rule: the motif lives in signature places, and forms, tables and
+  body text stay readable. Starter kits and full motif specs are produced on request, as
+  proposals through the mockup loop.
+- **Universe-inspired motifs** have no option list, because they can be any fictional world.
+  The agent asks which world, researches its design language on the web, asks scoping
+  questions (which part, which palette sources, how literal, how in-universe, what
+  audience), and gets a written brief confirmed before designing. Inspired, never copied.
+- **Two new skills.** `design-motif` runs the motif process end to end: it checks for an
+  existing motif, gathers the brief (from the project's spec where there is one), offers the
+  four ways in, picks a family and variant or researches a universe-inspired brief, loops on
+  mockups that include an ordinary form and table as a restraint check, and records the
+  result. `new-project` scaffolds a Next.js app (`create-next-app --disable-git`, so git
+  stays the owner's call), puts the rules and templates in place, wires the plugin and the
+  other-agent pointers, hands to `design-motif` before any interface work, then walks the
+  checklist with the owner. `install-skills.mjs` now also installs `motifs.md`.
+- **§OWNER — don't state the obvious.** Interface text that repeats what a component already
+  makes clear is cut: a sun/moon switch needs no "Light mode" label. Icon-only controls still
+  carry an accessible name, and what is genuinely not obvious — an empty state's next step —
+  is still said. Came from the owner's experience building a game, where pages and components
+  kept explaining themselves.
+- **§ASK — open questions go in prose.** The question tool stays the default for choices;
+  open questions are asked as a short numbered list in the message, so the owner can answer
+  in their own words, including by speech-to-text. Forcing an open question into fixed
+  options got answers of "no preference".
+
 ## 3.0.0 — 2026-10-08
 
 **Sections renamed to stable anchors and regrouped** into five parts: how we work,
