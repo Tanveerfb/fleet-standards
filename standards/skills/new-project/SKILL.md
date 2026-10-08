@@ -39,7 +39,9 @@ Establish the project's name (kebab-case for the folder and repo) and what it is
   first phase must do. Do not invent the rest.
 
 Confirm the stack choices that are the owner's (§ASK) where the spec does not settle them:
-Firebase or not, zustand and zod needed or not, a Trello board or none.
+Firebase or not, zustand and zod needed or not, a Trello board or none — and, if the
+project will have AI features, its AI tooling: Firebase AI Logic, the Vercel AI SDK, or both
+(§AI lays out the trade-offs).
 
 ## Step 2 — Scaffold
 

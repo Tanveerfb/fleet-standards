@@ -578,29 +578,35 @@ The default backend for auth, data and storage across the fleet.
 Applies wherever a project calls a language model — generation, chat, summaries,
 classification, extraction, agents.
 
-**Two tools, each for its own job.** Record which a project uses, and why, in
-`decisions.md`.
+**The owner chooses the AI tooling — it is never imposed.** When AI first enters a project,
+put the options to the owner with the question tool, with the trade-offs and a
+recommendation drawn from the project's requirements, and record the choice and the reason in
+`decisions.md`. Once chosen, it is the project's tooling: never bring in the other option
+later without asking.
 
-| Use | When |
-| --- | --- |
-| **Firebase AI Logic** (`firebase/ai`) | A simple Gemini feature called from the client in a project already on Firebase (§FIREBASE) — a summary, a suggestion, a classification. No server key to manage; App Check and Firebase quotas protect it. The default for these |
-| **Vercel AI SDK** (`ai` plus a provider package) | Everything else: work that runs on the server, Claude or any non-Gemini model, more than one provider, local models, chat interfaces, agents and tools. One API across providers, zod schemas passed straight to `generateObject`, and `useChat` for streaming chat UIs |
+| Option | Suits an owner who | Trade-offs |
+| --- | --- | --- |
+| **Firebase AI Logic** (`firebase/ai`) | Wants to stay inside Firebase — auth, data and AI in one console and one bill | Gemini models only; calls run from the client; no server key to manage, protected by App Check and Firebase quotas. No local models |
+| **Vercel AI SDK** (`ai` plus a provider package) | Wants versatility — any provider, Claude among them, local models, chat UIs, agents | Calls run on the server, so the project manages provider keys and its own rate limiting. One API across providers, zod schemas passed straight to `generateObject`, `useChat` for streaming chat UIs |
+| **Both** | Wants simple client-side Gemini features *and* server-side or non-Gemini work | Two tools to keep track of; the adapter keeps them behind one interface. `decisions.md` records which task uses which |
 
 The AI SDK is a free, open-source library: the project pays the model provider directly with
 its own key, and it runs on any Node host. Vercel's AI Gateway is a separate, optional,
 usage-billed service — not needed to use the SDK.
 
+Everything below applies whichever option is chosen.
+
 - **Behind an adapter, like §DATA.** Every model call goes through `lib/ai/`: an interface in
   domain terms (`suggestOutfit`, `summariseNote` — never `callGemini`), one implementation per
-  tool or provider (AI Logic, the AI SDK), and a mock. Components never import a model SDK. Changing provider, or sending a
+  tool or provider the project uses, and a mock. Components never import a model SDK. Changing provider, or sending a
   task to a local model in development, touches one file
 - **Model choice in one place.** `lib/ai/models.ts` maps each task to a provider and a model
   ID, read from environment variables where it differs between development and production. IDs go stale
   fast — check them against the provider's current docs before use (§PACKAGES), never from
   memory, and never inline in a component
-- **Protect every model call before it ships — an unprotected one is an open bill.** AI
+- **Protect every model call before it ships — an unprotected one is an open bill.** With AI
   Logic: enforce App Check, prefer limited-use tokens (`useLimitedUseAppCheckTokens`), and
-  set per-user quotas in the Firebase console. AI SDK routes: require an authenticated user,
+  set per-user quotas in the Firebase console. With AI SDK routes: require an authenticated user,
   rate-limit per user on the server, and keep provider keys server-only, never
   `NEXT_PUBLIC_`
 - **Structured output is validated with zod.** The zod schema is the single source of truth.
@@ -625,8 +631,9 @@ usage-billed service — not needed to use the SDK.
 - **Privacy is recorded.** `environment.md` names each AI provider, what data reaches it, and
   who owns the account. Send the minimum; strip personal data a task does not need
 
-**Local models (Ollama, LM Studio)** are for development and for tools that run on the
-owner's own machine:
+**Local models (Ollama, LM Studio)** need the AI SDK, and are for development and for tools
+that run on the owner's own machine. A project on AI Logic alone develops against the mock
+adapter instead.
 
 - Both serve an OpenAI-compatible API (Ollama `http://localhost:11434/v1`, LM Studio
   `http://localhost:1234/v1`), which the AI SDK reaches through its OpenAI-compatible

@@ -35,10 +35,11 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ## 3.2.0 — unreleased
 
-- **§AI added — AI and LLM features.** Two tools, each for its own job: **Firebase AI Logic**
-  for simple client-side Gemini features in Firebase projects, and the **Vercel AI SDK** for
-  everything else — server-side work, Claude and other providers, local models, chat UIs,
-  agents. The AI SDK is free and open source; the project pays the provider directly, and
+- **§AI added — AI and LLM features.** The owner chooses the AI tooling when AI first enters
+  a project — **Firebase AI Logic** (stay inside Firebase: Gemini, client-side, App Check),
+  the **Vercel AI SDK** (versatility: any provider including Claude, local models, chat UIs,
+  agents), or **both** — with the trade-offs laid out and the choice recorded. Neither is
+  imposed, and the other is never added later without asking. The AI SDK is free and open source; the project pays the provider directly, and
   Vercel's AI Gateway is optional. The AI SDK replaced an earlier draft's "provider SDK or
   Genkit" for server work, because one API across cloud and local models removes adapter
   code. Every call sits behind a
