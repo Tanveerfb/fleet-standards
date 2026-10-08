@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.3.0
+**Version:** 3.4.0
 **Applies to:** All Next.js projects
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
@@ -416,7 +416,7 @@ in the file that owns them.
 src/
   app/              routes only, grouped by route group or role
   components/       shared across two or more features
-  components/ui/    shadcn, customised per project — see §SHADCN
+  components/ui/    the project's own component kit, on shadcn behaviour — see §SHADCN
   features/         feature-specific components, colocated
   hooks/            one hook per file
   lib/              clients, constants, helpers with a real name
@@ -865,27 +865,46 @@ Then, always:
 
 ---
 
-## §SHADCN — shadcn and customisation
+## §SHADCN — Components: custom by design
 
-**shadcn is the component library in every project.** It is the source for
-primitives — do not hand-build what it provides, and do not add a second
-component library alongside it without asking.
+**Every visible component is designed for its project — never a reskin.** shadcn, and the
+Radix or Base UI primitives under it, supply *behaviour*: keyboard handling, focus
+management, ARIA, positioning. Everything a user sees — shape, anatomy, texture, states,
+motion — is designed for the project's motif (§DESIGN) and owned by the project. Changing
+colours and radius on a stock component is not customisation; it is the generic look with a
+different paint job.
 
-**Every project has its own primitives.** shadcn components are copied into
-`components/ui/` and owned locally; that is the point. Each project customises
-them to its own design system before feature work — never shipped at the
-default look, and never copied over from another project's customised set:
+**Taking time here is expected.** Component design is a phase of the build, not a pass over
+the defaults.
 
-- Tokens in `@theme` drive colour, radius, spacing and typography, so primitives
-  inherit the project's identity rather than the default look
-- Variants extended where needed, removed where not
-- Density, focus treatment and motion set per project
-
-A build that looks like every other shadcn build means step one was skipped.
-Equally, this is a pass over the primitives in use — not a week rewriting a
-component library. Features compose these primitives; a one-off restyle of a
-primitive for one page is a repo-wide change (§OWNER). How the primitives look
-goes through the mockup loop like any other visual change.
+- **The generic test.** If a component could drop into another project — or a stock shadcn
+  demo — unchanged, it is not done. Every component carries the motif somewhere: its
+  silhouette, edges, layers, texture, states, motion or sound
+- **Be ambitious.** Propose non-standard forms that come from the motif — a button that is a
+  stamped ticket, a progress bar that is a soundwave, tabs that are file folders, a toast that
+  arrives as a note pinned to the board. Mockups show **two or three creative options per core
+  component**, not one safe one, and the owner chooses
+- **Anatomy can change, not just paint.** New shapes, layered parts, built-in ornament, and
+  every state designed on purpose: rest, hover, press, focus, loading, disabled, error, empty
+- **Behaviour stays standard and accessible.** Custom components are built on shadcn's
+  behaviour primitives (or an equivalent), never hand-rolled focus traps or menus. Keyboard
+  operable, visible focus, correct ARIA, `prefers-reduced-motion` honoured. A creative
+  component that cannot be used from the keyboard is not done
+- **Creative in form, clear in content.** Restraint (§DESIGN) and *don't state the obvious*
+  (§OWNER) still hold: the component is distinctive, the information inside it stays plainly
+  readable
+- **The component round.** After the motif is locked and before feature work, a mockup round
+  designs the project's core kit — navigation, buttons, inputs and selects, cards, tables and
+  lists, dialogs and sheets, tabs, toasts, empty states, loading skeletons — plus the
+  project's **signature component**, the one the product is remembered by. Each in all its
+  states, at desktop and phone width. It may take several rounds; the owner approves each
+  component
+- **Recorded.** The locked designs go in `docs/design/components.html` (committed, never
+  deployed), the components in `components.md` (§COMPONENTS), their values in `@theme`
+- **Every project's kit is its own.** Never copied from another project, and no second
+  component library added without asking
+- Features compose the kit; restyling a kit component for one page is a repo-wide change
+  (§OWNER)
 
 ---
 
@@ -1017,7 +1036,8 @@ The `new-project` skill walks this list with the owner.
       exception in `.gitignore` (§RUNTIME)
 - [ ] Motif proposed and chosen, recorded in `design-system.md` (§DESIGN)
 - [ ] `design-system.md` written and tokens in `@theme` before any UI work
-- [ ] shadcn initialised and primitives customised to the tokens (§SHADCN)
+- [ ] Component round done: the core kit and signature component designed in the motif,
+      approved through mockups, built on shadcn behaviour (§SHADCN)
 - [ ] Navigation style confirmed with the owner
 - [ ] Zustand and zod confirmed as needed or not needed (§STATE)
 - [ ] Data adapter interface defined, if the project has data (§DATA)

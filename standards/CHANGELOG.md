@@ -33,6 +33,20 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.4.0 — 2026-10-08
+
+- **§SHADCN rewritten — components are custom by design.** shadcn and the primitives under
+  it supply behaviour (keyboard, focus, ARIA, positioning); everything visible is designed
+  for the project's motif. The old text asked for "a pass over the primitives in use — not a
+  week rewriting a component library", and agents read that as permission to change colours
+  and radius and stop. Builds came out generic, while the owner's best projects owe their
+  character to components designed from scratch. Now: a generic test (if it could drop into
+  another project unchanged, it is not done); two or three creative options per core
+  component; anatomy and every state designed; behaviour kept standard and accessible; a
+  **component round** after the motif is locked — the core kit plus a signature component,
+  through mockups, taking the time it needs — recorded in `docs/design/components.html`.
+  `design-motif`, `new-project`, the motif starter kit, §STRUCTURE and the checklist updated.
+
 ## 3.3.0 — 2026-10-08
 
 From a conversation about working on larger projects.

@@ -106,8 +106,9 @@ as the brief. Continue here once the motif is locked and recorded, and fill in t
 Work through the remaining items of the checklist at the end of `project-rules.md` **with
 the owner**, one at a time — offer each, do not run them all silently:
 
-- tokens in `@theme` from the locked motif, then shadcn initialised and its primitives
-  customised to them (§SHADCN);
+- tokens in `@theme` from the locked motif, then the **component round** (§SHADCN): the core
+  kit and signature component designed through mockups — custom, ambitious, every state —
+  before any feature work, then built on shadcn's behaviour primitives;
 - navigation style confirmed;
 - the data adapter interface, if the project has data (§DATA);
 - base components — navigation, footer, button;
