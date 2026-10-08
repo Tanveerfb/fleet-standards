@@ -5,6 +5,35 @@ carried through palette, type, shapes, texture, iconography, copy voice and moti
 design decision after that is checked against it. `project-rules.md` §DESIGN says when a
 motif is chosen and how it is recorded; this file is the catalogue to choose from.
 
+## Choosing a motif — four ways in
+
+The owner decides how much to decide. Offer all four; extra steps are optional, never forced.
+
+| Way in | The owner | The agent |
+| --- | --- | --- |
+| **Browse** | Picks a family from the catalogue, then a variant | Shows the family's variants, suggested variants and Custom (below) |
+| **Recommend** — *"decide for me"* | Describes the site: what it is for, who uses it, where and on what device | Proposes the best-fitting motif and variant with the reason, plus one or two runners-up |
+| **Surprise me** — *"I'm feeling lucky"* | Nothing | Picks at random from the motifs that suit the project's purpose — never one that works against it (no Synthwave for a care provider) — and says in a line why it fits |
+| **Bring your own** | Describes a custom motif, or names a fictional world | Follows **Custom** or **Universe-inspired** below |
+
+Every route ends the same way: a mockup in the chosen motif, then the mockup loop (§OWNER)
+until the owner locks it. A recommendation or a lucky pick is a starting point the owner can
+reject, not a commitment.
+
+## Families and variants
+
+Each catalogue entry is a **family**. Once the owner picks a family, offer:
+
+- **Named variants** — listed under the entry, where it has any.
+- **Suggested variants** — one or two of the agent's own. **If the project already has
+  design tokens, one suggestion is a variant built from the existing palette**, so the motif
+  can arrive without throwing away the current identity.
+- **Custom** — the owner's own take on the family.
+- **Decide for me** — the agent picks the variant that best fits the project.
+
+A family with no named variants still gets suggested and custom ones. A variant that proves
+itself on a project is worth proposing back into this catalogue (`propose-standard`).
+
 ## How a motif is used
 
 - **One motif per project.** A deliberate blend (Classroom with Shonen ink, say) is allowed
@@ -93,19 +122,17 @@ onomatopoeia lettering.
 
 ### Dark and techy
 
-**Cyberpunk / neon** — magenta and cyan neon on near-black, glow, rain-slick reflections,
-scanlines, angled corners, monospace accents.
-*Suits:* gaming, dev tools, monitoring.
-*Watch out:* neon text fails contrast at small sizes; flicker and glitch stop under
-`prefers-reduced-motion`.
-
-**Cyberpunk / yellow** *(2077-inspired)* — hazard yellow dominant on black, red and cyan as
-secondary signals, clipped corners and slashed edges, glitch transitions, dense HUD readouts,
-corporate signage, barcodes and serial numbers, katakana accents.
-*Suits:* gaming, tournaments, bold landing pages, dev tools.
-*Watch out:* large areas work as black text on yellow, not the reverse; glitch effects stop
-under reduced motion. Inspired by, not copied from — no game logos, wordmarks or faction
-names.
+**Cyberpunk** — near-black base, neon or signal colour, angular shapes, glitch transitions,
+dense readouts, monospace and katakana accents.
+*Suits:* gaming, tournaments, dev tools, monitoring, bold landing pages.
+*Watch out:* bright text on black fails contrast at small sizes; flicker and glitch stop
+under `prefers-reduced-motion`.
+*Variants:*
+- **Neon** — magenta and cyan glow, rain-slick reflections, scanlines.
+- **Yellow** *(2077-inspired)* — hazard yellow dominant, red and cyan as secondary signals,
+  clipped corners and slashed edges, corporate signage, barcodes and serial numbers. Large
+  areas work as black text on yellow, not the reverse. Inspired by, not copied from — no
+  game logos, wordmarks or faction names.
 
 **Synthwave** — sunset gradients, grid horizons, chrome type, retro-futurist glow.
 *Suits:* music, gaming landing pages, event sites.
@@ -199,8 +226,9 @@ itself is worth proposing back into this catalogue (`propose-standard`).
 ```markdown
 ## Motif
 
-**<Motif name>** — <catalogue entry, universe-inspired brief, custom, or a named blend>.
-Chosen <date>; see decisions.md.
+**<Motif family> — <variant>** — <named, suggested, custom; or a universe-inspired brief, or
+a named blend>. Chosen <date> via <browse / recommend / surprise me / bring your own>; see
+decisions.md.
 
 - **Signature elements:** <what carries the motif, and where it appears>
 - **Off-limits:** <what the motif must not do here — including the entry's watch-outs>

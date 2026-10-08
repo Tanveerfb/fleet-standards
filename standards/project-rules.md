@@ -598,11 +598,15 @@ carried through palette, type, shapes, texture, iconography, copy voice and
 motion. The catalogue, and how each motif is used, is
 [`motifs.md`](./motifs.md) in the master copy of this standard.
 
-- **Choose it before designing.** At a new project, or at a redesign or design
-  overhaul, propose two to four motifs from the catalogue with a sentence each
-  on why they suit this subject and audience — plus Custom, always — and let
-  the owner choose. A tool used outdoors on a phone and a dashboard read at a
-  desk are different design problems
+- **Choose it before designing** — at a new project, or at a redesign or design
+  overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,
+  *decide for me* from a description of the site's purpose and audience,
+  *surprise me* from the motifs that suit it, or bring your own. Each motif is a
+  family: once one is picked, offer its named variants, one or two suggested
+  variants — one built from the existing tokens where the project has them —
+  Custom, and *decide for me*. Ground every suggestion in subject and audience:
+  a tool used outdoors on a phone and a dashboard read at a desk are different
+  design problems
 - **A project that already has a motif keeps it.** Record it; do not re-choose
 - **Universe-inspired** (a motif drawn from a fictional world) has no option
   list: ask which world, research it on the web, ask scoping questions, and get

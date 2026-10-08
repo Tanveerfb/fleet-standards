@@ -37,10 +37,11 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | `sync-standards` | "sync standards" | Brings a project's copy of the rules up to the latest version, explaining what changed |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 
-**Design motifs** — [`standards/motifs.md`](standards/motifs.md): a catalogue of 24
-themes a project's interface can be designed around (Stationery, Classroom, Soft claymorphism,
-Cyberpunk, Neo-brutalism, Shonen ink, Japandi and more), plus universe-inspired motifs drawn
-from a fictional world, and custom ones.
+**Design motifs** — [`standards/motifs.md`](standards/motifs.md): 23 families of themes
+a project's interface can be designed around (Stationery, Classroom, Soft claymorphism,
+Cyberpunk, Neo-brutalism, Shonen ink, Japandi and more), each with variants, plus
+universe-inspired motifs drawn from a fictional world, and custom ones. Browse them, have
+the agent recommend one from your site's purpose and audience, or let it surprise you.
 
 **Templates** — [`standards/templates/`](standards/templates): `CLAUDE.md`, `AGENTS.md`,
 `conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project.

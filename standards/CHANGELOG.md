@@ -36,9 +36,14 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 ## 3.1.0 — 2026-10-08
 
 - **§DESIGN — every project has a motif.** The six-row "design direction" vocabulary is
-  replaced by a catalogue in the new `standards/motifs.md`: 24 motifs in six groups (the old
-  six among them, Cyberpunk split into neon and a 2077-inspired yellow variant), plus
-  **Universe-inspired** and **Custom**. A motif is chosen at a new project or a redesign,
+  replaced by a catalogue in the new `standards/motifs.md`: 23 motif families in six groups
+  (the old six among them), plus **Universe-inspired** and **Custom**. Each family offers
+  named variants (Cyberpunk: neon and a 2077-inspired yellow), agent-suggested variants —
+  one built from the project's existing tokens where it has them — custom, and *decide for
+  me*. Four ways in, so the owner chooses how much to decide: **browse**, **recommend**
+  (*decide for me*, from the site's purpose and audience), **surprise me** (*I'm feeling
+  lucky*, a random pick among motifs that suit the project), or **bring your own**. Every
+  route ends in a mockup and the mockup loop. A motif is chosen at a new project or a redesign,
   kept where a project already has one, recorded in `design-system.md`, and from then on a
   standing rule like consistency and QoL. One motif; blends only with the owner's approval.
   Restraint is part of the rule: the motif lives in signature places, and forms, tables and
