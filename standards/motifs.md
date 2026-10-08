@@ -63,62 +63,163 @@ values still holds.
 
 ## The catalogue
 
-### Paper and school
+32 families in seven groups. Variants are named starting points, not a closed list — the
+agent can still suggest its own, and the owner can bring a custom one (see *Families and
+variants*).
 
-**Stationery / school** — ruled and grid paper, sticky notes, washi tape, pencil underlines,
-handwritten accents, paperclips.
+### Paper and craft
+
+**Stationery** — paper textures, pencil and pen marks, sticky notes, tape, paperclips,
+handwritten accents.
 *Suits:* planners, learning tools, kids, side projects.
 *Watch out:* handwritten fonts for accents only, never body text.
+*Variants:*
+- **Notebook** — ruled and grid paper, pencil underlines, margin doodles.
+- **Planner** — pastel tabs, washi tape, stickers, bullet-journal layouts.
+- **Desk** — kraft paper, sticky notes, paperclips, a corkboard backdrop.
 
-**Classroom** — chalkboard surfaces, chalk texture, gold stars, report cards, pinned notices.
+**Classroom** — school surfaces and rituals: boards, gold stars, report cards, pinned notices.
 *Suits:* tournaments, quizzes, leaderboards, onboarding.
-*Watch out:* chalk-on-dark contrast; chalk texture behind text hurts legibility.
+*Watch out:* board textures behind text hurt legibility; check contrast on dark boards.
+*Variants:*
+- **Chalkboard** — dark green board, chalk texture, eraser smudges.
+- **Whiteboard** — bright board, marker colours, magnets and sticky notes.
+- **Report card** — paper forms, red-pen marks, grades and gold stars.
 
-**Scrapbook / collage** — torn paper, photos, stickers, tape, layered cut-outs.
+**Scrapbook** — torn paper, photos, stickers, tape, layered cut-outs.
 *Suits:* journals, memories, portfolios, event recaps.
 *Watch out:* clutter. Layering must never hide controls or content.
+*Variants:*
+- **Photo album** — polaroids, photo corners, handwritten captions.
+- **Zine** — photocopy grain, cut-out letters, stapled DIY layouts.
+
+**Papercraft** — layered cut paper, depth from stacked sheets, soft drop shadows, folds.
+*Suits:* storytelling, kids, landing pages, illustrated onboarding.
+*Watch out:* stacked layers cost performance when animated; keep depth to a few levels.
+*Variants:*
+- **Cut paper** — flat coloured layers with crisp edges.
+- **Origami** — folded geometric forms, crease lines, paper-white palette.
+
+**Risograph** — two or three inks overprinted, visible grain, slight misregistration, bold
+flat shapes.
+*Suits:* creative studios, events, indie products, editorial.
+*Watch out:* grain and overprint behind text; misregistration only on decoration.
+*Variants:*
+- **Duotone** — two inks, high contrast, poster energy.
+- **Fluoro** — fluorescent pink and yellow inks over blue.
 
 ### Soft and tactile
 
-**Soft claymorphism** — puffy rounded shapes, paired inner and outer shadows, pastels, a
-"squish" on press.
+**Claymorphism** — puffy rounded shapes, paired inner and outer shadows, a "squish" on press.
 *Suits:* consumer and lifestyle apps, playful tools.
 *Watch out:* low contrast between surfaces; state must read without relying on shadows.
+*Variants:*
+- **Soft clay** — soft pastels, matte surfaces, gentle shadows.
+- **Toy plastic** — saturated glossy colours, rounder and bouncier.
+
+**Neumorphism** — monochrome surfaces extruded and pressed from the background with soft
+light and shadow.
+*Suits:* settings, smart-home and device controls, focused single-purpose tools.
+*Watch out:* the weakest contrast of any motif — controls and states need a second cue
+(border, icon, colour) or they disappear.
+*Variants:*
+- **Light** — off-white surfaces, cool shadows.
+- **Dark** — charcoal surfaces, subtle highlights.
 
 **Glassmorphism** — frosted translucent layers over colour, soft borders, depth through blur.
 *Suits:* dashboards, product showcases, media apps.
 *Watch out:* text over blur often fails contrast; heavy blur costs performance on phones.
+*Variants:*
+- **Light frost** — white frosted panels over pale colour.
+- **Dark glass** — smoked panels over deep colour.
+- **Aurora** — glass over slowly shifting colour blobs.
 
-**Tactile hardware** — knobs, switches, sliders, LED readouts, physical-device detailing.
+**Tactile hardware** — knobs, switches, sliders, readouts, physical-device detailing.
 *Suits:* audio tools, maker tools, settings-heavy apps.
 *Watch out:* skeuomorphic controls must still behave like standard, accessible inputs.
+*Variants:*
+- **Retro hi-fi** — brushed metal, wood trim, VU meters, chunky toggles.
+- **Modern synth** — flat device greys, one bright accent, crisp labels and grids.
 
-**Cozy storybook** — watercolour, rounded serifs, small hand-drawn illustrations.
+**Cozy storybook** — hand-made illustration, rounded serifs, warm and gentle.
 *Suits:* kids, recipes, journaling, gentle consumer products.
 *Watch out:* illustration weight on mobile; keep body type a plain readable face.
+*Variants:*
+- **Watercolour** — soft washes, bleeding edges, muted tones.
+- **Picture book** — bold gouache or crayon shapes, bright and chunky.
+- **Fairytale** — gilded borders, ornate initials, enchanted-forest palette.
 
 ### Bold and graphic
 
-**Neo-brutalism** — thick black borders, hard offset shadows, flat saturated blocks, raw grids.
+**Neo-brutalism** — thick borders, hard offset shadows, flat colour blocks, raw grids.
 *Suits:* indie tools, startups, creative portfolios.
 *Watch out:* can feel heavy in dense data screens.
+*Variants:*
+- **Classic** — black borders, primary and saturated blocks.
+- **Pastel** — the same hard edges with soft colours.
+- **Raw web** — system fonts, default-looking HTML, deliberately unstyled.
 
-**Memphis / 80s pop** — squiggles, confetti shapes, clashing pastels, geometric patterns.
-*Suits:* events, youth brands, playful marketing.
-*Watch out:* patterns behind text; keep the noise in decoration, not content areas.
-
-**Retro pixel / 8-bit** — pixel fonts, sprites, chunky bordered UI, limited palettes.
-*Suits:* games and game-adjacent tools, nostalgic sites.
-*Watch out:* pixel fonts are for headings and labels only, never body text.
-
-**Comic book / pop art** — halftone dots, speech bubbles, bold primaries, panel layouts.
+**Comic book / pop art** — halftone dots, speech bubbles, panel layouts, bold primaries.
 *Suits:* entertainment, community sites, playful products.
 *Watch out:* halftone textures and busy panels behind text.
+*Variants:*
+- **Golden age** — aged paper, CMYK misregistration, vintage print.
+- **Pop art** — big halftone dots, flat primaries, gallery-poster energy.
 
-**Shonen ink** — bold ink lines, screentone and halftone, speed lines, manga panels,
-onomatopoeia lettering.
+**Shonen ink** — bold ink lines, screentone, speed lines, manga panels, onomatopoeia
+lettering.
 *Suits:* gaming, fan communities, tournaments, story apps.
 *Watch out:* textures cost performance; sound-effect lettering must not fight readable copy.
+*Variants:*
+- **Battle** — speed lines, impact frames, huge sound effects, high energy.
+- **Manga page** — black-and-white screentone, panel grids, quieter storytelling.
+
+**Streetwear / graffiti** — spray paint, tags, sticker bombing, bold drops and badges.
+*Suits:* fashion, music, youth brands, events.
+*Watch out:* tag lettering is decoration only; keep content on clean surfaces.
+*Variants:*
+- **Graffiti wall** — painted textures, drips, bright tags.
+- **Drop culture** — clean streetwear branding, limited-release badges, bold sans.
+
+### Retro and nostalgic
+
+**Memphis** — squiggles, confetti shapes, clashing pastels, geometric patterns.
+*Suits:* events, youth brands, playful marketing.
+*Watch out:* patterns behind text; keep the noise in decoration, not content areas.
+*Variants:*
+- **80s Memphis** — pastels, terrazzo, zigzags.
+- **90s rad** — neon confetti, wavy lines, bright geometric clutter.
+
+**Retro pixel** — pixel fonts, sprites, chunky bordered UI, limited palettes.
+*Suits:* games and game-adjacent tools, nostalgic sites.
+*Watch out:* pixel fonts are for headings and labels only, never body text.
+*Variants:*
+- **8-bit** — very limited palette, blocky sprites, NES-era energy.
+- **16-bit** — richer palette, gradients, detailed sprites.
+- **Handheld** — four shades of green, monochrome-handheld feel.
+
+**Retro desktop** — the interface of an old operating system: windows, title bars, bevels,
+icons.
+*Suits:* portfolios, playful personal sites, nostalgic tools.
+*Watch out:* nested windows on a phone; old-OS chrome must not break modern accessibility.
+*Variants:*
+- **90s desktop** — grey bevelled windows, blue title bars, chunky buttons.
+- **Classic Mac** — 1-bit black and white, pinstripes, rounded windows.
+
+**Synthwave** — retro-futurist glow, chrome type, gradients and grids.
+*Suits:* music, gaming landing pages, event sites.
+*Watch out:* gradients behind text; keep it to heroes and accents.
+*Variants:*
+- **Outrun** — sunset gradient, grid horizon, palm silhouettes, chrome.
+- **Vaporwave** — pastel pink and teal, marble busts, old-OS windows.
+- **Darksynth** — black and blood red, harder edges, menace.
+
+**Mid-century modern** — atomic starbursts, boomerang shapes, teal and orange, 50s–60s print.
+*Suits:* lifestyle, interiors, food, retro-leaning brands.
+*Watch out:* busy atomic patterns; muted print palettes sliding into low contrast.
+*Variants:*
+- **Atomic** — starbursts, orbits, space-age optimism.
+- **Print ad** — vintage advertising layouts, textured paper, bold slogans.
 
 ### Dark and techy
 
@@ -133,54 +234,105 @@ under `prefers-reduced-motion`.
   clipped corners and slashed edges, corporate signage, barcodes and serial numbers. Large
   areas work as black text on yellow, not the reverse. Inspired by, not copied from — no
   game logos, wordmarks or faction names.
+- **Corpo** — sterile white and chrome, thin type, one cold accent — dystopia in a suit.
 
-**Synthwave** — sunset gradients, grid horizons, chrome type, retro-futurist glow.
-*Suits:* music, gaming landing pages, event sites.
-*Watch out:* gradients behind text; keep it to heroes and accents.
-
-**Terminal / CLI** — monospace throughout, green or amber on black, prompts and cursors,
-ASCII framing.
+**Terminal** — monospace throughout, prompts and cursors, text-mode framing.
 *Suits:* dev tools, local LLM tools, admin panels.
-*Watch out:* monospace body text is slow to read at length; green-on-black contrast varies.
+*Watch out:* monospace body text is slow to read at length; check contrast per palette.
+*Variants:*
+- **Phosphor green** — green on black, CRT glow.
+- **Amber** — amber on black, warmer and calmer.
+- **Modern TUI** — colourful terminal-app palette, boxed panels, status bars.
 
 **Sci-fi HUD** — thin linework, brackets and corner marks, live readouts, scanning motion.
 *Suits:* ops dashboards, monitoring, data-heavy tools.
 *Watch out:* thin lines and small type at low contrast; motion must not distract from data.
+*Variants:*
+- **Tactical** — olive and amber, grids, military readouts.
+- **Starship** — clean blue and white, rounded panels, calm optimism.
+- **Mecha** — warning orange, caution stripes, heavy-machinery labels.
 
-**Industrial / dispatch board** — dense status boards, signal colours, stencil labels, plain
-utilitarian type.
+**Industrial** — utilitarian type, signal colours, stencils, built for dense live state.
 *Suits:* operations, logistics, field service, anything with dense live state.
 *Watch out:* signal colours carry meaning — never colour alone (§DESIGN).
+*Variants:*
+- **Dispatch board** — split-flap boards, status rows, departure-board type.
+- **Hazard** — yellow and black stripes, stencil labels, safety signage.
+- **Control room** — dark panels, indicator lights, big readable numbers.
+
+**Space** — starfields, nebulae, orbit lines, planets, deep dark gradients.
+*Suits:* astronomy, science, AI products, ambitious landing pages.
+*Watch out:* starfield motion and parallax under reduced motion; dark gradients behind text.
+*Variants:*
+- **Deep space** — near-black, nebula colour, glowing points.
+- **Mission control** — NASA-era print, technical diagrams, cream and orange.
 
 ### Calm and refined
 
-**Minimalist / editorial** — generous whitespace, a strong type scale, serif headings, one
-accent colour.
+**Minimalist** — generous whitespace, a strong type scale, one accent colour.
 *Suits:* content-led products, portfolios, blogs, reading.
 *Watch out:* drifting into bland; spend boldness in one place.
+*Variants:*
+- **Editorial** — serif headings, magazine rhythm, pull quotes.
+- **Monochrome** — black, white and grey only; type does all the work.
+- **Soft minimal** — warm off-white, rounded corners, gentle greys.
 
-**Japandi / zen** — muted natural tones, wabi-sabi texture, lots of space, quiet type.
+**Japandi** — muted natural tones, texture, lots of space, quiet type.
 *Suits:* wellness, reading, journaling, slow products.
 *Watch out:* low-contrast muted palettes; quiet must not mean hard to find.
+*Variants:*
+- **Japandi** — light wood, linen, clay tones.
+- **Zen garden** — ink wash, stone greys, raked-sand patterns.
+- **Nordic** — cool whites, pale wood, soft blues.
 
-**Art deco / luxury** — gold linework, geometric frames, high-contrast serifs, symmetry.
+**Art deco** — gold linework, geometric frames, high-contrast serifs, symmetry.
 *Suits:* premium products, events, hospitality.
 *Watch out:* gold on light backgrounds fails contrast; ornament crowding small screens.
+*Variants:*
+- **Gatsby** — black and gold, fans and sunbursts.
+- **Miami deco** — pastel facades, curved corners, sunny palette.
+- **Art nouveau** — flowing organic curves, florals, ornate frames.
 
-**Organic / nature** — earthy greens and browns, grain and leaf textures, soft curves.
+**Academia** — libraries, leather, serif type, ink and candlelight.
+*Suits:* reading, study, writing tools, book clubs, knowledge bases.
+*Watch out:* dark sepia palettes losing contrast; ornament crowding long reading.
+*Variants:*
+- **Dark academia** — deep browns and greens, candlelit, old libraries.
+- **Light academia** — cream, beige, sunlit study.
+
+**Organic** — earthy colour, grain and leaf textures, soft curves.
 *Suits:* food, outdoors, sustainability, wellbeing.
 *Watch out:* earthy palettes sliding into low contrast; texture weight on mobile.
+*Variants:*
+- **Earthy** — browns, terracotta, grain.
+- **Botanical** — illustrated leaves and flowers, greenhouse greens.
+- **Solarpunk** — optimistic green technology, sunlight, clean energy.
 
-### Institutional
+### Institutional and product
 
-**NDIS / accessibility-first** — high contrast, large targets, plain language, generous
-spacing, no reliance on colour or motion.
-*Suits:* care, health, government, disability services.
+**Accessibility-first** — high contrast, large targets, plain language, generous spacing, no
+reliance on colour or motion.
+*Suits:* care, health, government, disability services (including NDIS providers).
 *Watch out:* nothing to trade away here — this motif *is* the accessibility baseline.
+*Variants:*
+- **High contrast** — strong colour contrast, bold focus states.
+- **Low stimulus** — calm palette, no motion, minimal decoration, for sensory-sensitive
+  audiences.
 
 **Consumer-warm** — friendly rounded type, warm neutrals, soft imagery, approachable copy.
 *Suits:* marketplaces, hospitality, lifestyle.
 *Watch out:* generic drift — warmth still needs one distinctive element.
+*Variants:*
+- **Warm neutral** — sand, cream and terracotta.
+- **Friendly bright** — clear brand colour, playful illustration.
+
+**Clean SaaS** — neutral greys, one brand colour, crisp cards, clear data display.
+*Suits:* B2B tools, dashboards, admin and productivity apps.
+*Watch out:* the most generic motif of all — it needs one signature element (§SHADCN: never
+ship it generic).
+*Variants:*
+- **Light product** — white surfaces, subtle borders.
+- **Dark product** — dark surfaces, high-clarity data colours.
 
 ---
 
