@@ -52,7 +52,7 @@ itself on a project is worth proposing back into this catalogue (`propose-standa
 | Level | What it is | When |
 | --- | --- | --- |
 | **Entry** | Signature elements, what it suits, what to watch | The catalogue below — always |
-| **Starter kit** | Proposed font pairing, palette direction, how shadcn primitives are treated (radius, borders, shadows, focus), iconography, texture and illustration — including an optional mascot or character — copy voice, motion feel | When the owner asks, once a motif is chosen |
+| **Starter kit** | Proposed font pairing, palette direction, how components take shape in this motif — their silhouettes, layers, textures and states, with two or three creative options for the core ones (§SHADCN), iconography, texture and illustration — including an optional mascot or character — copy voice, motion feel | When the owner asks, once a motif is chosen |
 | **Full motif spec** | A complete `design-system.md` draft plus a set of mockups | When the owner asks, usually at a redesign |
 
 A starter kit and a full spec are **proposals**. Every value in them goes through the

@@ -128,7 +128,11 @@ Offer, without starting any of it unasked:
 
 - a **starter kit** or a **full motif spec** (`motifs.md` → *Three levels of detail*);
 - **tokens** in `@theme` derived from the locked mockup;
-- the **shadcn pass** — primitives customised to the tokens (§SHADCN).
+- the **component round** (§SHADCN) — the next mockup round, and not a quick one: the core
+  kit and the signature component designed in the motif, two or three creative options per
+  core component, every state, desktop and phone. **No stock component restyled with tokens
+  counts as done** — the generic test in §SHADCN applies. Built afterwards on shadcn's
+  behaviour primitives, keyboard and focus intact.
 
 No git (§GIT). Report: the motif and variant, where it is recorded, the locked mockup's
 path, and what is offered next.
