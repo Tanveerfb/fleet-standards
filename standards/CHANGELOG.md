@@ -36,9 +36,9 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 ## 3.1.0 — 2026-10-08
 
 - **§DESIGN — every project has a motif.** The six-row "design direction" vocabulary is
-  replaced by a catalogue in the new `standards/motifs.md`: 32 motif families in seven groups
+  replaced by a catalogue in the new `standards/motifs.md`: 35 motif families in seven groups
   (paper and craft, soft and tactile, bold and graphic, retro and nostalgic, dark and techy,
-  calm and refined, institutional and product; the old six among them), with 79 named
+  calm and refined, institutional and product; the old six among them), with 92 named
   variants, plus **Universe-inspired** and **Custom**. Each family offers named variants
   (Cyberpunk: neon, a 2077-inspired yellow, and corpo), agent-suggested variants —
   one built from the project's existing tokens where it has them — custom, and *decide for

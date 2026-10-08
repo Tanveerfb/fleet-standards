@@ -52,7 +52,7 @@ itself on a project is worth proposing back into this catalogue (`propose-standa
 | Level | What it is | When |
 | --- | --- | --- |
 | **Entry** | Signature elements, what it suits, what to watch | The catalogue below — always |
-| **Starter kit** | Proposed font pairing, palette direction, how shadcn primitives are treated (radius, borders, shadows, focus), iconography, texture and illustration, copy voice, motion feel | When the owner asks, once a motif is chosen |
+| **Starter kit** | Proposed font pairing, palette direction, how shadcn primitives are treated (radius, borders, shadows, focus), iconography, texture and illustration — including an optional mascot or character — copy voice, motion feel | When the owner asks, once a motif is chosen |
 | **Full motif spec** | A complete `design-system.md` draft plus a set of mockups | When the owner asks, usually at a redesign |
 
 A starter kit and a full spec are **proposals**. Every value in them goes through the
@@ -63,7 +63,7 @@ values still holds.
 
 ## The catalogue
 
-32 families in seven groups. Variants are named starting points, not a closed list — the
+35 families in seven groups. Variants are named starting points, not a closed list — the
 agent can still suggest its own, and the owner can bring a custom one (see *Families and
 variants*).
 
@@ -77,6 +77,7 @@ handwritten accents.
 - **Notebook** — ruled and grid paper, pencil underlines, margin doodles.
 - **Planner** — pastel tabs, washi tape, stickers, bullet-journal layouts.
 - **Desk** — kraft paper, sticky notes, paperclips, a corkboard backdrop.
+- **Sketchbook** — rough pencil linework, annotations, unfinished marks, concept-sketch feel.
 
 **Classroom** — school surfaces and rituals: boards, gold stars, report cards, pinned notices.
 *Suits:* tournaments, quizzes, leaderboards, onboarding.
@@ -92,6 +93,7 @@ handwritten accents.
 *Variants:*
 - **Photo album** — polaroids, photo corners, handwritten captions.
 - **Zine** — photocopy grain, cut-out letters, stapled DIY layouts.
+- **Mixed media** — paint, photo, type and texture layered together.
 
 **Papercraft** — layered cut paper, depth from stacked sheets, soft drop shadows, folds.
 *Suits:* storytelling, kids, landing pages, illustrated onboarding.
@@ -174,6 +176,13 @@ lettering.
 - **Battle** — speed lines, impact frames, huge sound effects, high energy.
 - **Manga page** — black-and-white screentone, panel grids, quieter storytelling.
 
+**Maximalism** — more is more: layered patterns, clashing colour, dense ornament, big type.
+*Suits:* fashion, art, culture, brands with a loud personality.
+*Watch out:* needs strict calm zones for content and controls, or nothing can be read.
+*Variants:*
+- **Pattern clash** — bold competing patterns and saturated colour.
+- **Eclectic** — curated clutter: mixed eras, objects and textures.
+
 **Streetwear / graffiti** — spray paint, tags, sticker bombing, bold drops and badges.
 *Suits:* fashion, music, youth brands, events.
 *Watch out:* tag lettering is decoration only; keep content on clean surfaces.
@@ -220,6 +229,15 @@ icons.
 *Variants:*
 - **Atomic** — starbursts, orbits, space-age optimism.
 - **Print ad** — vintage advertising layouts, textured paper, bold slogans.
+
+**Heritage** — period styles from before the 20th century: classical, ornate, historic.
+*Suits:* museums, history, literature, premium and ceremonial brands, games with period
+settings.
+*Watch out:* blackletter and ornate type are display only; ornament crowds small screens.
+*Variants:*
+- **Neo-classical** — marble, columns, Roman capitals, laurels, symmetry.
+- **Victorian** — ornate frames, engravings, sepia, damask patterns.
+- **Gothic** — blackletter, pointed arches, deep reds and purples, candlelit dark.
 
 ### Dark and techy
 
@@ -276,6 +294,7 @@ under `prefers-reduced-motion`.
 - **Editorial** — serif headings, magazine rhythm, pull quotes.
 - **Monochrome** — black, white and grey only; type does all the work.
 - **Soft minimal** — warm off-white, rounded corners, gentle greys.
+- **Luxury type** — oversized high-contrast serifs, black, white and cream, fashion-house restraint.
 
 **Japandi** — muted natural tones, texture, lots of space, quiet type.
 *Suits:* wellness, reading, journaling, slow products.
@@ -284,6 +303,7 @@ under `prefers-reduced-motion`.
 - **Japandi** — light wood, linen, clay tones.
 - **Zen garden** — ink wash, stone greys, raked-sand patterns.
 - **Nordic** — cool whites, pale wood, soft blues.
+- **Wabi-sabi** — imperfect and handmade: raw ceramic, paper and plaster textures, asymmetry.
 
 **Art deco** — gold linework, geometric frames, high-contrast serifs, symmetry.
 *Suits:* premium products, events, hospitality.
@@ -292,6 +312,14 @@ under `prefers-reduced-motion`.
 - **Gatsby** — black and gold, fans and sunbursts.
 - **Miami deco** — pastel facades, curved corners, sunny palette.
 - **Art nouveau** — flowing organic curves, florals, ornate frames.
+
+**Dreamlike** — soft light, floating forms, impossible or otherworldly imagery.
+*Suits:* creative portfolios, music, art, wellbeing, AI products.
+*Watch out:* Surreal leans on custom illustration or 3D, which is expensive; glow and
+gradients behind text.
+*Variants:*
+- **Ethereal** — airy gradients, soft light, pastel haze.
+- **Surreal** — impossible objects, floating elements, dream logic.
 
 **Academia** — libraries, leather, serif type, ink and candlelight.
 *Suits:* reading, study, writing tools, book clubs, knowledge bases.
@@ -307,6 +335,7 @@ under `prefers-reduced-motion`.
 - **Earthy** — browns, terracotta, grain.
 - **Botanical** — illustrated leaves and flowers, greenhouse greens.
 - **Solarpunk** — optimistic green technology, sunlight, clean energy.
+- **Boho** — warm textiles, terracotta, macramé, plants, layered rugs.
 
 ### Institutional and product
 
@@ -333,6 +362,8 @@ ship it generic).
 *Variants:*
 - **Light product** — white surfaces, subtle borders.
 - **Dark product** — dark surfaces, high-clarity data colours.
+- **Bento** — a modular grid of tiles, each showing one feature or stat. A layout that suits
+  many motifs, most at home here.
 
 ---
 
@@ -384,5 +415,6 @@ decisions.md.
 
 - **Signature elements:** <what carries the motif, and where it appears>
 - **Off-limits:** <what the motif must not do here — including the entry's watch-outs>
+- **Colour schemes:** <light, dark, or both — and which is the default>
 - **Palette sources:** <for universe-inspired: which characters, factions or arcs>
 ```
