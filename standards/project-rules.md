@@ -558,6 +558,13 @@ on the next does not show up until the deploy.
   alternative
 - **A version mismatch is a finding, not a warning.** If the local Node differs from the
   pinned major, switch before building, and say so in the report rather than building anyway
+- **No version manager is a gap to fix, not to work around.** A single Node installed from
+  the website serves every project at one version. When an agent finds that, it offers to
+  walk the owner through setting one up — on Windows: list global npm packages first
+  (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),
+  uninstall the website Node, `winget install Schniz.fnm`, add `fnm env --use-on-cd --shell
+  powershell | Out-String | Invoke-Expression` to the PowerShell `$PROFILE`, then
+  `fnm install --lts` and reinstall the global packages
 - **Before pushing server-rendered changes, deploy a preview.** A green local build does not
   prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
 
