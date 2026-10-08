@@ -54,6 +54,7 @@ when it is updated.
 | `docs/STATUS.md` | Where the work is right now — a snapshot over a session log | Every checkpoint (§GIT) |
 | `issues.md` | Open and closed issues | Continuously |
 | `roadmap.md` | Phases. Slow moving | A phase changes |
+| `docs/specs/<feature>.md` | A feature or upgrade planned before it is built (§SPECS) | Written when planned; status kept current until built |
 
 **Every file answers "who updates this and when", or it gets deleted.** An
 unmaintained document is not neutral — it is a confidently wrong instruction.
@@ -225,6 +226,39 @@ never search for a board or create one unasked.
   open items, and ticks checklist items whose work is verified. **`relay` reads the board
   and never writes.** Outside those two, an agent writes to the board only when asked
 - Never delete or archive a card unasked. Finished work goes to Done
+
+---
+
+## §SPECS — Spec files
+
+A spec is written when work is planned now and built later — a future feature, an upgrade, a
+new system, or a plan finished before usage limits would leave an implementation half done.
+Work already in progress hands over through the checkpoint (`docs/STATUS.md`), not a spec.
+Skip a spec when the work does not need one.
+
+**A spec must be buildable by a session that knows nothing else.** No template; it covers:
+
+- **Goal, and what it deliberately does not do**
+- **Decided versus open** — the owner's confirmed choices, each with a one-line reason, kept
+  apart from open questions. Never write a guess in the voice of a decision
+- **What it touches** — the areas, files and data it changes
+- **Done means** — acceptance criteria that can be checked
+- **Status** — the first line
+
+**Where it lives.** A feature or upgrade of an existing project: `docs/specs/<feature>.md` in
+that project's repo, where the session that builds it will look. A whole new project: the
+owner's plans repo.
+
+**Status and Trello.** On a project with a board (§TRELLO), the status line links the spec's
+card, and the card links back to the spec. Progress, discussion and comments from other
+people happen on the card; the spec holds only what to build. On a project without a board,
+the status line is a plain word — planned, in progress, built — and the spec stays in the
+repo alone.
+
+**Building from a spec.** It is binding, like other project documentation (§AGENTS). Never
+build on an open question — raise it. When the work is done, mark the spec built (or move its
+card to Done); a built spec is kept as a record and is never treated as pending work. The
+checkpoint keeps both current.
 
 ---
 

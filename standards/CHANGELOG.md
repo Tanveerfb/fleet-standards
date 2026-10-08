@@ -52,6 +52,15 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   LM Studio) run through the AI SDK's OpenAI-compatible provider, for development and
   local-only tools — a deployed app cannot reach the owner's PC.
 - §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
+- **§SPECS added — spec files.** For work planned now and built later; in-progress work hands
+  over through the checkpoint instead. No template: a spec must be buildable by a session
+  that knows nothing else — goal and non-goals, decided versus open, what it touches, done
+  means, a status line. Features and upgrades live in the project's `docs/specs/`. On a
+  project with a Trello board the spec and its card link each other, and progress and
+  discussion happen on the card; without a board the spec stays in the repo with a plain
+  status word. A built spec is a record, never pending work; the checkpoint keeps it current.
+  Chosen over a plan-file template with review sections, because Trello already covers
+  sharing, comments and progress for projects that have a board.
 - **`ai-setup` skill added.** Runs §AI end to end in a new or existing project: inventories
   AI already in the code (never refactoring scattered calls unasked), gathers the brief, puts
   the tooling choice to the owner, scaffolds `lib/ai/` after the owner approves packages
