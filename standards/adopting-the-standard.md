@@ -173,6 +173,8 @@ Each cost a real session somewhere in this fleet.
 - **`design-motif`** — chooses or records the project's design motif. On an existing site it
   **records what is already there** rather than re-choosing, unless the owner wants a
   redesign.
+- **`ai-setup`** — adds AI features, or brings existing AI code under §AI. It inventories the
+  AI already in the code and never refactors scattered calls unasked.
 - **`sync-standards`** — brings the project's `project-rules.md` up to the latest version.
   It is for a project already on the standard; it sends a project with no copy back here.
 - **`propose-standard`** — sends a change or request back to `fleet-standards` as an issue.

@@ -594,7 +594,8 @@ The AI SDK is a free, open-source library: the project pays the model provider d
 its own key, and it runs on any Node host. Vercel's AI Gateway is a separate, optional,
 usage-billed service — not needed to use the SDK.
 
-Everything below applies whichever option is chosen.
+Everything below applies whichever option is chosen. **The `ai-setup` skill runs the whole
+process** — use it rather than improvising, in a new project or an existing one.
 
 - **Behind an adapter, like §DATA.** Every model call goes through `lib/ai/`: an interface in
   domain terms (`suggestOutfit`, `summariseNote` — never `callGemini`), one implementation per

@@ -52,6 +52,12 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   LM Studio) run through the AI SDK's OpenAI-compatible provider, for development and
   local-only tools — a deployed app cannot reach the owner's PC.
 - §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
+- **`ai-setup` skill added.** Runs §AI end to end in a new or existing project: inventories
+  AI already in the code (never refactoring scattered calls unasked), gathers the brief, puts
+  the tooling choice to the owner, scaffolds `lib/ai/` after the owner approves packages
+  (checked against npm and current docs), protects every model call, optionally wires local
+  models with one real test call, builds the first feature through the adapter, records it,
+  and verifies with tests and a build. `new-project` asks the AI tooling question up front.
 
 ## 3.1.0 — 2026-10-08
 
