@@ -2,9 +2,11 @@
 
 Project-specific memory for Claude Code working in this repository.
 
-**This file is the only hand-written agent guidance in the repository**, for every coding
-agent, not only Claude Code. `AGENTS.md` and `GEMINI.md` exist only to point other agents
-here (from `templates/AGENTS.template.md`) and never carry facts of their own. If a tool
+**This file — with any area `CLAUDE.md` files in subfolders (`project-rules.md` §SCALE) — is
+the only hand-written agent guidance in the repository**, for every coding agent, not only
+Claude Code. A fact lives in exactly one of them: the most local file it applies to.
+`AGENTS.md` and `GEMINI.md` exist only to point other agents here (from
+`templates/AGENTS.template.md`) and never carry facts of their own. If a tool
 generates its own block in `AGENTS.md` (`<!-- BEGIN:… -->`), leave the block alone. Two copies
 of the same facts drift, and the stale one is indistinguishable from the current one. A fact
 goes here; there is nowhere else for it to go.
@@ -17,7 +19,10 @@ goes here; there is nowhere else for it to go.
 - **Name**: <name>
 - **Type**: <what it is, who it serves>
 - **Repo**: `<owner/repo>`, branch `<main|master>`
-- **Deploys**: <where, from which branch, and whether that branch auto-deploys>
+- **Deploys**: <where, from which branch, and whether that branch auto-deploys. Live domain or
+  real users → work on an update branch and merge when complete (§GIT)>
+- **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
+  <`docs/architecture.md`, or "not yet">
 - **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
 - **Motif**: <family — variant, recorded in `design-system.md`; or "not chosen yet — run design-motif" (§DESIGN)>
 

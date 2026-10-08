@@ -33,6 +33,30 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.3.0 — 2026-10-08
+
+From a conversation about working on larger projects.
+
+- **§NAMING — files and identifiers.** kebab-case files and folders, PascalCase components and
+  types, camelCase functions, variables and hooks, camelCase zod schemas with a `Schema`
+  suffix, SCREAMING_SNAKE_CASE for true constants. Framework-reserved names keep theirs. New
+  projects use it from day one with a filename lint rule offered at setup; existing projects
+  keep their convention, recorded in `conventions.md`, and are never mass-renamed. On
+  Windows, renames go through `git mv`, because a capitals-only rename made in the editor
+  can pass locally and fail the deploy. §HOOKS moves from `use[Name].ts` to `use-name.ts`
+  to match.
+- **§GIT — where work happens.** A project with a live domain or real users works on an
+  update branch and merges when the update is complete, checking the branch's preview
+  first; a project with no live users may work on main. Branches stay short-lived — merge
+  within days or bring main in regularly, split big updates, and use a feature flag for the
+  largest. This was already the owner's practice; it lived only in individual projects.
+- **§SCALE added — finding your way in a larger project.** Area `CLAUDE.md` files in
+  subfolders, which Claude Code loads when work touches that folder, with each fact in
+  exactly one file; and `docs/architecture.md`, a map of modules (owns, depends on, used by),
+  data flow and a where-to-find index, kept current by the checkpoint and optionally
+  generated from imports. Added when a project outgrows a single read. §TOOLS, the
+  `CLAUDE.md` and `AGENTS.md` templates, §DOCS and the checkpoint updated to match.
+
 ## 3.2.0 — 2026-10-08
 
 - **§AI added — AI and LLM features.** The owner chooses the AI tooling when AI first enters

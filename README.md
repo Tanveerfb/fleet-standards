@@ -22,8 +22,8 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Part | Covers |
 | --- | --- |
-| How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, spec files, other agents |
-| Architecture | Modules, naming, TypeScript, folder structure, data adapters, entity lifecycles, state and validation, forms |
+| How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules and branching for live projects, Trello, spec files, other agents |
+| Architecture | Modules, naming (vocabulary and file conventions), TypeScript, folder structure, area `CLAUDE.md` files and an architecture map for larger projects, data adapters, entity lifecycles, state and validation, forms |
 | Stack | Packages, npm, Node version and environment checks, security and secrets, Firebase, AI and LLM features |
 | Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
@@ -195,7 +195,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.2.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.3.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

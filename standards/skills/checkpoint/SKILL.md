@@ -233,6 +233,10 @@ cards first, then reconcile against the snapshot you just wrote:
 
 Never delete or archive a card. Never write anything that is not true in `STATUS.md`.
 
+**Architecture map and area files** (`project-rules.md` §SCALE): if this session added,
+moved or removed a module, update `docs/architecture.md`; if it found a rule or trap that
+belongs to one area, put it in that folder's `CLAUDE.md`, not the root one.
+
 **Spec files** (`docs/specs/`, `project-rules.md` §SPECS): if this session built or advanced
 work from a spec, update its status line — `in progress`, or `built` once its done-means
 criteria are verified. On a project with a board, the spec's status line links its card, so

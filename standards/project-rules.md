@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.2.0
+**Version:** 3.3.0
 **Applies to:** All Next.js projects
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
@@ -54,6 +54,7 @@ when it is updated.
 | `docs/STATUS.md` | Where the work is right now — a snapshot over a session log | Every checkpoint (§GIT) |
 | `issues.md` | Open and closed issues | Continuously |
 | `roadmap.md` | Phases. Slow moving | A phase changes |
+| `docs/architecture.md` | The map: modules, what each owns and depends on, data flow, where to find things (§SCALE) | A module is added, moved or removed |
 | `docs/specs/<feature>.md` | A feature or upgrade planned before it is built (§SPECS) | Written when planned; status kept current until built |
 
 **Every file answers "who updates this and when", or it gets deleted.** An
@@ -139,6 +140,19 @@ unpushed work is lost. There the harness's branch instruction **is** the authori
 that branch only. Everything else in this section still applies: batch the work, never push
 to `main`/`master` or any branch the harness did not name, never force-push, and never open
 a pull request unless the owner asks.
+
+**Where work happens depends on whether the project is live.** The project's `CLAUDE.md`
+says which applies (its *Deploys* line):
+
+- **A project with a live domain or real users** works on an update branch and merges to the
+  production branch when the update is complete. Every branch gets a preview deploy — check
+  the update there before merging
+- **A project with no live users** may work on its main branch
+- **Keep update branches short-lived.** A branch that runs for weeks drifts from main and ends
+  in a merge-conflict session. Merge within days, or bring main into the branch regularly;
+  split a large update into several branches that each merge on their own. For the largest
+  updates, a feature flag lets work merge continuously while staying switched off on the live
+  site (Firebase Remote Config, or the platform's flags)
 
 **Batch. Do not commit per change.** A session's work lands as one considered set of commits
 at a checkpoint. A long string of small commits is not tidiness — it is the thing this rule
@@ -267,9 +281,9 @@ checkpoint keeps both current.
 This standard is written for Claude Code and binds every agent equally — Codex, GitHub
 Copilot, Cursor, Gemini CLI or any other.
 
-- **`CLAUDE.md` is the one hand-written instruction file.** `AGENTS.md` (Codex, Copilot,
-  Cursor) and `GEMINI.md` (Gemini CLI) are pointers to it from
-  `templates/AGENTS.template.md`, and never hold facts of their own
+- **`CLAUDE.md` files are the only hand-written instructions** — the root one, plus any
+  area files (§SCALE). `AGENTS.md` (Codex, Copilot, Cursor) and `GEMINI.md` (Gemini CLI) are
+  pointers to them from `templates/AGENTS.template.md`, and never hold facts of their own
 - **The skills run everywhere.** They follow the open Agent Skills format. Claude Code gets
   them from the `fleet` plugin; other agents from `standards/scripts/install-skills.mjs`,
   which installs them to `~/.agents/skills/` and `~/.codex/skills/`
@@ -349,6 +363,31 @@ The words in the interface, the code and the documentation are the same words.
 - An action keeps its name through the whole flow: the button that says
   "Publish" produces a toast that says "Published"
 
+**Files and identifiers** — one spelling per kind of thing, so a search finds everything and
+an agent copying the nearest pattern copies the right one:
+
+| Kind | Case | Example |
+| --- | --- | --- |
+| Files and folders | kebab-case | `user-card.tsx`, `use-cart.ts`, `invoice-schema.ts` |
+| Components and types | PascalCase | `UserCard`, `Invoice` |
+| Functions, variables, hooks | camelCase | `formatPrice`, `useCart` |
+| Zod schemas | camelCase with a `Schema` suffix | `invoiceSchema` |
+| True constants | SCREAMING_SNAKE_CASE | `MAX_UPLOAD_SIZE` |
+
+Framework-reserved file names (`page.tsx`, `layout.tsx`, `route.ts`) and tool configs keep
+the names their tools expect — they are already lowercase. kebab-case files match what
+shadcn and `create-next-app` generate.
+
+- **New projects** use this from day one, enforced by a filename lint rule (ESLint's
+  `check-file` or `unicorn/filename-case`) offered at setup
+- **Existing projects keep the convention they have.** Record it in `conventions.md`; never
+  mass-rename files to match — it is churn across every import and the history, with nothing
+  gained for users
+- **Renaming on Windows: always `git mv`.** Windows treats `Button.tsx` and `button.tsx` as
+  the same file; git and the Linux build servers do not. A capitals-only rename made in the
+  editor or File Explorer can look fine locally, never register in git, and fail the deploy
+  with "module not found"
+
 ---
 
 ## §TS — TypeScript
@@ -396,6 +435,31 @@ docs/STATUS.md      the living project record — §DOCS
 
 **Import aliases.** Always `@/`. Never relative paths climbing directories.
 Confirm `"paths": { "@/*": ["./src/*"] }` in `tsconfig.json`.
+
+---
+
+## §SCALE — Finding your way in a larger project
+
+On a small project an agent can read everything. On a large one it reads a slice, and guesses
+the rest — so it duplicates what exists, or edits the wrong place. Two things give it the
+right slice. Add them when a project outgrows a single read: several feature areas, or the
+first time an agent duplicates something or works in the wrong place.
+
+- **Area `CLAUDE.md` files.** A folder with rules or traps of its own gets its own
+  `CLAUDE.md` — `src/features/billing/CLAUDE.md`. Claude Code loads it when work touches that
+  folder, so local rules arrive exactly when needed and the root file stays short and
+  general. **A fact lives in exactly one of them**: the most local file it applies to. The
+  root `CLAUDE.md` lists the area files that exist
+- **The architecture map** — `docs/architecture.md`, the registry of what belongs where:
+  - a table of modules: each folder, what it owns, what it depends on, what uses it;
+  - how data moves through the main flows (form → Server Action → adapter → store);
+  - a *where do I find…* index for the questions that keep coming up.
+
+  `components.md` (§COMPONENTS) stays the registry of interface components; the map covers
+  the system around them. **Keep it current, or it becomes a confident lie** — the checkpoint
+  updates it whenever a module is added, moved or removed. The depends-on and used-by columns
+  can be generated from the imports by a tool such as dependency-cruiser or madge rather than
+  maintained by hand — the owner's choice (§AGENTS)
 
 ---
 
@@ -511,7 +575,8 @@ Loading, error and empty states handled every time.
 ## §HOOKS — Custom hooks
 
 - Reusable stateful logic becomes a hook in `hooks/`
-- Named `use[Name].ts`, one hook per file
+- One hook per file, the file kebab-case and the hook camelCase: `use-cart.ts` exports
+  `useCart` (§NAMING)
 - Return typed objects, not arrays, except for simple pairs
 
 ---
@@ -958,7 +1023,7 @@ The `new-project` skill walks this list with the owner.
 - [ ] Data adapter interface defined, if the project has data (§DATA)
 - [ ] Base components built: navigation, footer, button
 - [ ] Document set created — only the files that have content (§DOCS)
-- [ ] Structure matches §STRUCTURE
+- [ ] Structure matches §STRUCTURE; files named per §NAMING, with the filename lint rule offered
 - [ ] MCP servers active: Context7, Next.js DevTools, shadcn, Firebase and
       Vercel where applicable, web search
 - [ ] `.env.local` created, and every variable recorded by name and owner in

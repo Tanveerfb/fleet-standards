@@ -198,7 +198,8 @@ and slow.
 3. Ask the three day-one questions (section 4).
 4. Copy `project-rules.md` from `fleet-standards/standards/` and **`git add` it**. Check first what the newer
    version *dropped*, not just what it added — newer is not automatically a superset.
-5. Write `conventions.md`. **Change no code.**
+5. Write `conventions.md` — including the file naming convention the repo already uses, as an
+   exception rather than a rename (§NAMING). **Change no code.**
 6. Put the exceptions to the owner. Decisions and dates into `decisions.md`.
 7. Write `CLAUDE.md`, every claim carrying its verification date.
 8. Write `docs/STATUS.md` with a `Start here` block.
