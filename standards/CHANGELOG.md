@@ -55,6 +55,14 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   The agent asks which world, researches its design language on the web, asks scoping
   questions (which part, which palette sources, how literal, how in-universe, what
   audience), and gets a written brief confirmed before designing. Inspired, never copied.
+- **Two new skills.** `design-motif` runs the motif process end to end: it checks for an
+  existing motif, gathers the brief (from the project's spec where there is one), offers the
+  four ways in, picks a family and variant or researches a universe-inspired brief, loops on
+  mockups that include an ordinary form and table as a restraint check, and records the
+  result. `new-project` scaffolds a Next.js app (`create-next-app --disable-git`, so git
+  stays the owner's call), puts the rules and templates in place, wires the plugin and the
+  other-agent pointers, hands to `design-motif` before any interface work, then walks the
+  checklist with the owner. `install-skills.mjs` now also installs `motifs.md`.
 - **§OWNER — don't state the obvious.** Interface text that repeats what a component already
   makes clear is cut: a sun/moon switch needs no "Light mode" label. Icon-only controls still
   carry an accessible name, and what is genuinely not obvious — an empty state's next step —

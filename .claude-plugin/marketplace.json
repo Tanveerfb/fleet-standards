@@ -6,7 +6,7 @@
     {
       "name": "fleet",
       "source": "./standards",
-      "description": "Fleet standard and skills: checkpoint, relay, sync-standards, propose-standard"
+      "description": "Fleet standard and skills: checkpoint, relay, new-project, design-motif, sync-standards, propose-standard"
     }
   ]
 }

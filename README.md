@@ -28,12 +28,14 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
 
-**Four skills** — instructions your agent loads when a phrase triggers them:
+**Six skills** — instructions your agent loads when a phrase triggers them:
 
 | Skill | Say | What happens |
 | --- | --- | --- |
 | `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git.** |
 | `relay` | "relay", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
+| `new-project` | "new project" | Sets up a new Next.js project on the standard — scaffold, rules, templates, agent wiring — then sets the design first and walks the checklist. Never commits. |
+| `design-motif` | "set the design", "redesign" | Chooses (or records) the project's motif: browse, decide for me, surprise me, or bring your own; mockups until you lock it; then records it |
 | `sync-standards` | "sync standards" | Brings a project's copy of the rules up to the latest version, explaining what changed |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 
@@ -77,8 +79,8 @@ node fleet-standards/standards/scripts/install-skills.mjs
 
 | Installs | To | Read by |
 | --- | --- | --- |
-| The four skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
-| The four skills | `~/.codex/skills/` | OpenAI Codex |
+| The six skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
+| The six skills | `~/.codex/skills/` | OpenAI Codex |
 | Rules and templates | `~/.agents/fleet/` | The skills, which look for the standard there |
 
 Restart your agent afterwards. To update: `git pull` in the clone and run the installer again
@@ -89,6 +91,15 @@ Restart your agent afterwards. To update: `git pull` in the clone and run the in
 ## Use it in a project
 
 ### New project
+
+Install the plugin (above), open a session in an empty folder, and say **"new project"**. If
+you have a written spec, point the session at it — the skill takes the project's purpose and
+audience from it. It scaffolds the app, puts the rules and templates in place, wires the
+plugin and the other-agent pointers, then runs **design-motif** so the design is decided
+before anything visual is built, and finishes by walking the checklist with you. Nothing is
+committed until you say `git checkpoint`.
+
+To do the same by hand:
 
 1. `npx create-next-app@latest` — TypeScript, Tailwind, App Router, `src/`, `@/` alias.
 2. Make sure `.gitignore` covers `.env*` and `.secrets/` **in the first commit**, before any
@@ -103,7 +114,8 @@ Restart your agent afterwards. To update: `git pull` in the clone and run the in
    - `STATUS.template.md` → `docs/STATUS.md`
 5. Say **"sync standards"** once. It wires the project to the plugin (so every Claude Code
    session there loads the skills) and checks the pointers are in place.
-6. Work through the checklist at the end of `project-rules.md`.
+6. Say **"set the design"** to choose the motif before any interface work.
+7. Work through the checklist at the end of `project-rules.md`.
 
 Only create the other documents the standard mentions once they have something in them —
 `§DOCS` explains why.
@@ -121,6 +133,7 @@ agent.
 - Start a session with **"relay"**, end it with **"checkpoint"** or **"git checkpoint"**.
 - Your agent asks through its question tool whenever it needs your input, and shows a
   mockup before any visual change (`§ASK`, `§OWNER`).
+- **"Redesign"** when the look needs an overhaul — `design-motif` runs the motif process again.
 - Now and then, **"sync standards"** to pick up rule changes.
 
 ---
@@ -162,7 +175,8 @@ standards/                        the standard — also the `fleet` plugin
   CHANGELOG.md                    version history, and the v2 → v3 section map
   adopting-the-standard.md        bringing an existing project onto the standard
   templates/                      starting files for a project
-  skills/                         checkpoint, relay, sync-standards, propose-standard
+  skills/                         checkpoint, relay, new-project, design-motif,
+                                  sync-standards, propose-standard
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference

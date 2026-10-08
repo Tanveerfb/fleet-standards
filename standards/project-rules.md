@@ -621,6 +621,8 @@ motion. The catalogue, and how each motif is used, is
   text stay plainly readable
 - **Starter kits and full motif specs** are produced on request — proposals,
   approved through the mockup loop (§OWNER) like any visual change
+- **The `design-motif` skill runs this whole process** — use it rather than
+  improvising one. `new-project` calls it before any interface work
 
 Then, always:
 
@@ -770,6 +772,9 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
 ---
 
 ## Checklist — new project
+
+The `new-project` skill walks this list with the owner.
+
 
 - [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias
 - [ ] `.gitignore` covers `.secrets/` and `.env*` — first commit, before code
