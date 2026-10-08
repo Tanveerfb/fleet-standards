@@ -33,6 +33,21 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.2.0 — unreleased
+
+- **§AI added — AI and LLM features.** Firebase AI Logic is the default provider, since most
+  projects already run on Firebase; other providers (Claude, or anything server-only) go
+  through a Route Handler or Server Action, with the reason recorded. Every call sits behind a
+  `lib/ai/` adapter in domain terms with a mock, and model IDs live in one map, checked
+  against current docs. App Check is enforced, preferably with limited-use tokens, before any
+  AI feature ships. Structured output uses one zod schema, converted with `z.toJSONSchema` for
+  AI Logic's `responseJsonSchema` and used again to parse the response. Prompts are code;
+  model output is untrusted; tools are permission-checked on the server, with side effects
+  confirmed by the user; §QOL, cost limits and privacy records apply. Local models (Ollama,
+  LM Studio) are for development and local-only tools — a deployed app cannot reach the
+  owner's PC.
+- §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
+
 ## 3.1.0 — 2026-10-08
 
 - **§DESIGN — every project has a motif.** The six-row "design direction" vocabulary is

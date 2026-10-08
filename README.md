@@ -24,7 +24,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | --- | --- |
 | How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, other agents |
 | Architecture | Modules, naming, TypeScript, folder structure, data adapters, entity lifecycles, state and validation, forms |
-| Stack | Packages, npm, security and secrets, Firebase |
+| Stack | Packages, npm, security and secrets, Firebase, AI and LLM features |
 | Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
 

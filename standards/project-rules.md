@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.1.0
+**Version:** 3.2.0
 **Applies to:** All Next.js projects
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
@@ -349,6 +349,7 @@ src/
   lib/              clients, constants, helpers with a real name
   lib/domain/       pure business logic. No React, no storage
   lib/data/         data access adapter, where the project has one
+  lib/ai/           AI adapter, model map and prompts — see §AI
   schemas/          zod schemas and inferred types, where zod is used
   stores/           zustand, one per domain
   styles/globals.css
@@ -572,6 +573,72 @@ The default backend for auth, data and storage across the fleet.
 
 ---
 
+## §AI — AI and LLM features
+
+Applies wherever a project calls a language model — generation, chat, summaries,
+classification, extraction, agents.
+
+**Firebase AI Logic is the default provider.** Most projects already run on Firebase
+(§FIREBASE), and AI Logic (`firebase/ai`) calls Gemini straight from the client, secured by
+the Firebase project and App Check, with no server key to manage. Reach past it only for a
+reason, recorded in `decisions.md`: a model it does not offer (Claude, for one), work that
+must stay on the server, or a secret-bearing integration. That work goes through a Route
+Handler or Server Action using the provider's own SDK, or Genkit where a Firebase-native
+server framework fits.
+
+- **Behind an adapter, like §DATA.** Every model call goes through `lib/ai/`: an interface in
+  domain terms (`suggestOutfit`, `summariseNote` — never `callGemini`), one implementation per
+  provider, and a mock. Components never import a model SDK. Changing provider, or sending a
+  task to a local model in development, touches one file
+- **Model choice in one place.** `lib/ai/models.ts` maps each task to a model ID. IDs go stale
+  fast — check them against the provider's current docs before use (§PACKAGES), never from
+  memory, and never inline in a component
+- **App Check before any AI feature ships.** A client-callable model with no App Check is an
+  open bill. Enable it and enforce it for AI Logic, prefer limited-use tokens
+  (`useLimitedUseAppCheckTokens`), and set per-user quotas in the Firebase console
+- **Structured output is validated with zod.** The zod schema is the single source of truth:
+  convert it with `z.toJSONSchema` for AI Logic's `responseJsonSchema` (or the provider's
+  equivalent), then parse the response with the same schema (§STATE). A response that fails
+  parsing is retried once, then shown as an error state — never rendered half-valid
+- **Prompts are code.** They live in `lib/ai/prompts/`, one per task, with typed inputs. User
+  input is clearly delimited from instructions and never concatenated into them
+- **Model output is untrusted.** Never rendered as raw HTML, never executed, never used as a
+  URL, query or file path without validation. A model can be talked into anything its input
+  says
+- **Tools and agents.** Tool arguments are parsed with zod; permissions are checked on the
+  server, never trusted from the model (§SECURITY); anything with side effects — sending,
+  paying, deleting, writing on someone's behalf — needs the user's confirmation
+- **AI is not exempt from §QOL.** Stream long output; show a skeleton while waiting; offer
+  stop and retry; give every failure an error state that says what to do. Mark AI-generated
+  content where a user could mistake it for a person's or a verified fact
+- **Cost is a design constraint.** Cap output tokens per task, rate-limit per user, cache
+  repeated work (prompt caching where the provider supports it), and log usage — tokens and
+  cost per task — never the content
+- **Privacy is recorded.** `environment.md` names each AI provider, what data reaches it, and
+  who owns the account. Send the minimum; strip personal data a task does not need
+
+**Local models (Ollama, LM Studio)** are for development and for tools that run on the
+owner's own machine:
+
+- Both serve an OpenAI-compatible API (Ollama `http://localhost:11434/v1`, LM Studio
+  `http://localhost:1234/v1`). The local adapter reads its base URL and model from
+  environment variables, and calls it from the server side of the dev app — a browser
+  calling `localhost` directly runs into CORS
+- Use them to build and test AI features without API cost, and for features in local-only
+  tools. **A deployed app cannot reach a model on the owner's PC** — production uses a cloud
+  provider
+- Choose models that fit the hardware: on a 16 GB GPU, roughly up to 14B parameters at 4-bit
+  quantisation runs comfortably, about 20B with care. Local output differs from the
+  production model's, so a feature is only verified once it runs against that
+- Chrome's built-in on-device model, through AI Logic's hybrid mode (`InferenceMode`), is a
+  separate option for small private tasks in the user's browser, with a cloud fallback
+
+**Testing (§TESTING).** Unit tests run against the mock adapter. Each prompt that matters
+keeps a small set of fixture inputs, checked for properties of the output — it parses, it
+stays within length, it names no forbidden thing — not exact text.
+
+---
+
 # Part D — Interface
 
 ## §STYLING — Styling
@@ -792,6 +859,8 @@ The `new-project` skill walks this list with the owner.
       Vercel where applicable, web search
 - [ ] `.env.local` created, and every variable recorded by name and owner in
       `environment.md` (§FIREBASE for the Firebase set)
+- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, App
+      Check enforced before any AI feature ships (§AI)
 - [ ] Vitest installed and `npm test` wired (§TESTING)
 - [ ] Trello board line in `CLAUDE.md` if the project has a board (§TRELLO)
 - [ ] First `npm run build` passes clean
