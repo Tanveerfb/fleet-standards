@@ -35,17 +35,21 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ## 3.2.0 — unreleased
 
-- **§AI added — AI and LLM features.** Firebase AI Logic is the default provider, since most
-  projects already run on Firebase; other providers (Claude, or anything server-only) go
-  through a Route Handler or Server Action, with the reason recorded. Every call sits behind a
+- **§AI added — AI and LLM features.** Two tools, each for its own job: **Firebase AI Logic**
+  for simple client-side Gemini features in Firebase projects, and the **Vercel AI SDK** for
+  everything else — server-side work, Claude and other providers, local models, chat UIs,
+  agents. The AI SDK is free and open source; the project pays the provider directly, and
+  Vercel's AI Gateway is optional. The AI SDK replaced an earlier draft's "provider SDK or
+  Genkit" for server work, because one API across cloud and local models removes adapter
+  code. Every call sits behind a
   `lib/ai/` adapter in domain terms with a mock, and model IDs live in one map, checked
-  against current docs. App Check is enforced, preferably with limited-use tokens, before any
-  AI feature ships. Structured output uses one zod schema, converted with `z.toJSONSchema` for
-  AI Logic's `responseJsonSchema` and used again to parse the response. Prompts are code;
+  against current docs. Every model call is protected before it ships — App Check and quotas for AI
+  Logic; authentication, per-user rate limits and server-only keys for AI SDK routes. Structured output uses one zod schema — passed straight to the AI SDK, or
+  converted with `z.toJSONSchema` for AI Logic — and used again to parse the response. Prompts are code;
   model output is untrusted; tools are permission-checked on the server, with side effects
   confirmed by the user; §QOL, cost limits and privacy records apply. Local models (Ollama,
-  LM Studio) are for development and local-only tools — a deployed app cannot reach the
-  owner's PC.
+  LM Studio) run through the AI SDK's OpenAI-compatible provider, for development and
+  local-only tools — a deployed app cannot reach the owner's PC.
 - §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
 
 ## 3.1.0 — 2026-10-08

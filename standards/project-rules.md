@@ -578,27 +578,35 @@ The default backend for auth, data and storage across the fleet.
 Applies wherever a project calls a language model — generation, chat, summaries,
 classification, extraction, agents.
 
-**Firebase AI Logic is the default provider.** Most projects already run on Firebase
-(§FIREBASE), and AI Logic (`firebase/ai`) calls Gemini straight from the client, secured by
-the Firebase project and App Check, with no server key to manage. Reach past it only for a
-reason, recorded in `decisions.md`: a model it does not offer (Claude, for one), work that
-must stay on the server, or a secret-bearing integration. That work goes through a Route
-Handler or Server Action using the provider's own SDK, or Genkit where a Firebase-native
-server framework fits.
+**Two tools, each for its own job.** Record which a project uses, and why, in
+`decisions.md`.
+
+| Use | When |
+| --- | --- |
+| **Firebase AI Logic** (`firebase/ai`) | A simple Gemini feature called from the client in a project already on Firebase (§FIREBASE) — a summary, a suggestion, a classification. No server key to manage; App Check and Firebase quotas protect it. The default for these |
+| **Vercel AI SDK** (`ai` plus a provider package) | Everything else: work that runs on the server, Claude or any non-Gemini model, more than one provider, local models, chat interfaces, agents and tools. One API across providers, zod schemas passed straight to `generateObject`, and `useChat` for streaming chat UIs |
+
+The AI SDK is a free, open-source library: the project pays the model provider directly with
+its own key, and it runs on any Node host. Vercel's AI Gateway is a separate, optional,
+usage-billed service — not needed to use the SDK.
 
 - **Behind an adapter, like §DATA.** Every model call goes through `lib/ai/`: an interface in
   domain terms (`suggestOutfit`, `summariseNote` — never `callGemini`), one implementation per
-  provider, and a mock. Components never import a model SDK. Changing provider, or sending a
+  tool or provider (AI Logic, the AI SDK), and a mock. Components never import a model SDK. Changing provider, or sending a
   task to a local model in development, touches one file
-- **Model choice in one place.** `lib/ai/models.ts` maps each task to a model ID. IDs go stale
+- **Model choice in one place.** `lib/ai/models.ts` maps each task to a provider and a model
+  ID, read from environment variables where it differs between development and production. IDs go stale
   fast — check them against the provider's current docs before use (§PACKAGES), never from
   memory, and never inline in a component
-- **App Check before any AI feature ships.** A client-callable model with no App Check is an
-  open bill. Enable it and enforce it for AI Logic, prefer limited-use tokens
-  (`useLimitedUseAppCheckTokens`), and set per-user quotas in the Firebase console
-- **Structured output is validated with zod.** The zod schema is the single source of truth:
-  convert it with `z.toJSONSchema` for AI Logic's `responseJsonSchema` (or the provider's
-  equivalent), then parse the response with the same schema (§STATE). A response that fails
+- **Protect every model call before it ships — an unprotected one is an open bill.** AI
+  Logic: enforce App Check, prefer limited-use tokens (`useLimitedUseAppCheckTokens`), and
+  set per-user quotas in the Firebase console. AI SDK routes: require an authenticated user,
+  rate-limit per user on the server, and keep provider keys server-only, never
+  `NEXT_PUBLIC_`
+- **Structured output is validated with zod.** The zod schema is the single source of truth.
+  The AI SDK takes it directly (`generateObject`); for AI Logic, convert it with
+  `z.toJSONSchema` for `responseJsonSchema`, then parse the response with the same schema
+  (§STATE). A response that fails
   parsing is retried once, then shown as an error state — never rendered half-valid
 - **Prompts are code.** They live in `lib/ai/prompts/`, one per task, with typed inputs. User
   input is clearly delimited from instructions and never concatenated into them
@@ -621,15 +629,19 @@ server framework fits.
 owner's own machine:
 
 - Both serve an OpenAI-compatible API (Ollama `http://localhost:11434/v1`, LM Studio
-  `http://localhost:1234/v1`). The local adapter reads its base URL and model from
-  environment variables, and calls it from the server side of the dev app — a browser
-  calling `localhost` directly runs into CORS
+  `http://localhost:1234/v1`), which the AI SDK reaches through its OpenAI-compatible
+  provider. The same code then runs a local model in development and a cloud model in
+  production — only the provider, base URL and model name change, all from environment
+  variables. Call it from the server side of the app; a browser calling `localhost`
+  directly runs into CORS
+- Use the model name exactly as the tool lists it (`ollama list`, LM Studio's model list)
 - Use them to build and test AI features without API cost, and for features in local-only
   tools. **A deployed app cannot reach a model on the owner's PC** — production uses a cloud
   provider
 - Choose models that fit the hardware: on a 16 GB GPU, roughly up to 14B parameters at 4-bit
-  quantisation runs comfortably, about 20B with care. Local output differs from the
-  production model's, so a feature is only verified once it runs against that
+  quantisation runs comfortably, about 20B with care. Smaller local models are weaker at
+  tool calling and structured output, and their output differs from the production model's,
+  so a feature is only verified once it runs against the model that will serve it
 - Chrome's built-in on-device model, through AI Logic's hybrid mode (`InferenceMode`), is a
   separate option for small private tasks in the user's browser, with a cloud fallback
 
@@ -859,8 +871,8 @@ The `new-project` skill walks this list with the owner.
       Vercel where applicable, web search
 - [ ] `.env.local` created, and every variable recorded by name and owner in
       `environment.md` (§FIREBASE for the Firebase set)
-- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, App
-      Check enforced before any AI feature ships (§AI)
+- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, every model
+      call protected before any AI feature ships (§AI)
 - [ ] Vitest installed and `npm test` wired (§TESTING)
 - [ ] Trello board line in `CLAUDE.md` if the project has a board (§TRELLO)
 - [ ] First `npm run build` passes clean
