@@ -88,7 +88,8 @@ Then, before anything else:
 
 Hand to **`design-motif`** now, before any interface work — the motif decides the tokens, and
 the tokens decide everything visual after them. Pass it the spec or the Step 1 description
-as the brief. Continue here once the motif is locked and recorded.
+as the brief. Continue here once the motif is locked and recorded, and fill in the
+`Motif:` line in `CLAUDE.md`.
 
 ## Step 6 — The rest of the checklist
 

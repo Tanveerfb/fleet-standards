@@ -588,10 +588,10 @@ Where Tailwind becomes unreadable, the answer is a component, not a stylesheet.
 
 ---
 
-## §DESIGN — Design direction
+## §DESIGN — Design motif and system
 
-Every project has a `design-system.md` defining palette, typography, spacing,
-density, motion and exclusions. Build nothing before it exists.
+Every project has a `design-system.md` defining its motif, palette, typography,
+spacing, density, motion and exclusions. Build nothing before it exists.
 
 **Every project has a motif** — one theme the interface is designed around,
 carried through palette, type, shapes, texture, iconography, copy voice and

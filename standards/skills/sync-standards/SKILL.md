@@ -85,7 +85,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    as a separate piece of work (`adopting-the-standard.md`, section 1).
 4. Apply what the new version asks of project files, asking where a value is the owner's —
    for v3: a `Trello board: <url or none>` line in `CLAUDE.md` (§TRELLO), and removing
-   working-agreement bullets from `CLAUDE.md` that now live in §OWNER.
+   working-agreement bullets from `CLAUDE.md` that now live in §OWNER. For v3.1: a `Motif:`
+   line in `CLAUDE.md`, and — if `design-system.md` records no motif — offer to run
+   `design-motif`, which records the project's existing look rather than re-choosing it.
 
 ## Step 5 — Wire the project to every agent
 

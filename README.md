@@ -40,12 +40,11 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 
 **Design motifs** — [`standards/motifs.md`](standards/motifs.md): 35 families of themes
-a project's interface can be designed around, in seven groups (Stationery, Classroom,
+a project's interface can be designed around, in seven groups — Stationery, Classroom,
 Claymorphism, Cyberpunk, Neo-brutalism, Maximalism, Shonen ink, Retro pixel, Heritage, Japandi
-and more),
-each with named variants, plus
-universe-inspired motifs drawn from a fictional world, and custom ones. Browse them, have
-the agent recommend one from your site's purpose and audience, or let it surprise you.
+and more — each with named variants, plus universe-inspired motifs drawn from a fictional
+world, and custom ones. Browse them, have the agent recommend one from your site's purpose and
+audience, or let it surprise you. The `design-motif` skill runs the whole process.
 
 **Templates** — [`standards/templates/`](standards/templates): `CLAUDE.md`, `AGENTS.md`,
 `conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project.
@@ -125,14 +124,17 @@ Only create the other documents the standard mentions once they have something i
 Don't copy the rules in and start "fixing" code. Read
 [`standards/adopting-the-standard.md`](standards/adopting-the-standard.md) first. The first
 pass writes a `conventions.md` recording every gap — as an exception you approve, or as
-known backlog — and **changes no code**. It ends with a ready-made kickoff prompt for your
-agent.
+known backlog — and **changes no code**. Along the way, `design-motif` records the look the
+site already has as its motif, without redesigning anything. The guide ends with a ready-made
+kickoff prompt for your agent.
 
 ### Day to day
 
 - Start a session with **"relay"**, end it with **"checkpoint"** or **"git checkpoint"**.
-- Your agent asks through its question tool whenever it needs your input, and shows a
-  mockup before any visual change (`§ASK`, `§OWNER`).
+- Your agent offers choices through its question tool, and asks open questions in plain text
+  you can answer in your own words — typed or by voice (`§ASK`).
+- Every visual change starts as a mockup you approve, and fits the project's motif
+  (`§OWNER`, `§DESIGN`).
 - **"Redesign"** when the look needs an overhaul — `design-motif` runs the motif process again.
 - Now and then, **"sync standards"** to pick up rule changes.
 
@@ -143,7 +145,7 @@ agent.
 Never edit `project-rules.md` inside a project — the next sync overwrites it, and nobody else
 gets the fix. Instead, in the project where you hit the problem, say **"propose a standard
 change"**. The skill drafts the change with evidence from that project and opens an issue on
-this repo. The maintainer decides; once merged, every project picks it up with
+this repo, in the same shape as the repo's *Propose a standard change* issue template. The maintainer decides; once merged, every project picks it up with
 `sync-standards`.
 
 You can also open an issue or pull request here directly. Changes to the rules bump the

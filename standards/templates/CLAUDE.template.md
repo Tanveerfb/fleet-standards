@@ -19,6 +19,7 @@ goes here; there is nowhere else for it to go.
 - **Repo**: `<owner/repo>`, branch `<main|master>`
 - **Deploys**: <where, from which branch, and whether that branch auto-deploys>
 - **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
+- **Motif**: <family — variant, recorded in `design-system.md`; or "not chosen yet — run design-motif" (§DESIGN)>
 
 ## Status
 

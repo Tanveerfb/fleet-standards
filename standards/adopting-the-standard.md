@@ -168,6 +168,11 @@ Each cost a real session somewhere in this fleet.
 - **`relay`** — the inverse, run at the *start* of a session: loads the handoff **and verifies
   it still describes the repo** before any work starts. Its thesis: *the repo beats the
   handoff*.
+- **`new-project`** — sets up a brand-new project. Not for this guide's case: it stops on a
+  folder that already has code and points back here.
+- **`design-motif`** — chooses or records the project's design motif. On an existing site it
+  **records what is already there** rather than re-choosing, unless the owner wants a
+  redesign.
 - **`sync-standards`** — brings the project's `project-rules.md` up to the latest version.
   It is for a project already on the standard; it sends a project with no copy back here.
 - **`propose-standard`** — sends a change or request back to `fleet-standards` as an issue.
@@ -195,7 +200,9 @@ and slow.
 6. Put the exceptions to the owner. Decisions and dates into `decisions.md`.
 7. Write `CLAUDE.md`, every claim carrying its verification date.
 8. Write `docs/STATUS.md` with a `Start here` block.
-9. `git checkpoint` only when the owner says so.
+9. Record the project's motif with `design-motif` — it describes the existing look and records
+   it; nothing is redesigned.
+10. `git checkpoint` only when the owner says so.
 
 Step 5 before step 7: `CLAUDE.md` names the granted exceptions, so it cannot be written until
 they exist.

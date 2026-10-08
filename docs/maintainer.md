@@ -17,6 +17,14 @@ versions of the same rules file at once.
   effect.
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
+- **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but
+  gets a line in `CHANGELOG.md` and the counts in the README kept true.
+- **Adding a skill** — a folder under `standards/skills/` is picked up by the plugin and by
+  `install-skills.mjs` automatically. Also: the skills table in the README, the skill list in
+  both plugin descriptions (`.claude-plugin/marketplace.json`,
+  `standards/.claude-plugin/plugin.json`), and — if the skill reads a new file from the
+  standard — that file in the `reference` list in `install-skills.mjs`. Keep the description
+  under 1,024 characters; Codex skips longer ones.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 
