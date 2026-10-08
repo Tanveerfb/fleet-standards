@@ -25,7 +25,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, other agents |
 | Architecture | Modules, naming, TypeScript, folder structure, data adapters, entity lifecycles, state and validation, forms |
 | Stack | Packages, npm, security and secrets, Firebase |
-| Interface | Tailwind tokens, design direction, shadcn primitives, QoL expectations, motion |
+| Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
 
 **Four skills** — instructions your agent loads when a phrase triggers them:
@@ -36,6 +36,11 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | `relay` | "relay", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
 | `sync-standards` | "sync standards" | Brings a project's copy of the rules up to the latest version, explaining what changed |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
+
+**Design motifs** — [`standards/motifs.md`](standards/motifs.md): a catalogue of 24
+themes a project's interface can be designed around (Stationery, Classroom, Soft claymorphism,
+Cyberpunk, Neo-brutalism, Shonen ink, Japandi and more), plus universe-inspired motifs drawn
+from a fictional world, and custom ones.
 
 **Templates** — [`standards/templates/`](standards/templates): `CLAUDE.md`, `AGENTS.md`,
 `conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project.
@@ -150,6 +155,7 @@ version in its header and get an entry in [`standards/CHANGELOG.md`](standards/C
 .claude-plugin/marketplace.json   makes this repo a Claude Code plugin marketplace
 standards/                        the standard — also the `fleet` plugin
   project-rules.md                the rules
+  motifs.md                       the design motif catalogue
   CHANGELOG.md                    version history, and the v2 → v3 section map
   adopting-the-standard.md        bringing an existing project onto the standard
   templates/                      starting files for a project
@@ -168,7 +174,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.0.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.1.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---
