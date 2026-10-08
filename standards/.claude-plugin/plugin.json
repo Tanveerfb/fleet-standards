@@ -1,0 +1,10 @@
+{
+  "name": "fleet",
+  "displayName": "Fleet standard",
+  "description": "The fleet coding standard (project-rules.md), its templates, and the skills that apply it: checkpoint, relay, sync-standards, propose-standard",
+  "author": {
+    "name": "Tanveer (tanveerfb)"
+  },
+  "repository": "https://github.com/Tanveerfb/fleet-standards",
+  "license": "MIT"
+}

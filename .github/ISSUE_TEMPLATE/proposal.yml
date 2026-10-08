@@ -1,0 +1,47 @@
+name: Propose a standard change
+description: Fix, add, loosen or remove something in the rules, a template or a skill.
+title: "[proposal] <target>: <change in a few words>"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The `propose-standard` skill files issues in this shape for you — say "propose a standard change" in the project where you hit the problem. Filling it in by hand works too.
+  - type: input
+    id: target
+    attributes:
+      label: Target
+      description: The file, and the section by name — e.g. `project-rules.md` §FORMS, `checkpoint` Step 3.5.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Fix — the current wording is wrong
+        - Addition — something is missing
+        - Loosening — the rule is too strict
+        - Removal — the rule no longer earns its place
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What the current wording causes in practice. Concrete — which project, what went wrong or what it blocked.
+    validations:
+      required: true
+  - type: textarea
+    id: wording
+    attributes:
+      label: Proposed wording
+      description: The actual replacement text or a diff, not a description of it. For a removal, say what the rule was protecting and why that no longer matters.
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact elsewhere
+      description: Other sections, templates or skills this touches, and whether projects need to change anything when they sync.
