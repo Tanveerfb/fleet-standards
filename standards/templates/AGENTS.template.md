@@ -16,6 +16,8 @@ equally. Before any work, read in this order:
    `@project-rules.md` line that only Claude Code expands, so read it yourself.
 3. **`conventions.md`** — where this project deliberately departs from the standard.
 4. **`docs/STATUS.md`** — the `Start here` block, for where the work is right now.
+5. **Any `CLAUDE.md` in the folder you are about to work in**, and `docs/architecture.md` if
+   it exists. Claude Code loads area files automatically; other agents must read them.
 
 Where these files name a Claude Code tool, use your equivalent — `project-rules.md` §TOOLS
 has the mapping. Where you have no equivalent, say so rather than skipping the rule.

@@ -60,6 +60,8 @@ pointer above the block.
 Then, before anything else:
 
 - **`.gitignore`** covers `.env*` and `.secrets/` (§SECURITY). Add whichever is missing.
+- **Naming** (§NAMING): kebab-case files from the start. Offer a filename lint rule
+  (`check-file` or `unicorn/filename-case`) to enforce it — the owner approves the dependency.
 - **`tsconfig.json`** has `"strict": true` and `"paths": { "@/*": ["./src/*"] }` (§TS,
   §STRUCTURE).
 - **Node is pinned** (§RUNTIME): check which Node majors the deploy target supports today,
