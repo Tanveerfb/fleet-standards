@@ -33,7 +33,7 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
-## 3.2.0 — unreleased
+## 3.2.0 — 2026-10-08
 
 - **§AI added — AI and LLM features.** The owner chooses the AI tooling when AI first enters
   a project — **Firebase AI Logic** (stay inside Firebase: Gemini, client-side, App Check),
