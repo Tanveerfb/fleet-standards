@@ -1,7 +1,7 @@
 {
   "name": "fleet",
   "displayName": "Fleet standard",
-  "description": "The fleet coding standard (project-rules.md), its templates, and the skills that apply it: checkpoint, relay, new-project, design-motif, sync-standards, propose-standard",
+  "description": "The fleet coding standard (project-rules.md), its templates, and the skills that apply it: checkpoint, relay, new-project, design-motif, ai-setup, sync-standards, propose-standard",
   "author": {
     "name": "Tanveer (tanveerfb)"
   },

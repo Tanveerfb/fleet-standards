@@ -22,13 +22,13 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Part | Covers |
 | --- | --- |
-| How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, other agents |
+| How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, spec files, other agents |
 | Architecture | Modules, naming, TypeScript, folder structure, data adapters, entity lifecycles, state and validation, forms |
-| Stack | Packages, npm, security and secrets, Firebase |
+| Stack | Packages, npm, Node version and environment checks, security and secrets, Firebase, AI and LLM features |
 | Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
 
-**Six skills** — instructions your agent loads when a phrase triggers them:
+**Seven skills** — instructions your agent loads when a phrase triggers them:
 
 | Skill | Say | What happens |
 | --- | --- | --- |
@@ -36,6 +36,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | `relay` | "relay", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
 | `new-project` | "new project" | Sets up a new Next.js project on the standard — scaffold, rules, templates, agent wiring — then sets the design first and walks the checklist. Never commits. |
 | `design-motif` | "set the design", "redesign" | Chooses (or records) the project's motif: browse, decide for me, surprise me, or bring your own; mockups until you lock it; then records it |
+| `ai-setup` | "set up AI", "add an AI feature" | Adds AI to a new or existing project: checks what's there, lets you choose Firebase AI Logic, the Vercel AI SDK or both, scaffolds the adapter, protects every model call, optionally wires local models (Ollama, LM Studio), and builds the first feature |
 | `sync-standards` | "sync standards" | Brings a project's copy of the rules up to the latest version, explaining what changed |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 
@@ -78,8 +79,8 @@ node fleet-standards/standards/scripts/install-skills.mjs
 
 | Installs | To | Read by |
 | --- | --- | --- |
-| The six skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
-| The six skills | `~/.codex/skills/` | OpenAI Codex |
+| The seven skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
+| The seven skills | `~/.codex/skills/` | OpenAI Codex |
 | Rules and templates | `~/.agents/fleet/` | The skills, which look for the standard there |
 
 Restart your agent afterwards. To update: `git pull` in the clone and run the installer again
@@ -101,8 +102,9 @@ committed until you say `git checkpoint`.
 To do the same by hand:
 
 1. `npx create-next-app@latest` — TypeScript, Tailwind, App Router, `src/`, `@/` alias.
-2. Make sure `.gitignore` covers `.env*` and `.secrets/` **in the first commit**, before any
-   code.
+2. Make sure `.gitignore` covers `.env*` (except `.env.example`) and `.secrets/` **in the first
+   commit**, before any code. Pin Node to your deploy platform's version in `package.json`
+   `engines` and `.nvmrc`.
 3. Copy [`standards/project-rules.md`](standards/project-rules.md) to the project root and
    commit it.
 4. Copy the templates and fill in what you know, leaving the rest as `TODO`:
@@ -178,7 +180,7 @@ standards/                        the standard — also the `fleet` plugin
   adopting-the-standard.md        bringing an existing project onto the standard
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif,
-                                  sync-standards, propose-standard
+                                  ai-setup, sync-standards, propose-standard
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference
@@ -193,7 +195,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.1.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.2.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

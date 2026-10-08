@@ -233,6 +233,12 @@ cards first, then reconcile against the snapshot you just wrote:
 
 Never delete or archive a card. Never write anything that is not true in `STATUS.md`.
 
+**Spec files** (`docs/specs/`, `project-rules.md` §SPECS): if this session built or advanced
+work from a spec, update its status line — `in progress`, or `built` once its done-means
+criteria are verified. On a project with a board, the spec's status line links its card, so
+move the card to match; without a board, the status word in the spec is the whole record.
+This applies on every checkpoint, board or not.
+
 ## Step 4 — Git, if applicable
 
 Check whether this is a git repository:

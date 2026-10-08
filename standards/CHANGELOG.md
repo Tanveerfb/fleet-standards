@@ -33,6 +33,49 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.2.0 — 2026-10-08
+
+- **§AI added — AI and LLM features.** The owner chooses the AI tooling when AI first enters
+  a project — **Firebase AI Logic** (stay inside Firebase: Gemini, client-side, App Check),
+  the **Vercel AI SDK** (versatility: any provider including Claude, local models, chat UIs,
+  agents), or **both** — with the trade-offs laid out and the choice recorded. Neither is
+  imposed, and the other is never added later without asking. The AI SDK is free and open source; the project pays the provider directly, and
+  Vercel's AI Gateway is optional. The AI SDK replaced an earlier draft's "provider SDK or
+  Genkit" for server work, because one API across cloud and local models removes adapter
+  code. Every call sits behind a
+  `lib/ai/` adapter in domain terms with a mock, and model IDs live in one map, checked
+  against current docs. Every model call is protected before it ships — App Check and quotas for AI
+  Logic; authentication, per-user rate limits and server-only keys for AI SDK routes. Structured output uses one zod schema — passed straight to the AI SDK, or
+  converted with `z.toJSONSchema` for AI Logic — and used again to parse the response. Prompts are code;
+  model output is untrusted; tools are permission-checked on the server, with side effects
+  confirmed by the user; §QOL, cost limits and privacy records apply. Local models (Ollama,
+  LM Studio) run through the AI SDK's OpenAI-compatible provider, for development and
+  local-only tools — a deployed app cannot reach the owner's PC.
+- §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
+- **§RUNTIME added — Node version and environment.** Node is pinned to the deploy platform's
+  major, not the local one, declared in `engines.node` (which Vercel reads) and `.nvmrc` (which
+  version managers read); a local mismatch is switched before building. This came from a
+  project that built cleanly on local Node 24 and took two production routes down on
+  Vercel's Node 22. Environment variables are validated at startup by a zod
+  `src/lib/env.ts` with server and client halves, client variables referenced one by one
+  because Next.js inlines them at build, and a committed `.env.example` (with a `.gitignore`
+  exception, since `.env*` is ignored). `new-project` sets both up; the checklist gains both.
+- **§SPECS added — spec files.** For work planned now and built later; in-progress work hands
+  over through the checkpoint instead. No template: a spec must be buildable by a session
+  that knows nothing else — goal and non-goals, decided versus open, what it touches, done
+  means, a status line. Features and upgrades live in the project's `docs/specs/`. On a
+  project with a Trello board the spec and its card link each other, and progress and
+  discussion happen on the card; without a board the spec stays in the repo with a plain
+  status word. A built spec is a record, never pending work; the checkpoint keeps it current.
+  Chosen over a plan-file template with review sections, because Trello already covers
+  sharing, comments and progress for projects that have a board.
+- **`ai-setup` skill added.** Runs §AI end to end in a new or existing project: inventories
+  AI already in the code (never refactoring scattered calls unasked), gathers the brief, puts
+  the tooling choice to the owner, scaffolds `lib/ai/` after the owner approves packages
+  (checked against npm and current docs), protects every model call, optionally wires local
+  models with one real test call, builds the first feature through the adapter, records it,
+  and verifies with tests and a build. `new-project` asks the AI tooling question up front.
+
 ## 3.1.0 — 2026-10-08
 
 - **§DESIGN — every project has a motif.** The six-row "design direction" vocabulary is

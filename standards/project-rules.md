@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.1.0
+**Version:** 3.2.0
 **Applies to:** All Next.js projects
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
@@ -54,6 +54,7 @@ when it is updated.
 | `docs/STATUS.md` | Where the work is right now — a snapshot over a session log | Every checkpoint (§GIT) |
 | `issues.md` | Open and closed issues | Continuously |
 | `roadmap.md` | Phases. Slow moving | A phase changes |
+| `docs/specs/<feature>.md` | A feature or upgrade planned before it is built (§SPECS) | Written when planned; status kept current until built |
 
 **Every file answers "who updates this and when", or it gets deleted.** An
 unmaintained document is not neutral — it is a confidently wrong instruction.
@@ -228,6 +229,39 @@ never search for a board or create one unasked.
 
 ---
 
+## §SPECS — Spec files
+
+A spec is written when work is planned now and built later — a future feature, an upgrade, a
+new system, or a plan finished before usage limits would leave an implementation half done.
+Work already in progress hands over through the checkpoint (`docs/STATUS.md`), not a spec.
+Skip a spec when the work does not need one.
+
+**A spec must be buildable by a session that knows nothing else.** No template; it covers:
+
+- **Goal, and what it deliberately does not do**
+- **Decided versus open** — the owner's confirmed choices, each with a one-line reason, kept
+  apart from open questions. Never write a guess in the voice of a decision
+- **What it touches** — the areas, files and data it changes
+- **Done means** — acceptance criteria that can be checked
+- **Status** — the first line
+
+**Where it lives.** A feature or upgrade of an existing project: `docs/specs/<feature>.md` in
+that project's repo, where the session that builds it will look. A whole new project: the
+owner's plans repo.
+
+**Status and Trello.** On a project with a board (§TRELLO), the status line links the spec's
+card, and the card links back to the spec. Progress, discussion and comments from other
+people happen on the card; the spec holds only what to build. On a project without a board,
+the status line is a plain word — planned, in progress, built — and the spec stays in the
+repo alone.
+
+**Building from a spec.** It is binding, like other project documentation (§AGENTS). Never
+build on an open question — raise it. When the work is done, mark the spec built (or move its
+card to Done); a built spec is kept as a record and is never treated as pending work. The
+checkpoint keeps both current.
+
+---
+
 ## §TOOLS — Other coding agents
 
 This standard is written for Claude Code and binds every agent equally — Codex, GitHub
@@ -349,6 +383,7 @@ src/
   lib/              clients, constants, helpers with a real name
   lib/domain/       pure business logic. No React, no storage
   lib/data/         data access adapter, where the project has one
+  lib/ai/           AI adapter, model map and prompts — see §AI
   schemas/          zod schemas and inferred types, where zod is used
   stores/           zustand, one per domain
   styles/globals.css
@@ -506,10 +541,56 @@ Loading, error and empty states handled every time.
 
 ---
 
+## §RUNTIME — Node version and environment
+
+**Node runs the same major version everywhere the app runs** — on the owner's machine, in CI,
+and on the deploy platform. A build that passes locally on one major and fails in production
+on another is the failure this prevents: a dependency that is fine on one version and breaks
+on the next does not show up until the deploy.
+
+- **Pin to the deploy platform's version, not the local one.** At project start, check which
+  Node majors the deploy target supports today and pick its current LTS. Record it in
+  `decisions.md`; revisit when the platform retires it
+- **Declare it twice, the same major in both:** `"engines": { "node": "<major>.x" }` in
+  `package.json` — which Vercel reads to choose its runtime — and the major in `.nvmrc` at the
+  root, which local version managers read. Use a version manager that switches automatically
+  from `.nvmrc` (fnm, or nvm-windows on Windows); Volta, pinning through `package.json`, is the
+  alternative
+- **A version mismatch is a finding, not a warning.** If the local Node differs from the
+  pinned major, switch before building, and say so in the report rather than building anyway
+- **No version manager is a gap to fix, not to work around.** A single Node installed from
+  the website serves every project at one version. When an agent finds that, it offers to
+  walk the owner through setting one up — on Windows: list global npm packages first
+  (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),
+  uninstall the website Node, `winget install Schniz.fnm`, add `fnm env --use-on-cd --shell
+  powershell | Out-String | Invoke-Expression` to the PowerShell `$PROFILE`, then
+  `fnm install --lts` and reinstall the global packages
+- **Before pushing server-rendered changes, deploy a preview.** A green local build does not
+  prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+
+**Environment variables are checked when the app starts, not when a page first breaks.**
+
+- **`src/lib/env.ts` parses them with zod** (§STATE): one schema for server variables, one for
+  client (`NEXT_PUBLIC_`) variables. A missing or malformed variable stops the app at startup
+  with a message naming it
+- **Server variables never reach the client.** The server half is imported only from server
+  code (`import "server-only"`); components read the client half
+- **Client variables are referenced one by one** — `process.env.NEXT_PUBLIC_X`, written out in
+  full. Next.js inlines them at build time and cannot see a dynamic lookup such as
+  `process.env[name]`
+- **`.env.example` is committed:** every variable name with a one-line comment, never a value.
+  `.gitignore` covers `.env*`, so it needs an `!.env.example` exception. `environment.md`
+  (§DOCS) stays the record of what each variable is for and who owns the account; the example
+  file is the starting point for a fresh clone
+- A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
+
+---
+
 ## §SECURITY — Security and secrets
 
 - **`.gitignore` covers `.env*`, `.secrets/` and credential files from the first
-  commit**, before any code exists — not after the file lands
+  commit**, before any code exists — not after the file lands. The one exception is
+  `.env.example`, which holds names only (§RUNTIME)
 - **Credential files live outside the repository by preference**, referenced by
   path through an environment variable, or pasted into a deployment environment
   variable. Where the platform supports application default credentials, prefer
@@ -569,6 +650,92 @@ The default backend for auth, data and storage across the fleet.
   skeleton, which for a content site is the whole ballgame. Read on the server; the one
   exception is an admin preview route rendering an unpublished draft, which the server path
   will not return.
+
+---
+
+## §AI — AI and LLM features
+
+Applies wherever a project calls a language model — generation, chat, summaries,
+classification, extraction, agents.
+
+**The owner chooses the AI tooling — it is never imposed.** When AI first enters a project,
+put the options to the owner with the question tool, with the trade-offs and a
+recommendation drawn from the project's requirements, and record the choice and the reason in
+`decisions.md`. Once chosen, it is the project's tooling: never bring in the other option
+later without asking.
+
+| Option | Suits an owner who | Trade-offs |
+| --- | --- | --- |
+| **Firebase AI Logic** (`firebase/ai`) | Wants to stay inside Firebase — auth, data and AI in one console and one bill | Gemini models only; calls run from the client; no server key to manage, protected by App Check and Firebase quotas. No local models |
+| **Vercel AI SDK** (`ai` plus a provider package) | Wants versatility — any provider, Claude among them, local models, chat UIs, agents | Calls run on the server, so the project manages provider keys and its own rate limiting. One API across providers, zod schemas passed straight to `generateObject`, `useChat` for streaming chat UIs |
+| **Both** | Wants simple client-side Gemini features *and* server-side or non-Gemini work | Two tools to keep track of; the adapter keeps them behind one interface. `decisions.md` records which task uses which |
+
+The AI SDK is a free, open-source library: the project pays the model provider directly with
+its own key, and it runs on any Node host. Vercel's AI Gateway is a separate, optional,
+usage-billed service — not needed to use the SDK.
+
+Everything below applies whichever option is chosen. **The `ai-setup` skill runs the whole
+process** — use it rather than improvising, in a new project or an existing one.
+
+- **Behind an adapter, like §DATA.** Every model call goes through `lib/ai/`: an interface in
+  domain terms (`suggestOutfit`, `summariseNote` — never `callGemini`), one implementation per
+  tool or provider the project uses, and a mock. Components never import a model SDK. Changing provider, or sending a
+  task to a local model in development, touches one file
+- **Model choice in one place.** `lib/ai/models.ts` maps each task to a provider and a model
+  ID, read from environment variables where it differs between development and production. IDs go stale
+  fast — check them against the provider's current docs before use (§PACKAGES), never from
+  memory, and never inline in a component
+- **Protect every model call before it ships — an unprotected one is an open bill.** With AI
+  Logic: enforce App Check, prefer limited-use tokens (`useLimitedUseAppCheckTokens`), and
+  set per-user quotas in the Firebase console. With AI SDK routes: require an authenticated user,
+  rate-limit per user on the server, and keep provider keys server-only, never
+  `NEXT_PUBLIC_`
+- **Structured output is validated with zod.** The zod schema is the single source of truth.
+  The AI SDK takes it directly (`generateObject`); for AI Logic, convert it with
+  `z.toJSONSchema` for `responseJsonSchema`, then parse the response with the same schema
+  (§STATE). A response that fails
+  parsing is retried once, then shown as an error state — never rendered half-valid
+- **Prompts are code.** They live in `lib/ai/prompts/`, one per task, with typed inputs. User
+  input is clearly delimited from instructions and never concatenated into them
+- **Model output is untrusted.** Never rendered as raw HTML, never executed, never used as a
+  URL, query or file path without validation. A model can be talked into anything its input
+  says
+- **Tools and agents.** Tool arguments are parsed with zod; permissions are checked on the
+  server, never trusted from the model (§SECURITY); anything with side effects — sending,
+  paying, deleting, writing on someone's behalf — needs the user's confirmation
+- **AI is not exempt from §QOL.** Stream long output; show a skeleton while waiting; offer
+  stop and retry; give every failure an error state that says what to do. Mark AI-generated
+  content where a user could mistake it for a person's or a verified fact
+- **Cost is a design constraint.** Cap output tokens per task, rate-limit per user, cache
+  repeated work (prompt caching where the provider supports it), and log usage — tokens and
+  cost per task — never the content
+- **Privacy is recorded.** `environment.md` names each AI provider, what data reaches it, and
+  who owns the account. Send the minimum; strip personal data a task does not need
+
+**Local models (Ollama, LM Studio)** need the AI SDK, and are for development and for tools
+that run on the owner's own machine. A project on AI Logic alone develops against the mock
+adapter instead.
+
+- Both serve an OpenAI-compatible API (Ollama `http://localhost:11434/v1`, LM Studio
+  `http://localhost:1234/v1`), which the AI SDK reaches through its OpenAI-compatible
+  provider. The same code then runs a local model in development and a cloud model in
+  production — only the provider, base URL and model name change, all from environment
+  variables. Call it from the server side of the app; a browser calling `localhost`
+  directly runs into CORS
+- Use the model name exactly as the tool lists it (`ollama list`, LM Studio's model list)
+- Use them to build and test AI features without API cost, and for features in local-only
+  tools. **A deployed app cannot reach a model on the owner's PC** — production uses a cloud
+  provider
+- Choose models that fit the hardware: on a 16 GB GPU, roughly up to 14B parameters at 4-bit
+  quantisation runs comfortably, about 20B with care. Smaller local models are weaker at
+  tool calling and structured output, and their output differs from the production model's,
+  so a feature is only verified once it runs against the model that will serve it
+- Chrome's built-in on-device model, through AI Logic's hybrid mode (`InferenceMode`), is a
+  separate option for small private tasks in the user's browser, with a cloud fallback
+
+**Testing (§TESTING).** Unit tests run against the mock adapter. Each prompt that matters
+keeps a small set of fixture inputs, checked for properties of the output — it parses, it
+stays within length, it names no forbidden thing — not exact text.
 
 ---
 
@@ -777,8 +944,12 @@ The `new-project` skill walks this list with the owner.
 
 
 - [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias
-- [ ] `.gitignore` covers `.secrets/` and `.env*` — first commit, before code
+- [ ] `.gitignore` covers `.secrets/` and `.env*` (except `.env.example`) — first commit, before
+      code
 - [ ] `tsconfig.json` strict confirmed
+- [ ] Node pinned to the deploy platform's major in `engines` and `.nvmrc` (§RUNTIME)
+- [ ] `src/lib/env.ts` validates env at startup; `.env.example` committed with an `!.env.example`
+      exception in `.gitignore` (§RUNTIME)
 - [ ] Motif proposed and chosen, recorded in `design-system.md` (§DESIGN)
 - [ ] `design-system.md` written and tokens in `@theme` before any UI work
 - [ ] shadcn initialised and primitives customised to the tokens (§SHADCN)
@@ -792,6 +963,8 @@ The `new-project` skill walks this list with the owner.
       Vercel where applicable, web search
 - [ ] `.env.local` created, and every variable recorded by name and owner in
       `environment.md` (§FIREBASE for the Firebase set)
+- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, every model
+      call protected before any AI feature ships (§AI)
 - [ ] Vitest installed and `npm test` wired (§TESTING)
 - [ ] Trello board line in `CLAUDE.md` if the project has a board (§TRELLO)
 - [ ] First `npm run build` passes clean
