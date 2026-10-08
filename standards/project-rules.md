@@ -541,10 +541,49 @@ Loading, error and empty states handled every time.
 
 ---
 
+## §RUNTIME — Node version and environment
+
+**Node runs the same major version everywhere the app runs** — on the owner's machine, in CI,
+and on the deploy platform. A build that passes locally on one major and fails in production
+on another is the failure this prevents: a dependency that is fine on one version and breaks
+on the next does not show up until the deploy.
+
+- **Pin to the deploy platform's version, not the local one.** At project start, check which
+  Node majors the deploy target supports today and pick its current LTS. Record it in
+  `decisions.md`; revisit when the platform retires it
+- **Declare it twice, the same major in both:** `"engines": { "node": "<major>.x" }` in
+  `package.json` — which Vercel reads to choose its runtime — and the major in `.nvmrc` at the
+  root, which local version managers read. Use a version manager that switches automatically
+  from `.nvmrc` (fnm, or nvm-windows on Windows); Volta, pinning through `package.json`, is the
+  alternative
+- **A version mismatch is a finding, not a warning.** If the local Node differs from the
+  pinned major, switch before building, and say so in the report rather than building anyway
+- **Before pushing server-rendered changes, deploy a preview.** A green local build does not
+  prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+
+**Environment variables are checked when the app starts, not when a page first breaks.**
+
+- **`src/lib/env.ts` parses them with zod** (§STATE): one schema for server variables, one for
+  client (`NEXT_PUBLIC_`) variables. A missing or malformed variable stops the app at startup
+  with a message naming it
+- **Server variables never reach the client.** The server half is imported only from server
+  code (`import "server-only"`); components read the client half
+- **Client variables are referenced one by one** — `process.env.NEXT_PUBLIC_X`, written out in
+  full. Next.js inlines them at build time and cannot see a dynamic lookup such as
+  `process.env[name]`
+- **`.env.example` is committed:** every variable name with a one-line comment, never a value.
+  `.gitignore` covers `.env*`, so it needs an `!.env.example` exception. `environment.md`
+  (§DOCS) stays the record of what each variable is for and who owns the account; the example
+  file is the starting point for a fresh clone
+- A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
+
+---
+
 ## §SECURITY — Security and secrets
 
 - **`.gitignore` covers `.env*`, `.secrets/` and credential files from the first
-  commit**, before any code exists — not after the file lands
+  commit**, before any code exists — not after the file lands. The one exception is
+  `.env.example`, which holds names only (§RUNTIME)
 - **Credential files live outside the repository by preference**, referenced by
   path through an environment variable, or pasted into a deployment environment
   variable. Where the platform supports application default credentials, prefer
@@ -898,8 +937,12 @@ The `new-project` skill walks this list with the owner.
 
 
 - [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias
-- [ ] `.gitignore` covers `.secrets/` and `.env*` — first commit, before code
+- [ ] `.gitignore` covers `.secrets/` and `.env*` (except `.env.example`) — first commit, before
+      code
 - [ ] `tsconfig.json` strict confirmed
+- [ ] Node pinned to the deploy platform's major in `engines` and `.nvmrc` (§RUNTIME)
+- [ ] `src/lib/env.ts` validates env at startup; `.env.example` committed with an `!.env.example`
+      exception in `.gitignore` (§RUNTIME)
 - [ ] Motif proposed and chosen, recorded in `design-system.md` (§DESIGN)
 - [ ] `design-system.md` written and tokens in `@theme` before any UI work
 - [ ] shadcn initialised and primitives customised to the tokens (§SHADCN)

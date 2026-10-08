@@ -62,6 +62,12 @@ Then, before anything else:
 - **`.gitignore`** covers `.env*` and `.secrets/` (§SECURITY). Add whichever is missing.
 - **`tsconfig.json`** has `"strict": true` and `"paths": { "@/*": ["./src/*"] }` (§TS,
   §STRUCTURE).
+- **Node is pinned** (§RUNTIME): check which Node majors the deploy target supports today,
+  confirm the choice with the owner, then set `engines.node` in `package.json` and `.nvmrc`
+  to that major. If the local Node is a different major, say so and switch before building.
+- **Environment checking** (§RUNTIME): `src/lib/env.ts` with server and client zod schemas,
+  and a committed `.env.example` — with `!.env.example` added to `.gitignore`. Variables are
+  added to both as they appear.
 
 ## Step 3 — The standard
 

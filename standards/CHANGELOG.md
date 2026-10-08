@@ -52,6 +52,14 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   LM Studio) run through the AI SDK's OpenAI-compatible provider, for development and
   local-only tools — a deployed app cannot reach the owner's PC.
 - §STRUCTURE gains `lib/ai/`; the new-project checklist gains the AI item.
+- **§RUNTIME added — Node version and environment.** Node is pinned to the deploy platform's
+  major, not the local one, declared in `engines.node` (which Vercel reads) and `.nvmrc` (which
+  version managers read); a local mismatch is switched before building. This came from a
+  project that built cleanly on local Node 24 and took two production routes down on
+  Vercel's Node 22. Environment variables are validated at startup by a zod
+  `src/lib/env.ts` with server and client halves, client variables referenced one by one
+  because Next.js inlines them at build, and a committed `.env.example` (with a `.gitignore`
+  exception, since `.env*` is ignored). `new-project` sets both up; the checklist gains both.
 - **§SPECS added — spec files.** For work planned now and built later; in-progress work hands
   over through the checkpoint instead. No template: a spec must be buildable by a session
   that knows nothing else — goal and non-goals, decided versus open, what it touches, done

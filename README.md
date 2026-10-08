@@ -24,7 +24,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | --- | --- |
 | How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules, Trello, other agents |
 | Architecture | Modules, naming, TypeScript, folder structure, data adapters, entity lifecycles, state and validation, forms |
-| Stack | Packages, npm, security and secrets, Firebase, AI and LLM features |
+| Stack | Packages, npm, Node version and environment checks, security and secrets, Firebase, AI and LLM features |
 | Interface | Tailwind tokens, design motifs, shadcn primitives, QoL expectations, motion |
 | Quality | Build discipline, testing |
 
@@ -102,8 +102,9 @@ committed until you say `git checkpoint`.
 To do the same by hand:
 
 1. `npx create-next-app@latest` — TypeScript, Tailwind, App Router, `src/`, `@/` alias.
-2. Make sure `.gitignore` covers `.env*` and `.secrets/` **in the first commit**, before any
-   code.
+2. Make sure `.gitignore` covers `.env*` (except `.env.example`) and `.secrets/` **in the first
+   commit**, before any code. Pin Node to your deploy platform's version in `package.json`
+   `engines` and `.nvmrc`.
 3. Copy [`standards/project-rules.md`](standards/project-rules.md) to the project root and
    commit it.
 4. Copy the templates and fill in what you know, leaving the rest as `TODO`:
