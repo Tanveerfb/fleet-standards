@@ -33,6 +33,20 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.5.0 — unreleased
+
+- **§AGENTS — files change through the editor tools, never the shell.** Edit for changes,
+  Write for new files or full rewrites; never heredocs, `echo`/`printf` redirection,
+  `sed -i`, `awk` or inline scripts to write files. The editor tools give the owner a
+  reviewable diff, fail loudly when the target text is missing, are immune to shell quoting
+  and expansion, and work the same on Windows. Two narrow allowances: a heredoc that only
+  feeds a command's input (a commit message), and files a tool generates. Bulk changes stay
+  file by file; a script for a bulk change is shown to the owner first. Raised by the owner
+  after agents — this standard's own maintenance sessions included — routinely wrote files
+  through heredocs and inline Python, leaving nothing reviewable.
+
+---
+
 ## 3.4.0 — 2026-10-08
 
 - **§SHADCN rewritten — components are custom by design.** shadcn and the primitives under
