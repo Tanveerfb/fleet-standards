@@ -53,6 +53,14 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   publish the README with the code. MAX gains M11, a claim-by-claim check of the README and
   `CLAUDE.md`. Previously the checkpoint kept only `docs/STATUS.md` current, so projects
   pushed features under READMEs describing the app before them.
+- **§DESIGN — text on colour is designed, not guessed.** Every fill has a partner text colour
+  as a token pair. Saturated mid-tone fills carry white text, with the fill darkened until
+  white reaches 4.5:1 rather than the text switched to black; light fills carry dark text;
+  every pair is checked and its ratio recorded, and one that looks muddy fails regardless of
+  the number. Raised by the owner after mockups kept showing black text on red and green
+  buttons: the WCAG 2 formula scores black higher on bright red and green (`#e53935`: white
+  4.23, black 4.97; `#43a047`: white 3.30, black 6.36), so agents trusting the number chose
+  black. `design-motif`'s rules check (Step 6) checks every pair.
 
 ---
 

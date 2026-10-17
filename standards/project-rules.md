@@ -875,6 +875,19 @@ Then, always:
 - Spend visual boldness in one place; everything around it stays quiet
 - Sentence case throughout, including buttons and table headers
 - Never convey state by colour alone
+- **Text on colour is designed, not guessed.** Every fill colour has a partner text colour,
+  defined together as a token pair in `@theme` (`--color-danger` with `--color-on-danger`)
+  and never improvised per component:
+  - **Saturated mid-tone fills — red, green, blue, purple, orange — carry white text.** If
+    white does not reach 4.5:1 (3:1 for large or bold text), **darken the fill until it
+    does**; do not switch the text to black. The WCAG 2 formula often scores black higher on
+    bright red or green (`#e53935`: white 4.23, black 4.97), and an agent that trusts the
+    number picks black — which reads as muddy to the eye. The newer perceptual method (APCA)
+    agrees with the eye. The darker fill passes with white (`#c62828`: white 5.62)
+  - **Genuinely light fills — yellow, pastels, light tints — carry dark text**
+  - **Every text-and-fill pair** in the tokens and the mockups is checked, and its ratio is
+    recorded in `design-system.md`. Passing the number is necessary, not sufficient: a pair
+    that looks muddy fails the owner's eye and is redesigned
 
 ---
 
