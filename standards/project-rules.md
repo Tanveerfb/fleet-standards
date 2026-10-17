@@ -235,6 +235,31 @@ does not restate them.
 
 ---
 
+## §CREDIT — Studio credit
+
+An owner who runs a studio can sign the projects it publishes — a credit in the footer
+(*Built by …*), with the studio's logo and a link to its site.
+
+- **The studio is configured by the owner, not by this file.** The owner's own
+  `~/.claude/CLAUDE.md` holds one line naming the studio, its credit wording, its logo and
+  its link. No line, no credit questions — this standard is shared, and other owners may
+  have no studio or a different one
+- **Only publicly deployed projects are asked.** A project deployed with a shareable link
+  (Vercel or similar) is asked once — at setup (`new-project`), or at the next sync for an
+  existing project. **A local-only project is never asked and never credited**
+- **Always optional.** Not every published project goes under the studio. The owner
+  decides per project; the answer is the `Studio credit:` line in the project's `CLAUDE.md`
+  and an entry in `decisions.md`. Never add a credit the owner has not said yes to
+- **A client project needs the client's agreement.** A credit on a client's site is copy the
+  business owns (§OWNER): confirm the client has agreed — some contracts forbid it, some
+  want it elsewhere — before adding it
+- **The credit is designed, not pasted.** It keeps the studio's logo and wording, but is
+  styled to sit in the project's motif like any other component (§SHADCN) — small, quiet,
+  linking to the studio's site, with light and dark logo variants and a proper accessible
+  name
+
+---
+
 ## §TRELLO — Trello boards
 
 Some projects mirror their progress on a Trello board. **A project has one only if its
@@ -1078,6 +1103,8 @@ The `new-project` skill walks this list with the owner.
       call protected before any AI feature ships (§AI)
 - [ ] Vitest installed and `npm test` wired (§TESTING)
 - [ ] Trello board line in `CLAUDE.md` if the project has a board (§TRELLO)
+- [ ] Studio credit decided, if the project will be deployed and the owner has a studio
+      (§CREDIT)
 - [ ] First `npm run build` passes clean
 - [ ] `fleet` plugin enabled in `.claude/settings.json` (`sync-standards` writes it)
 - [ ] `AGENTS.md` and `GEMINI.md` pointers at the root, if anyone works on the project with another agent (§TOOLS)

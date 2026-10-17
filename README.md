@@ -63,10 +63,21 @@ In any Claude Code session:
 /plugin install fleet@tanveerfb
 ```
 
-The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:sync-standards` and
-`fleet:propose-standard`. To receive updates automatically, open `/plugin` → **Marketplaces**
-→ `tanveerfb` → **Enable auto-update** (it is off by default). Otherwise run
+The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:new-project`,
+`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards` and `fleet:propose-standard`.
+To receive updates automatically, open `/plugin` → **Marketplaces** → `tanveerfb` →
+**Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
+
+**Optional — a studio credit.** If you run a studio and want to sign the projects you
+publish, add one line to your own `~/.claude/CLAUDE.md`:
+
+```
+Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <logo path or URL>
+```
+
+Projects deployed with a shareable link are then asked, once each, whether to carry it;
+local-only projects never are (`§CREDIT`).
 
 ### Codex, Copilot, Cursor, Gemini CLI — with the installer
 

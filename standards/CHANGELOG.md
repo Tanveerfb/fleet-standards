@@ -61,6 +61,16 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   buttons: the WCAG 2 formula scores black higher on bright red and green (`#e53935`: white
   4.23, black 4.97; `#43a047`: white 3.30, black 6.36), so agents trusting the number chose
   black. `design-motif`'s rules check (Step 6) checks every pair.
+- **§CREDIT added — studio credit.** An owner who runs a studio names it, with its credit
+  wording, logo and link, in their own `~/.claude/CLAUDE.md`; the standard stays generic, so
+  other owners are never asked about a studio that isn't theirs. Only projects deployed with
+  a shareable link are asked, once, whether to carry the credit; local-only projects never
+  are. Always optional, recorded as a `Studio credit:` line in `CLAUDE.md`; a client project
+  needs the client's agreement; the credit is designed into the motif, not pasted.
+  `new-project` asks at setup, `sync-standards` for existing projects; the `CLAUDE.md`
+  template and checklist gain the line. Raised by the owner for Tinker Together, the studio
+  they run.
+- README: the install section lists all seven skills (it still named four).
 
 ---
 
