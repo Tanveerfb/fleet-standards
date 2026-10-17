@@ -206,7 +206,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.4.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.5.0** (2026-10-17). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

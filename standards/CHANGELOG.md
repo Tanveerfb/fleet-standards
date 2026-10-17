@@ -33,7 +33,7 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
-## 3.5.0 — unreleased
+## 3.5.0 — 2026-10-17
 
 - **§AGENTS — files change through the editor tools, never the shell.** Edit for changes,
   Write for new files or full rewrites; never heredocs, `echo`/`printf` redirection,
