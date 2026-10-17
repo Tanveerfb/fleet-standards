@@ -73,7 +73,7 @@ To receive updates automatically, open `/plugin` → **Marketplaces** → `tanve
 publish, add one line to your own `~/.claude/CLAUDE.md`:
 
 ```
-Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <logo path or URL>
+Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <brand kit URL or path>
 ```
 
 Projects deployed with a shareable link are then asked, once each, whether to carry it;

@@ -257,6 +257,14 @@ An owner who runs a studio can sign the projects it publishes — a credit in th
   styled to sit in the project's motif like any other component (§SHADCN) — small, quiet,
   linking to the studio's site, with light and dark logo variants and a proper accessible
   name
+- **The logo files come from the studio's own brand kit** — wherever the owner's config line
+  points, usually the studio's website — **and are copied into the project**
+  (`public/brand/`), never hotlinked. A copy keeps working when the studio's site changes or
+  is down, and a rebrand reaches each project only when the owner chooses (offered at the
+  next sync). Use the transparent masters — SVG first, transparent PNG where SVG cannot go —
+  the on-light and on-dark variants for the two colour schemes, and the single-colour
+  variants where the studio's own colours would clash with the project's motif. Never
+  redraw, recolour beyond the kit's variants, or rebuild the logo as live text
 
 ---
 

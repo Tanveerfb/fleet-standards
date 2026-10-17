@@ -66,7 +66,10 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   other owners are never asked about a studio that isn't theirs. Only projects deployed with
   a shareable link are asked, once, whether to carry the credit; local-only projects never
   are. Always optional, recorded as a `Studio credit:` line in `CLAUDE.md`; a client project
-  needs the client's agreement; the credit is designed into the motif, not pasted.
+  needs the client's agreement; the credit is designed into the motif, not pasted. Logo
+  files come from the studio's own brand kit and are copied into the project, never
+  hotlinked — transparent SVG masters first, on-light/on-dark per scheme, single-colour
+  variants where the studio's colours clash with the motif; the logo is never redrawn.
   `new-project` asks at setup, `sync-standards` for existing projects; the `CLAUDE.md`
   template and checklist gain the line. Raised by the owner for Tinker Together, the studio
   they run.
