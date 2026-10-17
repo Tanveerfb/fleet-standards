@@ -88,6 +88,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    working-agreement bullets from `CLAUDE.md` that now live in §OWNER. For v3.1: a `Motif:`
    line in `CLAUDE.md`, and — if `design-system.md` records no motif — offer to run
    `design-motif`, which records the project's existing look rather than re-choosing it.
+   For v3.5: if the owner names a studio in `~/.claude/CLAUDE.md` and the project is deployed
+   with a shareable link, ask once whether it carries the studio credit (§CREDIT) and record
+   a `Studio credit:` line in `CLAUDE.md`; a local-only project gets `local only — not asked`.
 
 ## Step 5 — Wire the project to every agent
 

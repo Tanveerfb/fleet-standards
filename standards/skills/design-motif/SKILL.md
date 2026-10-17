@@ -109,8 +109,10 @@ On lock, move the approved mockup to `docs/design/motif.html` (committed, never 
 ## Step 6 — Check the result against the rules
 
 Before recording: sentence case, state never by colour alone, don't state the obvious,
-icon-only controls have accessible names, `prefers-reduced-motion` honoured. Fix the mockup
-if any fail.
+icon-only controls have accessible names, `prefers-reduced-motion` honoured, and **every
+text-on-colour pair checked** (§DESIGN): white on saturated red, green, blue, purple and
+orange fills — darkened until white reaches 4.5:1, never swapped to black — dark text only on
+genuinely light fills, each ratio noted. Fix the mockup if any fail.
 
 ## Step 7 — Record it
 

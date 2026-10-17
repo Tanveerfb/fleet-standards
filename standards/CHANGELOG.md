@@ -33,6 +33,50 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.5.0 — 2026-10-17
+
+- **§AGENTS — files change through the editor tools, never the shell.** Edit for changes,
+  Write for new files or full rewrites; never heredocs, `echo`/`printf` redirection,
+  `sed -i`, `awk` or inline scripts to write files. The editor tools give the owner a
+  reviewable diff, fail loudly when the target text is missing, are immune to shell quoting
+  and expansion, and work the same on Windows. Two narrow allowances: a heredoc that only
+  feeds a command's input (a commit message), and files a tool generates. Bulk changes stay
+  file by file; a script for a bulk change is shown to the owner first. Raised by the owner
+  after agents — this standard's own maintenance sessions included — routinely wrote files
+  through heredocs and inline Python, leaving nothing reviewable.
+- **`checkpoint` — Step 2.5, the project's own documentation.** Every checkpoint brings the
+  README and the project's other documents (`CLAUDE.md`, area files, `components.md`, the
+  architecture map, `data-model.md`, `environment.md`, `.env.example`, spec status lines, a
+  `CHANGELOG.md` if kept) current for what the session changed — updating, not restyling;
+  every command, path and setup step checked against the repo; business-owned copy drafted
+  for approval. It matters most when the checkpoint pushes: `git checkpoint` and `git CPR`
+  publish the README with the code. MAX gains M11, a claim-by-claim check of the README and
+  `CLAUDE.md`. Previously the checkpoint kept only `docs/STATUS.md` current, so projects
+  pushed features under READMEs describing the app before them.
+- **§DESIGN — text on colour is designed, not guessed.** Every fill has a partner text colour
+  as a token pair. Saturated mid-tone fills carry white text, with the fill darkened until
+  white reaches 4.5:1 rather than the text switched to black; light fills carry dark text;
+  every pair is checked and its ratio recorded, and one that looks muddy fails regardless of
+  the number. Raised by the owner after mockups kept showing black text on red and green
+  buttons: the WCAG 2 formula scores black higher on bright red and green (`#e53935`: white
+  4.23, black 4.97; `#43a047`: white 3.30, black 6.36), so agents trusting the number chose
+  black. `design-motif`'s rules check (Step 6) checks every pair.
+- **§CREDIT added — studio credit.** An owner who runs a studio names it, with its credit
+  wording, logo and link, in their own `~/.claude/CLAUDE.md`; the standard stays generic, so
+  other owners are never asked about a studio that isn't theirs. Only projects deployed with
+  a shareable link are asked, once, whether to carry the credit; local-only projects never
+  are. Always optional, recorded as a `Studio credit:` line in `CLAUDE.md`; a client project
+  needs the client's agreement; the credit is designed into the motif, not pasted. Logo
+  files come from the studio's own brand kit and are copied into the project, never
+  hotlinked — transparent SVG masters first, on-light/on-dark per scheme, single-colour
+  variants where the studio's colours clash with the motif; the logo is never redrawn.
+  `new-project` asks at setup, `sync-standards` for existing projects; the `CLAUDE.md`
+  template and checklist gain the line. Raised by the owner for Tinker Together, the studio
+  they run.
+- README: the install section lists all seven skills (it still named four).
+
+---
+
 ## 3.4.0 — 2026-10-08
 
 - **§SHADCN rewritten — components are custom by design.** shadcn and the primitives under

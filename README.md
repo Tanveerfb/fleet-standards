@@ -63,10 +63,21 @@ In any Claude Code session:
 /plugin install fleet@tanveerfb
 ```
 
-The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:sync-standards` and
-`fleet:propose-standard`. To receive updates automatically, open `/plugin` → **Marketplaces**
-→ `tanveerfb` → **Enable auto-update** (it is off by default). Otherwise run
+The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:new-project`,
+`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards` and `fleet:propose-standard`.
+To receive updates automatically, open `/plugin` → **Marketplaces** → `tanveerfb` →
+**Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
+
+**Optional — a studio credit.** If you run a studio and want to sign the projects you
+publish, add one line to your own `~/.claude/CLAUDE.md`:
+
+```
+Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <brand kit URL or path>
+```
+
+Projects deployed with a shareable link are then asked, once each, whether to carry it;
+local-only projects never are (`§CREDIT`).
 
 ### Codex, Copilot, Cursor, Gemini CLI — with the installer
 
@@ -195,7 +206,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.4.0** (2026-10-08). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.5.0** (2026-10-17). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

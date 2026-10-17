@@ -25,6 +25,7 @@ goes here; there is nowhere else for it to go.
   <`docs/architecture.md`, or "not yet">
 - **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
 - **Motif**: <family — variant, recorded in `design-system.md`; or "not chosen yet — run design-motif" (§DESIGN)>
+- **Studio credit**: <yes — the owner's studio, in the footer; no; or "local only — not asked" (§CREDIT)>
 
 ## Status
 
