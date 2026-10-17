@@ -44,6 +44,15 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   file by file; a script for a bulk change is shown to the owner first. Raised by the owner
   after agents — this standard's own maintenance sessions included — routinely wrote files
   through heredocs and inline Python, leaving nothing reviewable.
+- **`checkpoint` — Step 2.5, the project's own documentation.** Every checkpoint brings the
+  README and the project's other documents (`CLAUDE.md`, area files, `components.md`, the
+  architecture map, `data-model.md`, `environment.md`, `.env.example`, spec status lines, a
+  `CHANGELOG.md` if kept) current for what the session changed — updating, not restyling;
+  every command, path and setup step checked against the repo; business-owned copy drafted
+  for approval. It matters most when the checkpoint pushes: `git checkpoint` and `git CPR`
+  publish the README with the code. MAX gains M11, a claim-by-claim check of the README and
+  `CLAUDE.md`. Previously the checkpoint kept only `docs/STATUS.md` current, so projects
+  pushed features under READMEs describing the app before them.
 
 ---
 

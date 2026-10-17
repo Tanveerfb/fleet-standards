@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session and you want documentation, handoff notes, and git all brought current in one pass — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max" (checkpoint then release, multi-branch projects only). Produces one living project doc — a current snapshot over a folded session history — mirrors it to the project's Trello board if CLAUDE.md names one, then handles git. The "git" prefix means commit AND push without asking; "MAX" means an exhaustive, claim-by-claim verified checkpoint. Goal: the next session (possibly a different one, possibly weeks later) can pick up with zero missing knowledge and zero hallucinated assumptions.
+description: Use when wrapping up a work session and you want documentation, handoff notes, and git all brought current in one pass — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max" (checkpoint then release, multi-branch projects only). Produces one living project doc — a current snapshot over a folded session history — brings the project's own docs (README and the rest) current for what changed, mirrors it to the project's Trello board if CLAUDE.md names one, then handles git. The "git" prefix means commit AND push without asking; "MAX" means an exhaustive, claim-by-claim verified checkpoint. Goal: the next session (possibly a different one, possibly weeks later) can pick up with zero missing knowledge and zero hallucinated assumptions.
 ---
 
 # Checkpoint
@@ -68,6 +68,8 @@ A checkpoint has three layers, done in order:
 1. **The deep doc** — the project's living record. It has two zones: a **snapshot** at the top
    (what is true right now, rewritten every checkpoint) opening with a **Start here** block, and a
    **session log** below it (what happened, newest first). One artifact, two jobs.
+   Alongside it, **the project's own documentation** — README and the rest — brought current
+   for what the session changed (Step 2.5).
 2. **The Trello board** (Step 3.5, only if the project's `CLAUDE.md` names one) — mirror the
    snapshot onto it.
 3. **Git** (if applicable) — get the actual history current, or explicitly confirm there's nothing
@@ -179,6 +181,42 @@ add new sections for new ground covered.
 Write it so a reader with *zero* memory of this session — not even the general shape of it —
 comes away able to act correctly. Don't assume they'll re-derive intent from file diffs.
 
+## Step 2.5 — Bring the project's own documentation current
+
+The status doc records the session; the project's documentation describes the project. Both
+must be true when the checkpoint lands. **This matters most when the checkpoint pushes** —
+`git checkpoint` and `git CPR` publish the repo, and its README is the first thing a visitor,
+a collaborator or the next session reads. A pushed feature with a README still describing
+last month's app is a stale document shipped on purpose.
+
+Check every document this session's changes touched, and update what the session made
+untrue or incomplete:
+
+- **`README.md`** — what the project is and does, its features, setup and install steps,
+  commands and scripts, environment variables, deployment, screenshots. A new feature, a new
+  script, a renamed command, a new env var, a changed setup step: each one is a README change.
+- **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
+  `Deploys`, `Trello board` and `Motif` lines, traps found this session.
+- **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
+  and **`.env.example`** — where the session added, moved or removed what they list.
+- **`docs/specs/`** — status lines (Step 3.5 covers the cards).
+- **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
+- Any other document the project keeps that the session's changes made untrue.
+
+Rules:
+
+- **Update what changed; don't rewrite what didn't.** A checkpoint corrects and extends docs —
+  it does not restyle a README the owner wrote.
+- **Every claim checked against the repo.** A command in the README exists in
+  `package.json`; a path exists; a setup step works as written. A README that tells someone
+  to run a script that was renamed is worse than one that says nothing.
+- **Copy the business owns is drafted, not applied** (§OWNER). A product or marketing
+  README, or user-facing text, gets a proposed change shown to the owner; technical sections
+  are updated directly.
+- **No documentation change is a valid outcome** — say so in Step 5 rather than inventing an
+  edit. But on a checkpoint that pushes new features, "no README change" is the claim to
+  double-check, not to assume.
+
 ## Step 3 — Write the `Start here` block
 
 The first thing in the deep doc, above everything else, rewritten every checkpoint. Under 15
@@ -285,6 +323,8 @@ Tell the user, briefly:
 
 - Path to the deep doc (created or updated).
 - Any project skill files edited during Step 1.5, with a one-line reason each.
+- Project documentation updated in Step 2.5 — each file and what changed in it — any owner
+  copy drafted for approval, or "no documentation change needed" and why.
 - Anything folded to the archive this pass, with the archive path — the user should know when
   history moved, and where to.
 - Trello: cards created, moved and ticked, plus any correction where the board disagreed with
@@ -386,7 +426,14 @@ entry is the one failure mode of this whole step, and it fails silently.
 confirm every card the snapshot links exists, sits in the list the snapshot implies, and every
 new card's link was written back into `STATUS.md`.
 
+**M11. Verify the project docs claim by claim.** Every command, script, path, env var and setup
+step in the README and `CLAUDE.md` checked against the repo now — not only the lines this
+session touched. A MAX checkpoint that pushes leaves no stale instruction in the README.
+
 ## Common mistakes
+
+- Pushing a new feature with a README that still describes the app before it. On a
+  `git checkpoint` or `git CPR`, the README ships with the code.
 
 - Searching Trello for a board because the project "probably has one". No `Trello board:`
   line in `CLAUDE.md` means no Trello work.
