@@ -20,12 +20,26 @@ Brings one project up to the fleet standard. The master copies ship inside this 
 - Templates: `${CLAUDE_PLUGIN_ROOT}/templates/`
 - Adoption guide: `${CLAUDE_PLUGIN_ROOT}/adopting-the-standard.md`
 
-Skills need no syncing: `checkpoint`, `relay` and this skill come from the plugin itself and
-update with it.
+Skills come from the plugin and update with it — **except in cloud sessions, which install
+no plugins.** So Step 5 also copies the skills into the project's own `.claude/skills/`, and
+the files they read into `.claude/fleet/`. Those copies are refreshed on every sync.
 
 **This skill never commits.** Git follows §GIT — the owner calls it with `git checkpoint`.
 
 ## Step 0 — Make sure the plugin copy is current
+
+**First: are you running the project's own copy of this skill?** If the paths above read
+`.claude/fleet/` rather than an absolute plugin path, you are (a cloud session, or a machine
+without the plugin). `.claude/fleet/` holds what the last sync copied, **not the master** —
+comparing against it always says "current". Shallow-clone the master instead:
+
+```bash
+git clone --depth 1 https://github.com/Tanveerfb/fleet-standards "<a temporary folder>"
+```
+
+For the rest of this run, read every `.claude/fleet/` path in this skill from that clone's
+`standards/` folder, and run its scripts from there. If the clone fails, say the master is
+unreachable from this session and stop. Then skip to Step 1.
 
 The plugin copy is only as fresh as the last plugin update. Run, in Bash:
 
@@ -94,9 +108,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
 
 ## Step 5 — Wire the project to every agent
 
-**Claude Code.** Check `.claude/settings.json` registers the marketplace and enables the
-plugin, so any session in this project — including a cloud one — loads the skills. Add what is missing,
-merging with whatever the file already holds:
+**Claude Code on the owner's machine.** Check `.claude/settings.json` registers the
+marketplace and enables the plugin, so local sessions load the skills and the startup check.
+Add what is missing, merging with whatever the file already holds:
 
 ```json
 {
@@ -107,6 +121,19 @@ merging with whatever the file already holds:
 }
 ```
 
+**Cloud sessions.** They install no plugins, so copy the skills into the project:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check
+```
+
+`--check` writes nothing and lists what would change. **A copy that changed although the
+master did not was edited in place** — treat it like an edited rules file (Step 1): show the
+diff, offer `propose-standard`, never overwrite it silently. Otherwise run the same command
+without `--check`. It writes every skill but `new-project` to `.claude/skills/` and the files
+they read to `.claude/fleet/`. On the owner's machine each skill then appears twice, as
+`/checkpoint` and `/fleet:checkpoint`; that is expected, and they behave the same.
+
 **Other agents.** Check the project root has `AGENTS.md` (read by Codex, Copilot and Cursor)
 and `GEMINI.md` (Gemini CLI), each holding the pointer from
 `${CLAUDE_PLUGIN_ROOT}/templates/AGENTS.template.md`. `CLAUDE.md` stays the one file with
@@ -116,7 +143,7 @@ inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never 
 ## Step 6 — Report
 
 - Version moved from → to, or "already current".
-- Files changed, with the count of references translated.
+- Files changed, with the count of references translated, and the skill copies written.
 - Anything left for the owner: re-audit offered, exceptions to revisit, values asked for.
 - **Not committed.** It lands at the next checkpoint.
 
@@ -127,3 +154,5 @@ inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never 
   record it, never lose it.
 - Bumping `Audited against` because the rules file was copied. Copying is not auditing.
 - Rewriting `decisions.md` references. Append-only means append-only.
+- Comparing the project against `.claude/fleet/project-rules.md`. That is the project's own
+  copy from the last sync, so it always matches. The master is the plugin or the clone.

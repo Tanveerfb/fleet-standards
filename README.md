@@ -175,8 +175,10 @@ version in its header and get an entry in [`standards/CHANGELOG.md`](standards/C
 
 - **Install or update fails on a private fork.** Claude Code fetches with your machine's git
   credentials and cannot prompt for them. Run `gh auth login`, then `gh auth setup-git`.
-- **Every skill appears twice in Claude Code.** You have old copies in `~/.claude/skills/`
-  from before the plugin. Delete those folders.
+- **Every skill appears twice in Claude Code.** In a synced project that is expected: the
+  project carries copies in `.claude/skills/` for cloud sessions, which install no plugins,
+  so you see `/checkpoint` and `/fleet:checkpoint`. They behave the same. Anywhere else, you
+  have old copies in `~/.claude/skills/` from before the plugin; delete those folders.
 - **Skills don't show up in Copilot's or Cursor's cloud agents.** Skills installed to your
   home folder load only on your machine. Cloud agents don't see them.
 - **The agent ignores the rules (Codex, Copilot, Cursor, Gemini CLI).** Check the project has
@@ -199,6 +201,7 @@ standards/                        the standard — also the `fleet` plugin
                                   ai-setup, sync-standards, propose-standard
   hooks/hooks.json                startup check: offers sync-standards when rules fall behind
   scripts/check-rules-version.mjs the script behind that check
+  scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference

@@ -146,7 +146,10 @@ If the Trello tools are unavailable, say so and continue.
 **Only if the project has a `project-rules.md`.** Compare its `**Version:**` line with the
 master's:
 
-- `${CLAUDE_PLUGIN_ROOT}/project-rules.md` where the `fleet` plugin is installed;
+- `project-rules.md` in `${CLAUDE_PLUGIN_ROOT}`, where the `fleet` plugin is installed. In
+  the project's own copy of this skill that placeholder stays unsubstituted: skip this line.
+  **Never use `.claude/fleet/project-rules.md`** — it is the project's copy from its last
+  sync, so it always matches;
 - otherwise `~/.agents/fleet/project-rules.md` (other agents);
 - otherwise — a cloud session, which does not install plugins — `standards/project-rules.md`
   on `main` of `Tanveerfb/fleet-standards`, through whatever GitHub access the session has.

@@ -69,6 +69,15 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   any error. Claude Code with the plugin only; cloud sessions do not install plugins, so
   relay's check covers them. Raised by the owner: projects only synced when someone
   remembered to ask. No rules change.
+- **Skill copies in each project, for cloud sessions.** Cloud sessions (Claude Code on the
+  web) install no plugins, so none of the fleet skills loaded there. `sync-standards` Step 5
+  and `new-project` now copy every skill but `new-project` into the project's
+  `.claude/skills/`, and the files they read into `.claude/fleet/`, with
+  `scripts/copy-skills-to-project.mjs`; every sync refreshes them, and a copy edited in place
+  is treated like an edited rules file. In a cloud session `sync-standards` clones the master
+  rather than trusting `.claude/fleet/`, which is only the last sync's copy. Locally each
+  skill then appears twice (`/checkpoint`, `/fleet:checkpoint`), with the same behaviour.
+  No rules change.
 
 ---
 
