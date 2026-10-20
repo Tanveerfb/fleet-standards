@@ -149,7 +149,12 @@ kickoff prompt for your agent.
 - Every visual change starts as a mockup you approve, and fits the project's motif
   (`§OWNER`, `§DESIGN`).
 - **"Redesign"** when the look needs an overhaul — `design-motif` runs the motif process again.
-- Now and then, **"sync standards"** to pick up rule changes.
+- Now and then, **"sync standards"** to pick up rule changes. You rarely need to remember:
+  when a new session starts in a project whose rules are behind the plugin's copy, the
+  plugin's startup check has the agent ask whether to sync. Say no, and it stays quiet until
+  a newer version ships. `relay` makes the same check, which covers cloud sessions (they do
+  not install plugins) and other agents. Turn on the marketplace's auto-update, or the
+  plugin's own copy goes stale and the check has nothing new to compare against.
 
 ---
 
@@ -192,6 +197,8 @@ standards/                        the standard — also the `fleet` plugin
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif,
                                   ai-setup, sync-standards, propose-standard
+  hooks/hooks.json                startup check: offers sync-standards when rules fall behind
+  scripts/check-rules-version.mjs the script behind that check
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference

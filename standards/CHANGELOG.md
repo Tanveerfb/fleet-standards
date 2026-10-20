@@ -60,7 +60,15 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   `conventions.md` (the template has the block) instead of a blanket exception worded
   differently in every project. The header's *Applies to* line now says all projects.
   Raised by nca-automations' adoption (2026-10-19). Issue #7.
-- **`relay`** also starts on "let's continue". No rules change.
+- **`relay`** also starts on "let's continue", and gains Step 4.6: it compares the project's
+  rules version with the master and offers `sync-standards` when behind. Read only.
+- **Startup check in the plugin.** A `SessionStart` hook compares the project's
+  `project-rules.md` with the plugin's copy when a session starts. Behind → the agent asks the
+  owner whether to sync; a "no" is remembered per project and the check stays quiet until a
+  newer version ships. Silent when current, when the project is not on the standard, and on
+  any error. Claude Code with the plugin only; cloud sessions do not install plugins, so
+  relay's check covers them. Raised by the owner: projects only synced when someone
+  remembered to ask. No rules change.
 
 ---
 

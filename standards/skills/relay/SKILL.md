@@ -141,6 +141,20 @@ mirror has drifted:
 
 If the Trello tools are unavailable, say so and continue.
 
+## Step 4.6 — Is the project on the latest standard?
+
+**Only if the project has a `project-rules.md`.** Compare its `**Version:**` line with the
+master's:
+
+- `${CLAUDE_PLUGIN_ROOT}/project-rules.md` where the `fleet` plugin is installed;
+- otherwise `~/.agents/fleet/project-rules.md` (other agents);
+- otherwise — a cloud session, which does not install plugins — `standards/project-rules.md`
+  on `main` of `Tanveerfb/fleet-standards`, through whatever GitHub access the session has.
+
+Behind → it goes under *the user's call* in the report, offering `sync-standards`. **Read
+only: relay never syncs.** If the plugin's startup check already raised it this session, do
+not raise it twice. If no master copy can be reached, say so in one line.
+
 ## Step 5 — Report, then STOP
 
 Report, in this order and briefly:
@@ -152,7 +166,8 @@ Report, in this order and briefly:
    and what is actually true, including where the Trello board disagrees with
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
 4. **What is the user's call** — anything flagged as the previous agent's
-   invention, plus any open question the previous session raised.
+   invention, any open question the previous session raised, and a rules copy that is
+   behind the master (Step 4.6).
 
 **Then stop and wait.** Do not start the entry point.
 
