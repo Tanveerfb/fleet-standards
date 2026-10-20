@@ -12,6 +12,11 @@ a working codebase. That is not the job. Section 1 is the job.
 
 **The first session's only deliverable is `conventions.md`, not a diff.**
 
+**If the repository holds no application code**, record the non-application profile
+(`project-rules.md` §SCOPE) at the top of `conventions.md` first. The audit then walks only
+what the profile keeps: Part A, §SECURITY, §NAMING's vocabulary and file names, and §DESIGN
+plus the seen-working rule where there is a visual surface.
+
 Walk `project-rules.md` section by section against the repo and sort every gap into one of
 two states:
 

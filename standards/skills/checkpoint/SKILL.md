@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session and you want documentation, handoff notes, and git all brought current in one pass — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max" (checkpoint then release, multi-branch projects only). Produces one living project doc — a current snapshot over a folded session history — brings the project's own docs (README and the rest) current for what changed, mirrors it to the project's Trello board if CLAUDE.md names one, then handles git. The "git" prefix means commit AND push without asking; "MAX" means an exhaustive, claim-by-claim verified checkpoint. Goal: the next session (possibly a different one, possibly weeks later) can pick up with zero missing knowledge and zero hallucinated assumptions.
+description: Use when wrapping up a work session and you want documentation, handoff notes, and git all brought current in one pass — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max" (checkpoint then release, multi-branch projects only). Produces one living project doc — a current snapshot over a folded session history — brings the project's own docs (README and the rest) current for what changed, mirrors it to the project's Trello board if CLAUDE.md names one, then handles git. The "git" prefix means commit AND push without asking (a multi-branch project's working branch is pushed either way); "MAX" means an exhaustive, claim-by-claim verified checkpoint. Goal: the next session (possibly a different one, possibly weeks later) can pick up with zero missing knowledge and zero hallucinated assumptions.
 ---
 
 # Checkpoint
@@ -33,6 +33,12 @@ worth a sentence; a routine push is not.
 If the repo auto-deploys from the pushed branch, say so in the confirmation — the user should
 never learn from somewhere else that a checkpoint shipped to production.
 
+**On a multi-branch project** (`project-rules.md` §GIT, declared on the *Deploys* line of
+`CLAUDE.md`), the working branch is already authorised: `checkpoint` and `git checkpoint`
+both commit and push it, without asking. The production branch still changes only on
+`git CPR`. If the *Deploys* line does not say single-branch or multi-branch, treat the
+project as single-branch, ask once, and write the answer into that line.
+
 **The `MAX` suffix — depth.**
 
 | Phrase | Depth |
@@ -56,6 +62,11 @@ Applies **only where the project works on a branch that is released to a product
 `CLAUDE.md` defines what "release" means there — follow it exactly, don't improvise one. On a
 single-branch project there is nothing to release: **say so and stop after the checkpoint**,
 rather than inventing a release step.
+
+**Name the release target explicitly** — `git push origin HEAD:main`, a pull request into
+the named branch, or the release command in `CLAUDE.md`. Never compute it from `origin/HEAD`
+or any other ref a shallow or fresh clone may lack: a computed target once created a stray
+remote branch literally named `HEAD`.
 
 Order is fixed: the checkpoint's commit and push land first, then the release ships them.
 If the checkpoint stops for a safety case, the release does not happen. The confirmation says
@@ -313,6 +324,8 @@ Then branch on the invocation mode:
   note in your summary that changes are left uncommitted, and don't push back.
 - **`git checkpoint`:** commit and push. Both are already authorized by the phrasing; asking
   again is the failure mode here, not a courtesy.
+- **Multi-branch project, either phrase:** commit and push the working branch without asking
+  (§GIT). Nothing reaches the production branch except through `git CPR`.
 
 Either way, follow the standard git safety rules: a new commit (don't amend unless asked), no
 `--no-verify`, and review the staged diff for anything resembling a credential before committing.

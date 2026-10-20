@@ -1,7 +1,8 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.5.0
-**Applies to:** All Next.js projects
+**Version:** 3.6.0
+**Applies to:** All projects. Part A applies everywhere. Parts B to E assume a Next.js
+application; a repository without application code follows the profile in §SCOPE.
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
 
@@ -29,6 +30,34 @@ These rules are the default for every project. A project may hold its own
 Neither wins by default — a conflict usually means one of the two is out of
 date, and resolving it is the owner's decision, not an inference. Record the
 outcome in `decisions.md`, and update this file if it should apply everywhere.
+
+**Repositories without application code.** Some repositories hold runbooks, records or
+configuration for a system that lives elsewhere — a Microsoft 365 tenant, a no-code platform,
+infrastructure managed through a console. They follow the **non-application profile**,
+recorded once at the top of `conventions.md` rather than as a per-section exception
+(`templates/conventions.template.md` has the block). Under it, these apply:
+
+- **Part A in full**
+- **§SECURITY** in full
+- **§NAMING**: its vocabulary rules and kebab-case file and folder names. The identifier rows
+  and the filename lint rule apply only to code
+- **§DESIGN**, wherever the work has a visual surface (pages, navigation, forms on the
+  platform): the motif, no invented values, text on colour, sentence case, state never by
+  colour alone
+- **From §TESTING, one rule:** a visual change is done when it has been seen working, at
+  desktop width and on a phone
+
+Nothing else in Parts B to E applies. If application code later lands in the repository, Parts
+B to E apply to that code from that day. Three things read differently here:
+
+- **The production surface is where the work lands, not the repository.** `CLAUDE.md`'s
+  *Deploys* line names it and says whether it has live users. A change there is a production
+  change even though git never ships it; §GIT's branch rules govern only the repository
+- **Mockups (§OWNER) still come first** for visual and layout changes on that surface. With no
+  dev server, drafts live in a gitignored `_mockups/` at the root and open as files; locked
+  ones move to `docs/design/` as usual
+- **`CLAUDE.md`** says under *Commands* that none exist, and its *Technology* table describes
+  the platform rather than a framework
 
 **Keeping in step with the master.** The `fleet` plugin (marketplace `tanveerfb`, from
 `Tanveerfb/fleet-standards`) carries this file, its templates and the fleet skills. Its
@@ -129,18 +158,30 @@ issues is the churn, status is the current position.
 
 ## §GIT — Git, commits and the checkpoint
 
-**Git is invoked by the owner. An agent never commits or pushes on its own initiative** —
-not `add`, not `commit`, not `push`, not a "quick tidy-up commit" at the end of a task. A
-dirty working tree at the end of a piece of work is the correct state, not an untidy one.
+**Git reaches production only when the owner says so.** What an agent may do on its own
+depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` declares:
 
-**There is one trigger, and it is a phrase:**
+- **Single-branch project** — work happens on `main`/`master`, so a push is the release. **An
+  agent never commits or pushes on its own initiative** — not `add`, not `commit`, not
+  `push`, not a "quick tidy-up commit" at the end of a task. A dirty working tree at the end
+  of a piece of work is the correct state, not an untidy one
+- **Multi-branch project** — work happens on a working branch that is released to a
+  production branch. **The agent commits and pushes the working branch on its own**, batched
+  at the end of a piece of work and before a session ends, never one commit per reply. **The
+  production branch changes only on `git CPR`**
+- **Not declared** — treat the project as single-branch, ask the owner once which it is, and
+  write the answer into the *Deploys* line. Never infer it from the branches that exist: this
+  line decides whether an agent may push
 
-| The owner says | The agent does |
-| --- | --- |
-| *anything else* | No git at all. Leave the tree as it is. |
-| `checkpoint` | Documentation pass, then **ask** about commit and push, separately. |
-| **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. |
-| **`git checkpoint max`** | The same, exhaustively verified claim by claim. |
+**The triggers are phrases:**
+
+| The owner says | Single-branch | Multi-branch |
+| --- | --- | --- |
+| *anything else* | No git at all. Leave the tree as it is. | The working branch as above. Production: nothing. |
+| `checkpoint` | Documentation pass, then **ask** about commit and push, separately. | Documentation pass, then commit and push the working branch. |
+| **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. | The same as `checkpoint`. |
+| **`git checkpoint max`** | The same, exhaustively verified claim by claim. | The same, exhaustively verified. |
+| **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. |
 
 The `checkpoint` skill and `relay`, its inverse, ship in the `fleet` plugin (§SCOPE) and
 appear as `fleet:checkpoint` and `fleet:relay`. **If they do not appear in a session's
@@ -148,11 +189,10 @@ surfaced skills list, look for them rather than improvising a commit process**, 
 worse version of a protocol that already exists.
 
 **Cloud sessions.** A cloud session (Claude Code on the web, a GitHub Action) is assigned a
-branch by its harness and told to commit and push there — the container is discarded, and
-unpushed work is lost. There the harness's branch instruction **is** the authorisation, on
-that branch only. Everything else in this section still applies: batch the work, never push
-to `main`/`master` or any branch the harness did not name, never force-push, and never open
-a pull request unless the owner asks.
+branch by its harness — the container is discarded, and unpushed work is lost. **That branch
+is a working branch**, whatever the project's *Deploys* line says: the session commits and
+pushes it on its own, as above, and never pushes to `main`/`master` or any branch the harness
+did not name. Never open a pull request unless the owner asks.
 
 **Where work happens depends on whether the project is live.** The project's `CLAUDE.md`
 says which applies (its *Deploys* line):
@@ -161,6 +201,9 @@ says which applies (its *Deploys* line):
   production branch when the update is complete. Every branch gets a preview deploy — check
   the update there before merging
 - **A project with no live users** may work on its main branch
+- **A live project is therefore multi-branch**, and its update branches are working branches.
+  A branch that deploys straight to production is never a working branch, whatever it is
+  called — an automatic push to it would be an unannounced release
 - **Keep update branches short-lived.** A branch that runs for weeks drifts from main and ends
   in a merge-conflict session. Merge within days, or bring main into the branch regularly;
   split a large update into several branches that each merge on their own. For the largest
@@ -168,11 +211,13 @@ says which applies (its *Deploys* line):
   site (Firebase Remote Config, or the platform's flags)
 
 **Batch. Do not commit per change.** A session's work lands as one considered set of commits
-at a checkpoint. A long string of small commits is not tidiness — it is the thing this rule
-exists to prevent, and it makes a session's history harder to read rather than easier.
+— at a checkpoint, or on a working branch at the end of a piece of work. A long string of
+small commits is not tidiness — it is the thing this rule exists to prevent, and it makes a
+session's history harder to read rather than easier.
 
-**An approval does not generalise.** "Yes, commit that" authorises the commit in front of you
-and nothing after it. The next one needs its own trigger. The same applies to a push: one
+**An approval does not generalise.** Wherever a commit or push needs a trigger — on a
+single-branch project, and for every release to production — "Yes, commit that" authorises
+the commit in front of you and nothing after it. The next one needs its own trigger. The same applies to a push: one
 push approved is not pushing approved.
 
 **Where the branch auto-deploys, a push is a production release.** Say so in the
@@ -183,8 +228,8 @@ confirmation. The owner should never learn from somewhere else that a checkpoint
 
 **The safety exceptions still stand**, and they are worth a sentence rather than silence: a
 secret in the staged diff, a dirty tree containing work that is not yours, a detached HEAD,
-or a push that would need a force. Stop for those even mid-checkpoint. A routine push needs
-no such sentence.
+or a push that would need a force. Stop for those even mid-checkpoint, and before any
+working-branch push made on the agent's own. A routine push needs no such sentence.
 
 **Every commit must build standalone** (§BUILD). When splitting a session's work, check
 file-level imports at each boundary — a green typecheck on the final tree proves nothing

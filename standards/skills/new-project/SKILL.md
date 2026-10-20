@@ -94,6 +94,9 @@ Then, before anything else:
 
 - **`.claude/settings.json`** — register the `tanveerfb` marketplace and enable
   `fleet@tanveerfb` (the exact block is in `sync-standards`, Step 5).
+- **Skill copies for cloud sessions**, which install no plugins — run
+  `node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"` once
+  `project-rules.md` is in place (`sync-standards`, Step 5, explains the copies).
 - **`AGENTS.md` and `GEMINI.md`** — the pointer from `templates/AGENTS.template.md`; in an
   existing `AGENTS.md`, above any generated block, never inside it.
 

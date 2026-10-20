@@ -33,6 +33,54 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.6.0 — 2026-10-20
+
+- **§GIT — working branches commit and push on their own; production only on `git CPR`.**
+  The *Deploys* line in a project's `CLAUDE.md` now declares **single-branch** or
+  **multi-branch**. On a multi-branch project the agent commits and pushes the working
+  branch itself, batched at the end of a piece of work and before a session ends; the
+  production branch changes only on `git CPR`. Single-branch projects are unchanged: every
+  commit and push needs a trigger, because there the push is the release. An undeclared
+  project is treated as single-branch, and the agent asks once and records the answer —
+  never infers it from the branches that exist. A live project is multi-branch, and a branch
+  that deploys straight to production never counts as a working branch. The cloud-session
+  paragraph is folded in: a harness branch is a working branch. The owner ruled this in two
+  projects (toll-kits, element-clash-toll, 2026-10-17), believing the standard already said
+  it; work had been sitting uncommitted between checkpoints in web sessions, where the
+  container can vanish. Issue #6.
+- **`checkpoint` — name the release target explicitly.** `git push origin HEAD:main` or the
+  release in `CLAUDE.md`, never a target computed from `origin/HEAD`, which a fresh clone may
+  lack: a computed target once created a remote branch literally named `HEAD`. Issue #6.
+- **§SCOPE — the non-application profile.** For repositories that hold runbooks, records or
+  configuration for a system elsewhere (a Microsoft 365 tenant, a no-code platform). Part A
+  applies in full, with §SECURITY, §NAMING's vocabulary and file names, §DESIGN wherever
+  there is a visual surface, and §TESTING's seen-working rule; nothing else in Parts B to E.
+  The production surface is named on the *Deploys* line even though git never ships it;
+  mockups still come first, from a root `_mockups/`. Recorded once at the top of
+  `conventions.md` (the template has the block) instead of a blanket exception worded
+  differently in every project. The header's *Applies to* line now says all projects.
+  Raised by nca-automations' adoption (2026-10-19). Issue #7.
+- **`relay`** also starts on "let's continue", and gains Step 4.6: it compares the project's
+  rules version with the master and offers `sync-standards` when behind. Read only.
+- **Startup check in the plugin.** A `SessionStart` hook compares the project's
+  `project-rules.md` with the plugin's copy when a session starts. Behind → the agent asks the
+  owner whether to sync; a "no" is remembered per project and the check stays quiet until a
+  newer version ships. Silent when current, when the project is not on the standard, and on
+  any error. Claude Code with the plugin only; cloud sessions do not install plugins, so
+  relay's check covers them. Raised by the owner: projects only synced when someone
+  remembered to ask. No rules change.
+- **Skill copies in each project, for cloud sessions.** Cloud sessions (Claude Code on the
+  web) install no plugins, so none of the fleet skills loaded there. `sync-standards` Step 5
+  and `new-project` now copy every skill but `new-project` into the project's
+  `.claude/skills/`, and the files they read into `.claude/fleet/`, with
+  `scripts/copy-skills-to-project.mjs`; every sync refreshes them, and a copy edited in place
+  is treated like an edited rules file. In a cloud session `sync-standards` clones the master
+  rather than trusting `.claude/fleet/`, which is only the last sync's copy. Locally each
+  skill then appears twice (`/checkpoint`, `/fleet:checkpoint`), with the same behaviour.
+  No rules change.
+
+---
+
 ## 3.5.0 — 2026-10-17
 
 - **§AGENTS — files change through the editor tools, never the shell.** Edit for changes,

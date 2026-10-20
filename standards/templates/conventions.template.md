@@ -18,6 +18,20 @@ settled; anything not listed here follows the fleet rules.
 
 ---
 
+<!-- Only for a repository without application code (`project-rules.md` §SCOPE). Delete this
+     block otherwise. It replaces a per-section exception for Parts B to E. -->
+
+## Profile — non-application repository. **Recorded <DATE>.**
+
+This repository holds <runbooks, records, exported configuration> for <the system it
+describes>, and no application code. Per §SCOPE, Part A, §SECURITY, §NAMING (vocabulary and
+file names), §DESIGN for <the visual surface, or "no visual surface"> and the seen-working
+rule from §TESTING apply; nothing else in Parts B to E does. The production surface is
+<where the work lands>, with <live users / no live users>. If application code lands here,
+Parts B to E apply to it from that day and this block is revisited.
+
+---
+
 ## Divergences from `project-rules.md` — granted
 
 *Each was raised, decided by the owner, and dated. Reasons live in

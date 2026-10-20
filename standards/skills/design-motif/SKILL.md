@@ -136,5 +136,5 @@ Offer, without starting any of it unasked:
   counts as done** — the generic test in §SHADCN applies. Built afterwards on shadcn's
   behaviour primitives, keyboard and focus intact.
 
-No git (§GIT). Report: the motif and variant, where it is recorded, the locked mockup's
+No git step of its own; git follows §GIT. Report: the motif and variant, where it is recorded, the locked mockup's
 path, and what is offered next.

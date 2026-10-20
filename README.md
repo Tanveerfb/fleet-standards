@@ -32,8 +32,8 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Skill | Say | What happens |
 | --- | --- | --- |
-| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git.** |
-| `relay` | "relay", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
+| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git** — except on a multi-branch project, where the working branch commits on its own and production changes only on "git CPR". |
+| `relay` | "relay", "let's continue", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
 | `new-project` | "new project" | Sets up a new Next.js project on the standard — scaffold, rules, templates, agent wiring — then sets the design first and walks the checklist. Never commits. |
 | `design-motif` | "set the design", "redesign" | Chooses (or records) the project's motif: browse, decide for me, surprise me, or bring your own; mockups until you lock it; then records it |
 | `ai-setup` | "set up AI", "add an AI feature" | Adds AI to a new or existing project: checks what's there, lets you choose Firebase AI Logic, the Vercel AI SDK or both, scaffolds the adapter, protects every model call, optionally wires local models (Ollama, LM Studio), and builds the first feature |
@@ -149,7 +149,12 @@ kickoff prompt for your agent.
 - Every visual change starts as a mockup you approve, and fits the project's motif
   (`§OWNER`, `§DESIGN`).
 - **"Redesign"** when the look needs an overhaul — `design-motif` runs the motif process again.
-- Now and then, **"sync standards"** to pick up rule changes.
+- Now and then, **"sync standards"** to pick up rule changes. You rarely need to remember:
+  when a new session starts in a project whose rules are behind the plugin's copy, the
+  plugin's startup check has the agent ask whether to sync. Say no, and it stays quiet until
+  a newer version ships. `relay` makes the same check, which covers cloud sessions (they do
+  not install plugins) and other agents. Turn on the marketplace's auto-update, or the
+  plugin's own copy goes stale and the check has nothing new to compare against.
 
 ---
 
@@ -170,8 +175,10 @@ version in its header and get an entry in [`standards/CHANGELOG.md`](standards/C
 
 - **Install or update fails on a private fork.** Claude Code fetches with your machine's git
   credentials and cannot prompt for them. Run `gh auth login`, then `gh auth setup-git`.
-- **Every skill appears twice in Claude Code.** You have old copies in `~/.claude/skills/`
-  from before the plugin. Delete those folders.
+- **Every skill appears twice in Claude Code.** In a synced project that is expected: the
+  project carries copies in `.claude/skills/` for cloud sessions, which install no plugins,
+  so you see `/checkpoint` and `/fleet:checkpoint`. They behave the same. Anywhere else, you
+  have old copies in `~/.claude/skills/` from before the plugin; delete those folders.
 - **Skills don't show up in Copilot's or Cursor's cloud agents.** Skills installed to your
   home folder load only on your machine. Cloud agents don't see them.
 - **The agent ignores the rules (Codex, Copilot, Cursor, Gemini CLI).** Check the project has
@@ -192,6 +199,9 @@ standards/                        the standard — also the `fleet` plugin
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif,
                                   ai-setup, sync-standards, propose-standard
+  hooks/hooks.json                startup check: offers sync-standards when rules fall behind
+  scripts/check-rules-version.mjs the script behind that check
+  scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference
@@ -206,7 +216,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.5.0** (2026-10-17). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.6.0** (2026-10-20). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

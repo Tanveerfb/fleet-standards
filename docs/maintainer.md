@@ -25,6 +25,18 @@ versions of the same rules file at once.
   `standards/.claude-plugin/plugin.json`), and — if the skill reads a new file from the
   standard — that file in the `reference` list in `install-skills.mjs`. Keep the description
   under 1,024 characters; Codex skips longer ones.
+- **The startup check** — `standards/hooks/hooks.json` runs
+  `standards/scripts/check-rules-version.mjs` when a session starts. It prints only when the
+  project's rules are behind the plugin's copy and the owner has not declined that version;
+  declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by project path. It
+  must stay silent on every error and never block a session. Test it by pointing
+  `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` at a scratch folder.
+  Claude Code only: cloud sessions and other agents rely on `relay` Step 4.6 instead.
+- **Skill copies** — `standards/scripts/copy-skills-to-project.mjs` copies the skills into a
+  project for cloud sessions, rewriting `${CLAUDE_PLUGIN_ROOT}/` to `.claude/fleet/`. Keep
+  every reference to a standard file in a skill in that `${CLAUDE_PLUGIN_ROOT}/<file>` form
+  so the rewrite catches it. A bare `${CLAUDE_PLUGIN_ROOT}` with no slash is left alone; the
+  skills use it to tell a plugin session from a project copy.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 
