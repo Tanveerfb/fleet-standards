@@ -19,8 +19,11 @@ goes here; there is nowhere else for it to go.
 - **Name**: <name>
 - **Type**: <what it is, who it serves>
 - **Repo**: `<owner/repo>`, branch `<main|master>`
-- **Deploys**: <where, from which branch, and whether that branch auto-deploys. Live domain or
-  real users → work on an update branch and merge when complete (§GIT)>
+- **Deploys**: <**single-branch** or **multi-branch** (§GIT), then where, from which branch,
+  and whether that branch auto-deploys. Live domain or real users → multi-branch: work on an
+  update branch, release on `git CPR`. Multi-branch also names the release, e.g. "squash PR
+  into `main`". No application code → name the production surface (the tenant, the
+  platform) and whether it has live users (§SCOPE)>
 - **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
   <`docs/architecture.md`, or "not yet">
 - **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
@@ -51,8 +54,10 @@ Two documents sit above this one:
 ## Working agreement
 
 Everything in `project-rules.md` applies and is **not repeated here** — two copies of a rule
-drift. The owner's standing agreement is **§OWNER**; git is **§GIT** (`git checkpoint` =
-commit and push, anything else = no git). Add below only what is specific to this project.
+drift. The owner's standing agreement is **§OWNER**; git is **§GIT**, which depends on the
+*Deploys* line above (single-branch: `git checkpoint` = commit and push, anything else = no
+git; multi-branch: the working branch commits on its own, production only on `git CPR`). Add
+below only what is specific to this project.
 
 - <project-specific agreement, or delete this list>
 
@@ -67,7 +72,9 @@ npm run build          # production build — verify after changes
 ```
 
 <!-- State plainly which scripts DO NOT exist. A session that assumes a test or lint script
-     will invent one. -->
+     will invent one. In a repository without application code (§SCOPE), replace this
+     section with one line saying no commands exist, and make the Technology table below
+     describe the platform (tenant, services, licences) instead of a framework. -->
 
 **Do not use `npm run lint` to validate builds — use `npm run build`.**
 

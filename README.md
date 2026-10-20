@@ -32,8 +32,8 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Skill | Say | What happens |
 | --- | --- | --- |
-| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git.** |
-| `relay` | "relay", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
+| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git** — except on a multi-branch project, where the working branch commits on its own and production changes only on "git CPR". |
+| `relay` | "relay", "let's continue", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
 | `new-project` | "new project" | Sets up a new Next.js project on the standard — scaffold, rules, templates, agent wiring — then sets the design first and walks the checklist. Never commits. |
 | `design-motif` | "set the design", "redesign" | Chooses (or records) the project's motif: browse, decide for me, surprise me, or bring your own; mockups until you lock it; then records it |
 | `ai-setup` | "set up AI", "add an AI feature" | Adds AI to a new or existing project: checks what's there, lets you choose Firebase AI Logic, the Vercel AI SDK or both, scaffolds the adapter, protects every model call, optionally wires local models (Ollama, LM Studio), and builds the first feature |
@@ -206,7 +206,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.5.0** (2026-10-17). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.6.0** (2026-10-20). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

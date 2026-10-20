@@ -132,4 +132,5 @@ Build one feature from the brief end to end, through the adapter:
   is verified only against the mock or a local model.
 
 Report what was set up, what the owner still has to do (console steps, keys), and what is
-verified versus assumed. **No git** — it lands at the owner's checkpoint (§GIT).
+verified versus assumed. **No git step of its own** — git follows §GIT: the owner's
+checkpoint, or on a multi-branch project the working branch's own commit.
