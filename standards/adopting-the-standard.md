@@ -206,7 +206,11 @@ and slow.
 5. Write `conventions.md` — including the file naming convention the repo already uses, as an
    exception rather than a rename (§NAMING). **Change no code.**
 6. Put the exceptions to the owner. Decisions and dates into `decisions.md`.
-7. Write `CLAUDE.md`, every claim carrying its verification date.
+7. Write `CLAUDE.md`, every claim carrying its verification date. A profile project
+   references the rules instead of importing them (§SCOPE; the template shows how).
+   Install the credential hook: `templates/pre-commit` to `.githooks/pre-commit`, then
+   `git config core.hooksPath .githooks` (§SECURITY). Before relying on it, stage the
+   adoption's own documents and run the hook once — they quote its trigger words.
 8. Write `docs/STATUS.md` with a `Start here` block.
 9. Record the project's motif with `design-motif` — it describes the existing look and records
    it; nothing is redesigned.

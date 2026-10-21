@@ -90,8 +90,13 @@ watch — and get it confirmed.
 
 ## Step 5 — Mockup loop
 
-Build a static HTML mockup in the gitignored `public/_mockups/` (§OWNER), rendering desktop
-and a 390px phone from the same markup. It shows:
+**Fixed-size media projects** (thumbnails, video, social posts, print — `project-rules.md`
+§SCOPE): the rendered draft is the mockup. Render the motif onto the project's real formats
+instead of an HTML page, and check each at real size and at the size it is really seen at.
+The rest of this step — show, revise, repeat until locked — is unchanged.
+
+Otherwise, build a static HTML mockup in the gitignored `public/_mockups/` (§OWNER), rendering
+desktop and a 390px phone from the same markup. It shows:
 
 - the motif in its **signature places** — hero, an empty state, the moment the product
   exists for;

@@ -48,7 +48,9 @@ world, and custom ones. Browse them, have the agent recommend one from your site
 audience, or let it surprise you. The `design-motif` skill runs the whole process.
 
 **Templates** — [`standards/templates/`](standards/templates): `CLAUDE.md`, `AGENTS.md`,
-`conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project.
+`conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project, and
+`pre-commit`, a tested hook that refuses commits containing anything shaped like a
+credential.
 
 ---
 
@@ -216,7 +218,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.6.0** (2026-10-20). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.7.0** (2026-10-21). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

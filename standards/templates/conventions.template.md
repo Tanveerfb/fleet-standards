@@ -27,8 +27,10 @@ This repository holds <runbooks, records, exported configuration> for <the syste
 describes>, and no application code. Per §SCOPE, Part A, §SECURITY, §NAMING (vocabulary and
 file names), §DESIGN for <the visual surface, or "no visual surface"> and the seen-working
 rule from §TESTING apply; nothing else in Parts B to E does. The production surface is
-<where the work lands>, with <live users / no live users>. If application code lands here,
-Parts B to E apply to it from that day and this block is revisited.
+<where the work lands>, with <live users / no live users>. `CLAUDE.md` references the rules
+rather than importing them. <If the visual surface is fixed-size media — thumbnails, video,
+social posts, print — say so: rendered drafts are the mockups, per §SCOPE.> If application
+code lands here, Parts B to E apply to it from that day and this block is revisited.
 
 ---
 

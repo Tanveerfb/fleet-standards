@@ -13,14 +13,23 @@ goes here; there is nowhere else for it to go.
 
 @project-rules.md
 <!-- If a tool generates AGENTS.md, add `@AGENTS.md` above this line and say so here. -->
+<!-- Non-application profile (project-rules.md §SCOPE): delete the @project-rules.md line and
+     use this instead, so the Next.js parts are not loaded every session:
+
+     **Rules: `project-rules.md`, referenced, not imported** (non-application profile). The
+     sections that apply here are Part A (§SCOPE to §TOOLS), §SECURITY, §NAMING's vocabulary
+     and file names, and §DESIGN with §TESTING's seen-working rule <or: "no visual surface">.
+     **Read the section before git, documentation, security or design work** — never act
+     on memory of it. -->
 
 ## Project identity
 
 - **Name**: <name>
 - **Type**: <what it is, who it serves>
 - **Repo**: `<owner/repo>`, branch `<main|master>`
-- **Deploys**: <**single-branch** or **multi-branch** (§GIT), then where, from which branch,
-  and whether that branch auto-deploys. Live domain or real users → multi-branch: work on an
+- **Deploys**: <**single-branch**, **multi-branch** or **local only** (§GIT), then where,
+  from which branch, and whether that branch auto-deploys. Local only: no remote by decision,
+  and where the work lands, if anywhere. Live domain or real users → multi-branch: work on an
   update branch, release on `git CPR`. Multi-branch also names the release, e.g. "squash PR
   into `main`". No application code → name the production surface (the tenant, the
   platform) and whether it has live users (§SCOPE)>

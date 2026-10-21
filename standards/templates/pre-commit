@@ -1,0 +1,29 @@
+#!/bin/sh
+# Fleet standard, project-rules.md §SECURITY: refuse a commit whose staged additions look like
+# a credential. Copied to .githooks/pre-commit; each clone runs, once:
+#   git config core.hooksPath .githooks
+#
+# It matches the SHAPE of a secret (a key with a long value, a PEM private-key header, a known
+# token prefix), never a bare word: the standard's own docs say "private_key" and would block
+# themselves. Test any change against the repo's documentation as well as against fake keys —
+# every doc that explains this hook contains its trigger words. Never write a real PEM header
+# out in a document; describe it in words.
+#
+# False positive? Narrow the pattern here, and send the fix back with propose-standard.
+
+q="[\"' ]*"
+pattern="\"private_key\" *: *\"[^\"]{20,}"
+pattern="$pattern|-----BEGIN [A-Z ]*PRIVATE KEY"
+pattern="$pattern|stream[_ ]?key${q}[:=] *[\"']?[A-Za-z0-9_-]{12,}"
+pattern="$pattern|api[_-]?key${q}[:=] *[\"']?[A-Za-z0-9_-]{16,}"
+pattern="$pattern|sk-[A-Za-z0-9_-]{20,}"
+pattern="$pattern|AIza[0-9A-Za-z_-]{35}"
+
+hits=$(git diff --cached -U0 --no-color | grep '^+' | grep -v '^+++' | grep -E -i -- "$pattern")
+if [ -n "$hits" ]; then
+  echo "pre-commit: staged text looks like a credential (project-rules.md §SECURITY):" >&2
+  echo "$hits" | cut -c1-120 >&2
+  echo "Remove it from the commit, and rotate the key if it was real." >&2
+  exit 1
+fi
+exit 0

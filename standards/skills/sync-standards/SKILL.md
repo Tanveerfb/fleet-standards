@@ -121,7 +121,9 @@ Add what is missing, merging with whatever the file already holds:
 }
 ```
 
-**Cloud sessions.** They install no plugins, so copy the skills into the project:
+**Cloud sessions.** They install no plugins, so copy the skills into the project. **Skip this
+if `CLAUDE.md`'s *Deploys* line says local only** — with no remote, no cloud session can
+open the repository, and the copies would be dead weight:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check
@@ -139,6 +141,24 @@ and `GEMINI.md` (Gemini CLI), each holding the pointer from
 `${CLAUDE_PLUGIN_ROOT}/templates/AGENTS.template.md`. `CLAUDE.md` stays the one file with
 content; these only point at it. If a tool already generated an `AGENTS.md` (Next.js does,
 inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never edit inside it.
+
+**The credential hook (§SECURITY).** If `.githooks/pre-commit` is missing, or differs from
+`${CLAUDE_PLUGIN_ROOT}/templates/pre-commit`, show the difference and ask before copying —
+a project may have narrowed the pattern on purpose, which is a `propose-standard` candidate
+rather than something to overwrite. Copy with `cp` (never retype it), then:
+
+```bash
+git add --chmod=+x .githooks/pre-commit
+git config core.hooksPath .githooks
+```
+
+If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky and add
+`.githooks/pre-commit || exit 1` to `.husky/pre-commit` instead.
+
+**Profile projects (§SCOPE).** If `conventions.md` records the non-application profile and
+`CLAUDE.md` still has the `@project-rules.md` import line, offer to swap it for the reference
+variant in `${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.template.md`. On a yes, retire any
+per-project exception that granted the same thing.
 
 ## Step 6 — Report
 

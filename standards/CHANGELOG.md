@@ -33,6 +33,45 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.7.0 — 2026-10-21
+
+- **`checkpoint` Step 1.5 — improve the project's skills, and propose new ones.** The step
+  used to edit project skills in place without asking, and never proposed new ones. Now both
+  are proposals put to the owner in one multi-select question. A new skill is proposed only
+  when a multi-step procedure was done twice or had to be rediscovered, at most one per
+  checkpoint; it is project-scoped by default, sent to the standard through
+  `propose-standard` when every project would use it, and user-scoped only for a personal
+  habit. An approved skill is written in the same checkpoint; a declined one gets a line in
+  `decisions.md` so it is not raised again. The fleet's own skill copies (3.6.0) are never
+  edited here — the next sync would overwrite them — and improvements to them go back through
+  `propose-standard`. Raised by the owner, mainly for projects without application code,
+  where most work is procedure. No rules change.
+- **§GIT — "local only".** A third *Deploys* value for a repository with no remote by
+  decision: commits as single-branch, no push, nothing to release, never a remote added
+  unasked. `sync-standards` skips the cloud skill copies, and `relay` treats a missing
+  upstream as the design. Raised by DukeSenior Gaming's adoption. Issue #11.
+- **§SECURITY — a tested credential hook.** The rule said to block anything containing the
+  word `private_key`, which this file contains, so a literal hook blocked committing the
+  standard. `templates/pre-commit` matches the shape of a secret instead — a key field with a
+  value of 20 or more characters, a PEM private-key header, stream and API key assignments,
+  `sk-` and `AIza` prefixes. It is committed to the project as `.githooks/pre-commit` and
+  enabled with `core.hooksPath`, so it travels with the repository; `new-project` and
+  `sync-standards` install it and `relay` checks it is live. Tested against this repository's
+  and the plans repository's full documentation, and eight fake keys, under `sh` and `bash`.
+  Includes the correction from the issue's comment: the key-field pattern first blocked a
+  `decisions.md` that described the hook. Issue #12.
+- **§SCOPE profile — the rules file is referenced, not imported.** Parts B to E are about
+  70% of this 64 KB file and do not apply to a profile project, so its `CLAUDE.md` names the
+  sections that do and reads them before git, documentation, security or design work. The
+  template shows the variant; `sync-standards` offers the swap. Issue #10.
+- **§SCOPE profile — fixed-size media.** For thumbnails, video, overlays, social posts and
+  print, the rendered draft is the mockup. Seen working means the rendered file at real size
+  and at the size it is really seen at; for video, frames at the start, end and each scene
+  change plus measured duration, resolution and audio levels, with playback left to the
+  owner. `design-motif` Step 5 follows it. Issue #9.
+
+---
+
 ## 3.6.0 — 2026-10-20
 
 - **§GIT — working branches commit and push on their own; production only on `git CPR`.**
