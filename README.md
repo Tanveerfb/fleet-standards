@@ -207,7 +207,11 @@ standards/                        the standard — also the `fleet` plugin
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
   claude-skills.md                the maintainer's other plugins, for reference
+  evals/                          behaviour evals for the skills (run by hand; they cost usage)
 docs/maintainer.md                notes for maintaining this repo
+docs/STATUS.md, decisions.md      where the standard's own work is, and why it chose what it did
+tests/run.mjs                     repository checks; CI runs them on every push
+.github/workflows/checks.yml      the CI
 LICENSE                           MIT
 ```
 

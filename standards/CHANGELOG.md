@@ -69,6 +69,14 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
   and at the size it is really seen at; for video, frames at the start, end and each scene
   change plus measured duration, resolution and audio levels, with playback left to the
   owner. `design-motif` Step 5 follows it. Issue #9.
+- **Checks for the standard itself.** `tests/run.mjs` turns this release's manual checks into
+  permanent ones, and CI runs it with the plugin validator on every push and pull request.
+  Skill descriptions get an 800-character budget: `checkpoint`'s was at 1,007, one phrase
+  from Codex's 1,024 limit, where it would have been skipped silently — it is trimmed to
+  about 560. `standards/evals/` adds six behaviour evals, run by hand because they cost model
+  usage; all pass. The repository now keeps `docs/STATUS.md` and `decisions.md` and runs its
+  own credential hook. Raised by the agent when the owner asked for suggestions. No rules
+  change.
 
 ---
 

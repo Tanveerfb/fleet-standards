@@ -3,3 +3,4 @@ Thumbs.db
 .env*
 .secrets/
 node_modules/
+standards/evals/results/
