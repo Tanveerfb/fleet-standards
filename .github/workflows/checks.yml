@@ -1,0 +1,31 @@
+name: checks
+
+# Every push and pull request: the plugin validates, and tests/run.mjs passes (manifests,
+# skill descriptions, version agreement, links, the credential hook, both scripts).
+# Behaviour evals are not run here — they cost model usage; see standards/evals/README.md.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Repository checks
+        run: node tests/run.mjs
+
+      - name: Plugin validates
+        # Pinned so a CLI release cannot turn CI red overnight. Bump it on purpose.
+        run: |
+          npm install -g @anthropic-ai/claude-code@2.1.306
+          claude plugin validate .

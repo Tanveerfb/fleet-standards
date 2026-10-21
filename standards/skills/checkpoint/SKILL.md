@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session and you want documentation, handoff notes, and git all brought current in one pass — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max" (checkpoint then release, multi-branch projects only). Produces one living project doc — a current snapshot over a folded session history — brings the project's own docs (README and the rest) current for what changed, mirrors it to the project's Trello board if CLAUDE.md names one, then handles git. The "git" prefix means commit AND push without asking (a multi-branch project's working branch is pushed either way); "MAX" means an exhaustive, claim-by-claim verified checkpoint. Goal: the next session (possibly a different one, possibly weeks later) can pick up with zero missing knowledge and zero hallucinated assumptions.
+description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects only). Goal: the next session picks up with nothing missing and nothing assumed.
 ---
 
 # Checkpoint
@@ -111,19 +111,32 @@ Before writing anything, reconstruct the session's real shape from your own cont
 - Any non-obvious gotcha, constraint, or user preference surfaced this session that isn't already
   written down somewhere durable (CLAUDE.md, existing docs).
 
-## Step 1.5 — Self-improve any project skills used this session
+## Step 1.5 — Improve the project's skills, and propose new ones
+
+Two halves: improve the project skills this session used, and look for a workflow that
+deserves a skill of its own. **Both are proposals — the owner decides.** This matters most
+in projects without application code (`project-rules.md` §SCOPE), where most of the work is
+procedure — publishing, record-keeping, tenant changes — and a skill is how a procedure stops
+being rediscovered.
+
+**Never edit the fleet's own skills here.** In a synced project, `.claude/skills/` also holds
+copies of the fleet skills (`checkpoint`, `relay`, `sync-standards`, `design-motif`,
+`ai-setup`, `propose-standard`; `.claude/fleet/README.md` marks a synced project). The next
+sync overwrites them and flags any edit as tampering. An improvement to one of those goes back
+to the master through `propose-standard`, and is offered as that.
+
+### 1.5a — Improve the project skills used this session
 
 Check whether this project has `.claude/skills/` (project-scoped, distinct from this global
-`checkpoint` skill itself). If it does, and any of those skills were actually read/followed this
-session, don't just document what happened at the CLAUDE.md/doc layer — go back into the skill
-files themselves and fix them:
+`checkpoint` skill itself). If it does, and any of its own skills were actually read or
+followed this session, look for what the session taught that the skill does not yet say:
 
 - **A documented warning got hit anyway.** If a skill already said "don't do X" and X got done
   anyway this session (buried mid-paragraph, easy to skim past, wrong section), that's a skill
   authoring bug, not just a one-off mistake. Move the warning earlier, bold it, restructure so the
   next reader can't miss it.
 - **A step turned out unreliable, slower, or wrong** in a way the skill didn't warn about —
-  correct it in place rather than letting the session's fix live only in chat/git history.
+  the correction belongs in the skill, not only in chat or git history.
 - **Something worked well or faster than the documented path** — a selector that held up, a
   shortcut that skipped a round trip, a verification method proven trustworthy. Add it. Skills
   that only accumulate warnings and never bank wins get conservative and slow over time; this
@@ -131,12 +144,43 @@ files themselves and fix them:
 
 This is the whole point of splitting workflows into project skills in the first place: stop
 paying the same token cost twice for a mistake or a lesson already learned once. A skill nobody
-edits after the session that proved it wrong or wasteful isn't doing that job. Fold these edits
-into the same commit as everything else in Step 4 rather than deferring to a separate pass —
-the session is still fresh in context now, it won't be next time.
+edits after the session that proved it wrong or wasteful isn't doing that job.
 
-If the project has no `.claude/skills/` directory, or none were touched this session, skip this
-step silently — don't manufacture something to improve.
+### 1.5b — Look for a workflow that deserves a new skill
+
+Propose a new skill **only when a multi-step procedure was done twice** — in this session, or
+again after an earlier session did it — **or had to be worked out again because nothing
+recorded it.** A procedure done once is a note in the status doc, not a skill. **At most one
+new skill per checkpoint**: the clearest case wins, and the runner-up waits for next time.
+
+Before proposing, read `decisions.md`: **a skill the owner already declined is not proposed
+again** unless the work has changed in a way the declined entry did not foresee.
+
+Where it lives:
+
+- **Project-scoped by default** — `.claude/skills/<name>/SKILL.md`. It travels with the repo
+  and loads in cloud sessions
+- **Useful to every project?** It belongs in the fleet standard: offer `propose-standard`
+  instead of writing a local copy that will drift
+- **User-scoped** (`~/.claude/skills/`) only for a personal habit that fits no repository.
+  Say that user skills do not load in cloud sessions
+
+### 1.5c — Put it to the owner, then do it now
+
+One question tool call covers every proposal from 1.5a and 1.5b — a multi-select, each option
+naming the skill and the change in a line. Ask before Step 2, while the session is fresh.
+
+- **Approved improvements** are made in place
+- **An approved new skill is written in this checkpoint**, not deferred — the session that
+  did the work is the one that knows it. Follow the house shape of the project's other skills,
+  or the fleet skills when there are none: a `description` with the phrases that should
+  trigger it, then the steps, then the traps. Name it in `CLAUDE.md` where the project lists
+  its skills
+- **A declined new skill** gets a one-line `decisions.md` entry — the idea, and that the owner
+  declined it — so no later checkpoint proposes it again
+
+Approved changes join the same commit as everything else in Step 4. If there is nothing that
+meets the bar, skip this step silently — don't manufacture something to improve or create.
 
 ## Step 2 — Write/update the deep documentation
 
@@ -326,6 +370,8 @@ Then branch on the invocation mode:
   again is the failure mode here, not a courtesy.
 - **Multi-branch project, either phrase:** commit and push the working branch without asking
   (§GIT). Nothing reaches the production branch except through `git CPR`.
+- **Local only** (the *Deploys* line says so; the repo has no remote by decision): commit as
+  above, then stop. There is no push to ask about or attempt, and never add a remote unasked.
 
 Either way, follow the standard git safety rules: a new commit (don't amend unless asked), no
 `--no-verify`, and review the staged diff for anything resembling a credential before committing.
@@ -335,7 +381,9 @@ Either way, follow the standard git safety rules: a new commit (don't amend unle
 Tell the user, briefly:
 
 - Path to the deep doc (created or updated).
-- Any project skill files edited during Step 1.5, with a one-line reason each.
+- Step 1.5: project skills improved and new skills written, with a one-line reason each;
+  proposals the owner declined, and where they were recorded; any `propose-standard` offered
+  for a fleet skill.
 - Project documentation updated in Step 2.5 — each file and what changed in it — any owner
   copy drafted for approval, or "no documentation change needed" and why.
 - Anything folded to the archive this pass, with the archive path — the user should know when

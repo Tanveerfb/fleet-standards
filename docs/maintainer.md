@@ -40,6 +40,34 @@ versions of the same rules file at once.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 
+## What "release" means here
+
+This repository is multi-branch (`project-rules.md` §GIT): work happens on a working branch,
+and `main` is production — every commit to it reaches everyone with auto-update on. **A
+release (`git CPR`) is a pull request from the working branch into `main`, merged with a
+merge commit once CI is green.** The rules version, the changelog heading and the README's
+*Current* line already agree (`tests/run.mjs` checks it). After the merge, update the
+private drift survey (`fleet-drift.md` in the owner's plans repository).
+
+## Checks
+
+- **`node tests/run.mjs`** — manifests parse; skill names match their folders and
+  descriptions stay within an 800-character budget (Codex skips one over 1,024, silently);
+  the version agrees in the rules file, the changelog and the README; relative links resolve
+  and HTML comments close; the credential hook passes every tracked file and blocks eight
+  fake key shapes; both scripts behave in every case. **CI runs it on every push and pull
+  request** (`.github/workflows/checks.yml`), with `claude plugin validate .`.
+- **Behaviour evals** — `standards/evals/`, six cases on the riskiest behaviour (relay's
+  trigger, the git step per *Deploys* value, skill proposals). They cost model usage, so they
+  are run by hand before releasing a change to a skill or to §GIT; the README there has the
+  command. A failing case is a skill that reads ambiguously or a case asking the wrong
+  question — never loosen a grader to get green.
+- **This repo runs its own credential hook.** In each clone, once:
+  `git config core.hooksPath standards/templates`.
+- **Status and decisions.** `docs/STATUS.md` is where the work is; `decisions.md` at the root
+  records why, with the alternatives turned down. `relay` and `checkpoint` read and write
+  them here as in any project.
+
 ## Fleet-wide drift report
 
 ```

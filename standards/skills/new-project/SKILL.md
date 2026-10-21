@@ -99,6 +99,9 @@ Then, before anything else:
   `project-rules.md` is in place (`sync-standards`, Step 5, explains the copies).
 - **`AGENTS.md` and `GEMINI.md`** — the pointer from `templates/AGENTS.template.md`; in an
   existing `AGENTS.md`, above any generated block, never inside it.
+- **The credential hook (§SECURITY)** — copy `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit` to
+  `.githooks/pre-commit` with `cp`, then `git config core.hooksPath .githooks`. Mark it
+  executable when the owner's first commit adds it (`git add --chmod=+x`).
 
 ## Step 5 — Design first
 

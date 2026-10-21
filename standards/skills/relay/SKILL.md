@@ -123,6 +123,12 @@ Establish:
 - **What landed since?** If commits exist after the handoff's, the handoff
   describes a repo that has moved.
 - **Are you on the branch the handoff assumed?**
+- **No upstream?** If `CLAUDE.md`'s *Deploys* line says **local only**, that is the design,
+  not a finding — say so in a word. Anywhere else, a missing upstream is worth raising.
+- **Is the credential hook live?** If the project has `.githooks/pre-commit`, check
+  `git config core.hooksPath` prints `.githooks`. If it does not, this clone commits with no
+  credential check — put that under *the user's call*, with the one-line fix
+  (`git config core.hooksPath .githooks`). Relay reports; it does not set it.
 
 ## Step 4.5 — Read the Trello board, if the project has one
 

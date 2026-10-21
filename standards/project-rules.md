@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.6.0
+**Version:** 3.7.0
 **Applies to:** All projects. Part A applies everywhere. Parts B to E assume a Next.js
 application; a repository without application code follows the profile in §SCOPE.
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
@@ -45,17 +45,30 @@ recorded once at the top of `conventions.md` rather than as a per-section except
   platform): the motif, no invented values, text on colour, sentence case, state never by
   colour alone
 - **From §TESTING, one rule:** a visual change is done when it has been seen working, at
-  desktop width and on a phone
+  desktop width and on a phone (fixed-size media: below)
 
 Nothing else in Parts B to E applies. If application code later lands in the repository, Parts
-B to E apply to that code from that day. Three things read differently here:
+B to E apply to that code from that day. These things read differently here:
 
+- **This file is referenced, not imported.** Parts B to E do not apply, so loading all of it
+  every session costs context and buys nothing. `CLAUDE.md` omits the `@project-rules.md`
+  line and instead names the sections the profile keeps, with an instruction to read the
+  section before git, documentation, security or design work (`templates/CLAUDE.template.md`
+  shows the variant). The startup check and `sync-standards` still read this file at the root
 - **The production surface is where the work lands, not the repository.** `CLAUDE.md`'s
   *Deploys* line names it and says whether it has live users. A change there is a production
   change even though git never ships it; §GIT's branch rules govern only the repository
 - **Mockups (§OWNER) still come first** for visual and layout changes on that surface. With no
   dev server, drafts live in a gitignored `_mockups/` at the root and open as files; locked
   ones move to `docs/design/` as usual
+- **Fixed-size media** — thumbnails, video, overlays, social posts, print: **the rendered
+  draft is the mockup.** The §OWNER loop is unchanged — render, show, revise until the owner
+  locks one — but there is no HTML step and no 390px render. **Seen working** means the agent
+  has looked at the rendered file itself, never only its source: an image at its real size and
+  at the smallest size it is really seen at (a thumbnail in a phone feed, a story on a phone
+  screen). For video, frames at the start, the end and each scene change, looked at the same
+  two ways, plus duration, resolution and audio levels measured with a tool. **Playback is the
+  owner's to watch**; the agent says so rather than claiming it
 - **`CLAUDE.md`** says under *Commands* that none exist, and its *Technology* table describes
   the platform rather than a framework
 
@@ -169,19 +182,24 @@ depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` de
   production branch. **The agent commits and pushes the working branch on its own**, batched
   at the end of a piece of work and before a session ends, never one commit per reply. **The
   production branch changes only on `git CPR`**
+- **Local only** — the repository has no remote, by the owner's decision. Commits follow the
+  single-branch rule; **there is no push and nothing to release**, and an agent never adds a
+  remote unasked. Cloud sessions cannot open it, so `sync-standards` skips the skill copies,
+  and a missing upstream is not a finding. Declared as `local only — <where the work lands,
+  if anywhere>`
 - **Not declared** — treat the project as single-branch, ask the owner once which it is, and
   write the answer into the *Deploys* line. Never infer it from the branches that exist: this
   line decides whether an agent may push
 
 **The triggers are phrases:**
 
-| The owner says | Single-branch | Multi-branch |
-| --- | --- | --- |
-| *anything else* | No git at all. Leave the tree as it is. | The working branch as above. Production: nothing. |
-| `checkpoint` | Documentation pass, then **ask** about commit and push, separately. | Documentation pass, then commit and push the working branch. |
-| **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. | The same as `checkpoint`. |
-| **`git checkpoint max`** | The same, exhaustively verified claim by claim. | The same, exhaustively verified. |
-| **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. |
+| The owner says | Single-branch | Multi-branch | Local only |
+| --- | --- | --- | --- |
+| *anything else* | No git at all. Leave the tree as it is. | The working branch as above. Production: nothing. | No git at all. |
+| `checkpoint` | Documentation pass, then **ask** about commit and push, separately. | Documentation pass, then commit and push the working branch. | Documentation pass, then **ask** about the commit. |
+| **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. | The same as `checkpoint`. | Documentation pass, then **commit.** No push. |
+| **`git checkpoint max`** | The same, exhaustively verified claim by claim. | The same, exhaustively verified. | The same, exhaustively verified. |
+| **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. | Nothing to release: the checkpoint, then say so and stop. |
 
 The `checkpoint` skill and `relay`, its inverse, ship in the `fleet` plugin (§SCOPE) and
 appear as `fleet:checkpoint` and `fleet:relay`. **If they do not appear in a session's
@@ -753,8 +771,13 @@ on the next does not show up until the deploy.
   having no key on disk at all. Where a key must sit beside the project, it goes
   in `.secrets/` at the root — gitignored, never committed
 - Never read a credential's contents into a prompt, a log or a source file
-- A pre-commit hook blocking anything containing `private_key` costs one setup
-  and prevents the mistake that cannot be undone
+- **A pre-commit hook blocks staged text shaped like a credential** — a key field with a
+  long value, a PEM private-key header, a known token prefix — never a bare word, which this
+  file itself contains. The hook is `templates/pre-commit`, committed to the project as
+  `.githooks/pre-commit`; each clone runs `git config core.hooksPath .githooks` once, which
+  `new-project` and `sync-standards` do and `relay` checks. A project already on husky
+  calls it from its own `.husky/pre-commit` instead. Any change to the pattern is tested
+  against the project's documentation as well as fake keys
 - **Never commit a credential, even to a private repository.** Repositories
   change visibility, get handed to clients, get cloned by collaborators and
   interns. Git history is permanent; cleaning it means rewriting history across
