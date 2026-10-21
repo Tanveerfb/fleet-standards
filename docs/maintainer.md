@@ -40,6 +40,15 @@ versions of the same rules file at once.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 
+## What "release" means here
+
+This repository is multi-branch (`project-rules.md` §GIT): work happens on a working branch,
+and `main` is production — every commit to it reaches everyone with auto-update on. **A
+release (`git CPR`) is a pull request from the working branch into `main`, merged with a
+merge commit once CI is green.** The rules version, the changelog heading and the README's
+*Current* line already agree (`tests/run.mjs` checks it). After the merge, update the
+private drift survey (`fleet-drift.md` in the owner's plans repository).
+
 ## Checks
 
 - **`node tests/run.mjs`** — manifests parse; skill names match their folders and

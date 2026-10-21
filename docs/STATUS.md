@@ -7,11 +7,11 @@ above the session log is rewritten in place; the log is newest first.*
 
 ## Start here
 
-**State:** v3.7.0 is built on branch `claude/new-project-mockup-zp2h2z`, not yet merged.
-`main` is at v3.6.0. No open issues once v3.7.0 merges; it closes #9 to #12.
-**Next:** release v3.7.0 (`git CPR`: pull request into `main`, merge commit), then update
-`fleet-drift.md` in the owner's private plans repo.
-**Blocked on:** the owner's go-ahead to release.
+**State:** v3.7.0 released to `main` by this checkpoint's `git CPR`, closing issues #9 to
+#12. No open issues or pull requests.
+**Next:** nothing queued. Wait for the next `[proposal]` issue; the open items below are
+deferred, not pending.
+**Blocked on:** nothing.
 **Don't trust:** the behaviour evals ran once per case; one run is a baseline, not proof.
 
 > **Things that will save a session:**
@@ -38,9 +38,8 @@ in `standards/CHANGELOG.md`. Why choices were made, with the alternatives, is in
 
 ## Open items
 
-1. **Release v3.7.0** — waiting on the owner's `git CPR`.
-2. **Rules file size** — 66 KB and growing; a budget and pruning pass was declined for now
-   (`decisions.md`, 2026-10-21).
+1. **Rules file size** — 66 KB and growing; a budget and pruning pass was declined for now
+   (`decisions.md`, 2026-10-21). Renumbered: the release item closed with this checkpoint.
 
 ---
 
@@ -59,10 +58,11 @@ caught it before the commit. Every fake is assembled from pieces for that reason
 
 ---
 
+- CI on GitHub — the first run (push of `fced90b`) completed with success.
+
 ## Assumed, not verified
 
-- The GitHub Actions workflow runs green on GitHub. It has been run locally only, until its
-  first push.
+- Nothing carried forward on an earlier session's word.
 
 ---
 
@@ -81,7 +81,10 @@ reviewed by reading, not by running.
 Built v3.7.0: checkpoint proposes skills (the owner's proposal), local-only repos, the
 credential hook, and the two profile fixes (issues #9 to #12). Then, on the owner's request
 for suggestions: CI, the description budget, six behaviour evals, this file, `decisions.md`,
-and the hook enabled on this repo. Declined: a rules-file size budget.
+and the hook enabled on this repo. Declined: a rules-file size budget. Released with
+`git CPR`; what a release means here is now written down in `docs/maintainer.md`, after it
+had been worked out from history twice (v3.6.0, v3.7.0). That was the session's one repeated
+procedure; a note covers it, so no skill was proposed.
 
 ### 2026-10-20 — v3.6.0 released (pull request #8)
 
