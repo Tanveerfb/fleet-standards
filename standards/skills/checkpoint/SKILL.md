@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects only). Goal: the next session picks up with nothing missing and nothing assumed.
+description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects, or single-branch in a cloud session). Ends by asking whether to compact and continue. Goal: the next session picks up with nothing missing and nothing assumed.
 ---
 
 # Checkpoint
@@ -49,7 +49,8 @@ project as single-branch, ask once, and write the answer into that line.
 The dials combine. `checkpoint max` = exhaustive, then ask about git. `git checkpoint max` =
 exhaustive, then commit and push.
 
-**`CPR` — CheckPoint and Release. Multi-branch projects only.**
+**`CPR` — CheckPoint and Release. Multi-branch projects, and single-branch projects in a
+cloud session.**
 
 | Phrase | Behaviour |
 | --- | --- |
@@ -62,6 +63,16 @@ Applies **only where the project works on a branch that is released to a product
 `CLAUDE.md` defines what "release" means there — follow it exactly, don't improvise one. On a
 single-branch project there is nothing to release: **say so and stop after the checkpoint**,
 rather than inventing a release step.
+
+**Except in a cloud session** (§GIT, *Cloud sessions*). There the checkpoint lands on the
+harness branch, so the release is a **fast-forward of the main branch to it**:
+`git push origin HEAD:<main branch>`, with the branch named from the *Deploys* line, never
+computed. Fetch it (`git fetch origin <main branch>`), then check
+`git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails,
+the main branch has moved on — stop and ask (merge, or a pull request), and never force. If
+the push itself is refused (branch protection, or the harness blocks it), say so and offer a
+pull request. The confirmation says the main branch moved, and whether anything deploys from
+it.
 
 **Name the release target explicitly** — `git push origin HEAD:main`, a pull request into
 the named branch, or the release command in `CLAUDE.md`. Never compute it from `origin/HEAD`
@@ -85,9 +96,10 @@ A checkpoint has three layers, done in order:
    snapshot onto it.
 3. **Git** (if applicable) — get the actual history current, or explicitly confirm there's nothing
    to commit / it's not a repo.
-4. **The compact instructions** (Step 6) — a copy-pasteable block naming what this session's
-   context holds that the files do *not*. Written every time, because the moment the doc and git
-   are current is exactly the moment the conversation becomes safe to shed.
+4. **The pause** (Step 6) — one question: approve any skill proposals or showcase update,
+   choose to compact and continue, compact and stop, or keep going, and have the compact
+   instructions written now or on request. The moment the doc and git are current is the
+   moment the conversation becomes safe to shed; whether to shed it is the owner's call.
 
 There is deliberately no separate terse handoff file. A handoff kept outside the deep doc drifts
 from it, and a handoff kept outside version control isn't there when someone needs it — the
@@ -165,10 +177,11 @@ Where it lives:
 - **User-scoped** (`~/.claude/skills/`) only for a personal habit that fits no repository.
   Say that user skills do not load in cloud sessions
 
-### 1.5c — Put it to the owner, then do it now
+### 1.5c — Put it to the owner, then do it in this checkpoint
 
-One question tool call covers every proposal from 1.5a and 1.5b — a multi-select, each option
-naming the skill and the change in a line. Ask before Step 2, while the session is fresh.
+Every proposal from 1.5a and 1.5b goes into **Step 6's question** — one multi-select, each
+option naming the skill and the change in a line — so the checkpoint asks the owner once,
+after the docs and git are safe. Note the proposals now, while the session is fresh.
 
 - **Approved improvements** are made in place
 - **An approved new skill is written in this checkpoint**, not deferred — the session that
@@ -179,8 +192,8 @@ naming the skill and the change in a line. Ask before Step 2, while the session 
 - **A declined new skill** gets a one-line `decisions.md` entry — the idea, and that the owner
   declined it — so no later checkpoint proposes it again
 
-Approved changes join the same commit as everything else in Step 4. If there is nothing that
-meets the bar, skip this step silently — don't manufacture something to improve or create.
+Approved changes are committed as Step 6 says. If there is nothing that meets the bar, Step
+6 leaves the question out — don't manufacture something to improve or create.
 
 ## Step 2 — Write/update the deep documentation
 
@@ -381,9 +394,6 @@ Either way, follow the standard git safety rules: a new commit (don't amend unle
 Tell the user, briefly:
 
 - Path to the deep doc (created or updated).
-- Step 1.5: project skills improved and new skills written, with a one-line reason each;
-  proposals the owner declined, and where they were recorded; any `propose-standard` offered
-  for a fleet skill.
 - Project documentation updated in Step 2.5 — each file and what changed in it — any owner
   copy drafted for approval, or "no documentation change needed" and why.
 - Anything folded to the archive this pass, with the archive path — the user should know when
@@ -397,12 +407,50 @@ chat summary repeating them.
 
 Then do Step 6, which is part of every checkpoint.
 
-## Step 6 — Emit the compact instructions
+## Step 6 — Pause: one question, then do what it decides
 
-**Always end a checkpoint by writing out a compact instruction block.** Not a note that the user
-*could* compact — the actual text, in a fenced block they can copy straight into `/compact`. A
-checkpoint is precisely the moment a session becomes safe to shed, and you are the only one who
-knows which parts of this context the deep doc did *not* capture.
+A checkpoint is a pause point. The docs and git are current, so the conversation is now safe
+to shed — but whether to shed it now is the owner's call: the agent cannot see how full its
+context window is, and the owner can (`/context`, or the app's context indicator).
+
+**Ask once, in one question tool call**, every question below that applies:
+
+1. **Skill proposals** — only if Step 1.5 found any: a multi-select, each option naming the
+   skill and the change in a line.
+2. **Showcase update** — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
+   checkpoint recorded a phase done or a notable verified feature: file an update request on
+   the studio site's repository (§CREDIT)? Say in a line what it would report.
+3. **What next?**
+   - **Compact, then continue** — compact now and carry on with the next task in a fresh
+     window.
+   - **Compact and stop here** — the session ends at this checkpoint.
+   - **Keep going, compact later** — there is room for another task first.
+4. **Compact instructions?** **Now** — written in this reply — or **later**, when the owner
+   asks ("compact instructions").
+
+Recommend an option for 3 and 4, and say what the recommendation rests on: you cannot measure
+the window, so judge from what you can see — a long session, many large outputs (screenshots,
+logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
+A phase boundary is the usual moment to recommend *Compact, then continue*.
+
+Then act on the answers, and report in a line or two what was done:
+
+- **Approved skill changes are made now** (1.5c); a declined new skill gets its
+  `decisions.md` line.
+- **An approved showcase update is filed as §CREDIT says** — an issue on the studio site's
+  repository, its link in `decisions.md`; if this session cannot reach that repository, the
+  request is written in full as an open item in `docs/STATUS.md`, and you say so.
+- **Those changes are committed under the answer Step 4 already had** — one follow-up commit,
+  pushed if Step 4 pushed, committed only if Step 4 only committed, left uncommitted (and said
+  so) if the owner declined. A release is not repeated: after a `git CPR`, say the follow-up
+  commit is on the branch Step 4 used and ships with the next release.
+- **Compact instructions now:** write the block below. **Later:** write it when asked, from
+  the context as it is then — never a block saved now and handed over stale.
+
+### The compact block
+
+A fenced block the owner can copy straight into `/compact`. You are the only one who knows
+which parts of this context the deep doc did *not* capture.
 
 **The one rule that makes these worth anything: preserve only what is NOT on disk.** Everything
 written to the deep doc, CLAUDE.md, the spec files and project memory is already durable — telling
@@ -427,7 +475,7 @@ rest aggressively rather than re-deriving project state.
 
 Keep it short. A compact block over fifteen lines is almost always restating the doc.
 
-Do not run `/compact` yourself and do not assume the user will. Emitting the block is Step 6's
+Never run `/compact` yourself, and never assume the owner will. Writing the block is Step 6's
 job; using it is their call.
 
 ## MAX protocol
@@ -519,8 +567,14 @@ session touched. A MAX checkpoint that pushes leaves no stale instruction in the
   re-discovering a dead end you already found.
 - Asking "want me to commit?" after the user said **git checkpoint**. They already answered.
   Asking again reads as not having listened.
-- Ending the checkpoint without the Step 6 block, or replacing it with "you can compact now."
-  The block is the deliverable; an invitation to compact is not.
+- Ending the checkpoint without the Step 6 question, or printing the compact block unasked.
+  The owner decides whether the session stops here and when the block is written.
+- Asking Step 6's questions in several prompts. One call holds them all; questions that do
+  not apply are left out, not asked as "none".
+- Handing over a compact block written at an earlier checkpoint when the owner asks "later" —
+  write it from the context as it is now.
+- `git CPR` on a single-branch project in a cloud session ending at "nothing to release". The
+  harness branch is the working branch there; the release fast-forwards the main branch.
 - Writing a compact block that restates the status doc. Anything already on disk is the one thing
   that does *not* need preserving — the block exists for what only this conversation knows.
 - Treating **MAX** as "write more words". Length is not the dial — verification is. A shorter

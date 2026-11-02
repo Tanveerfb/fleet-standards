@@ -7,12 +7,14 @@ above the session log is rewritten in place; the log is newest first.*
 
 ## Start here
 
-**State:** v3.7.0 released to `main` by this checkpoint's `git CPR`, closing issues #9 to
-#12. No open issues or pull requests.
-**Next:** nothing queued. Wait for the next `[proposal]` issue; the open items below are
-deferred, not pending.
-**Blocked on:** nothing.
-**Don't trust:** the behaviour evals ran once per case; one run is a baseline, not proof.
+**State:** v3.8.0 built on the working branch — issues #15 to #18 (cloud `git CPR`, §CREDIT
+showcase, the checkpoint pause, the shell-write hook). Not yet released to `main`.
+**Next:** the owner's `git CPR`: a pull request into `main`, merged once CI is green; then
+`fleet-drift.md` in the plans repo.
+**Blocked on:** the owner adding the `showcase` part to the `Studio credit:` line in their
+`~/.claude/CLAUDE.md` before §CREDIT's showcase question can fire (format in the README).
+**Don't trust:** the behaviour evals ran once per case; one run is a baseline, not proof. The
+shell-write hook is tested by `tests/run.mjs`, not yet in a live Windows session.
 
 > **Things that will save a session:**
 > - Cloud sessions do not install plugins. A cloud session on this repo has no fleet skills
@@ -22,14 +24,16 @@ deferred, not pending.
 >   with one expected warning (no `version`).
 > - Turn the credential hook on in each clone: `git config core.hooksPath standards/templates`.
 > - Evals cost money; they are run by hand (`standards/evals/README.md`).
+> - This repo registers the shell-write hook in `.claude/settings.json`: no `python -c`,
+>   `node -e` or file-writing heredocs here either. A commit message heredoc is fine.
 
 ---
 
 ## What this project is
 
 The fleet standard: one rules file (`standards/project-rules.md`) copied into each of the
-owner's projects, the `fleet` Claude Code plugin that carries it with seven skills, templates
-and a startup check, and an installer for other agents. Changes arrive as `[proposal]` issues
+owner's projects, the `fleet` Claude Code plugin that carries it with seven skills, templates,
+a startup check and a shell-write guard, and an installer for other agents. Changes arrive as `[proposal]` issues
 from projects, usually raised by `propose-standard`, and ship as versioned releases recorded
 in `standards/CHANGELOG.md`. Why choices were made, with the alternatives, is in
 [`decisions.md`](../decisions.md).
@@ -38,8 +42,11 @@ in `standards/CHANGELOG.md`. Why choices were made, with the alternatives, is in
 
 ## Open items
 
-1. **Rules file size** — 66 KB and growing; a budget and pruning pass was declined for now
-   (`decisions.md`, 2026-10-21). Renumbered: the release item closed with this checkpoint.
+1. **Release v3.8.0** — `git CPR` when the owner says so.
+2. **Rules file size** — 69 KB after v3.8.0, from 66 KB; a budget and pruning pass was
+   declined for now (`decisions.md`, 2026-10-21).
+3. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
+   checking at their next sync whether the stricter block is still wanted.
 
 ---
 
@@ -75,6 +82,15 @@ reviewed by reading, not by running.
 ---
 
 ## Session log
+
+### 2026-11-02 — v3.8.0 built: issues #15 to #18
+
+Cloud `git CPR` on single-branch projects fast-forwards the main branch (#15); §CREDIT asks
+every project about the credit and a studio-site showcase, filed as issues (#16); checkpoint
+ends with one pause question (#17, with #16's update and the skill proposals in the same
+prompt, by the owner's choice); the shell-write hook enforces §AGENTS, in the plugin and in
+each project's settings (#18). Additions to the issues' wording are in `decisions.md`. The
+agent used `sed -i` once while writing the hook — the very slip #18 exists for.
 
 ### 2026-10-21 — v3.7.0, and the standard follows itself
 

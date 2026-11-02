@@ -102,9 +102,13 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    working-agreement bullets from `CLAUDE.md` that now live in §OWNER. For v3.1: a `Motif:`
    line in `CLAUDE.md`, and — if `design-system.md` records no motif — offer to run
    `design-motif`, which records the project's existing look rather than re-choosing it.
-   For v3.5: if the owner names a studio in `~/.claude/CLAUDE.md` and the project is deployed
-   with a shareable link, ask once whether it carries the studio credit (§CREDIT) and record
-   a `Studio credit:` line in `CLAUDE.md`; a local-only project gets `local only — not asked`.
+   For v3.8 (replacing v3.5's credit step): if the owner's `~/.claude/CLAUDE.md` has a
+   `Studio credit:` line and the project's `CLAUDE.md` lacks either the `Studio credit:` or
+   the `Studio showcase:` line — or says `local only — not asked` — ask the missing §CREDIT
+   questions once (credit; showcase, if the owner's line names one) and record the answers
+   in `CLAUDE.md` and `decisions.md`. A showcase yes files the request issue as `new-project`
+   Step 1 describes. With no `Studio credit:` line in the owner's file, write `no studio
+   configured` and ask nothing.
 
 ## Step 5 — Wire the project to every agent
 
@@ -133,8 +137,12 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
 master did not was edited in place** — treat it like an edited rules file (Step 1): show the
 diff, offer `propose-standard`, never overwrite it silently. Otherwise run the same command
 without `--check`. It writes every skill but `new-project` to `.claude/skills/` and the files
-they read to `.claude/fleet/`. On the owner's machine each skill then appears twice, as
-`/checkpoint` and `/fleet:checkpoint`; that is expected, and they behave the same.
+they read to `.claude/fleet/`, and adds the §AGENTS shell-write hook
+(`.claude/fleet/scripts/block-shell-writes.mjs`) to `.claude/settings.json`, merged with
+whatever the file already holds. On the owner's machine each skill then appears twice, as
+`/checkpoint` and `/fleet:checkpoint`, and the hook runs twice, once from the plugin; that is
+expected, and both behave the same. A local-only project, skipped here, gets the hook from
+the plugin.
 
 **Other agents.** Check the project root has `AGENTS.md` (read by Codex, Copilot and Cursor)
 and `GEMINI.md` (Gemini CLI), each holding the pointer from
