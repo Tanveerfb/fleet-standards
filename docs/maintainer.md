@@ -32,11 +32,20 @@ versions of the same rules file at once.
   must stay silent on every error and never block a session. Test it by pointing
   `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` at a scratch folder.
   Claude Code only: cloud sessions and other agents rely on `relay` Step 4.6 instead.
+- **The shell-write hook** — `standards/hooks/hooks.json` also runs
+  `standards/scripts/block-shell-writes.mjs` before every Bash command (§AGENTS). It exits 2
+  to refuse, with the reason on stderr, and 0 on anything it cannot read — it must fail open.
+  It ignores heredoc bodies and quoted text, so a refusal never depends on a commit message's
+  wording. `tests/run.mjs` holds the blocked and allowed cases; add one for every false
+  positive or miss found in a project. This repository registers it for itself in
+  `.claude/settings.json`.
 - **Skill copies** — `standards/scripts/copy-skills-to-project.mjs` copies the skills into a
   project for cloud sessions, rewriting `${CLAUDE_PLUGIN_ROOT}/` to `.claude/fleet/`. Keep
   every reference to a standard file in a skill in that `${CLAUDE_PLUGIN_ROOT}/<file>` form
   so the rewrite catches it. A bare `${CLAUDE_PLUGIN_ROOT}` with no slash is left alone; the
-  skills use it to tell a plugin session from a project copy.
+  skills use it to tell a plugin session from a project copy. It also copies the shell-write
+  hook and merges its registration into the project's `.claude/settings.json`, leaving every
+  other setting as it was and an unreadable file untouched.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 

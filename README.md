@@ -71,15 +71,17 @@ To receive updates automatically, open `/plugin` → **Marketplaces** → `tanve
 **Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
 
-**Optional — a studio credit.** If you run a studio and want to sign the projects you
-publish, add one line to your own `~/.claude/CLAUDE.md`:
+**Optional — a studio credit and showcase.** If you run a studio and want to sign the
+projects you build, add one line to your own `~/.claude/CLAUDE.md`:
 
 ```
-Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <brand kit URL or path>
+Studio credit: <studio name> — "<credit wording, e.g. Built by …>" — <site URL> — <brand kit URL or path> — showcase <owner/repo> <file projects are listed in>
 ```
 
-Projects deployed with a shareable link are then asked, once each, whether to carry it;
-local-only projects never are (`§CREDIT`).
+The `showcase` part is optional: include it if your studio's site lists its work. Every
+project is then asked, once, whether it carries the credit and — with a showcase — whether
+it is featured; featured projects request their entry and its updates as issues on the
+studio site's repository (`§CREDIT`).
 
 ### Codex, Copilot, Cursor, Gemini CLI — with the installer
 
@@ -157,6 +159,10 @@ kickoff prompt for your agent.
   a newer version ships. `relay` makes the same check, which covers cloud sessions (they do
   not install plugins) and other agents. Turn on the marketplace's auto-update, or the
   plugin's own copy goes stale and the check has nothing new to compare against.
+- Agents change files with their editor tools, never the shell, so you see a reviewable diff.
+  The plugin enforces it: a hook refuses inline Python or Node scripts and heredocs that
+  write files (`§AGENTS`); `sync-standards` adds the same hook to each project for cloud
+  sessions.
 
 ---
 
@@ -201,8 +207,11 @@ standards/                        the standard — also the `fleet` plugin
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif,
                                   ai-setup, sync-standards, propose-standard
-  hooks/hooks.json                startup check: offers sync-standards when rules fall behind
-  scripts/check-rules-version.mjs the script behind that check
+  hooks/hooks.json                startup check: offers sync-standards when rules fall behind;
+                                  shell-write guard: refuses inline scripts and file-writing
+                                  heredocs (§AGENTS)
+  scripts/check-rules-version.mjs the script behind the startup check
+  scripts/block-shell-writes.mjs  the script behind the shell-write guard
   scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions
   scripts/install-skills.mjs      installer for non-Claude agents
   scripts/sync-rules.mjs          reports the rules version across a folder of projects
@@ -222,7 +231,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.7.0** (2026-10-21). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.8.0** (2026-11-02). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---

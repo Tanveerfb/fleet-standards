@@ -173,6 +173,48 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
 }
 
 // ---------------------------------------------------------------------------------------------
+section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
+{
+  const script = join(S, "scripts", "block-shell-writes.mjs");
+  const hook = (command, tool = "Bash") => run("node", [script], { input: JSON.stringify({ tool_name: tool, tool_input: { command } }) });
+  const blocked = {
+    "python -c": `python3 -c "open('a','w').write('x')"`,
+    "python with combined flags": "python -Bc 'print(1)'",
+    "py launcher": "py -3 -c 'print(1)'",
+    "node -e": `node -e "require('fs').writeFileSync('a','x')"`,
+    "node --eval": "node --eval 'x'",
+    "node -p after a cd": "cd app && node -p 1",
+    "python reading a heredoc": "python3 - <<'EOF'\nprint(1)\nEOF",
+    "node fed a heredoc through a pipe": "cat <<EOF | node\nconsole.log(1)\nEOF",
+    "heredoc into a file": "cat > notes.md <<'EOF'\n# hi\nEOF",
+    "heredoc appended to a file": "cat <<EOF >> log.txt\nx\nEOF",
+    "heredoc into tee": "tee out.txt <<EOF\nx\nEOF",
+    "here-string into a file": `cat <<< "x" > f.txt`,
+    "python -c inside bash -c": `bash -c "python -c 'print(1)'"`,
+  };
+  for (const [label, command] of Object.entries(blocked)) {
+    const r = hook(command);
+    check(`blocks: ${label}`, r.status === 2 && r.stderr.includes("§AGENTS"), `exit ${r.status}`);
+  }
+  const allowed = {
+    "a heredoc commit message that mentions both": "git commit -F - <<'EOF'\nfeat: no python -c > never node -e\nEOF",
+    "a heredoc commit message, output discarded": "git commit -q -F - <<EOF > /dev/null\nmsg\nEOF",
+    "a quoted commit message": `git commit -m "no more node -e or python -c"`,
+    "a grep for the pattern": `grep -rn "python -c" .`,
+    "a script file": "python tools/x.py && node scripts/sync.mjs --check",
+    "a script fed a heredoc": "python3 script.py <<EOF\ninput\nEOF",
+    "a redirect with no heredoc": "npm test 2>&1 | tail -5 > /dev/null",
+    "version checks": "node --version && python3 --version",
+  };
+  for (const [label, command] of Object.entries(allowed)) {
+    const r = hook(command);
+    check(`allows: ${label}`, r.status === 0, `exit ${r.status}: ${r.stderr.trim()}`);
+  }
+  check("ignores other tools", hook("python -c 1", "Write").status === 0);
+  check("unreadable input: fails open", run("node", [script], { input: "{not json" }).status === 0);
+}
+
+// ---------------------------------------------------------------------------------------------
 section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
 {
   const script = join(S, "scripts", "copy-skills-to-project.mjs");
@@ -194,6 +236,25 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   appendFileSync(join(project, ".claude", "skills", "relay", "SKILL.md"), "local edit\n");
   check("a copy edited in place is caught by --check", copy("--check").status === 1);
   check("a project with no rules file: exit 2", run("node", [script, join(scratch, "none")]).status === 2);
+
+  const settingsOf = (p) => JSON.parse(readFileSync(join(p, ".claude", "settings.json"), "utf8"));
+  const hookEntries = (p) => (settingsOf(p).hooks?.PreToolUse ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("block-shell-writes.mjs")));
+  check("the shell-write hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "block-shell-writes.mjs")));
+  check("the hook is registered once in .claude/settings.json", hookEntries(project).length === 1);
+  copy();
+  check("a second run does not register it twice", hookEntries(project).length === 1);
+
+  const existing = join(scratch, "existing");
+  mkdirSync(join(existing, ".claude"), { recursive: true });
+  writeFileSync(join(existing, "project-rules.md"), `**Version:** ${rulesVersion}\n`);
+  const before = { enabledPlugins: { "fleet@tanveerfb": true }, hooks: { PreToolUse: [{ matcher: "Write", hooks: [{ type: "command", command: "x" }] }] } };
+  writeFileSync(join(existing, ".claude", "settings.json"), JSON.stringify(before));
+  run("node", [script, existing]);
+  const after = settingsOf(existing);
+  check("existing settings are kept when the hook is merged in", after.enabledPlugins["fleet@tanveerfb"] === true && after.hooks.PreToolUse.length === 2 && hookEntries(existing).length === 1);
+  writeFileSync(join(existing, ".claude", "settings.json"), "{not json");
+  const broken = run("node", [script, existing]);
+  check("unreadable settings are left alone, with a warning", readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "{not json" && broken.stdout.includes("register the hook by hand"));
 }
 
 rmSync(scratch, { recursive: true, force: true });

@@ -33,6 +33,47 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.8.0 — 2026-11-02
+
+- **§GIT — `git CPR` releases in a cloud session on a single-branch project.** The harness
+  branch makes the project multi-branch for that session, so `git CPR` is the checkpoint to
+  the harness branch, then a fast-forward of the main branch to it, the target named from the
+  *Deploys* line. Fast-forward only: if the main branch moved on, stop and ask; if the push is
+  refused, offer a pull request; never force. Before this, `git CPR` stopped at "nothing to
+  release" with the work still on the side branch (`nca-automations`, 2026-10-23). The
+  trigger table and `checkpoint`'s CPR section say the same. New eval
+  `cpr-single-branch-cloud`; `cpr-single-branch` now says it is a local session. Issue #15.
+- **§CREDIT — every project is asked, and featured projects stay current.** The credit
+  question is no longer limited to deployed projects: a local-only tool the studio built is
+  still its work (`roleodex`, 2026-10-24). A second question asks whether the project is
+  featured on the studio's site — the **showcase**, named in the owner's `Studio credit:`
+  line. A yes files the entry as an issue on the studio site's repository, and later
+  checkpoints offer update issues when a phase closes or a notable feature is verified; the
+  project never edits the studio site. A request the session cannot file is kept in
+  `docs/STATUS.md`, not dropped. A client's agreement now covers the showcase too.
+  `CLAUDE.template.md` gains a `Studio showcase:` line; `new-project` and `sync-standards`
+  ask both questions. **Owners with a studio:** add the `showcase` part to the line in your
+  `~/.claude/CLAUDE.md` (format in the README) — with no line at all, nothing is asked.
+  Issue #16.
+- **`checkpoint` Step 6 — a pause, not a compact block.** A checkpoint now ends with one
+  question: compact then continue, compact and stop, or keep going; compact instructions now
+  or later. The agent cannot see how full its context window is; the owner can. The same
+  prompt carries Step 1.5's skill proposals (no longer asked before Step 2) and the showcase
+  update, each only when it applies; approved changes land in one follow-up commit under the
+  git answer the checkpoint already had. The block's rules are unchanged; a block asked for
+  "later" is written then, from the context as it is. New eval `checkpoint-pause`. Issue #17,
+  combined with #16's question by the owner's choice.
+- **§AGENTS — the editor-tools rule is enforced.** A PreToolUse hook
+  (`scripts/block-shell-writes.mjs`) refuses inline Python or Node code (`python -c`,
+  `node -e`/`--eval`/`-p`/`--print`, an interpreter reading a heredoc) and heredocs in a
+  command that writes a file. A heredoc that only feeds a command's input, such as a commit
+  message, stays allowed, and heredoc bodies and quoted text are not inspected, so a commit
+  message mentioning `python -c` passes. The plugin registers the hook; `sync-standards`
+  (through `copy-skills-to-project.mjs`) adds it to each project's `.claude/settings.json`,
+  so cloud sessions, which install no plugins, get it too. Written rules were skimmed: inline
+  evals in `toll-kits` (2026-10-28) and `toll-the-game`, heredocs in `toll-the-game`
+  (2026-09-26). Projects with a stricter hook of their own keep it beside this one. Issue #18.
+
 ## 3.7.0 — 2026-10-21
 
 - **`checkpoint` Step 1.5 — improve the project's skills, and propose new ones.** The step

@@ -5,6 +5,9 @@
 //
 //   skills (all but new-project) -> <project>/.claude/skills/<name>/
 //   files the skills read        -> <project>/.claude/fleet/
+//   the shell-write hook         -> <project>/.claude/fleet/scripts/block-shell-writes.mjs,
+//                                   registered in <project>/.claude/settings.json (merged:
+//                                   nothing else in that file changes)
 //
 // Inside the copies, `${CLAUDE_PLUGIN_ROOT}/` becomes `.claude/fleet/`, a path relative to the
 // project root, because only plugin skills get that variable substituted. A bare
@@ -61,8 +64,32 @@ for (const item of REFERENCE) {
 }
 planned.push([
   join(project, ".claude", "fleet", "README.md"),
-  `# Fleet standard — project copy\n\nCopied from the fleet standard v${version} by \`sync-standards\`, together with the\nskills in \`.claude/skills/\`, so they load in cloud sessions, which install no plugins.\n\n**Do not edit these files.** The next sync overwrites them. A fix goes back to\n\`Tanveerfb/fleet-standards\` through \`propose-standard\`.\n\nThis folder is what the last sync copied, **not the master**: never compare the project's\nrules against \`.claude/fleet/project-rules.md\` to decide whether it is current.\n`,
+  `# Fleet standard — project copy\n\nCopied from the fleet standard v${version} by \`sync-standards\`, together with the\nskills in \`.claude/skills/\`, so they load in cloud sessions, which install no plugins.\n\`scripts/block-shell-writes.mjs\` is the §AGENTS shell-write hook, registered in\n\`.claude/settings.json\`.\n\n**Do not edit these files.** The next sync overwrites them. A fix goes back to\n\`Tanveerfb/fleet-standards\` through \`propose-standard\`.\n\nThis folder is what the last sync copied, **not the master**: never compare the project's\nrules against \`.claude/fleet/project-rules.md\` to decide whether it is current.\n`,
 ]);
+
+// The shell-write hook (§AGENTS). Locally the plugin registers it too; both run, and a
+// refusal from either is the same refusal.
+const HOOK = "block-shell-writes.mjs";
+const HOOK_COMMAND = `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${HOOK}"`;
+planned.push([join(project, ".claude", "fleet", "scripts", HOOK), readFileSync(join(standards, "scripts", HOOK), "utf8")]);
+const settingsPath = join(project, ".claude", "settings.json");
+let settings = {};
+let settingsReadable = true;
+if (existsSync(settingsPath)) {
+  try {
+    settings = JSON.parse(readFileSync(settingsPath, "utf8"));
+  } catch {
+    settingsReadable = false;
+    console.log(`! .claude/settings.json is not valid JSON: register the hook by hand — ${HOOK_COMMAND}`);
+  }
+}
+const registered = settings?.hooks?.PreToolUse?.some((entry) => entry?.hooks?.some((h) => h?.command === HOOK_COMMAND));
+if (settingsReadable && !registered) {
+  settings.hooks ??= {};
+  settings.hooks.PreToolUse ??= [];
+  settings.hooks.PreToolUse.push({ matcher: "Bash", hooks: [{ type: "command", command: HOOK_COMMAND, timeout: 10 }] });
+  planned.push([settingsPath, JSON.stringify(settings, null, 2) + "\n"]);
+}
 
 let changed = 0;
 for (const [target, content] of planned) {

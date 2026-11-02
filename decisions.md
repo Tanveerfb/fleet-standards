@@ -85,3 +85,44 @@ Raised by the agent when the owner asked for suggestions. Accepted: CI running
 decisions log, and the credential hook enabled on this repository itself. **Declined for
 now:** a size budget and pruning pass for `project-rules.md`, which grew from 56 KB at v3.4.0
 to 66 KB at v3.7.0. Raise it again if the file keeps growing.
+
+## 2026-11-02 — v3.8.0: issues #15 to #18 together
+
+The owner chose all four in one release (alternatives: #15 and #17 now, the rest later; pick
+per issue). Each issue's own wording was taken, with the agent's additions below.
+
+## 2026-11-02 — Cloud `git CPR`: a refused push falls back to a pull request
+
+Added to issue #15's wording: a harness or branch protection can refuse the push to the main
+branch, and the issue's text would then simply fail. On a refusal the agent says so and
+offers a pull request. Never a force push, as before.
+
+## 2026-11-02 — §CREDIT: the config line keeps its README name; unreachable requests are kept
+
+Issue #16 proposed a `Studio:` line; the README already documented `Studio credit:`, so the
+showcase was added to that line as an optional `showcase <owner/repo> <file>` part, sparing
+anyone who had written it a rename. Added to the issue: the showcase needs the client's
+agreement like the credit does; a request the session cannot file (no GitHub access, or the
+studio repository not attached to a cloud session) is written into `docs/STATUS.md` instead
+of being dropped; nothing private in a request, since the studio repository may be public.
+
+## 2026-11-02 — Checkpoint asks one question, at the end
+
+The owner's choice: skill proposals (issue #16's showcase update too) join issue #17's pause
+question in one prompt at the end, over each issue asking separately. Consequence: Step 1.5's
+proposals are no longer asked before Step 2, and approved changes land in a follow-up commit
+under the git answer the checkpoint already had; after a `git CPR` they ship with the next
+release rather than repeating it. Asking before the git step was considered and rejected: a
+checkpoint is often "save state before I go", and a question before the commit would leave
+the work uncommitted if the owner walked away.
+
+## 2026-11-02 — The shell-write hook: everywhere, and every inline script
+
+Issue #18's hook ships in the plugin, and — the owner's choice, over plugin only — is also
+copied into each project's `.claude/settings.json`, because cloud sessions install no
+plugins and the slips happened there too. Locally it runs twice, harmlessly. It blocks every
+inline Python or Node script, the owner's choice over blocking only those that look like they
+write: a guess about what code does is easy to slip past. Written fresh rather than from
+toll-kits' reference hook, which was not reachable from this session; it strips heredoc
+bodies and quoted text before looking, so the commit-message false positive the issue
+describes does not occur. This repository registers it for itself too.

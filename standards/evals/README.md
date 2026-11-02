@@ -24,8 +24,10 @@ right skill fired and that the stated decision matches the rule.
 | `checkpoint-single-branch` | a plain checkpoint asks before committing, and separately before pushing |
 | `checkpoint-multi-branch` | the working branch is committed and pushed without asking; production untouched |
 | `checkpoint-local-only` | `git checkpoint` commits, never pushes, never adds a remote |
-| `cpr-single-branch` | `git CPR` on a single-branch project says there is nothing to release |
+| `cpr-single-branch` | `git CPR` on a single-branch project, locally, says there is nothing to release |
+| `cpr-single-branch-cloud` | the same in a cloud session fast-forwards the main branch to the harness branch |
 | `checkpoint-skill-proposal` | a procedure repeated in the session is proposed as one project skill, asked first |
+| `checkpoint-pause` | a checkpoint ends with one question — what next, and compact instructions now or later — and no block printed unasked |
 
 **When a case fails**, read its transcript in the results folder before changing anything: a
 failing case is either a skill that reads ambiguously — fix the skill — or a case that asks

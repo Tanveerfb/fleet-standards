@@ -41,10 +41,15 @@ Establish the project's name (kebab-case for the folder and repo) and what it is
 Confirm the stack choices that are the owner's (§ASK) where the spec does not settle them:
 Firebase or not, zustand and zod needed or not, a Trello board or none — and, if the
 project will have AI features, its AI tooling: Firebase AI Logic, the Vercel AI SDK, or both
-(§AI lays out the trade-offs). If the owner's `~/.claude/CLAUDE.md` names a studio **and** the
-project will be deployed with a shareable link, ask whether it carries the studio credit
-(§CREDIT) — and for a client project, whether the client has agreed. A local-only project is
-not asked.
+(§AI lays out the trade-offs). If the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
+line, ask the §CREDIT questions — does the project carry the studio credit, and, if the line
+names a showcase, will it be featured on the studio's site — and for a client project,
+whether the client has agreed. Local-only projects are asked too. Record both answers on the
+`Studio credit:` and `Studio showcase:` lines of `CLAUDE.md` and in `decisions.md`. **On a
+showcase yes**, file the feature request as an issue on the studio site's repository — what
+the project is, its status, stack and tools, links, nothing private — and record its link in
+`decisions.md`; if this session cannot reach that repository, write the request in full as an
+open item in `docs/STATUS.md` and say so (§CREDIT).
 
 ## Step 2 — Scaffold
 
