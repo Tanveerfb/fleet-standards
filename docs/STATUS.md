@@ -52,16 +52,18 @@ in `standards/CHANGELOG.md`. Why choices were made, with the alternatives, is in
 
 ## Verified this checkpoint, by measurement
 
-- `node tests/run.mjs` — all checks pass on the v3.7.0 branch.
-- `claude plugin validate .` — passes, one expected warning; also passes with no credentials
-  and an empty home folder, so CI can run it.
-- Behaviour evals — six cases, one run each: all scored 1.00; total cost $0.48.
-- Credential hook — passes every tracked file in this repo and the plans repo; blocks eight
-  fake key shapes under `sh` and `bash`; a real commit with a fake key was refused.
+- `node tests/run.mjs` — all checks pass on the v3.8.0 branch, including 23 shell-write hook
+  cases and the settings merge.
+- `claude plugin validate .` — passes, one expected warning (no `version`).
+- Behaviour evals — eight cases, all scored 1.00 with the skill and 0.00 or below without it
+  (`checkpoint-local-only` passes without it too). Two needed their case fixed, not the skill: `cpr-single-branch`'s
+  grader read the new closing question and the "production is updating" line as release
+  steps, and `checkpoint-pause` let the agent skip the skill (it now checks the skill fired,
+  and its grader says what is not a failure). Total cost this session: $1.35.
 
-**The mistake worth keeping.** The first draft of `tests/run.mjs` tripped the hook it tests:
-one fake key wrote the field name and the start of its value in a single string. The suite
-caught it before the commit. Every fake is assembled from pieces for that reason — keep it so.
+**The mistake worth keeping.** A judge model reads a grader literally. When a skill gains a
+step, every grader that says "then stops" needs to say what may still follow — or a correct
+answer fails, as `cpr-single-branch` did here.
 
 ---
 

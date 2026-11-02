@@ -17,3 +17,7 @@ Pass only if the final reply:
 
 Fail if it prints the compact block unasked, splits the questions over several prompts, or
 asks about skills or a showcase.
+
+Not failures: saying that it leaves the skill and showcase questions out; describing what the
+compact block would contain without writing it; putting the question in plain text because
+the test gives it no question tool.
