@@ -7,12 +7,13 @@ above the session log is rewritten in place; the log is newest first.*
 
 ## Start here
 
-**State:** v3.8.0 built on the working branch — issues #15 to #18 (cloud `git CPR`, §CREDIT
-showcase, the checkpoint pause, the shell-write hook). Not yet released to `main`.
-**Next:** the owner's `git CPR`: a pull request into `main`, merged once CI is green; then
-`fleet-drift.md` in the plans repo.
-**Blocked on:** the owner adding the `showcase` part to the `Studio credit:` line in their
-`~/.claude/CLAUDE.md` before §CREDIT's showcase question can fire (format in the README).
+**State:** v3.8.0 released to `main` by this checkpoint's `git CPR`, closing issues #15 to
+#18 (cloud `git CPR`, §CREDIT showcase, the checkpoint pause, the shell-write hook). No open
+issues.
+**Next:** nothing queued. Wait for the next `[proposal]` issue.
+**Blocked on:** the owner adding the `Studio credit:` line to `~/.claude/CLAUDE.md` on the PC,
+before §CREDIT's questions can fire. The exact line, checked against the studio repo, is kept
+in the owner's plans repo (`owner-setup.md`).
 **Don't trust:** the behaviour evals ran once per case; one run is a baseline, not proof. The
 shell-write hook is tested by `tests/run.mjs`, not yet in a live Windows session.
 
@@ -42,10 +43,9 @@ in `standards/CHANGELOG.md`. Why choices were made, with the alternatives, is in
 
 ## Open items
 
-1. **Release v3.8.0** — `git CPR` when the owner says so.
-2. **Rules file size** — 69 KB after v3.8.0, from 66 KB; a budget and pruning pass was
+1. **Rules file size** — 69 KB after v3.8.0, from 66 KB; a budget and pruning pass was
    declined for now (`decisions.md`, 2026-10-21).
-3. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
+2. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
    checking at their next sync whether the stricter block is still wanted.
 
 ---
@@ -92,7 +92,10 @@ every project about the credit and a studio-site showcase, filed as issues (#16)
 ends with one pause question (#17, with #16's update and the skill proposals in the same
 prompt, by the owner's choice); the shell-write hook enforces §AGENTS, in the plugin and in
 each project's settings (#18). Additions to the issues' wording are in `decisions.md`. The
-agent used `sed -i` once while writing the hook — the very slip #18 exists for.
+agent used `sed -i` once while writing the hook — the very slip #18 exists for. The studio
+credit line was written from the Tinker Together repo (attached read-only for it) and kept in
+the plans repo's `owner-setup.md` for the owner to add on the PC. Two eval cases were fixed
+(*Verified*, above). Released with `git CPR`.
 
 ### 2026-10-21 — v3.7.0, and the standard follows itself
 
