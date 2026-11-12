@@ -1,8 +1,8 @@
 # v4 phase 1 — the split map
 
-**Status:** rounds 1 to 3 of the owner's walk-through agreed (2026-11-12); round 4 (wording
-changes, how a project declares its files, the proof) awaiting the owner. Companion to
-[`v4.md`](v4.md). Phase 1 moves text exactly as this map says; nothing has been moved.
+**Status:** approved by the owner, all four rounds (2026-11-12). One row is still open:
+whether §SCALE goes to the core. Companion to [`v4.md`](v4.md). Phase 1 moves text
+exactly as this map says; nothing has been moved.
 
 Phase 1 changes no wording. Where a move forces a wording change (a header, a pointer), it is
 listed under *Changed on purpose* and nowhere else. Every judgement call that needs a
@@ -61,7 +61,12 @@ The section keeps its name in each file it appears in.
 | | Vitest, pure logic, transition maps | `rules/node.md` |
 | | The browser order, 390px | `rules/web.md` |
 
-## Changed on purpose (round 4, not yet agreed)
+**Open: §SCALE.** It holds the area `CLAUDE.md` files and the architecture map. The agent
+recommends the core over `rules/app.md`: area files are about how a session finds its rules,
+which is how we work, and a large non-application repository needs them too. The owner raised
+area files on 2026-11-12; awaiting a yes.
+
+## Changed on purpose (round 4, agreed)
 
 1. Each file's header: what it is, who loads it, the other files in the set.
 2. §SCOPE gains the two tables above in place of the moved block, and says how a project
@@ -75,12 +80,12 @@ The section keeps its name in each file it appears in.
    goes, because the core is now imported.
 7. Where a section divides, each part ends with one line naming where it continues.
 
-**How a project declares its files (proposed).** The import lines in `CLAUDE.md` are the
+**How a project declares its files (agreed).** The import lines in `CLAUDE.md` are the
 declaration, with one line beside *Deploys* that `sync-standards` reads:
 `Rules: app, ui, node, web · Options: firebase, trello`. Sync copies and updates only the
 files the project declares. One `**Version:**` covers the set.
 
-**The proof (proposed).** A committed read-only script, `tests/split-check.mjs`, compares
+**The proof (agreed).** A committed read-only script, `tests/split-check.mjs`, compares
 v3.8.0's `project-rules.md` (from git, `bbe46d6`) with the new files: every non-blank line
 appears in exactly one of them, none twice, and anything else must be on a short list of
 intended changes kept beside the script. It runs in `tests/run.mjs` until v4 is released.
@@ -107,5 +112,8 @@ These need a rewording, so phase 1 leaves them alone.
   TypeScript stays the default; a local tool may be JavaScript with type checking still on
   (`checkJs` and JSDoc types), chosen at setup and recorded in `conventions.md`. Never for a
   client or deployed project.
+- **When to split a `CLAUDE.md` into area files.** §SCALE says "when a project outgrows a
+  single read"; godot-toll's root reached 214 KB before anyone acted. Consider having the
+  checkpoint measure the root file and propose a split past a size, alongside #27 and #33.
 - **Other backends as options**: the owner notes a project may use Supabase or another
   backend. An option file is written when the first project needs it, not before.

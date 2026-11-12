@@ -10,8 +10,10 @@ above the session log is rewritten in place; the log is newest first.*
 **State:** v3.8.0 is on `main`. **v4.0.0 is planned, not started** (`docs/specs/v4.md`,
 2026-11-12): the rules file splits into three layers (how we work, engineering, the stack),
 and issues #20 to #33 (fourteen open) ship with it.
-**Next:** the owner reviews `docs/specs/v4-split-map.md` (which lines go where, and two
-questions), then phase 1 of the spec, the split with no wording changes, in its own session. Nothing
+**Next:** the owner answers one row of `docs/specs/v4-split-map.md` (does §SCALE go to the
+core); the rest of the map is approved, and it supersedes the spec's own *Files* table where
+they differ (files by concern: core, app, ui, node, web, game, non-application, options).
+Then phase 1 of the spec, the split with no wording changes, in its own session. Nothing
 else open blocks phases 1 to 4; the §SECURITY wording is approved in phase 5. The spec has
 seven phases: the split into three layers, profiles, documents and sessions, motif previews,
 security and the last proposals, a Process X audit of the standard itself, then the theme

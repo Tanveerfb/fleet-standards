@@ -218,3 +218,9 @@ broader picture, not the short-term goal. Walked layer by layer (`docs/specs/v4-
 - Every call that needs a rewording waits for the Process X audit, by the owner's ruling.
   Raised by the owner and parked there: a more robust package manager than npm, and
   JavaScript as a named choice for niche local projects.
+- **Round 4 approved**: the seven structural wording changes, the `Rules:` / `Options:`
+  line a project declares its files with, and a committed read-only script as the proof
+  that no line was lost.
+- **A machine inventory** (the owner's idea): `~/.claude/machine.md`, kept by a skill, so a
+  project knows what tools the machine has before it proposes one. In the owner's own files,
+  like the studio credit line, over a file in each project, which would repeat and drift.
