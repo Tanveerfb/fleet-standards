@@ -142,3 +142,16 @@ The owner's four choices, planning v4 (`docs/specs/v4.md`):
   identical to the v3.8.0 merge. The wording is a draft in the spec until the owner approves it.
 - **Issue #26's after-compact hook is also written into each project's settings**, because
   cloud sessions load no plugin hooks, over keeping a short compact block for cloud.
+
+Five more, the same day, closing the spec's open questions:
+
+- **`project-rules.md` stays at the project root, profiles in `rules/` beside it**, over
+  moving everything under `.claude/fleet/`.
+- **Procedure moves from the core into skills in a later phase 5**, section by section on
+  the owner's yes, over doing it during the split or not at all.
+- **Process X is a process document**, as issue #29 proposes. The agent recommended a skill
+  plus two lines in §OWNER, since a document has no trigger phrase and cannot be evaluated;
+  the owner chose the document.
+- **Branch protection on the default branch is a rule where the GitHub plan allows it**,
+  over a recommendation.
+- **§FIREBASE stays in the web profile; only §AI is read on demand.**

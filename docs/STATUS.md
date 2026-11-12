@@ -10,8 +10,8 @@ above the session log is rewritten in place; the log is newest first.*
 **State:** v3.8.0 is on `main`. **v4.0.0 is planned, not started** (`docs/specs/v4.md`,
 2026-11-12): the rules file splits into a core and profiles, and issues #20 to #33 (fourteen
 open) ship with it.
-**Next:** the owner answers the spec's five open questions; then phase 1, the split with no
-wording changes.
+**Next:** phase 1 of the spec, the split with no wording changes, in its own session. Nothing
+open blocks phases 1 to 3; the §SECURITY wording is approved in phase 4.
 **Blocked on:** nothing in this repo. Issue #31 reports the `Studio credit:` line is now in
 the owner's `~/.claude/CLAUDE.md`; not confirmed from here.
 **Security, 2026-11-12:** a stolen GitHub token pushed a secret-stealing workflow to `main`
