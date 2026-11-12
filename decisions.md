@@ -126,3 +126,19 @@ write: a guess about what code does is easy to slip past. Written fresh rather t
 toll-kits' reference hook, which was not reachable from this session; it strips heredoc
 bodies and quoted text before looking, so the commit-message false positive the issue
 describes does not occur. This repository registers it for itself too.
+
+## 2026-11-12 — v4.0.0 planned: core and profiles
+
+The owner's four choices, planning v4 (`docs/specs/v4.md`):
+
+- **The rules file splits into a core and profiles** (web, game engine, non-application),
+  over keeping one file with all fourteen open issues in it, or a documentation overhaul
+  only. This reverses nothing from 2026-10-21: that entry declined a size budget, not a split.
+- **Issues #20 to #33 all ship inside v4.** The agent recommended the five small fixes as a
+  v3.9.0 first; the owner chose one release and one sync per project.
+- **§SECURITY gains rules from the 11–12 November token attack**, over a relay check alone.
+  A stolen token pushed a secret-stealing workflow to this repository's `main` three times
+  (`fd454a6`, `d8d0206`, `8898dc3`), each followed by a "restore"; `main`'s content is
+  identical to the v3.8.0 merge. The wording is a draft in the spec until the owner approves it.
+- **Issue #26's after-compact hook is also written into each project's settings**, because
+  cloud sessions load no plugin hooks, over keeping a short compact block for cloud.
