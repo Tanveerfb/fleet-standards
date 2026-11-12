@@ -55,7 +55,11 @@ versions of the same rules file at once.
   untouched. A file a project's agent must read (`process-x.md`) goes in the `REFERENCE`
   list there and the `reference` list in `install-skills.mjs`.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
-  `version`.
+  `version`. **Also run `claude plugin validate standards`**: only that form parses each
+  skill's frontmatter, and a skill whose frontmatter fails to parse loads with no name or
+  description and never appears in a session (`checkpoint` and `relay`, until v3.9.0: a
+  colon followed by a space in the description). Its one expected warning is the missing
+  icon.
 
 ## What "release" means here
 

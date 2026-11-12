@@ -176,3 +176,13 @@ Issue #20 covered `*.sh`. The credential hook is a shell script with no extensio
 template also pins `.githooks/*`. This repository gets a `.gitattributes` for its own hook.
 Found while testing: `tests/run.mjs` failed 14 frontmatter checks on a Windows checkout with
 `core.autocrlf` on, before any change; it now normalises line endings before reading.
+
+## 2026-11-12 — Skill descriptions stay plain YAML values, reworded rather than quoted
+
+`checkpoint` and `relay` did not load: "Goal: " in an unquoted description breaks the
+frontmatter. Reworded to drop the colon, and `tests/run.mjs` enforces it. Alternative turned
+down: quoting the whole description — every description is full of double quotes and
+apostrophes, each needing an escape, and `tests/run.mjs` and other agents' loaders read the
+line as plain text. CI's `claude plugin validate .` did not catch it; adding
+`claude plugin validate standards` to the workflow is left for the owner, since the workflow
+file was the target of the CI attack and is not changed without being asked.

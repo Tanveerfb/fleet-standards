@@ -108,6 +108,14 @@ projects.
   `~/.claude/CLAUDE.md`; a `Studio credit:` line the project has no answer to goes into the
   report with the two §CREDIT questions offered. A project already on the latest standard
   never runs a sync, so nothing else would ask. Issue #31.
+- **`checkpoint` and `relay` load again.** Both descriptions held a colon followed by a
+  space ("Goal: …"), which is not valid in an unquoted YAML value. Current Claude Code
+  (seen on 2.1.322) then loads the skill with empty metadata, silently, so neither appeared
+  in a session's skill list — the two skills the standard leans on most. Found when the
+  behaviour evals scored 0 with "Skill called 0x"; `claude plugin validate standards` names
+  the fault, `claude plugin validate .` does not. Reworded, and `tests/run.mjs` now fails a
+  description that is not a plain YAML value. **If the two skills were missing from your
+  sessions, update the plugin.**
 - **`checkpoint` Step 4 — read a tool-rewritten config's diff before reverting it.** An
   engine or IDE may rewrite a file and also carry a real change; never a blind
   `git checkout -- <file>` (`godot-toll` lost and restored new scene settings this way).

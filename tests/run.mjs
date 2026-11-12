@@ -64,6 +64,11 @@ for (const name of readdirSync(join(S, "skills"))) {
     description.length > 0 && description.length <= DESCRIPTION_BUDGET,
     description.length > 1024 ? "over Codex's 1,024 limit" : "trim it",
   );
+  // An unquoted YAML value cannot hold ": " or " #", or start with a quote or an indicator.
+  // Claude Code then loads the skill with empty metadata, silently: it never appears in a
+  // session's skill list. checkpoint and relay shipped that way until v3.9.0.
+  const unsafe = /: | #/.exec(description)?.[0] ?? /^["'`@%&*!|>{\[]/.exec(description)?.[0];
+  check(`${name}: description is a plain YAML value`, !unsafe, `contains ${JSON.stringify(unsafe)} — reword it`);
 }
 
 // ---------------------------------------------------------------------------------------------

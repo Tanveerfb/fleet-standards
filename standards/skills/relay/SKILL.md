@@ -1,6 +1,6 @@
 ---
 name: relay
-description: Use at the START of a work session to pick up where the last one left off — e.g. "relay", "relay max", "let's continue", "continue where we left off", "catch me up", "where were we", "resume the project", "what was I doing", "pick up from the handoff". The inverse of the checkpoint skill: checkpoint writes the handoff, relay loads it AND verifies it still describes the repo before any work starts. "MAX" means claim-by-claim verification plus a fresh test/build baseline. Goal: start with a true picture, not a confident stale one.
+description: Use at the START of a work session to pick up where the last one left off — e.g. "relay", "relay max", "let's continue", "continue where we left off", "catch me up", "where were we", "resume the project", "what was I doing", "pick up from the handoff". The inverse of the checkpoint skill — checkpoint writes the handoff, relay loads it AND verifies it still describes the repo before any work starts. "MAX" means claim-by-claim verification plus a fresh test/build baseline. The goal is to start with a true picture, not a confident stale one.
 ---
 
 # Relay

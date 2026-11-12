@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects, or single-branch in a cloud session). Ends by asking whether to compact and continue. Goal: the next session picks up with nothing missing and nothing assumed.
+description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects, or single-branch in a cloud session). Ends by asking whether to compact and continue. The goal is a next session that picks up with nothing missing and nothing assumed.
 ---
 
 # Checkpoint
