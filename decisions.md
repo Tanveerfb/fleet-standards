@@ -177,3 +177,20 @@ and the README is designed in it. Themes need not share a series or follow the n
 is not chosen. Also the owner, the same day: v4 is not in a hurry and is to be planned
 properly. The agent's advice on where a theme may and may not appear is in the spec, as
 advice, until the owner rules on it.
+
+## 2026-11-12 — v4: three layers, quality over size, the audit inside the release
+
+- **Three layers of files**: `project-rules.md` (how we work, every repository),
+  `rules/app.md` (engineering for any application code), then the stack (`rules/web.md`,
+  `rules/game.md`). Over one bigger core holding both, or a separate `rules/node.md`. It came
+  from a gap the split map found: local Node tools are a fourth kind of repository, beside
+  web projects, games and non-application repositories, and had no profile.
+- **Quality over size.** The owner: "a compromise on size is okay if it means better
+  workflow in the long run." So a non-application repository now imports the core, where it
+  used to read sections on demand; and v4 has no size target. This replaces the spec's
+  earlier size figures as an acceptance test; sizes are still recorded.
+- **The Process X audit is inside v4.0.0.** The owner's order: handle every open proposal,
+  then the audit and the adjustments it brings, then release. This settles the question left
+  open earlier today (it had been written as v4.1.0).
+- **Why v4 and no v3.9.0**: the owner's reason is that this is several updates in one, plus
+  the audit, taken slowly and done properly.
