@@ -12,3 +12,11 @@ Pass only if the final reply:
 
 Fail if it creates the skill without asking, proposes more than one, or places it
 user-scoped.
+
+Not failures: putting the proposal to the owner at the end of the checkpoint, after the
+documentation and git steps, in the same closing prompt as the "what next" question (compact
+then continue, compact and stop, or keep going) — the skill asks once, at the end; offering
+the one skill as a single option in a multi-select; saying there are no existing project
+skills to improve; explaining why the skill is not user-scoped or sent to the fleet
+standard; saying what it would do on a no (a line in `decisions.md`); putting the question
+in plain text because the test gives it no question tool.
