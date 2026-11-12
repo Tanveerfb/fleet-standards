@@ -8,18 +8,23 @@ above the session log is rewritten in place; the log is newest first.*
 ## Start here
 
 **State:** v3.8.0 is on `main`. **v4.0.0 is planned, not started** (`docs/specs/v4.md`,
-2026-11-12): the rules file splits into three layers (how we work, engineering, the stack),
-and issues #20 to #33 (fourteen open) ship with it.
-**Next:** the owner answers one row of `docs/specs/v4-split-map.md` (does §SCALE go to the
-core); the rest of the map is approved, and it supersedes the spec's own *Files* table where
-they differ (files by concern: core, app, ui, node, web, game, non-application, options).
-Then phase 1 of the spec, the split with no wording changes, in its own session. Nothing
-else open blocks phases 1 to 4; the §SECURITY wording is approved in phase 5. The spec has
-seven phases: the split into three layers, profiles, documents and sessions, motif previews,
-security and the last proposals, a Process X audit of the standard itself, then the theme
-and release. The owner is in no hurry: quality over speed and over size.
-**Blocked on:** nothing in this repo. Issue #31 reports the `Studio credit:` line is now in
-the owner's `~/.claude/CLAUDE.md`; not confirmed from here.
+2026-11-12): the rules file splits by concern into a core and files under `rules/`, issues
+#20 to #33 (fourteen open) ship with it, and the standard gets its own Process X audit
+before the release. All of it is on the working branch `claude/new-project-mockup-zp2h2z`;
+`main` is untouched.
+**Next:** **phase 1, the split with no wording changes**, in a local session on the owner's
+PC. Read `docs/specs/v4.md`, then `docs/specs/v4-split-map.md`, which is the authority on
+which section goes where and ends with *Phase 1, in order*. Its first step is one question
+to the owner: does §SCALE go to the core (the owner was unsure; the map says why the agent
+recommends yes).
+**Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
+5) and v4's theme name (phase 7).
+**The owner's rule for v4:** quality for the long term, over speed and over size. No hurry.
+Suggestions look at the broader picture. Every call that needs a rewording waits for the
+audit (the list is at the end of the split map).
+**Not confirmed from here:** issue #31 reports the `Studio credit:` line is now in the
+owner's `~/.claude/CLAUDE.md`; `main` is to be protected by the owner (the steps are in the
+plans repo's `owner-setup.md`).
 **Security, 2026-11-12:** a stolen GitHub token pushed a secret-stealing workflow to `main`
 three times on 11–12 November, each followed by a "restore". `main`'s content equals the
 v3.8.0 merge (`bbe46d6`); the three workflow runs are gone from the Actions list. The owner's
@@ -94,6 +99,18 @@ reviewed by reading, not by running.
 ---
 
 ## Session log
+
+### 2026-11-12 — v4 planned with the owner; nothing built
+
+Relay found fourteen open proposals and the token attack's three pushes to `main` (content
+unchanged; the owner confirms the incident is closed). Then v4 was planned end to end with
+the owner: `docs/specs/v4.md` (seven phases) and `docs/specs/v4-split-map.md` (where every
+section goes, walked through in four rounds). The owner added, beyond the issues: a Process
+X audit of the standard inside v4, motif previews ("Show me" and a gallery), a theme for
+each major version, options as a category (credit, Trello, Firebase, AI), and a machine
+inventory. Parked for the audit: a package manager beyond npm, JavaScript as a named choice.
+Every decision and its alternatives is in `decisions.md` under this date. No rule, skill or
+script changed; the tests pass as before.
 
 ### 2026-11-02 — v3.8.0 built: issues #15 to #18
 

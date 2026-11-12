@@ -1,8 +1,8 @@
 # v4 phase 1 — the split map
 
-**Status:** approved by the owner, all four rounds (2026-11-12). One row is still open:
-whether §SCALE goes to the core. Companion to [`v4.md`](v4.md). Phase 1 moves text
-exactly as this map says; nothing has been moved.
+**Status:** approved by the owner, all four rounds (2026-11-12); ready for phase 1. One row
+needs a one-line confirmation first (§SCALE, below). Companion to [`v4.md`](v4.md). Phase 1
+moves text exactly as this map says; nothing has been moved.
 
 Phase 1 changes no wording. Where a move forces a wording change (a header, a pointer), it is
 listed under *Changed on purpose* and nowhere else. Every judgement call that needs a
@@ -38,7 +38,8 @@ rewording is carried to the phase 6 audit (last section).
 | §DOCS, §ASK, §AGENTS, §GIT, §OWNER, §SPECS, §TOOLS, §SECURITY | core | Round 1 |
 | §CREDIT | `rules/options/credit.md` | Round 1: the owner moved it out of the core |
 | §TRELLO | `rules/options/trello.md` | Round 1: the same |
-| §GROWTH, §MODULES, §SCALE, §DATA, §LIFECYCLE, §SHORTCUTS | `rules/app.md` | Round 2 |
+| §GROWTH, §MODULES, §DATA, §LIFECYCLE, §SHORTCUTS | `rules/app.md` | Round 2 |
+| §SCALE | core | **Confirm before moving it** (below) |
 | §DESIGN, §COMPONENTS, §QOL, §PATTERNS | `rules/ui.md` | Rounds 2 and 3 |
 | §TS, §NPM, §RUNTIME, §PACKAGES | `rules/node.md` | Round 3 |
 | §STRUCTURE, §STATE, §FORMS, §HOOKS, §STYLING, §SHADCN, the new-project checklist | `rules/web.md` | Round 3 |
@@ -61,10 +62,28 @@ The section keeps its name in each file it appears in.
 | | Vitest, pure logic, transition maps | `rules/node.md` |
 | | The browser order, 390px | `rules/web.md` |
 
-**Open: §SCALE.** It holds the area `CLAUDE.md` files and the architecture map. The agent
-recommends the core over `rules/app.md`: area files are about how a session finds its rules,
-which is how we work, and a large non-application repository needs them too. The owner raised
-area files on 2026-11-12; awaiting a yes.
+**§SCALE: the agent's call, not yet the owner's.** It holds the area `CLAUDE.md` files and
+the architecture map. Asked whether it should go to the core, the owner said: "I am not
+sure, because initially projects start small but eventually they can grow big." The agent
+reads that as the reason for the core: a rule about outgrowing a single read has to be
+loaded while the project is still small, or no session is there to notice the day it stops
+being small. It costs 1.6 KB. **The phase 1 session asks the owner for a yes in one line
+before moving §SCALE**; on a no it goes to `rules/app.md`, and nothing else in the map changes.
+
+## Phase 1, in order
+
+1. Confirm §SCALE with the owner.
+2. Write `tests/split-check.mjs` and its list of intended changes first, and see it fail
+   against the untouched tree (every line "missing"): a check that has never failed proves
+   nothing.
+3. Create the files under `standards/rules/` and move the sections, one file per commit,
+   word for word, with the Edit and Write tools only.
+4. Make the seven changes under *Changed on purpose*, each added to the intended-changes list.
+5. Run the check until it passes; read its "changed on purpose" output against that list.
+6. Update what reads the rules file: `sync-standards`, the startup check, `sync-rules.mjs`,
+   `install-skills.mjs`, the templates, `tests/run.mjs`. No skill wording beyond file names.
+7. Do not bump the version, touch the CHANGELOG's release date, or sync any project: v4 is
+   released only at the end of phase 7. Checkpoint on the working branch.
 
 ## Changed on purpose (round 4, agreed)
 
