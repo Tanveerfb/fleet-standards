@@ -194,3 +194,27 @@ advice, until the owner rules on it.
   open earlier today (it had been written as v4.1.0).
 - **Why v4 and no v3.9.0**: the owner's reason is that this is several updates in one, plus
   the audit, taken slowly and done properly.
+
+## 2026-11-12 — v4 split map, rounds 1 to 3 with the owner
+
+The owner's standing instruction for v4: quality for the long term; suggestions look at the
+broader picture, not the short-term goal. Walked layer by layer (`docs/specs/v4-split-map.md`):
+
+- **The files split by concern, not into three layers**: core, `rules/app.md`, `rules/ui.md`,
+  `rules/node.md`, `rules/web.md`, `rules/game.md`, `rules/non-application.md` and
+  `rules/options/`. This refines the "three layers" entry above.
+- **`rules/node.md` is separate**, so `rules/app.md` stays true in any language; the owner's
+  tools are not all Node. Over putting the Node sections in `app.md` (the agent's first
+  recommendation) or leaving them in `web.md`.
+- **`rules/ui.md` is separate.** The owner: agents lacking UI awareness has been an issue in
+  a couple of projects.
+- **§CREDIT and §TRELLO leave the core for a new category, options** (the owner's idea):
+  things a project opts into at setup. §AI is filed there too.
+- **§FIREBASE becomes an option**, reversing the earlier entry that kept it in the web
+  profile. The owner: not every project needs Firebase; some may use Supabase or another
+  backend. godot-toll, a game, already uses it.
+- **§TESTING's universal lines go in the core** (the owner: every project needs testing),
+  over `app.md` and `ui.md`.
+- Every call that needs a rewording waits for the Process X audit, by the owner's ruling.
+  Raised by the owner and parked there: a more robust package manager than npm, and
+  JavaScript as a named choice for niche local projects.

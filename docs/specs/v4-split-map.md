@@ -1,82 +1,111 @@
 # v4 phase 1 — the split map
 
-**Status:** draft for the owner's review (2026-11-12; layering decided the same day).
-Companion to [`v4.md`](v4.md). Phase 1 moves text exactly as this map says once the owner
-has approved it; nothing has been moved.
+**Status:** rounds 1 to 3 of the owner's walk-through agreed (2026-11-12); round 4 (wording
+changes, how a project declares its files, the proof) awaiting the owner. Companion to
+[`v4.md`](v4.md). Phase 1 moves text exactly as this map says; nothing has been moved.
 
 Phase 1 changes no wording. Where a move forces a wording change (a header, a pointer), it is
-listed under *Changed on purpose* and nowhere else.
+listed under *Changed on purpose* and nowhere else. Every judgement call that needs a
+rewording is carried to the phase 6 audit (last section).
 
-## Three layers, four kinds of repository
+## The files, by concern
 
-| Layer | File | Holds |
+| File | Concern | Loaded by |
 | --- | --- | --- |
-| 1. How we work | `project-rules.md` | Asking, agents, git, the owner's agreement, documents, credit, Trello, specs, other agents, security |
-| 2. Engineering | `rules/app.md` | What holds for any application code, whatever the stack |
-| 3. The stack | `rules/web.md`, `rules/game.md` | How one stack meets layer 2, and its own rules |
-| On demand | `rules/ai.md` | §AI, read before model work |
-| Profile note | `rules/non-application.md` | What a repository without application code keeps |
+| `project-rules.md` | How we work (the core) | Every repository |
+| `rules/app.md` | Engineering, in any language | Anything with application code |
+| `rules/ui.md` | Interface | Anything with a visual surface, including a non-application repository that has one |
+| `rules/node.md` | The Node and TypeScript stack | Web projects and Node tools |
+| `rules/web.md` | The Next.js stack | Web projects |
+| `rules/game.md` | The game-engine stack | Games. Written new in phase 2 from issue #28; phase 1 has nothing to move into it |
+| `rules/non-application.md` | What a repository without application code does differently | Those repositories |
+| `rules/options/credit.md`, `trello.md`, `firebase.md` | Things a project opts into at setup | Imported by projects that chose them |
+| `rules/options/ai.md` | AI and model features | Read on demand by projects that chose it |
 
-| Kind of repository | Imports | About |
+| Kind of repository | Loads |
+| --- | --- |
+| Web project (Next.js) | core, app, ui, node, web, its options |
+| Local Node tool | core, app, node; ui if it has an interface; its options |
+| Tool in another language (bash, Python) | core, app; ui if it has an interface |
+| Game | core, app, ui, game, its options |
+| Non-application | core, non-application; ui if it has a visual surface |
+
+## Where each section goes
+
+| Section | Goes to | Agreed |
 | --- | --- | --- |
-| Web project (Next.js) | core + app + web | 64 KB (69 today) |
-| Local Node tool (`cutscene`, `jugaad`, `scribe`) | core + app | 44 KB |
-| Game engine (`godot-toll`) | core + app + game | 44 KB plus its profile |
-| Non-application (`nca-automations`) | core + non-application | 32 KB; today it imports nothing and reads sections on demand |
-
-## Whole sections
-
-| Section | KB | Goes to | Note |
-| --- | --- | --- | --- |
-| §SCOPE | 3.9 | core | The non-application block moves out (below) |
-| §DOCS, §ASK, §AGENTS, §GIT, §TRELLO, §SPECS, §TOOLS | 16.7 | core | |
-| §OWNER | 2.9 | core | Its mockup bullet is web-shaped (static HTML, 390px, `public/_mockups/`); stays, the game and non-application profiles say how they differ |
-| §CREDIT | 3.9 | core | `public/brand/` is a web path; stays, same reason |
-| §SECURITY | 2.0 | core | |
-| §GROWTH, §MODULES, §SCALE | 3.4 | `rules/app.md` | §MODULES' "imports nothing from React, Next" line stays; harmless elsewhere |
-| §DATA, §LIFECYCLE, §SHORTCUTS | 2.2 | `rules/app.md` | Stack-neutral in content |
-| §PACKAGES | 0.6 | `rules/app.md` | |
-| §DESIGN, §COMPONENTS, §QOL | 5.2 | `rules/app.md` | |
-| §TS, §STRUCTURE, §STATE, §FORMS, §HOOKS | 4.5 | `rules/web.md` | |
-| §NPM, §RUNTIME | 3.4 | `rules/web.md` | See question 2 |
-| §FIREBASE | 2.5 | `rules/web.md` | |
-| §STYLING, §SHADCN, §PATTERNS | 4.0 | `rules/web.md` | |
-| §AI | 6.3 | `rules/ai.md` | Read on demand |
-| Checklist — new project | 2.6 | `rules/web.md` | It is a `create-next-app` list. The audit may move it into the `new-project` skill, which already walks it |
+| §SCOPE | core; the non-application block to `rules/non-application.md` | Round 1 |
+| §DOCS, §ASK, §AGENTS, §GIT, §OWNER, §SPECS, §TOOLS, §SECURITY | core | Round 1 |
+| §CREDIT | `rules/options/credit.md` | Round 1: the owner moved it out of the core |
+| §TRELLO | `rules/options/trello.md` | Round 1: the same |
+| §GROWTH, §MODULES, §SCALE, §DATA, §LIFECYCLE, §SHORTCUTS | `rules/app.md` | Round 2 |
+| §DESIGN, §COMPONENTS, §QOL, §PATTERNS | `rules/ui.md` | Rounds 2 and 3 |
+| §TS, §NPM, §RUNTIME, §PACKAGES | `rules/node.md` | Round 3 |
+| §STRUCTURE, §STATE, §FORMS, §HOOKS, §STYLING, §SHADCN, the new-project checklist | `rules/web.md` | Round 3 |
+| §FIREBASE | `rules/options/firebase.md` | Round 3: reverses the earlier "stays in the web profile" |
+| §AI | `rules/options/ai.md` | Earlier; now filed under options |
 
 ## Sections that divide
 
-The section name appears in both files: the upper layer holds the rule, the stack file how
-that stack meets it.
+The section keeps its name in each file it appears in.
 
-| Section | Stays or goes up | `rules/web.md` takes |
+| Section | Lines | Go to |
 | --- | --- | --- |
-| §SCOPE (core) | Everything except the non-application profile | — (the block from "Repositories without application code" to the end of its bullet list goes to `rules/non-application.md`) |
-| §NAMING (app) | The vocabulary bullets; "existing projects keep the convention they have"; "renaming on Windows: always `git mv`" | The case table, the framework-reserved names paragraph, "new projects use this from day one" with the lint rule |
-| §MOTION (app) | The opening and the three things that hold regardless | The *Library* paragraph (`motion`, GSAP) |
-| §BUILD (app) | Comments, JSDoc, no `console.log`, no surviving TODO, errors are blockers, nothing ships with a failing build | The `tsc`, `npm run lint` and `npm run build` lines |
-| §TESTING (app) | "A green build is not evidence an interface works. A UI change is done when it has been seen working"; no end-to-end suite by default | Vitest, the browser order, 390px |
+| §NAMING | The vocabulary bullets | `rules/app.md` |
+| | The case table, framework-reserved names, new and existing projects, `git mv` on Windows | `rules/node.md` |
+| §MOTION | The opening and the three things that hold regardless | `rules/ui.md` |
+| | The *Library* paragraph | `rules/web.md` |
+| §BUILD | Comments, JSDoc, no leftovers, errors are blockers, nothing ships failing | `rules/app.md` |
+| | The `tsc`, lint and `npm run build` lines | `rules/node.md` |
+| §TESTING | "A green build is not evidence an interface works. A UI change is done when it has been seen working"; no end-to-end suite by default | **core** (the owner, round 3: every repository needs testing) |
+| | Vitest, pure logic, transition maps | `rules/node.md` |
+| | The browser order, 390px | `rules/web.md` |
 
-## Changed on purpose (the only wording changes in phase 1)
+## Changed on purpose (round 4, not yet agreed)
 
-1. The header's *Applies to* lines, in each file, to say what the file is and which others
-   exist.
-2. §SCOPE gains a short table of the four kinds of repository and what each imports, and how
-   a project names its own (`Profile: web` in `CLAUDE.md`), in place of the moved block.
+1. Each file's header: what it is, who loads it, the other files in the set.
+2. §SCOPE gains the two tables above in place of the moved block, and says how a project
+   declares what it loads.
 3. Part letters (A to E) go: they described one file. Section names are untouched.
-4. A one-line pointer in `rules/web.md` naming when to read `rules/ai.md`.
-5. The *Master copy* line names the set, not one file.
-6. `rules/non-application.md` names the three things it keeps from `rules/app.md` (§NAMING's
-   vocabulary, §DESIGN where there is a visual surface, §TESTING's "seen working") and says
-   to read them there. Its "this file is referenced, not imported" bullet changes: the core
-   is now imported, because all of it applies.
+4. The core gains one line: the options exist, and `new-project` and `sync-standards` ask
+   about each once. Without it a project that never opted in is never asked.
+5. The *Master copy* line names the set.
+6. `rules/non-application.md`: its list of what it keeps from Parts B to E becomes "imports
+   `rules/ui.md` where there is a visual surface", and its "referenced, not imported" bullet
+   goes, because the core is now imported.
+7. Where a section divides, each part ends with one line naming where it continues.
 
-## Questions for the owner before phase 1 starts
+**How a project declares its files (proposed).** The import lines in `CLAUDE.md` are the
+declaration, with one line beside *Deploys* that `sync-standards` reads:
+`Rules: app, ui, node, web · Options: firebase, trello`. Sync copies and updates only the
+files the project declares. One `**Version:**` covers the set.
 
-1. **Approve this map**, or name the rows to change.
-2. **§NPM and §RUNTIME (Node version pinning, environment checks) apply to web projects and
-   Node tools, but not to a game.** Options: (a) in `rules/web.md`, and a Node tool's
-   `CLAUDE.md` names those two sections to read; (b) in `rules/app.md`, and the game profile
-   lists them as not applicable, as godot-toll's own profile already does. Recommended: (b).
-   A Node tool is far likelier to break on an unpinned Node version than a game is to be
-   confused by 3 KB it is told to skip.
+**The proof (proposed).** A committed read-only script, `tests/split-check.mjs`, compares
+v3.8.0's `project-rules.md` (from git, `bbe46d6`) with the new files: every non-blank line
+appears in exactly one of them, none twice, and anything else must be on a short list of
+intended changes kept beside the script. It runs in `tests/run.mjs` until v4 is released.
+
+## Carried to the phase 6 audit
+
+These need a rewording, so phase 1 leaves them alone.
+
+- **§OWNER's mockup bullets, §AGENTS and §DOCS** carry web details inside a universal rule
+  (static HTML, 390px, `public/_mockups/`, `components.md`, the data adapter). Divide: the
+  rule in the core, the detail in `ui.md` or `web.md`.
+- **§STATE**: zod applies to Node tools, Zustand only to React.
+- **§RUNTIME**: Node pinning is general; Vercel and `NEXT_PUBLIC_` are web.
+- **§STRUCTURE**: `lib/domain` and `lib/data` suit a Node tool; `app/` does not.
+- **§PACKAGES**: mostly true in any language; only "verify on npm" is Node.
+- **§TESTING** now sits in three files. Check it still reads as one rule.
+- **UI awareness** (the owner, round 2): agents missing interface rules has been a real
+  problem in a couple of projects. Ask the owner for the cases, and fix `ui.md` against them.
+- **Package manager** (the owner, round 3): open to moving from npm to something more robust
+  for the long term, pnpm named. The agent's lean: pnpm for new projects, existing ones keep
+  npm; to be checked against current pnpm, Vercel and Firebase documentation before any
+  rule is written.
+- **JavaScript as a named choice** (the owner, round 3; left to the agent to recommend):
+  TypeScript stays the default; a local tool may be JavaScript with type checking still on
+  (`checkJs` and JSDoc types), chosen at setup and recorded in `conventions.md`. Never for a
+  client or deployed project.
+- **Other backends as options**: the owner notes a project may use Supabase or another
+  backend. An option file is written when the first project needs it, not before.
