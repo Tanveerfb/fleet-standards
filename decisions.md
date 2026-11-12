@@ -126,3 +126,53 @@ write: a guess about what code does is easy to slip past. Written fresh rather t
 toll-kits' reference hook, which was not reachable from this session; it strips heredoc
 bodies and quoted text before looking, so the commit-message false positive the issue
 describes does not occur. This repository registers it for itself too.
+
+## 2026-11-12 — v3.9.0: all fourteen proposals, #20 to #33, in one release
+
+The owner's choice, over the small ones now and the large later, or going through them one
+by one. Issue #25 is folded into #28: the same game profile, #28 the later and fuller
+wording after Process X. Each issue's wording was taken, with the agent's additions below.
+
+## 2026-11-12 — The game-engine profile: what the two issues left unplaced
+
+§SHORTCUTS applies in full; §PATTERNS joins the "where the game has the thing" group;
+§PACKAGES is read as add-ons. Neither issue placed them. §GIT, §DOCS and §SPECS are not
+listed, because "Part A in full" already covers them. The rules file is referenced, not
+imported, following the 2026-10-21 decision for profile projects — the issues did not say.
+One project's evidence, on one engine.
+
+## 2026-11-12 — Relay after compact: projects carry the hook too, and it arrives once
+
+Issue #26 says cloud sessions load the plugin's hooks; this repository's record says they
+install no plugins (2026-10-20, 2026-11-02), so `sync-standards` copies the hook into each
+project, as it does the shell-write hook. Two copies would print the instruction twice, so
+the plugin's copy stays silent where the project's settings register its own. Added to the
+issue: the hook is silent in a project with neither `docs/STATUS.md` nor `project-rules.md`,
+since the plugin is enabled in folders that keep no fleet record. Alternative turned down:
+plugin only, trusting the issue's line about cloud sessions — unverified, and a miss there
+is silent. If the owner asks for compact instructions anyway, the answer is one line, as the
+issue proposed.
+
+## 2026-11-12 — History apart: the checkpoint migrates, and the fold moves to the log
+
+Added to issue #33: who moves an existing session log. The next checkpoint does, verbatim,
+rather than `sync-standards` (a sync changes rules, not records, and never commits) or a
+script (§AGENTS: files change through the editor tools). The ~800-line fold now applies to
+`docs/log.md`; dropping it was considered, since nothing auto-reads the log, but relay still
+opens that file for its newest entry. The root brief's record is `docs/record/root.md`; the
+issue named only `<area>`. The briefs' split is offered by `sync-standards` as its own piece
+of work, never done as a side effect.
+
+## 2026-11-12 — Process X: short form in §OWNER, the steps in their own file
+
+The issue offered §OWNER or §GIT; §OWNER, because it is the owner's process and not a git
+trigger. The seven steps as run in `godot-toll` are in `standards/process-x.md`, kept out of
+the rules file, which every session loads (69 KB at v3.8.0). The file is copied to projects
+through both reference lists so the rule's pointer resolves in a cloud session.
+
+## 2026-11-12 — `.gitattributes`: the hook folder too, and this repository
+
+Issue #20 covered `*.sh`. The credential hook is a shell script with no extension, so the
+template also pins `.githooks/*`. This repository gets a `.gitattributes` for its own hook.
+Found while testing: `tests/run.mjs` failed 14 frontmatter checks on a Windows checkout with
+`core.autocrlf` on, before any change; it now normalises line endings before reading.

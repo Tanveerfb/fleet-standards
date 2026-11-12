@@ -53,7 +53,8 @@ section("Skill frontmatter");
 // headroom so one more trigger phrase cannot push a skill over the edge.
 const DESCRIPTION_BUDGET = 800;
 for (const name of readdirSync(join(S, "skills"))) {
-  const text = readFileSync(join(S, "skills", name, "SKILL.md"), "utf8");
+  // A Windows checkout with autocrlf has CRLF in the working tree; the frontmatter is the same.
+  const text = readFileSync(join(S, "skills", name, "SKILL.md"), "utf8").replace(/\r\n/g, "\n");
   const front = /^---\n([\s\S]*?)\n---\n/.exec(text)?.[1] ?? "";
   const skillName = /^name:\s*(.+)$/m.exec(front)?.[1]?.trim();
   const description = /^description:\s*(.+)$/m.exec(front)?.[1]?.trim() ?? "";
@@ -121,6 +122,9 @@ section("Credential hook (standards/templates/pre-commit)");
     "apiKey in code": "const apiKey" + ` = '${k(20)}';`,
     "sk- token": "OPENAI=" + "sk" + `-${k(24)}`,
     "Google API key": "key: " + "AI" + `za${k(35, "B")}`,
+    "Discord webhook URL": "hook = https://discord" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
+    "Discord webhook URL, old domain": "https://discordapp" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
+    "Google OAuth client secret": "secret: " + "GOC" + `SPX-${k(28)}`,
   };
   for (const [label, line] of Object.entries(fakes)) {
     writeFileSync(join(dir, "fake.txt"), line + "\n");
@@ -131,6 +135,56 @@ section("Credential hook (standards/templates/pre-commit)");
   writeFileSync(join(dir, "prose.md"), 'A fake "private' + '_key": JSON tested the hook; "private_key": "short".\n');
   run("git", ["add", "prose.md"], { cwd: dir });
   check("passes: prose describing the hook", runHook() === 0);
+  writeFileSync(join(dir, "prose.md"), "Invite: https://discord.com/invite/abc and the docs at discord.com/developers/docs/resources/webhook.\n");
+  run("git", ["add", "prose.md"], { cwd: dir });
+  check("passes: a Discord link that is not a webhook", runHook() === 0);
+}
+
+// ---------------------------------------------------------------------------------------------
+section("Relay after compact (standards/scripts/after-compact.mjs)");
+{
+  const script = join(S, "scripts", "after-compact.mjs");
+  const project = (name, files = {}) => {
+    const dir = join(scratch, name);
+    for (const [f, text] of Object.entries(files)) {
+      mkdirSync(dirname(join(dir, f)), { recursive: true });
+      writeFileSync(join(dir, f), text);
+    }
+    mkdirSync(dir, { recursive: true });
+    return dir;
+  };
+  const hook = (dir, input, from = script) => run("node", [from], { input, env: { ...process.env, CLAUDE_PROJECT_DIR: dir } });
+  const context = (r) => {
+    try {
+      return JSON.parse(r.stdout).hookSpecificOutput.additionalContext;
+    } catch {
+      return "";
+    }
+  };
+  const withStatus = project("compact-status", { "docs/STATUS.md": "# status\n" });
+  const withRules = project("compact-rules", { "project-rules.md": "**Version:** 3.9.0\n" });
+  const bare = project("compact-bare");
+
+  const compact = hook(withStatus, JSON.stringify({ source: "compact" }));
+  check("compact: emits valid SessionStart JSON asking for the full relay", context(compact).includes("after a compact") && context(compact).includes("full relay skill"));
+  check("compact: says relay comes before a waiting request", context(compact).includes("even when a request from the owner is already waiting"));
+  check("resume: names the resume", context(hook(withRules, JSON.stringify({ source: "resume" }))).includes("after a resume"));
+  check("startup: silent", hook(withStatus, JSON.stringify({ source: "startup" })).stdout === "");
+  check("clear: silent", hook(withStatus, JSON.stringify({ source: "clear" })).stdout === "");
+  check("a project with no status doc and no rules: silent", hook(bare, JSON.stringify({ source: "compact" })).stdout === "");
+  const broken = hook(withStatus, "{not json");
+  check("unreadable input: silent, exit 0", broken.stdout === "" && broken.status === 0);
+
+  // The plugin's copy defers to a copy the project registers for itself; that copy speaks.
+  const own = project("compact-own", {
+    "docs/STATUS.md": "# status\n",
+    ".claude/settings.json": JSON.stringify({ hooks: { SessionStart: [{ matcher: "compact|resume", hooks: [{ type: "command", command: 'node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/after-compact.mjs"' }] }] } }),
+  });
+  const ownScript = join(own, ".claude", "fleet", "scripts", "after-compact.mjs");
+  mkdirSync(dirname(ownScript), { recursive: true });
+  cpSync(script, ownScript);
+  check("the plugin's copy is silent where the project registers its own", hook(own, JSON.stringify({ source: "compact" })).stdout === "");
+  check("the project's own copy speaks", context(hook(own, JSON.stringify({ source: "compact" }), ownScript)).includes("full relay skill"));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -241,8 +295,12 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   const hookEntries = (p) => (settingsOf(p).hooks?.PreToolUse ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("block-shell-writes.mjs")));
   check("the shell-write hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "block-shell-writes.mjs")));
   check("the hook is registered once in .claude/settings.json", hookEntries(project).length === 1);
+  const compactEntries = (p) => (settingsOf(p).hooks?.SessionStart ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("after-compact.mjs")));
+  check("the relay-after-compact hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "after-compact.mjs")));
+  check("it is registered once, on compact|resume", compactEntries(project).length === 1 && compactEntries(project)[0].matcher === "compact|resume");
+  check("process-x.md is copied for the rules to point at", existsSync(join(project, ".claude", "fleet", "process-x.md")));
   copy();
-  check("a second run does not register it twice", hookEntries(project).length === 1);
+  check("a second run does not register either twice", hookEntries(project).length === 1 && compactEntries(project).length === 1);
 
   const existing = join(scratch, "existing");
   mkdirSync(join(existing, ".claude"), { recursive: true });
@@ -251,10 +309,13 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   writeFileSync(join(existing, ".claude", "settings.json"), JSON.stringify(before));
   run("node", [script, existing]);
   const after = settingsOf(existing);
-  check("existing settings are kept when the hook is merged in", after.enabledPlugins["fleet@tanveerfb"] === true && after.hooks.PreToolUse.length === 2 && hookEntries(existing).length === 1);
+  check(
+    "existing settings are kept when the hooks are merged in",
+    after.enabledPlugins["fleet@tanveerfb"] === true && after.hooks.PreToolUse.length === 2 && hookEntries(existing).length === 1 && compactEntries(existing).length === 1,
+  );
   writeFileSync(join(existing, ".claude", "settings.json"), "{not json");
   const broken = run("node", [script, existing]);
-  check("unreadable settings are left alone, with a warning", readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "{not json" && broken.stdout.includes("register the hook by hand"));
+  check("unreadable settings are left alone, with a warning", readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "{not json" && broken.stdout.includes("register the hooks by hand"));
 }
 
 rmSync(scratch, { recursive: true, force: true });

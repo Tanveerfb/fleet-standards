@@ -87,19 +87,20 @@ plainly that **production is updating** — a CPR is a production deploy.
 
 A checkpoint has three layers, done in order:
 
-1. **The deep doc** — the project's living record. It has two zones: a **snapshot** at the top
-   (what is true right now, rewritten every checkpoint) opening with a **Start here** block, and a
-   **session log** below it (what happened, newest first). One artifact, two jobs.
-   Alongside it, **the project's own documentation** — README and the rest — brought current
+1. **The deep doc** — the project's living record, in two files with two jobs
+   (`project-rules.md` §DOCS): the **snapshot**, `docs/STATUS.md` (what is true right now,
+   rewritten every checkpoint), opening with a **Start here** block; and the **session log**,
+   `docs/log.md` (what happened, newest first), which nothing loads by default.
+   Alongside them, **the project's own documentation** — README and the rest — brought current
    for what the session changed (Step 2.5).
 2. **The Trello board** (Step 3.5, only if the project's `CLAUDE.md` names one) — mirror the
    snapshot onto it.
 3. **Git** (if applicable) — get the actual history current, or explicitly confirm there's nothing
    to commit / it's not a repo.
 4. **The pause** (Step 6) — one question: approve any skill proposals or showcase update,
-   choose to compact and continue, compact and stop, or keep going, and have the compact
-   instructions written now or on request. The moment the doc and git are current is the
-   moment the conversation becomes safe to shed; whether to shed it is the owner's call.
+   and choose to compact and continue, compact and stop, or keep going. The moment the doc
+   and git are current is the moment the conversation becomes safe to shed; whether to shed
+   it is the owner's call.
 
 There is deliberately no separate terse handoff file. A handoff kept outside the deep doc drifts
 from it, and a handoff kept outside version control isn't there when someone needs it — the
@@ -202,15 +203,30 @@ Approved changes are committed as Step 6 says. If there is nothing that meets th
 serves this purpose. Update it in place, don't fork a second doc. If nothing like this exists,
 create `docs/STATUS.md` at the project root.
 
-**If the doc already exists, read the whole thing first.** A checkpoint updates and extends it —
-it does not overwrite history. Keep sections that are still true; revise sections that changed;
-add new sections for new ground covered.
+**If the doc already exists, read the whole snapshot first.** A checkpoint updates it and
+extends the log — it does not lose history. Keep sections that are still true; revise
+sections that changed; add new sections for new ground covered.
 
-**Two zones, and they are maintained differently.**
+**Two files, and they are maintained differently** (`project-rules.md` §DOCS).
 
-- The **snapshot** (top) is *rewritten in place* every checkpoint. Its job is to be current, not
-  complete. If a line in it is no longer true, it is corrected or cut — never appended below.
-- The **session log** (below) is append-at-top, newest first. Its job is history.
+- The **snapshot** (`docs/STATUS.md`) is *rewritten in place* every checkpoint. Its job is to
+  be current, not complete: `Start here` and one current-state block, never a stack of them.
+  If a line in it is no longer true, it is corrected or cut — never appended below, never
+  kept as a "was".
+- The **session log** (`docs/log.md`) is append-at-top, newest first. Its job is history, and
+  nothing loads it by default. This checkpoint's entry goes there: superseded numbers,
+  measurements and the owner's quotes with it.
+
+**A status doc that still holds its session log** (written before the standard split them) is
+split in this checkpoint: move the log, verbatim, into `docs/log.md`, newest first, and leave
+the pointer line from `templates/STATUS.template.md` in its place. Stacked "still true"
+blocks from earlier checkpoints go the same way, into the log entry of the checkpoint that
+wrote them. Say in Step 5 that the log moved. Relocation, never summarising.
+
+**The briefs follow the same rule.** `CLAUDE.md` and its area files hold what is true now.
+When this checkpoint replaces a line in one, the old line moves, word for word, under the
+same heading in `docs/record/<area>.md` (`docs/record/root.md` for the root file) in the same
+pass: a brief never gains a "was", a record never loses a line.
 
 **Fold before you append.** History belongs in the record; it does not belong in the reader's way.
 
@@ -219,10 +235,10 @@ add new sections for new ground covered.
    commit <hash>**` as the first line of that entry. An entry that documents a system which no
    longer exists, without saying so, is actively misleading — it reads exactly like an entry that
    still applies.
-2. **Fold when the doc passes ~800 lines.** Move the oldest session-log entries into
-   `docs/archive/<DOCNAME>-<YYYY-MM>.md` (create the directory), oldest first, until the live doc
+2. **Fold when the log passes ~800 lines.** Move the oldest session-log entries into
+   `docs/archive/log-<YYYY-MM>.md` (create the directory), oldest first, until the log
    is back under the line. Retired entries go first regardless of age.
-3. **Leave a stub.** Each folded entry leaves one line in the live doc: date, one-clause subject,
+3. **Leave a stub.** Each folded entry leaves one line in the log: date, one-clause subject,
    and a link to the archive file. A reader must be able to find folded history without knowing
    it exists.
 4. **Folding is relocation, never deletion.** Nothing is dropped, summarized away, or rewritten on
@@ -264,7 +280,10 @@ untrue or incomplete:
   commands and scripts, environment variables, deployment, screenshots. A new feature, a new
   script, a renamed command, a new env var, a changed setup step: each one is a README change.
 - **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
-  `Deploys`, `Trello board` and `Motif` lines, traps found this session.
+  `Deploys`, `Trello board` and `Motif` lines, traps found this session. A replaced line
+  moves to `docs/record/` (Step 2); it is not kept beside the new one.
+- **`decisions.md`** — the session's choices appended, and its "declined, never again" index
+  at the top gaining a line for anything the owner ruled out.
 - **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
   and **`.env.example`** — where the session added, moved or removed what they list.
 - **`docs/specs/`** — status lines (Step 3.5 covers the cards).
@@ -298,10 +317,15 @@ what that session does next:
 **Next:** <the single most useful next action, concrete enough to start on>
 **Blocked on:** <what needs the user, or "nothing">
 **Don't trust:** <anything in this doc that is assumed rather than verified>
+**Live:** <state outside the repo a fresh session needs: where the owner is, how they are working
+(e.g. on a phone: drafts as artifacts, short replies), what is mid-flight; or "nothing">
 ```
 
 Rules that make it worth reading:
 
+- **Live is what a compact used to carry.** After a compact the fleet's `SessionStart` hook
+  has the session run relay, which reads it. Only what is temporary goes there; a standing
+  rule of the owner's goes into `CLAUDE.md`, which reloads on its own.
 - **Overwrite it, never append to it.** A `Start here` with a history in it is not a `Start here`.
 - **It indexes, it doesn't duplicate.** Point at sections of the doc by heading rather than
   restating them; two copies of the same fact drift.
@@ -370,7 +394,9 @@ git diff --stat --cached
 ```
 
 Show the user what's uncommitted (working tree + staged) and, if there's an upstream, what's
-ahead/behind. Draft the commit message from the session's actual changes in the repo's own
+ahead/behind. **A config file its own tool rewrote** (an engine, an IDE, a build tool) can
+carry noise and a real change in the same diff: read the diff, compare the settings, and
+restore only the noise. Never a blind `git checkout -- <file>`. Draft the commit message from the session's actual changes in the repo's own
 conventions — read `git log` for the house style first, and match its length and voice rather
 than defaulting to a one-liner.
 
@@ -393,7 +419,8 @@ Either way, follow the standard git safety rules: a new commit (don't amend unle
 
 Tell the user, briefly:
 
-- Path to the deep doc (created or updated).
+- Paths to the snapshot and the log (created or updated), and whether a session log or a
+  replaced line moved out of a file agents read, and where to.
 - Project documentation updated in Step 2.5 — each file and what changed in it — any owner
   copy drafted for approval, or "no documentation change needed" and why.
 - Anything folded to the archive this pass, with the archive path — the user should know when
@@ -425,10 +452,8 @@ context window is, and the owner can (`/context`, or the app's context indicator
      window.
    - **Compact and stop here** — the session ends at this checkpoint.
    - **Keep going, compact later** — there is room for another task first.
-4. **Compact instructions?** **Now** — written in this reply — or **later**, when the owner
-   asks ("compact instructions").
 
-Recommend an option for 3 and 4, and say what the recommendation rests on: you cannot measure
+Recommend an option for 3, and say what the recommendation rests on: you cannot measure
 the window, so judge from what you can see — a long session, many large outputs (screenshots,
 logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
 A phase boundary is the usual moment to recommend *Compact, then continue*.
@@ -444,39 +469,29 @@ Then act on the answers, and report in a line or two what was done:
   pushed if Step 4 pushed, committed only if Step 4 only committed, left uncommitted (and said
   so) if the owner declined. A release is not repeated: after a `git CPR`, say the follow-up
   commit is on the branch Step 4 used and ships with the next release.
-- **Compact instructions now:** write the block below. **Later:** write it when asked, from
-  the context as it is then — never a block saved now and handed over stale.
+- **On either compact answer**, tell the owner in one line that a plain `/compact` is enough,
+  and why (below).
 
-### The compact block
+### No compact block
 
-A fenced block the owner can copy straight into `/compact`. You are the only one who knows
-which parts of this context the deep doc did *not* capture.
+**A plain `/compact` is enough.** The fleet's `SessionStart` hook (matcher `compact|resume`)
+tells the next session to run relay, and relay reads `Start here` with its **Live** line. So
+before the pause, make sure of two things:
 
-**The one rule that makes these worth anything: preserve only what is NOT on disk.** Everything
-written to the deep doc, CLAUDE.md, the spec files and project memory is already durable — telling
-the summariser to keep it burns the budget on facts a cold session can simply read. The failure
-mode is a compact block that restates the status doc. Point at the files instead.
+- **Live holds everything that is not on disk**: live state outside the repo (seeded test
+  data in a production database, a deployment serving a stale build), what is mid-flight and
+  its next concrete action, and what is believed but *un*verified — kept apart from what was
+  checked, because a summariser flattens that distinction.
+- **Every new standing rule of the owner's is in `CLAUDE.md`** — "never commit on your own
+  initiative", "don't touch X without asking". It reloads on its own; Live is overwritten at
+  the next checkpoint.
 
-What actually belongs in it:
+If Step 6 changed either file, that is part of its follow-up commit.
 
-- **Standing user constraints**, verbatim where the wording matters — "never commit or push on
-  your own initiative", "don't touch X without asking". These are behavioural, and they live
-  nowhere a file lookup would surface at the right moment.
-- **Live state outside the repo** that reading the code would never reveal: seeded test data
-  sitting in a production database, a deployment serving a stale build, a service configured but
-  unreachable.
-- **What this session verified but has not yet written down**, and — separately — what is believed
-  but explicitly *un*verified. A summariser will otherwise flatten that distinction, and the next
-  session will treat a guess as established fact.
-- **Whatever is mid-flight**: the task in progress and the next concrete action.
+If the owner asks for compact instructions anyway, give one line: `/compact`, plus only what
+is new since the checkpoint. Never a block restating the status doc.
 
-End the block by naming the files that hold everything else, with an instruction to summarise the
-rest aggressively rather than re-deriving project state.
-
-Keep it short. A compact block over fifteen lines is almost always restating the doc.
-
-Never run `/compact` yourself, and never assume the owner will. Writing the block is Step 6's
-job; using it is their call.
+Never run `/compact` yourself, and never assume the owner will. It is their call.
 
 ## MAX protocol
 
@@ -528,7 +543,8 @@ durable location (CLAUDE.md, AGENTS.md, a rulings ledger, the deep doc) — not 
 reflects what the doc says. A session landing on either can reach the other.
 
 **M9. Verify the fold, don't just do it.** After folding, confirm the archive file contains the
-moved entries verbatim and the live doc's stubs point at paths that exist. A fold that loses an
+moved entries verbatim and the log's stubs point at paths that exist. The same check covers a
+session log moved out of the status doc and a line moved to `docs/record/`. A fold that loses an
 entry is the one failure mode of this whole step, and it fails silently.
 
 **M10. Verify the board after writing it.** Where Step 3.5 ran, re-read the board and
@@ -567,16 +583,20 @@ session touched. A MAX checkpoint that pushes leaves no stale instruction in the
   re-discovering a dead end you already found.
 - Asking "want me to commit?" after the user said **git checkpoint**. They already answered.
   Asking again reads as not having listened.
-- Ending the checkpoint without the Step 6 question, or printing the compact block unasked.
-  The owner decides whether the session stops here and when the block is written.
+- Ending the checkpoint without the Step 6 question, or printing a compact block. The owner
+  decides whether the session stops here; a plain `/compact` is all they need.
 - Asking Step 6's questions in several prompts. One call holds them all; questions that do
   not apply are left out, not asked as "none".
-- Handing over a compact block written at an earlier checkpoint when the owner asks "later" —
-  write it from the context as it is now.
+- Leaving live state only in the conversation: if it is not in **Live** or `CLAUDE.md`, the
+  compact loses it.
+- Reverting a tool-rewritten config without reading its diff. An engine, IDE or build tool
+  may have rewritten the file and also carry a real change. Read the diff, compare the
+  settings, and restore only the noise. Never a blind `git checkout -- <file>`.
+- Writing this checkpoint's log entry into `docs/STATUS.md`, or leaving a "was" in a brief.
+  History goes to `docs/log.md` and `docs/record/`; the files agents read hold what is true
+  now.
 - `git CPR` on a single-branch project in a cloud session ending at "nothing to release". The
   harness branch is the working branch there; the release fast-forwards the main branch.
-- Writing a compact block that restates the status doc. Anything already on disk is the one thing
-  that does *not* need preserving — the block exists for what only this conversation knows.
 - Treating **MAX** as "write more words". Length is not the dial — verification is. A shorter
   document where every claim was checked beats a longer one padded with confident recollection.
 - Skipping M4 because the suite was green earlier in the session. "Earlier" isn't now, and the

@@ -3,12 +3,11 @@
 *Goes at `docs/STATUS.md`. This is the `checkpoint` skill's output format
 (the `fleet` plugin's `checkpoint`) — match it, or the skill and the file fight each other.*
 
-**Two zones, maintained differently.**
-
-- The **snapshot** (everything above the session log) is **rewritten in place** every
-  checkpoint. Its job is to be current, not complete. A line that is no longer true gets
-  corrected or cut — never appended below.
-- The **session log** is **append-at-top**, newest first. Its job is history.
+**This file is the snapshot only** (`project-rules.md` §DOCS). It is **rewritten in place**
+every checkpoint: its job is to be current, not complete. A line that is no longer true is
+corrected or cut — never appended below, and never kept as a "was". One current-state block,
+never a stack of them. **History lives in `docs/log.md`** (the session log, newest first,
+from `templates/log.template.md`), which nothing loads by default.
 
 ---
 
@@ -23,6 +22,9 @@ backlog belongs in Open items.*
 **Next:** <the single most useful next action, concrete enough to start on>
 **Blocked on:** <what needs the owner, or "nothing">
 **Don't trust:** <anything in this doc that is assumed rather than verified>
+**Live:** <state outside the repo a fresh session needs: where the owner is, how they are
+working (e.g. on a phone: drafts as artifacts, short replies), what is mid-flight; or
+"nothing". Only what is temporary — a standing rule goes into `CLAUDE.md`>
 
 > **Things that will save a session:** <the handful of environment facts that are not
 > discoverable from the code and cost real time when unknown — a cache that survives a dev
@@ -85,22 +87,5 @@ equally solid.*
 
 ---
 
-## Session log
-
-*Newest first. **Mark what died:** when a session deletes or replaces something an older entry
-describes, that entry gets `**RETIRED — <what replaced it>, commit <hash>**` as its first
-line. An entry describing a system that no longer exists reads exactly like one that still
-applies.*
-
-*__Fold at ~800 lines:__ move the oldest entries **verbatim** to
-`docs/archive/STATUS-<YYYY-MM>.md`, each leaving a one-line stub here with a link. Retired
-entries go first regardless of age. **Folding is relocation, never summarising** — summarising
-on the way out destroys the evidence.*
-
-### <DATE> (<n>th session) — <subject>
-
-Commits `<hashes>`. <Pushed / not pushed>, <and whether that branch auto-deploys>.
-
-<What happened, why, and what was decided against.>
-
----
+*The session log is [`docs/log.md`](./log.md), newest first. The latest entry there names
+this checkpoint's commits.*

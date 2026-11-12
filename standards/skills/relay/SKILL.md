@@ -70,6 +70,14 @@ section, `PROJECT.md`) and say in the report that the convention isn't
 followed. A `=== HANDOFF ===` block from another plugin is a hint, not the
 record — where it disagrees with `Start here`, report the disagreement.
 
+## After a compact or a resume
+
+The fleet's `SessionStart` hook (matcher `compact|resume`) asks for relay first. **It runs in
+full even when a request of the owner's is already waiting**; then the report, then the
+request. The compact's own summary is a second account, not the record: where it and the
+repo disagree, the repo wins. Where no hook runs (other agents), the rule is the same: after
+a compact, run relay first.
+
 ## Step 1 — Orient from `Start here`
 
 Read the `Start here` block at the top of the status doc and extract,
@@ -79,6 +87,9 @@ explicitly:
 - **Next** — the single stated entry point.
 - **Blocked on** — anything waiting on the owner.
 - **Don't trust** — what the previous checkpoint itself flagged as assumed.
+- **Live** — state outside the repo: where the owner is, how they are working, what was
+  mid-flight. It is what a compact used to carry. A status doc written before the line
+  existed has none; carry on without it.
 - **The latest commit** named in the newest session-log entry, if any.
 - **Anything flagged as the agent's own invention** rather than the owner's
   decision. These are the highest-risk items in the document because they look
@@ -86,13 +97,21 @@ explicitly:
 
 ## Step 2 — Read the rest of the snapshot and the newest log entry
 
-Do not read the whole document — the session log grows long and most of it is
-history. Read:
+The session log is `docs/log.md` (`project-rules.md` §DOCS), which nothing loads
+by default; a status doc written before the split still carries it below the
+snapshot. Either way, do not read the whole log — it grows long and most of it
+is history. Read:
 
-- the snapshot sections above the session log — **Open items**, **Verified this
-  checkpoint**, **Assumed, not verified**, **Confidence and gaps**;
+- the snapshot sections — **Open items**, **Verified this checkpoint**,
+  **Assumed, not verified**, **Confidence and gaps**;
 - the newest session-log entry, end to end. Skip anything marked
   `**RETIRED**`.
+
+`docs/record/` holds what the briefs used to say. Read it only when a line in
+`CLAUDE.md` or an area file is unclear, never as a matter of course.
+
+If the status doc still holds its own session log, or stacks several "still
+true" blocks, say so in the report: the next checkpoint splits it.
 
 If the doc has no confidence or assumed sections, say so in the report — it
 means the previous checkpoint was shallow and your picture is correspondingly
@@ -104,7 +123,9 @@ The fleet keeps an append-only `decisions.md` — what was chosen, what was
 tried and abandoned, what the owner declined, what was deferred. Read the
 **tail**: the most recent entries are the ones a new session is most likely to
 violate, because they encode things that changed recently, and the declined
-and abandoned entries are what stop you re-proposing a dead end.
+and abandoned entries are what stop you re-proposing a dead end. Where the
+file opens with a "declined, never again" index, read that too: it is short,
+and it is the list of things not to propose.
 
 ## Step 4 — Check git reality
 
@@ -164,6 +185,13 @@ Behind → it goes under *the user's call* in the report, offering `sync-standar
 only: relay never syncs.** If the plugin's startup check already raised it this session, do
 not raise it twice. If no master copy can be reached, say so in one line.
 
+**A studio that appeared since the project was asked.** Also read the owner's
+`~/.claude/CLAUDE.md` for a `Studio credit:` line (§CREDIT; a cloud session has no such file,
+so skip this there). If one exists and the project's `CLAUDE.md` has no answer to it — no
+`Studio credit:` line, or one that says "no studio configured" or "not asked" — say so in the
+report and offer the two §CREDIT questions. A project already on the latest standard never
+runs a sync, so nothing else would ask. **Relay itself never adds a credit.**
+
 ## Step 5 — Report, then STOP
 
 Report, in this order and briefly:
@@ -175,10 +203,12 @@ Report, in this order and briefly:
    and what is actually true, including where the Trello board disagrees with
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
 4. **What is the user's call** — anything flagged as the previous agent's
-   invention, any open question the previous session raised, and a rules copy that is
-   behind the master (Step 4.6).
+   invention, any open question the previous session raised, a rules copy that is
+   behind the master, and a studio credit not yet asked about (Step 4.6).
 
-**Then stop and wait.** Do not start the entry point.
+**Then stop and wait.** Do not start the entry point. After a compact or a resume with a
+request of the owner's already waiting, the report comes first and the request is handled
+straight after it: that request is the go-ahead.
 
 This is the deliberate design: a stale handoff usually means someone else worked
 in the repo, and the user needs to know that before an agent acts on it. Ask for
@@ -229,8 +259,10 @@ rather than silently skipping it.
 - **Summarising the handoff back at the user.** They can read it. Relay earns
   its keep with the parts the handoff *can't* contain: whether it is still true.
 - **Re-reading auto-injected files** to look thorough. Check context first.
-- **Reading the entire status doc.** The log is mostly history by design.
+- **Reading the entire log, or `docs/record/`.** They are history by design.
   Snapshot, newest log entry, tail of `decisions.md`.
+- **Shortening relay after a compact because a request is waiting.** The full
+  relay, the report, then the request.
 - **Trusting the status doc because it is detailed.** Detail and accuracy are
   unrelated. The most dangerous line in any status doc is a confident
   present-tense claim about something that works.

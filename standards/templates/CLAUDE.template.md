@@ -20,7 +20,20 @@ goes here; there is nowhere else for it to go.
      sections that apply here are Part A (§SCOPE to §TOOLS), §SECURITY, §NAMING's vocabulary
      and file names, and §DESIGN with §TESTING's seen-working rule <or: "no visual surface">.
      **Read the section before git, documentation, security or design work** — never act
-     on memory of it. -->
+     on memory of it.
+
+     Game-engine profile (§SCOPE): the same, with the profile's own list —
+
+     **Rules: `project-rules.md`, referenced, not imported** (game-engine profile). In full:
+     Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS. Read for the engine: §NAMING,
+     §DESIGN, §COMPONENTS, §QOL, §PATTERNS, §MOTION, §PACKAGES, §BUILD, §TESTING. **Read the
+     section before working in it** — never act on memory of it. -->
+<!-- Area files (§SCALE): once the project has them, add a table here — each area file, what
+     it holds, when to read it — and this line: **Read the area file for your work before
+     starting, wherever that work sits.** An area file loads on its own only when a file
+     inside its folder is read. -->
+<!-- This file holds what is true now (§DOCS). A replaced line moves, word for word, to
+     `docs/record/<area>.md`; it never stays here as a "was". -->
 
 ## Project identity
 
@@ -30,8 +43,8 @@ goes here; there is nowhere else for it to go.
 - **Deploys**: <**single-branch**, **multi-branch** or **local only** (§GIT), then where,
   from which branch, and whether that branch auto-deploys. Local only: no remote by decision,
   and where the work lands, if anywhere. Live domain or real users → multi-branch: work on an
-  update branch, release on `git CPR`. Multi-branch also names the release, e.g. "squash PR
-  into `main`". No application code → name the production surface (the tenant, the
+  update branch, release on `git CPR`. Multi-branch also names the working branch and the
+  release, e.g. "work on `dev`; squash PR into `main`". No application code → name the production surface (the tenant, the
   platform) and whether it has live users (§SCOPE)>
 - **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
   <`docs/architecture.md`, or "not yet">
@@ -43,7 +56,9 @@ goes here; there is nowhere else for it to go.
 ## Status
 
 `docs/STATUS.md` is the living project record — current state, open items, and what is
-verified versus assumed. **Read it first in a new session.**
+verified versus assumed. **Read it first in a new session.** History is kept apart, in files
+nothing loads by default: `docs/log.md` (the session log) and `docs/record/` (what the
+briefs used to say). Read them when the current files are unclear.
 
 Two documents sit above this one:
 

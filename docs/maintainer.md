@@ -39,13 +39,21 @@ versions of the same rules file at once.
   wording. `tests/run.mjs` holds the blocked and allowed cases; add one for every false
   positive or miss found in a project. This repository registers it for itself in
   `.claude/settings.json`.
+- **The relay-after-compact hook** — `standards/hooks/hooks.json` runs
+  `standards/scripts/after-compact.mjs` on `SessionStart` with the matcher `compact|resume`.
+  It tells the new session to run relay in full before any waiting request. Silent on any
+  other source, in a project with neither `docs/STATUS.md` nor `project-rules.md`, and on
+  every error. The plugin's copy also stays silent when the project's
+  `.claude/settings.json` registers the project's own copy, so the instruction arrives once.
 - **Skill copies** — `standards/scripts/copy-skills-to-project.mjs` copies the skills into a
   project for cloud sessions, rewriting `${CLAUDE_PLUGIN_ROOT}/` to `.claude/fleet/`. Keep
   every reference to a standard file in a skill in that `${CLAUDE_PLUGIN_ROOT}/<file>` form
   so the rewrite catches it. A bare `${CLAUDE_PLUGIN_ROOT}` with no slash is left alone; the
   skills use it to tell a plugin session from a project copy. It also copies the shell-write
-  hook and merges its registration into the project's `.claude/settings.json`, leaving every
-  other setting as it was and an unreadable file untouched.
+  and relay-after-compact hooks and merges their registration into the project's
+  `.claude/settings.json`, leaving every other setting as it was and an unreadable file
+  untouched. A file a project's agent must read (`process-x.md`) goes in the `REFERENCE`
+  list there and the `reference` list in `install-skills.mjs`.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
   `version`.
 
@@ -63,11 +71,11 @@ private drift survey (`fleet-drift.md` in the owner's plans repository).
 - **`node tests/run.mjs`** — manifests parse; skill names match their folders and
   descriptions stay within an 800-character budget (Codex skips one over 1,024, silently);
   the version agrees in the rules file, the changelog and the README; relative links resolve
-  and HTML comments close; the credential hook passes every tracked file and blocks eight
-  fake key shapes; both scripts behave in every case. **CI runs it on every push and pull
+  and HTML comments close; the credential hook passes every tracked file and blocks ten
+  fake key shapes; every script behaves in every case. **CI runs it on every push and pull
   request** (`.github/workflows/checks.yml`), with `claude plugin validate .`.
-- **Behaviour evals** — `standards/evals/`, six cases on the riskiest behaviour (relay's
-  trigger, the git step per *Deploys* value, skill proposals). They cost model usage, so they
+- **Behaviour evals** — `standards/evals/`, eight cases on the riskiest behaviour (relay's
+  trigger, the git step per *Deploys* value, skill proposals, the pause). They cost model usage, so they
   are run by hand before releasing a change to a skill or to §GIT; the README there has the
   command. A failing case is a skill that reads ambiguously or a case asking the wrong
   question — never loosen a grader to get green.

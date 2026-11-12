@@ -33,6 +33,86 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 3.9.0 — 2026-11-12
+
+Fourteen proposals in one release, most from `godot-toll`'s Process X and the `toll-*`
+projects.
+
+- **§DOCS — current truth and history live apart.** A file an agent reads by default
+  (`CLAUDE.md`, its area files, `docs/STATUS.md`) holds only what is true now. Every "was",
+  superseded number, quote and measurement moves word for word into a record nothing loads
+  by default: `docs/record/<area>.md` for the briefs, **`docs/log.md` for the session log**,
+  `docs/archive/` for anything folded. `docs/STATUS.md` is the snapshot only, one
+  current-state block, never stacked. `decisions.md` opens with a short "declined, never
+  again" index. In `godot-toll` the briefs and status had become histories read whole
+  (`docs/STATUS.md` 114 KB, three area files of 50 to 65 KB); split, they are 8 to 15 KB.
+  **What a project does:** nothing by hand — the next checkpoint moves the session log out
+  of `docs/STATUS.md` into `docs/log.md`, verbatim; `sync-standards` offers the briefs' split
+  and the index. `checkpoint` writes its entry to `docs/log.md`, `relay` reads the newest
+  entry there, and both still handle a status doc that has not been split. New
+  `templates/log.template.md`; `STATUS.template.md` loses its session-log zone;
+  `decisions.template.md` gains the index. The ~800-line fold now applies to the log.
+  Issue #33.
+- **`checkpoint`, `relay`, hooks — relay after a compact, a Live line, no compact block.**
+  A `SessionStart` hook (matcher `compact|resume`, `scripts/after-compact.mjs`) tells a
+  session picked up after a compact or a resume to run relay in full first, even when a
+  request is already waiting. `Start here` gains a **Live** line for the state a compact
+  used to carry (where the owner is, how they are working, what is mid-flight); standing
+  rules go into `CLAUDE.md`. **Removed:** Step 6's compact block and its "compact
+  instructions now or later" question — a plain `/compact` is enough. The block kept growing
+  because nothing else carried live state across a compact (`godot-toll`, 2026-11-08).
+  `sync-standards` adds the hook to each project's `.claude/settings.json` for cloud
+  sessions, which install no plugins; the plugin's copy stays silent where a project
+  registers its own, and in a project with no status doc and no rules file. Issue #26.
+- **§SCOPE — a game-engine profile** (Godot first; Unity and Unreal read the same way),
+  beside the non-application profile: what applies in full, what is read for the engine
+  (naming case, the engine's test run in place of `tsc` and `npm run build`, its test add-on
+  in place of Vitest), and what does not apply until saves, a backend or an AI feature
+  arrive. Mockups are engine screenshots; phone-first does not apply to a PC-only game; the
+  rules file is referenced, not imported. `conventions.template.md` and
+  `CLAUDE.template.md` carry the blocks; `adopting-the-standard.md` names it. `godot-toll`
+  had carried its own profile since 2026-10-21, through five beta releases. Issues #25 and
+  #28, merged: #28's wording, with #25's "recorded once in `conventions.md`".
+- **§OWNER — Process X**, a repeatable whole-product audit and upgrade for a project that
+  has outgrown its adoption: audit as a ranked list, the owner's picks, drafts then build,
+  shared pieces, motif, the fleet re-audit, proposals back to fleet. Nothing is built before
+  it is picked; it counts as that release's deep audit. The steps are in the new
+  `standards/process-x.md`, which the installer and `sync-standards` copy beside the rules.
+  Issue #29.
+- **§SCALE — splitting a `CLAUDE.md` safely, and the loading trap.** Sections move word for
+  word, then a read-only check confirms every non-blank line of the old file is in exactly
+  one new file. An area file loads only when a file inside its folder is read, so the root
+  tells a session to read the area file for its work first, wherever that work sits
+  (`godot-toll`: a 681-line root split into five area files, no line lost). Issue #27.
+- **§TESTING, §MOTION — motion is checked on film.** An animation is verified by recording
+  the real screen and reading it frame by frame, in each layout, mirrored, at each speed. In
+  `godot-toll` every still looked right; the film showed an effect running over the screen's
+  top strip at 1v1. Issue #32.
+- **§COMPONENTS — the register may live in `design-system.md`** in a project without a
+  component library, as a table of shared pieces; a separate `components.md` when the table
+  outgrows it. Issue #30.
+- **§FIREBASE — read the live Firestore rules back after a deploy** and compare them with
+  the file; a deploy's own output is not confirmation (`godot-toll`, 2026-10-23: one MCP
+  target reported success and changed nothing). If they cannot be read back, say they are
+  unconfirmed. Issue #23.
+- **§GIT — shell scripts keep LF.** A repository with `.sh` files or a `.githooks/` folder
+  carries a `.gitattributes` pinning them to `eol=lf` (new `templates/.gitattributes`), so a
+  Windows checkout cannot break them under bash (`toll-pipeline`'s unattended chains).
+  `new-project`, `sync-standards` and the adoption guide add it. Issue #20.
+- **`templates/pre-commit` — two more shapes:** a Discord webhook URL, and a Google OAuth
+  client secret. Both were found unguarded in real projects (`toll-kits`, `godot-toll`);
+  projects that added them locally can retire the divergence at their next sync. Issue #21.
+- **`CLAUDE.template.md` — the *Deploys* line names the working branch** on a multi-branch
+  project, not only the release; `sync-standards` asks where it is missing. Issue #22.
+- **`relay` Step 4.6 — a studio that appeared later is noticed.** Relay reads the owner's
+  `~/.claude/CLAUDE.md`; a `Studio credit:` line the project has no answer to goes into the
+  report with the two §CREDIT questions offered. A project already on the latest standard
+  never runs a sync, so nothing else would ask. Issue #31.
+- **`checkpoint` Step 4 — read a tool-rewritten config's diff before reverting it.** An
+  engine or IDE may rewrite a file and also carry a real change; never a blind
+  `git checkout -- <file>` (`godot-toll` lost and restored new scene settings this way).
+  Issue #24.
+
 ## 3.8.0 — 2026-11-02
 
 - **§GIT — `git CPR` releases in a cloud session on a single-branch project.** The harness

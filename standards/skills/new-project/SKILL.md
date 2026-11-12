@@ -106,7 +106,9 @@ Then, before anything else:
   existing `AGENTS.md`, above any generated block, never inside it.
 - **The credential hook (§SECURITY)** — copy `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit` to
   `.githooks/pre-commit` with `cp`, then `git config core.hooksPath .githooks`. Mark it
-  executable when the owner's first commit adds it (`git add --chmod=+x`).
+  executable when the owner's first commit adds it (`git add --chmod=+x`). Copy
+  `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` to the project root with it, so the hook
+  and any shell script keep LF on a Windows checkout (§GIT).
 
 ## Step 5 — Design first
 

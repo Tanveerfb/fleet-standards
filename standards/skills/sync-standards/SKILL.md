@@ -109,6 +109,23 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    in `CLAUDE.md` and `decisions.md`. A showcase yes files the request issue as `new-project`
    Step 1 describes. With no `Studio credit:` line in the owner's file, write `no studio
    configured` and ask nothing.
+   For v3.9:
+   - **`.gitattributes` (§GIT).** If the project has `.sh` files or a `.githooks/` folder and
+     nothing pins them to LF, add the lines from
+     `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` — to the project's own `.gitattributes`
+     if it has one, never over it.
+   - **The *Deploys* line names the working branch** on a multi-branch project. If it does
+     not, ask which branch it is and write it in; never work it out from the branches that
+     exist.
+   - **History out of the files agents read (§DOCS).** Do not move anything here. Say what
+     the next checkpoint will do — the session log moves from `docs/STATUS.md` to
+     `docs/log.md` — and, if `CLAUDE.md` or an area file carries history ("was", superseded
+     numbers, dated runs), offer the split to `docs/record/` as its own piece of work.
+   - **`decisions.md`'s "declined, never again" index.** Offer to add it at the top, built
+     from the entries that record something the owner ruled out. The entries are not edited.
+   - **A game in an engine** still carrying its own profile block in `conventions.md`: offer
+     to replace it with the game-engine profile block from the conventions template (§SCOPE),
+     keeping anything the project's block says that the profile does not.
 
 ## Step 5 — Wire the project to every agent
 
@@ -137,12 +154,16 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
 master did not was edited in place** — treat it like an edited rules file (Step 1): show the
 diff, offer `propose-standard`, never overwrite it silently. Otherwise run the same command
 without `--check`. It writes every skill but `new-project` to `.claude/skills/` and the files
-they read to `.claude/fleet/`, and adds the §AGENTS shell-write hook
-(`.claude/fleet/scripts/block-shell-writes.mjs`) to `.claude/settings.json`, merged with
-whatever the file already holds. On the owner's machine each skill then appears twice, as
-`/checkpoint` and `/fleet:checkpoint`, and the hook runs twice, once from the plugin; that is
-expected, and both behave the same. A local-only project, skipped here, gets the hook from
-the plugin.
+they read to `.claude/fleet/`, and adds two hooks to `.claude/settings.json`, merged with
+whatever the file already holds: the §AGENTS shell-write hook
+(`.claude/fleet/scripts/block-shell-writes.mjs`) and the relay-after-compact hook
+(`.claude/fleet/scripts/after-compact.mjs`, `SessionStart` on `compact|resume`). On the
+owner's machine each skill then appears twice, as `/checkpoint` and `/fleet:checkpoint`, and
+the shell-write hook runs twice, once from the plugin; that is expected, and both behave the
+same. The plugin's relay-after-compact hook stays silent where the project registers its
+own, so that instruction arrives once. A local-only project, skipped here, gets both hooks
+from the plugin. **A project with its own relay-after-compact hook** from before v3.9 can
+drop it now: offer that, never remove it unasked.
 
 **Other agents.** Check the project root has `AGENTS.md` (read by Codex, Copilot and Cursor)
 and `GEMINI.md` (Gemini CLI), each holding the pointer from
@@ -163,7 +184,8 @@ git config core.hooksPath .githooks
 If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky and add
 `.githooks/pre-commit || exit 1` to `.husky/pre-commit` instead.
 
-**Profile projects (§SCOPE).** If `conventions.md` records the non-application profile and
+**Profile projects (§SCOPE).** If `conventions.md` records the non-application or the
+game-engine profile and
 `CLAUDE.md` still has the `@project-rules.md` import line, offer to swap it for the reference
 variant in `${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.template.md`. On a yes, retire any
 per-project exception that granted the same thing.

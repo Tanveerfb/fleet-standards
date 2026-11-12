@@ -5,9 +5,10 @@
 //
 //   skills (all but new-project) -> <project>/.claude/skills/<name>/
 //   files the skills read        -> <project>/.claude/fleet/
-//   the shell-write hook         -> <project>/.claude/fleet/scripts/block-shell-writes.mjs,
-//                                   registered in <project>/.claude/settings.json (merged:
-//                                   nothing else in that file changes)
+//   the two hooks                -> <project>/.claude/fleet/scripts/block-shell-writes.mjs and
+//                                   after-compact.mjs, registered in
+//                                   <project>/.claude/settings.json (merged: nothing else in
+//                                   that file changes)
 //
 // Inside the copies, `${CLAUDE_PLUGIN_ROOT}/` becomes `.claude/fleet/`, a path relative to the
 // project root, because only plugin skills get that variable substituted. A bare
@@ -36,7 +37,7 @@ if (!existsSync(join(project, "project-rules.md"))) {
 }
 
 const SKIP_SKILLS = new Set(["new-project"]); // a project that exists is past setup
-const REFERENCE = ["project-rules.md", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "templates"];
+const REFERENCE = ["project-rules.md", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
 const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", ".claude/fleet/");
 const version = (readFileSync(join(standards, "project-rules.md"), "utf8").match(/^\*\*Version:\*\*\s*(\S+)/m) ?? [])[1] ?? "unknown";
 
@@ -64,14 +65,22 @@ for (const item of REFERENCE) {
 }
 planned.push([
   join(project, ".claude", "fleet", "README.md"),
-  `# Fleet standard — project copy\n\nCopied from the fleet standard v${version} by \`sync-standards\`, together with the\nskills in \`.claude/skills/\`, so they load in cloud sessions, which install no plugins.\n\`scripts/block-shell-writes.mjs\` is the §AGENTS shell-write hook, registered in\n\`.claude/settings.json\`.\n\n**Do not edit these files.** The next sync overwrites them. A fix goes back to\n\`Tanveerfb/fleet-standards\` through \`propose-standard\`.\n\nThis folder is what the last sync copied, **not the master**: never compare the project's\nrules against \`.claude/fleet/project-rules.md\` to decide whether it is current.\n`,
+  `# Fleet standard — project copy\n\nCopied from the fleet standard v${version} by \`sync-standards\`, together with the\nskills in \`.claude/skills/\`, so they load in cloud sessions, which install no plugins.\n\`scripts/block-shell-writes.mjs\` is the §AGENTS shell-write hook and\n\`scripts/after-compact.mjs\` asks for relay after a compact or a resume; both are registered\nin \`.claude/settings.json\`.\n\n**Do not edit these files.** The next sync overwrites them. A fix goes back to\n\`Tanveerfb/fleet-standards\` through \`propose-standard\`.\n\nThis folder is what the last sync copied, **not the master**: never compare the project's\nrules against \`.claude/fleet/project-rules.md\` to decide whether it is current.\n`,
 ]);
 
-// The shell-write hook (§AGENTS). Locally the plugin registers it too; both run, and a
-// refusal from either is the same refusal.
-const HOOK = "block-shell-writes.mjs";
-const HOOK_COMMAND = `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${HOOK}"`;
-planned.push([join(project, ".claude", "fleet", "scripts", HOOK), readFileSync(join(standards, "scripts", HOOK), "utf8")]);
+// The hooks a project carries for itself, because cloud sessions install no plugins:
+//   block-shell-writes.mjs  the §AGENTS shell-write guard. Locally the plugin registers it
+//                           too; both run, and a refusal from either is the same refusal.
+//   after-compact.mjs       relay first after a compact or a resume. The plugin's copy stays
+//                           silent when the project registers this one.
+const HOOKS = [
+  { file: "block-shell-writes.mjs", event: "PreToolUse", matcher: "Bash" },
+  { file: "after-compact.mjs", event: "SessionStart", matcher: "compact|resume" },
+];
+const commandOf = (file) => `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${file}"`;
+for (const { file } of HOOKS) {
+  planned.push([join(project, ".claude", "fleet", "scripts", file), readFileSync(join(standards, "scripts", file), "utf8")]);
+}
 const settingsPath = join(project, ".claude", "settings.json");
 let settings = {};
 let settingsReadable = true;
@@ -80,15 +89,21 @@ if (existsSync(settingsPath)) {
     settings = JSON.parse(readFileSync(settingsPath, "utf8"));
   } catch {
     settingsReadable = false;
-    console.log(`! .claude/settings.json is not valid JSON: register the hook by hand — ${HOOK_COMMAND}`);
+    console.log(`! .claude/settings.json is not valid JSON: register the hooks by hand — ${HOOKS.map((h) => `${h.event} (${h.matcher}): ${commandOf(h.file)}`).join("; ")}`);
   }
 }
-const registered = settings?.hooks?.PreToolUse?.some((entry) => entry?.hooks?.some((h) => h?.command === HOOK_COMMAND));
-if (settingsReadable && !registered) {
-  settings.hooks ??= {};
-  settings.hooks.PreToolUse ??= [];
-  settings.hooks.PreToolUse.push({ matcher: "Bash", hooks: [{ type: "command", command: HOOK_COMMAND, timeout: 10 }] });
-  planned.push([settingsPath, JSON.stringify(settings, null, 2) + "\n"]);
+if (settingsReadable) {
+  let added = false;
+  for (const { file, event, matcher } of HOOKS) {
+    const command = commandOf(file);
+    const registered = settings?.hooks?.[event]?.some((entry) => entry?.hooks?.some((h) => h?.command === command));
+    if (registered) continue;
+    settings.hooks ??= {};
+    settings.hooks[event] ??= [];
+    settings.hooks[event].push({ matcher, hooks: [{ type: "command", command, timeout: 10 }] });
+    added = true;
+  }
+  if (added) planned.push([settingsPath, JSON.stringify(settings, null, 2) + "\n"]);
 }
 
 let changed = 0;

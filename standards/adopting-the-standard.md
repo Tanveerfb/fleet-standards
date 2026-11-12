@@ -17,6 +17,15 @@ a working codebase. That is not the job. Section 1 is the job.
 what the profile keeps: Part A, §SECURITY, §NAMING's vocabulary and file names, and §DESIGN
 plus the seen-working rule where there is a visual surface.
 
+**If the project is a game in an engine** (Godot, Unity, Unreal), record the game-engine
+profile (§SCOPE) the same way. The audit walks the sections the profile applies in full, and
+reads the "in spirit" ones for the engine: what the engine's own test run, style guide and
+add-ons put in place of `tsc`, kebab-case and npm.
+
+**A project that has outgrown its adoption** — several releases on, with screens and
+components that no longer agree — is not re-adopted. It runs **Process X** (§OWNER,
+`process-x.md`), whose sixth step redoes this audit against today's repository.
+
 Walk `project-rules.md` section by section against the repo and sort every gap into one of
 two states:
 
@@ -209,7 +218,8 @@ and slow.
 7. Write `CLAUDE.md`, every claim carrying its verification date. A profile project
    references the rules instead of importing them (§SCOPE; the template shows how).
    Install the credential hook: `templates/pre-commit` to `.githooks/pre-commit`, then
-   `git config core.hooksPath .githooks` (§SECURITY). Before relying on it, stage the
+   `git config core.hooksPath .githooks` (§SECURITY), and `templates/.gitattributes` to the
+   root so the hook and any shell script keep LF (§GIT). Before relying on it, stage the
    adoption's own documents and run the hook once — they quote its trigger words.
 8. Write `docs/STATUS.md` with a `Start here` block.
 9. Record the project's motif with `design-motif` — it describes the existing look and records

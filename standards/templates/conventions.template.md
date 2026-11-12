@@ -34,6 +34,24 @@ code lands here, Parts B to E apply to it from that day and this block is revisi
 
 ---
 
+<!-- Only for a game built in an engine (`project-rules.md` §SCOPE). Delete this block
+     otherwise. It replaces a per-section exception for Parts B to E. -->
+
+## Profile — game-engine project. **Recorded <DATE>.**
+
+This is a game in <engine and version, language>. Per §SCOPE: Part A, §SECURITY, §GROWTH,
+§MODULES, §SCALE and §SHORTCUTS apply in full. Read for the engine: §NAMING (<the engine's
+case rules>), §DESIGN, §COMPONENTS, §QOL, §PATTERNS and §MOTION where the game has the thing
+(tokens live in <file>), §PACKAGES (add-ons), §BUILD (<the headless test command>) and
+§TESTING (<the test add-on>; screenshots, and film for motion). Not applicable: §TS,
+§STRUCTURE, §LIFECYCLE, §STATE, §FORMS, §HOOKS, §NPM, §RUNTIME, §STYLING, §SHADCN; and
+§DATA, §FIREBASE, §AI <until the game has saves, a backend or an AI feature / now read for
+this project, since <DATE>>. Mockups are <engine screenshots / HTML> in `docs/mockups/`.
+<PC only, so phone-first does not apply / a phone build is planned.> `CLAUDE.md` references
+the rules rather than importing them.
+
+---
+
 ## Divergences from `project-rules.md` — granted
 
 *Each was raised, decided by the owner, and dated. Reasons live in
@@ -81,18 +99,19 @@ future session hunting for an exception that does not exist.*
 
 ## §DOCS Document set — mapped, not duplicated
 
-*§DOCS defines nine documents and also says **do not create a document before it has content**.
-Map what already covers each job rather than creating empty files.*
+*§DOCS defines a document set and also says **do not create a document before it has
+content**. Map what already covers each job rather than creating empty files.*
 
 | §DOCS document | Here |
 | --- | --- |
 | `conventions.md` | this file |
 | `decisions.md` | [`decisions.md`](./decisions.md) |
 | `design-system.md` | <> |
-| `components.md` | <> |
+| `components.md` | <> — or the table in `design-system.md` (§COMPONENTS) |
 | `data-model.md` | <> |
 | `environment.md` | <> — names, purposes and owners only, **never values** |
-| `status.md` | [`docs/STATUS.md`](./docs/STATUS.md) |
+| `status.md` | [`docs/STATUS.md`](./docs/STATUS.md) — the snapshot only |
+| `docs/log.md` | [`docs/log.md`](./docs/log.md) — the session log; `docs/record/` for the briefs' history |
 | `issues.md` | <> |
 | `roadmap.md` | <> |
 

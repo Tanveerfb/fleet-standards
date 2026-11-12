@@ -1,0 +1,5 @@
+# Fleet standard, project-rules.md §GIT: shell scripts keep LF, so a Windows checkout cannot
+# break them under bash. Copied to the project root as .gitattributes; if the project already
+# has one, add these lines to it.
+*.sh text eol=lf
+.githooks/* text eol=lf

@@ -1,8 +1,9 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.8.0
+**Version:** 3.9.0
 **Applies to:** All projects. Part A applies everywhere. Parts B to E assume a Next.js
-application; a repository without application code follows the profile in §SCOPE.
+application; a repository without application code, or a game built in an engine, follows
+its profile in §SCOPE.
 **Master copy:** `standards/project-rules.md` in `github.com/Tanveerfb/fleet-standards`.
 History is in `standards/CHANGELOG.md`.
 
@@ -72,6 +73,32 @@ B to E apply to that code from that day. These things read differently here:
 - **`CLAUDE.md`** says under *Commands* that none exist, and its *Technology* table describes
   the platform rather than a framework
 
+**Game-engine projects.** A game built in an engine (Godot first; Unity and Unreal are read
+the same way) is real application code, so the non-application profile does not fit, and
+Parts B to E are written for a stack it does not have. It follows the **game-engine
+profile**, recorded once at the top of `conventions.md` (`templates/conventions.template.md`
+has the block):
+
+- **Apply in full:** Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS
+- **Apply in spirit, read for the engine:**
+  - §NAMING: the vocabulary in full; file and identifier case follow the engine's own style
+    guide (GDScript: `snake_case` files and functions, `PascalCase` classes)
+  - §DESIGN, §COMPONENTS, §QOL, §PATTERNS, §MOTION: wherever the game has the thing. The
+    motif and tokens live in a code file, and `design-system.md` records them
+  - §PACKAGES: add-ons and plugins in place of npm packages; the documentation rule stands
+  - §BUILD: the engine's headless test run replaces `tsc`, lint and `npm run build`
+  - §TESTING: the engine's test add-on (GUT in Godot) replaces Vitest; screenshots, and film
+    for motion, replace the browser
+- **Not applicable:** §TS, §STRUCTURE, §LIFECYCLE, §STATE, §FORMS, §HOOKS, §NPM, §RUNTIME,
+  §STYLING, §SHADCN. Also §DATA, §FIREBASE and §AI until the game has saves, a backend or an
+  AI feature; the day one arrives, that section is read for the project
+- **Mockups (§OWNER)** are engine screenshots side by side, or HTML when the owner is on a
+  phone, kept in `docs/mockups/`
+- **Phone-first does not apply to a PC-only game.** It returns the day a phone build is
+  planned
+- **This file is referenced, not imported**, as in the non-application profile: `CLAUDE.md`
+  names the sections the profile keeps and says to read the section before working in it
+
 **Keeping in step with the master.** The `fleet` plugin (marketplace `tanveerfb`, from
 `Tanveerfb/fleet-standards`) carries this file, its templates and the fleet skills. Its
 `sync-standards` skill brings a project's copy up to date; `propose-standard` sends a change
@@ -90,10 +117,12 @@ when it is updated.
 | `conventions.md` | Choices specific to this project | A decision changes |
 | `decisions.md` | Why each non-obvious choice was made. Append only | A choice is made |
 | `design-system.md` | Tokens, typography, density, motion, exclusions | A token or rule changes |
-| `components.md` | What already exists | A component is added, moved or removed |
+| `components.md` | What already exists (or a table in `design-system.md`: §COMPONENTS) | A component is added, moved or removed |
 | `data-model.md` | Entities, relationships, invariants | An entity or invariant changes |
 | `environment.md` | Environment variables and external accounts, with owners | A credential or account appears |
-| `docs/STATUS.md` | Where the work is right now — a snapshot over a session log | Every checkpoint (§GIT) |
+| `docs/STATUS.md` | Where the work is right now: the snapshot only | Every checkpoint (§GIT) |
+| `docs/log.md` | The session log, newest first. Never auto-read | Every checkpoint (§GIT) |
+| `docs/record/<area>.md` | What a brief used to say: every replaced line, word for word. Never auto-read | A line in a brief is replaced |
 | `issues.md` | Open and closed issues | Continuously |
 | `roadmap.md` | Phases. Slow moving | A phase changes |
 | `docs/architecture.md` | The map: modules, what each owns and depends on, data flow, where to find things (§SCALE) | A module is added, moved or removed |
@@ -105,11 +134,25 @@ unmaintained document is not neutral — it is a confidently wrong instruction.
 **Do not create a document before it has content.** An `environment.md` written
 before any credential exists documents nothing and claims otherwise.
 
-**`docs/STATUS.md` has two zones, maintained differently.** The snapshot at the
-top — opening with a `Start here` block — is rewritten in place and never
-appended to. The session log below it is added to at the top, newest first. The
-format belongs to the `checkpoint` skill; `templates/STATUS.template.md` matches
-it.
+**Current truth and history live apart.** A file an agent reads by default — `CLAUDE.md`,
+its area files, `docs/STATUS.md` — holds only what is true now: the rule, a few of the
+owner's words where the wording matters, and the date. Every "was", superseded number, quote
+and measurement goes word for word into a record that is never auto-loaded, under the same
+headings: `docs/record/<area>.md` for the briefs, `docs/log.md` for the session log,
+`docs/archive/` for anything folded. The checkpoint moves a replaced line into the record in
+the same pass that writes the new one: **a brief never gains a "was", a record never loses a
+line.** When a brief is unclear, read the record. A brief that already holds history is
+split the way §SCALE splits a `CLAUDE.md`: the whole file is copied to the record first,
+then the live file is rewritten.
+
+**`docs/STATUS.md` is the snapshot only** — a `Start here` block and one current-state
+block, rewritten in place, never stacked and never appended to. **The session log is
+`docs/log.md`**, added to at the top, newest first. The formats belong to the `checkpoint`
+skill; `templates/STATUS.template.md` and `templates/log.template.md` match them.
+
+**`decisions.md` opens with a short "declined, never again" index**: one line per thing the
+owner ruled out, pointing at the dated entry that holds their words. The entries stay append
+only; the index is the one part kept current.
 
 Status, issues and roadmap overlap. Keep their jobs distinct: roadmap is phases,
 issues is the churn, status is the current position.
@@ -263,6 +306,10 @@ secret in the staged diff, a dirty tree containing work that is not yours, a det
 or a push that would need a force. Stop for those even mid-checkpoint, and before any
 working-branch push made on the agent's own. A routine push needs no such sentence.
 
+**Shell scripts keep LF.** A repository with `.sh` files or a `.githooks/` folder carries a
+`.gitattributes` (`templates/.gitattributes`) pinning them to `eol=lf`, so a Windows
+checkout cannot break them under bash — in an unattended chain nobody is there to see it.
+
 **Every commit must build standalone** (§BUILD). When splitting a session's work, check
 file-level imports at each boundary — a green typecheck on the final tree proves nothing
 about the commits before it.
@@ -309,6 +356,22 @@ does not restate them.
 - **Never rewrite copy the business owns.** Draft it, show it, apply it on a yes
 - **Frozen files** are listed in the project's `CLAUDE.md`. Frozen means raise it and get a
   yes, not never touch
+
+**Process X — a whole-product audit.** When a project has grown well past its adoption, or
+before a release the owner wants deeply audited, run Process X in this order
+(`process-x.md` in the standard has each step):
+
+1. the audit, delivered as a ranked list for the owner;
+2. the owner's picks;
+3. drafts, then build;
+4. shared pieces;
+5. the motif;
+6. the fleet re-audit (conventions, design system, skills and hooks, area files, the
+   architecture map);
+7. proposals back to fleet.
+
+Nothing is built before it is picked, and a visual change is locked before it is built. It
+counts as that release's deep audit.
 
 ---
 
@@ -595,6 +658,15 @@ first time an agent duplicates something or works in the wrong place.
   folder, so local rules arrive exactly when needed and the root file stays short and
   general. **A fact lives in exactly one of them**: the most local file it applies to. The
   root `CLAUDE.md` lists the area files that exist
+
+  **Splitting an existing `CLAUDE.md`:** move whole sections word for word, never rewrite
+  them on the way. Then check, read-only, that every non-blank line of the old file is in
+  exactly one new file, and name any line changed on purpose. The root keeps what binds
+  everywhere and a table of the area files: what each holds and when to read it.
+
+  **An area file loads only when a file inside its folder is read.** Work that starts from
+  `tests/`, `tools/` or a question in chat does not trigger it, so the root tells a session
+  to **read the area file for its work before starting**, wherever that work sits
 - **The architecture map** — `docs/architecture.md`, the registry of what belongs where:
   - a table of modules: each folder, what it owns, what it depends on, what uses it;
   - how data moves through the main flows (form → Server Action → adapter → store);
@@ -853,8 +925,10 @@ The default backend for auth, data and storage across the fleet.
   When you touch either, say so at the other.
 - **Editing `firestore.rules` does nothing until it is deployed.** Validate first
   (`firebase_validate_security_rules` via the Firebase MCP), then
-  `firebase deploy --only firestore:rules`. Confirm the result rather than trusting the exit
-  status — a deploy can report success and create nothing.
+  `firebase deploy --only firestore:rules`. Then read the live rules back and compare them
+  with the file, and trust nothing less: a deploy can report success and change nothing
+  (`godot-toll`, 2026-10-23: the MCP's `firestore:rules` target did this, `firestore`
+  worked). If they cannot be read back, say the rules are unconfirmed.
 - **A composite index is declared in `firestore.indexes.json`, and a missing one does not
   fail fast.** The Admin SDK retries, so the symptom is a build that *hangs* until the
   framework kills the page, reporting nothing useful. Suspect a missing index before
@@ -1080,6 +1154,12 @@ Every project has a `components.md` listing what exists.
 - If something close exists, extend it with a prop. Do not fork it
 - Add what you build to the registry in the same commit
 
+In a project without a component library (a game engine, a native app), the register may be
+a table in `design-system.md`, one row per shared piece: the piece, its file, what it is,
+and whose pick it was. A separate `components.md` is created when the table outgrows that
+file. Either way, a new screen uses what is registered, and a hand-made copy of a registered
+piece is a bug.
+
 An unmaintained registry is worse than none, because it gets trusted.
 
 ---
@@ -1146,6 +1226,8 @@ Three things hold regardless:
 - **Durations, easings and springs are tokens** in `@theme` (§STYLING), recorded in
   `design-system.md` once a mockup settles them
 
+Motion is verified on film, never from stills (§TESTING).
+
 **Library.** `motion` (imported from `motion/react`; formerly Framer Motion) by default.
 GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
 
@@ -1180,6 +1262,11 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
   neither is available — and say so in the report
 - A green build is not evidence an interface works. A UI change is done when it has been
   seen working
+- **Motion is checked on film.** An animation or effect is verified by recording the real
+  screen, not a draft stage: the engine's movie writer, a screen recorder or Playwright
+  video. Read it frame by frame (contact sheets), in each layout it plays in, mirrored if it
+  mirrors, and at each speed setting. A short clip goes to the owner for the look; anything
+  the agent cannot judge (sound) is named as unverified
 - No end-to-end suite by default. If a project needs one, that is a decision, recorded in
   `decisions.md`
 

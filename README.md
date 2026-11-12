@@ -22,7 +22,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Part | Covers |
 | --- | --- |
-| How we work | Precedence, project documents, asking via the question tool, the mockup loop for every visual change, git rules and branching for live projects, Trello, spec files, other agents |
+| How we work | Precedence and project profiles (non-application repositories, games in an engine), project documents with current truth kept apart from history, asking via the question tool, the mockup loop for every visual change, Process X (a whole-product audit), git rules and branching for live projects, Trello, spec files, other agents |
 | Architecture | Modules, naming (vocabulary and file conventions), TypeScript, folder structure, area `CLAUDE.md` files and an architecture map for larger projects, data adapters, entity lifecycles, state and validation, forms |
 | Stack | Packages, npm, Node version and environment checks, security and secrets, Firebase, AI and LLM features |
 | Interface | Tailwind tokens, design motifs, custom components on shadcn behaviour, QoL expectations, motion |
@@ -32,8 +32,8 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 
 | Skill | Say | What happens |
 | --- | --- | --- |
-| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md`, mirrors it to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git** — except on a multi-branch project, where the working branch commits on its own and production changes only on "git CPR". |
-| `relay` | "relay", "let's continue", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work |
+| `checkpoint` | "checkpoint", **"git checkpoint"**, "git checkpoint max" | Ends a session: updates `docs/STATUS.md` and the session log in `docs/log.md`, mirrors the status to Trello if the project has a board, then git. **"git checkpoint" means commit and push; anything else means no git** — except on a multi-branch project, where the working branch commits on its own and production changes only on "git CPR". |
+| `relay` | "relay", "let's continue", "where were we" | Starts a session: reads the last handoff and checks it still matches the repo before any work. Runs on its own after a compact or a resume |
 | `new-project` | "new project" | Sets up a new Next.js project on the standard — scaffold, rules, templates, agent wiring — then sets the design first and walks the checklist. Never commits. |
 | `design-motif` | "set the design", "redesign" | Chooses (or records) the project's motif: browse, decide for me, surprise me, or bring your own; mockups until you lock it; then records it |
 | `ai-setup` | "set up AI", "add an AI feature" | Adds AI to a new or existing project: checks what's there, lets you choose Firebase AI Logic, the Vercel AI SDK or both, scaffolds the adapter, protects every model call, optionally wires local models (Ollama, LM Studio), and builds the first feature |
@@ -48,9 +48,12 @@ world, and custom ones. Browse them, have the agent recommend one from your site
 audience, or let it surprise you. The `design-motif` skill runs the whole process.
 
 **Templates** — [`standards/templates/`](standards/templates): `CLAUDE.md`, `AGENTS.md`,
-`conventions.md`, `decisions.md` and `docs/STATUS.md` skeletons for a new project, and
-`pre-commit`, a tested hook that refuses commits containing anything shaped like a
-credential.
+`conventions.md`, `decisions.md`, `docs/STATUS.md` and `docs/log.md` skeletons for a new
+project; `pre-commit`, a tested hook that refuses commits containing anything shaped like a
+credential; and a `.gitattributes` that keeps shell scripts on LF.
+
+**Process X** — [`standards/process-x.md`](standards/process-x.md): a repeatable
+whole-product audit and upgrade for a project that has outgrown its adoption.
 
 ---
 
@@ -127,7 +130,8 @@ To do the same by hand:
    - `AGENTS.template.md` → `AGENTS.md` **and** `GEMINI.md` — pointers that send Codex,
      Copilot, Cursor and Gemini CLI to `CLAUDE.md`
    - `conventions.template.md` → `conventions.md`, `decisions.template.md` → `decisions.md`
-   - `STATUS.template.md` → `docs/STATUS.md`
+   - `STATUS.template.md` → `docs/STATUS.md` (`log.template.md` → `docs/log.md` arrives with
+     the first checkpoint)
 5. Say **"sync standards"** once. It wires the project to the plugin (so every Claude Code
    session there loads the skills) and checks the pointers are in place.
 6. Say **"set the design"** to choose the motif before any interface work.
@@ -148,6 +152,9 @@ kickoff prompt for your agent.
 ### Day to day
 
 - Start a session with **"relay"**, end it with **"checkpoint"** or **"git checkpoint"**.
+- A checkpoint ends by asking whether to compact. A plain `/compact` is enough: the state a
+  conversation would lose is in the status doc's **Live** line, and a hook has the next
+  session run relay first, before anything you asked for.
 - Your agent offers choices through its question tool, and asks open questions in plain text
   you can answer in your own words — typed or by voice (`§ASK`).
 - Every visual change starts as a mockup you approve, and fits the project's motif
@@ -207,10 +214,12 @@ standards/                        the standard — also the `fleet` plugin
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif,
                                   ai-setup, sync-standards, propose-standard
+  process-x.md                    Process X: the whole-product audit, step by step
   hooks/hooks.json                startup check: offers sync-standards when rules fall behind;
-                                  shell-write guard: refuses inline scripts and file-writing
-                                  heredocs (§AGENTS)
+                                  relay after a compact or a resume; shell-write guard:
+                                  refuses inline scripts and file-writing heredocs (§AGENTS)
   scripts/check-rules-version.mjs the script behind the startup check
+  scripts/after-compact.mjs       the script behind relay-after-compact
   scripts/block-shell-writes.mjs  the script behind the shell-write guard
   scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions
   scripts/install-skills.mjs      installer for non-Claude agents
@@ -231,7 +240,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.8.0** (2026-11-02). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
+Current: **v3.9.0** (2026-11-12). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
 what changed and why, including the map from v2 section numbers to v3 names.
 
 ---
