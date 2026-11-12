@@ -169,3 +169,11 @@ Two additions from the owner, the same day:
   until seen. Live sample tiles of three or four candidates on the project's own content,
   plus a static gallery of the catalogue; over live drafts alone or a gallery alone. A
   sample is a tile, over a hero section or a full page each, to keep a round cheap.
+
+## 2026-11-12 — Major versions carry a theme, from v4
+
+The owner's idea: each major version gets a codename and a look, as Android releases did,
+and the README is designed in it. Themes need not share a series or follow the number. v4's
+is not chosen. Also the owner, the same day: v4 is not in a hurry and is to be planned
+properly. The agent's advice on where a theme may and may not appear is in the spec, as
+advice, until the owner rules on it.
