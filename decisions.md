@@ -155,3 +155,17 @@ Five more, the same day, closing the spec's open questions:
 - **Branch protection on the default branch is a rule where the GitHub plan allows it**,
   over a recommendation.
 - **§FIREBASE stays in the web profile; only §AI is read on demand.**
+
+## 2026-11-12 — v4 also audits the standard, and motifs can be seen before they are picked
+
+Two additions from the owner, the same day:
+
+- **The standard gets its own Process X**, a whole audit of what exists, run **after the
+  split**. The agent recommended auditing first, so the split would move only what survives;
+  the owner chose split first. It replaces the "procedure into skills" phase recorded above,
+  which becomes one kind of audit finding. Whether it ships inside v4.0.0 or as v4.1.0 is
+  open in the spec.
+- **`design-motif` gains "Show me"**: the owner's point is that motif names mean little
+  until seen. Live sample tiles of three or four candidates on the project's own content,
+  plus a static gallery of the catalogue; over live drafts alone or a gallery alone. A
+  sample is a tile, over a hero section or a full page each, to keep a round cheap.
