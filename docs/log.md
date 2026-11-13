@@ -13,10 +13,13 @@ relocation, never summarising.***
 
 ---
 
-### 2026-11-13 — v4 phases 1 to 3: the fold, the split, the profiles, two evals
+### 2026-11-13 — v4 phases 1 to 5, the audit of the standard, and the first of its picks
 
-Commits `37ed966` to the head of `claude/new-project-mockup-zp2h2z`, pushed. That branch is
-a working branch; nothing reached `main`.
+Commits `37ed966` to the head of `claude/new-project-mockup-zp2h2z`, pushed, the last being
+this checkpoint's own. That branch is a working branch; nothing reached `main`. One long
+session on the owner's PC; the owner chose each time to carry on in it rather than start a
+fresh one, and at the end: "we can do a checkpoint here and then i compact you and then you
+continue here?"
 
 The session opened on a local branch named `v3.9.0`, three commits holding all fourteen
 issues (#20 to #33), built on 2026-11-12 from 21:30 by a local session that left no log
@@ -56,8 +59,40 @@ chose "Fold into v4" over releasing v3.9.0 first (the agent's recommendation).
   Cost of the three runs: $0.78. This file was split out of `docs/STATUS.md` in the same
   session.
 
-The shell-write hook refused a real `node -e` from the agent in this Windows session, its
-first refusal outside `tests/run.mjs`.
+- **Phase 4, motif previews.** "Show me" added to `design-motif`, `motifs.md` and §DESIGN;
+  the eval `motif-show-me` scored 1.00 with the skill and 0.00 without ($0.31). The gallery
+  was drafted with four tiles, light and dark side by side; the owner chose "Bigger tiles",
+  one scheme per row. All 35 were then built and looked at, group by group, at desktop width
+  and at 375px. One fault found by looking: six motifs' paragraph styles leaked into the
+  tile header. The owner: "Locked".
+- **Phase 5.** Relay's check for unexplained changes to workflows and agent settings, with
+  the remote's production branch added by the agent. The five §SECURITY rules: the agent
+  raised two points on the branch-protection rule; the owner: "Approve as worded". The
+  `machine-inventory` skill, then its first run on this PC: `ollama list` hung for two
+  minutes with Ollama stopped, apps off the path were found through `winget list`, and the
+  skill was changed to say so. It wrote `~/.claude/machine.md`; the owner: "Yes, add it" for
+  the import line. A file named `comfy_api_key.txt` was seen in `E:\Installed` and not
+  opened; the owner was told.
+- **Phase 6, the audit.** The agent read the eleven rules files; five readers took the
+  `checkpoint` skill, the other seven skills, the templates and documents, the scripts and
+  evals, and a survey of 34 project folders. About 160 raw findings became about 90 in
+  eleven groups (`docs/specs/v4-audit.md`). The agent re-ran the security claims itself:
+  five inline-script forms and the PowerShell tool all passed the guard. The owner:
+  "Recommended set".
+- **The first picks built.** B1 to B4: the guard rewritten for both shells, with 74 new
+  test cases, all passing on the first run. Nine of group A, one commit each. A1 rewords the
+  branch-protection rule approved "as worded" earlier the same day, to the two points raised
+  then.
+
+The shell-write hook refused the agent's own inline scripts twice in this Windows session
+(`node -e`, then `python -c`), its first refusals outside `tests/run.mjs`. Evals this
+session: $1.09 over four runs. `checks.yml` gained one line, `fetch-depth: 0`, with the
+owner's yes.
+
+**What this session got wrong, for the next one:** it scoped a v4 from scratch before
+fetching the remote branches; it put "54 granted exceptions" in the audit, a number it had
+not counted, and took it out; it wrote "this morning" in `decisions.md` without knowing the
+time, and corrected it.
 
 ### 2026-11-12 — v4 planned with the owner; nothing built
 
