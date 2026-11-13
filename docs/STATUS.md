@@ -34,8 +34,10 @@ agent had raised two points, not taken: the branch-protection rule drops "where 
 does not allow it, `conventions.md` records the gap" (decided 2026-11-12), and its
 "changes arrive by pull request" sits against §GIT, which lets a single-branch project push
 to `main`.
-**Live:** nothing mid-flight. The owner has not run `machine-inventory` on the PC yet, so
-no `~/.claude/machine.md` exists. The owner works on the PC in the desktop app and answers
+**Live:** `machine-inventory` was run on the PC on 2026-11-13 and wrote
+`~/.claude/machine.md`. Its import line (`@machine.md` in `~/.claude/CLAUDE.md`) is asked of
+the owner and not added yet; until it is, no session loads the file. Its local-models
+section is empty: Ollama was not running. The owner works on the PC in the desktop app and answers
 choices through the question prompt.
 **Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
 5) and v4's theme name (phase 7).

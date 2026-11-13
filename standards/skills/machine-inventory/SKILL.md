@@ -41,6 +41,17 @@ result, not an error. Run them as plain commands, one tool per line, never an in
 | Engines and editors | Godot, Unity, Unreal, Android Studio | their CLI, or the install folder |
 | Hardware | GPU model and memory, system memory, free disk on the work drive | `nvidia-smi` or the platform's system report |
 
+Three things the first run on a Windows PC taught (2026-11-13):
+
+- **Give every probe a short timeout** (`timeout 15 <command>`). A tool whose service is not
+  running can hang instead of failing: `ollama list` did, with Ollama installed but stopped.
+  Ask for the version only, and read the model list only when the service answers.
+- **Apps are often installed but not on the path.** On Windows, `winget list` names them
+  with their versions (Blender, DaVinci Resolve, OBS, ComfyUI); elsewhere the package
+  manager's list does the same. Use it before concluding a tool is missing.
+- **A model folder may be elsewhere.** `OLLAMA_MODELS` says where Ollama keeps its models.
+  If the models cannot be listed, write that in the file rather than leaving the section out.
+
 The table is a starting list, not a limit: probe anything the existing file names, and
 anything the owner mentions. **Never read a credential, a token or a config file's secrets**
 (§SECURITY): versions and paths only. Where a tool is installed but not on the path (an app
