@@ -20,10 +20,9 @@ it is named `v4.0.0`. `main` is untouched.
 **Next:** **phase 2, profiles** (`docs/specs/v4.md`, *Built ahead of the split* says what
 is left of it): reword `rules/game.md` and the game block in the conventions template, which
 still speak of Part A and of referencing the rules; the same for
-`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. Two things
-from phase 1 wait for the owner, both in `docs/specs/v4-split-map.md` under *Phase 1, as
-built*: whether the non-application profile keeps its §NAMING and §TESTING lines, and the
-split check in CI.
+`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. One thing
+from phase 1 waits for the owner (`docs/specs/v4-split-map.md`, *Phase 1, as built*): the
+split check is skipped in CI until `checks.yml` fetches full history.
 **What each kind loads after the split** (before: 76.5 KB, or nothing for a profile project
 that only referenced the file): web 59.9 KB plus its options; Node tool 42.0; game 44.4;
 non-application 32.0, or 39.5 with a visual surface. Options: credit 4.2, Firebase 3.0,
@@ -39,7 +38,10 @@ audit (the list is at the end of the split map).
 **Security, 2026-11-12:** a stolen GitHub token pushed a secret-stealing workflow to `main`
 three times on 11–12 November, each followed by a "restore". `main`'s content equals the
 v3.8.0 merge (`bbe46d6`); the three workflow runs are gone from the Actions list. The owner's
-incident record is in Drive. Not confirmed from here: whether this repo held Actions secrets.
+incident record is in Drive. Checked 2026-11-13: `.github/workflows/` holds only `checks.yml`,
+identical on `main` and the working branch and last changed by `fced90b` (2026-10-21); it is
+the only workflow GitHub lists; `gh secret list` shows no Actions secrets now. Whether the
+repo held any during the attack cannot be told from here.
 **Don't trust:** the behaviour evals ran once per case; one run is a baseline, not proof. The
 shell-write hook is tested by `tests/run.mjs`, not yet in a live Windows session.
 

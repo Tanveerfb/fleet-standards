@@ -106,7 +106,8 @@ no section repeated but the four that divide, the template's imports).
    profile's whole list with the `rules/ui.md` import. Its §NAMING line (vocabulary,
    kebab-case file names) and its §TESTING line (seen working at desktop width and on a
    phone) are not in the core or in `ui.md`, so the profile would lose both rules. They are
-   kept, word for word: fewer changes than agreed, nothing lost. Say if they should go.
+   kept, word for word: fewer changes than agreed, nothing lost. **The owner, 2026-11-13:
+   "Keep".**
 2. **The split check does not run in CI.** CI's checkout is shallow and does not hold the
    baseline commit, so the check reports "skipped" there and passes. Running it in CI needs
    `fetch-depth: 0` in `.github/workflows/checks.yml`, which is not changed without being
