@@ -177,8 +177,11 @@ issues is the churn, status is the current position.
   formatter, a code generator, `create-next-app`) are the tool's output. A change across
   many files is still made file by file with Edit (`replace_all` within a file); if a
   script is genuinely the right tool for a bulk change, show it to the owner and ask first.
-  **This rule is enforced:** a PreToolUse hook (`scripts/block-shell-writes.mjs`) refuses
-  inline Python or Node code and heredocs that write a file. The `fleet` plugin registers it,
+  **This rule is enforced, in part:** a PreToolUse hook (`scripts/block-shell-writes.mjs`) on
+  the Bash and PowerShell tools refuses inline interpreter code, text written to a file from
+  the shell (a heredoc, `echo`, `printf`, a PowerShell string) and in-place edits (`sed -i`).
+  It guards against the habit and is not a sandbox: what it misses is still forbidden. The
+  `fleet` plugin registers it,
   and `sync-standards` adds it to each project's `.claude/settings.json` for cloud sessions.
   A project that needs a stricter block (every `<<`) keeps its own hook beside it
 - **Read the machine file before proposing a tool.** The owner's `~/.claude/machine.md`

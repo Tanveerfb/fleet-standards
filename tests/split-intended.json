@@ -16,6 +16,9 @@
 
     "  overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,",
 
+    "  **This rule is enforced:** a PreToolUse hook (`scripts/block-shell-writes.mjs`) refuses",
+    "  inline Python or Node code and heredocs that write a file. The `fleet` plugin registers it,",
+
     "Parts B to E are written for a stack it does not have. It follows the **game-engine",
     "has the block):",
     "- **Apply in full:** Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS",
@@ -97,6 +100,12 @@
     "[`motifs.md`](../motifs.md) in the master copy of this standard.",
 
     "  overhaul. Offer the five ways in from `motifs.md`: *show me* sample tiles, browse the catalogue,",
+
+    "  **This rule is enforced, in part:** a PreToolUse hook (`scripts/block-shell-writes.mjs`) on",
+    "  the Bash and PowerShell tools refuses inline interpreter code, text written to a file from",
+    "  the shell (a heredoc, `echo`, `printf`, a PowerShell string) and in-place edits (`sed -i`).",
+    "  It guards against the habit and is not a sandbox: what it misses is still forbidden. The",
+    "  `fleet` plugin registers it,",
 
     "the Node and Next.js files are written for a stack it does not have. It follows the **game-engine",
     "has the block). The project loads the core, `rules/app.md`, `rules/ui.md` and this file:",

@@ -320,6 +320,37 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "heredoc into tee": "tee out.txt <<EOF\nx\nEOF",
     "here-string into a file": `cat <<< "x" > f.txt`,
     "python -c inside bash -c": `bash -c "python -c 'print(1)'"`,
+    // Found by the v4 audit (2026-11-13): each of these passed the guard.
+    "a shell wrapper with combined flags": `bash -lc "node -e 1"`,
+    "eval of a quoted command": `eval "python3 -c 1"`,
+    "a flag with a value before -c": "python -W ignore -c 1",
+    "the py launcher with a dotted version": "py -3.12 -c 1",
+    "node with an = option before -e": "node --input-type=module -e 1",
+    "node with a valued option before -e": "node --require ./a.js -e 1",
+    "a substitution inside double quotes": `x="$(python3 -c 1)"`,
+    "a substitution inside an echo": `echo "$(node -e 1)"`,
+    "backticks inside double quotes": 'echo "`node -e 1`"',
+    "a quoted << does not hide the next line": `echo "a <<X"\nnode -e "1"`,
+    "an arithmetic shift does not hide the next line": "echo $((a<<b))\npython3 -c 1",
+    "a shell fed a heredoc": "sh <<EOF\npython3 -c 1\nEOF",
+    "a heredoc with an escaped delimiter into a file": "cat <<\\EOF > out.txt\nx\nEOF",
+    "a heredoc forced over a file": "cat <<EOF >| out.txt\nx\nEOF",
+    "a heredoc into dd": "cat <<EOF | dd of=out.txt\nx\nEOF",
+    "a heredoc into cp": "cat <<EOF | cp /dev/stdin out.txt\nx\nEOF",
+    "node fed by a pipe": "echo 1 | node",
+    "perl -e": "perl -e 'print 1'",
+    "ruby -e": "ruby -e 'puts 1'",
+    "bun -e": "bun -e 1",
+    "tsx through npx": "npx tsx -e 1",
+    "deno eval": "deno eval 1",
+    "sed -i": "sed -i s/a/b/ file.txt",
+    "sed with a combined -i": "sed -Ei.bak s/a/b/ file.txt",
+    "perl -pi": "perl -pi -e s/a/b/ file.txt",
+    "awk in place": "awk -i inplace '{print}' file.txt",
+    "printf redirected to a file": `printf "x\\n" > notes.md`,
+    "echo appended to a file": "echo hello >> notes.md",
+    "echo through tee": "echo hello | tee notes.md",
+    "PowerShell run from Bash": `pwsh -Command "node -e 1"`,
   };
   for (const [label, command] of Object.entries(blocked)) {
     const r = hook(command);
@@ -334,12 +365,71 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "a script fed a heredoc": "python3 script.py <<EOF\ninput\nEOF",
     "a redirect with no heredoc": "npm test 2>&1 | tail -5 > /dev/null",
     "version checks": "node --version && python3 --version",
+    // Found by the v4 audit: each of these was wrongly refused.
+    "a commit heredoc run from a folder named python": "cd services/python && git commit -F - <<EOF\nmsg\nEOF",
+    "a commit heredoc, then a grep for node": "git commit -F - <<EOF && git log --oneline | grep node\nmsg\nEOF",
+    "eval of something harmless, then a quoted mention": `eval "$(ssh-agent)" && git commit -m "no python -c"`,
+    "a grep for a heredoc marker, output kept": `grep -rn "<<EOF" . > hits.txt`,
+    "a commit heredoc, then another command's output kept": "git commit -F - <<EOF\nmsg\nEOF\nnpm test > out.log",
+    "a heredoc command with its output sent to NUL": "gh pr create --body-file - <<EOF > NUL\nbody\nEOF",
+    "a command's own output kept": "git diff > changes.patch",
+    "a module run": "python -m http.server 8000",
+    "a script with a -c of its own": "python tools/build.py -c release",
+    "node's test runner": "node --test",
+    "echo to stderr": `echo "failed" >&2`,
+    "echo with its errors discarded": "echo ok 2>/dev/null",
+    "sed without -i": "sed -n 1,5p file.txt",
+    "a function and a loop": `t(){ printf '%s' "$1" | node tools/x.mjs >/dev/null 2>&1; }; for f in a b; do t "$f"; done`,
+    "a comment that mentions it": "ls # then never node -e",
   };
   for (const [label, command] of Object.entries(allowed)) {
     const r = hook(command);
     check(`allows: ${label}`, r.status === 0, `exit ${r.status}: ${r.stderr.trim()}`);
   }
+
+  // PowerShell is the primary shell on Windows and was not guarded at all before v4.
+  const blockedPs = {
+    "node -e": "node -e 1",
+    "python -c after a cd": "cd app; python -c 'print(1)'",
+    "a substitution inside double quotes": `Write-Host "$(node -e 1)"`,
+    "Invoke-Expression": `iex "python -c 1"`,
+    "a nested PowerShell": `powershell -NoProfile -Command "node -e 1"`,
+    "Bash run from PowerShell": `bash -lc "node -e 1"`,
+    "a here-string into a file": "@'\nhello\n'@ | Set-Content notes.md",
+    "a here-string redirected": '@"\nhello\n"@ > notes.md',
+    "a here-string into node": "@'\nconsole.log(1)\n'@ | node",
+    "a string piped to Out-File": `"hello" | Out-File notes.md`,
+    "a string redirected": `"hello" > notes.md`,
+    "echo redirected": "echo hello >> notes.md",
+    "Set-Content with a value": `Set-Content -Path notes.md -Value "hello"`,
+    "Add-Content with a positional value": `Add-Content notes.md "hello"`,
+    "New-Item with a value": `New-Item notes.md -Value "hello"`,
+    "an in-place replace": `(Get-Content a.txt) -replace 'a','b' | Set-Content a.txt`,
+    "the .NET file API": `[System.IO.File]::WriteAllText("a.txt", "x")`,
+  };
+  for (const [label, command] of Object.entries(blockedPs)) {
+    const r = hook(command, "PowerShell");
+    check(`PowerShell blocks: ${label}`, r.status === 2 && r.stderr.includes("§AGENTS"), `exit ${r.status}`);
+  }
+  const allowedPs = {
+    "a command's own output kept": "git diff | Out-File changes.patch",
+    "all streams of a test run kept": "npm test *> out.log",
+    "output discarded": "node tools/x.mjs > $null",
+    "a quoted mention": `git commit -m "no more node -e or Set-Content"`,
+    "a search for the pattern": `Select-String -Pattern "python -c" -Path *.md`,
+    "a here-string as a commit message": "git commit -m @'\nfeat: never node -e > file\n'@",
+    "reading a file": "Get-Content notes.md -TotalCount 5",
+    "a new folder": "New-Item -ItemType Directory -Force out",
+    "a script file": "python tools/x.py; node scripts/sync.mjs --check",
+    "version checks": "node --version; python --version",
+    "a replace that is only shown": `(Get-Content a.txt) -replace 'a','b' | Select-Object -First 3`,
+  };
+  for (const [label, command] of Object.entries(allowedPs)) {
+    const r = hook(command, "PowerShell");
+    check(`PowerShell allows: ${label}`, r.status === 0, `exit ${r.status}: ${r.stderr.trim()}`);
+  }
   check("ignores other tools", hook("python -c 1", "Write").status === 0);
+  check("the plugin registers it for both shells", read("standards/hooks/hooks.json").includes('"matcher": "Bash|PowerShell"'));
   check("unreadable input: fails open", run("node", [script], { input: "{not json" }).status === 0);
 }
 
@@ -370,6 +460,17 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   const hookEntries = (p) => (settingsOf(p).hooks?.PreToolUse ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("block-shell-writes.mjs")));
   check("the shell-write hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "block-shell-writes.mjs")));
   check("the hook is registered once in .claude/settings.json", hookEntries(project).length === 1);
+  check("for both shells", hookEntries(project)[0]?.matcher === "Bash|PowerShell");
+  {
+    // A project synced before v4 has the guard on Bash alone: the next sync widens it.
+    const file = join(project, ".claude", "settings.json");
+    const old = settingsOf(project);
+    old.hooks.PreToolUse.find((e) => e.hooks?.some((h) => h.command.includes("block-shell-writes.mjs"))).matcher = "Bash";
+    writeFileSync(file, JSON.stringify(old, null, 2) + "\n");
+    check("an older Bash-only registration is reported by --check", copy("--check").status === 1);
+    copy();
+    check("and widened to both shells, still registered once", hookEntries(project).length === 1 && hookEntries(project)[0].matcher === "Bash|PowerShell");
+  }
   const compactEntries = (p) => (settingsOf(p).hooks?.SessionStart ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("after-compact.mjs")));
   check("the relay-after-compact hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "after-compact.mjs")));
   check("it is registered once, on compact|resume", compactEntries(project).length === 1 && compactEntries(project)[0].matcher === "compact|resume");

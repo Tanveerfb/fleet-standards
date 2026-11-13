@@ -1,8 +1,9 @@
 # v4 phase 6 — the audit of the standard
 
-**Status:** audit delivered 2026-11-13; **waiting for the owner's picks. Nothing has been
-changed.** Process X (`standards/process-x.md`) read for a standard rather than a product.
-Companion to [`v4.md`](v4.md).
+**Status:** audit delivered 2026-11-13; **picked the same day: the owner chose the
+recommended set.** Building, one commit per finding; *Picks and outcomes* at the end says
+where each stands. Process X (`standards/process-x.md`) read for a standard rather than a
+product. Companion to [`v4.md`](v4.md).
 
 ## How it was done
 
@@ -200,6 +201,31 @@ the owner wants any done now.
 | K5 | **§MOTION.** | 5 of the granted exceptions the survey listed are against it, 4 in one project; no other section has more than 3. The section was since rewritten to leave animation to the owner at the mockup stage, which makes those exceptions moot. Worth a line at those projects' next sync, nothing in the standard. |
 | K6 | **Other backends as options.** | `roleodex` and `cutscene` use SQLite and carry a §FIREBASE exception each. Under v4 they simply do not choose the Firebase option, so the exception goes. No new option file is needed yet. |
 | K7 | **A Python or other-language file.** | `toll-pipeline` (Python) and `cutscene` (a Python core) each restate naming and testing for Python in their own conventions. Two projects is the usual bar for a file of its own; D1 has to land first so `app.md` is truly neutral. |
+
+## Picks and outcomes
+
+**The owner, 2026-11-13: "Recommended set".**
+
+| Group | Picked | Outcome |
+| --- | --- | --- |
+| A1 to A15 | all | to build |
+| B1 to B12 | all | B1 to B4 built 2026-11-13; B5 to B12 to build. B7 changes the workflow file and needs the owner's yes when it is reached |
+| C1 to C9 | all | to build |
+| D1 to D12 | all | to build |
+| E1 to E11 | all | to build |
+| F1 to F6 | picked | to build |
+| F7, F8, F9 | not picked | declined for v4; F8 is also a question for the owner |
+| G1 to G10 | phase 7 | not a pick |
+| H1 to H4 | picked | to build |
+| H5 | not picked | the run before release is in phase 7's own list |
+| I1 to I5 | all | to build; I4 at the release |
+| K1 to K7 | the owner's answers | open |
+
+**Sizes before the picks** (bytes, 2026-11-13): core 31,001; `web` 10,427; `ui` 7,531;
+`node` 7,240; `ai` 6,635; `app` 5,460; `credit` 4,222; `firebase` 2,956; `non-application`
+2,736; `game` 2,234; `trello` 1,532. Skills: `checkpoint` 38,181; `relay` 15,817;
+`sync-standards` 15,283; `design-motif` 9,474; `ai-setup` 8,569; `new-project` 8,446;
+`machine-inventory` 6,244; `propose-standard` 4,697.
 
 ## What was not checked
 

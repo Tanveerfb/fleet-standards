@@ -76,7 +76,7 @@ planned.push([
 //   after-compact.mjs       relay first after a compact or a resume. The plugin's copy stays
 //                           silent when the project registers this one.
 const HOOKS = [
-  { file: "block-shell-writes.mjs", event: "PreToolUse", matcher: "Bash" },
+  { file: "block-shell-writes.mjs", event: "PreToolUse", matcher: "Bash|PowerShell" },
   { file: "after-compact.mjs", event: "SessionStart", matcher: "compact|resume" },
 ];
 const commandOf = (file) => `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${file}"`;
@@ -98,8 +98,15 @@ if (settingsReadable) {
   let added = false;
   for (const { file, event, matcher } of HOOKS) {
     const command = commandOf(file);
-    const registered = settings?.hooks?.[event]?.some((entry) => entry?.hooks?.some((h) => h?.command === command));
-    if (registered) continue;
+    const registered = settings?.hooks?.[event]?.find((entry) => entry?.hooks?.some((h) => h?.command === command));
+    if (registered) {
+      // An older sync registered the guard for Bash alone; bring the tools it covers up to date.
+      if (registered.matcher !== matcher) {
+        registered.matcher = matcher;
+        added = true;
+      }
+      continue;
+    }
     settings.hooks ??= {};
     settings.hooks[event] ??= [];
     settings.hooks[event].push({ matcher, hooks: [{ type: "command", command, timeout: 10 }] });
