@@ -14,6 +14,8 @@
 
     "[`motifs.md`](./motifs.md) in the master copy of this standard.",
 
+    "  overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,",
+
     "Parts B to E are written for a stack it does not have. It follows the **game-engine",
     "has the block):",
     "- **Apply in full:** Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS",
@@ -93,6 +95,8 @@
     "**Loaded by:** nothing by default. Read on demand, by projects that chose it.",
 
     "[`motifs.md`](../motifs.md) in the master copy of this standard.",
+
+    "  overhaul. Offer the five ways in from `motifs.md`: *show me* sample tiles, browse the catalogue,",
 
     "the Node and Next.js files are written for a stack it does not have. It follows the **game-engine",
     "has the block). The project loads the core, `rules/app.md`, `rules/ui.md` and this file:",

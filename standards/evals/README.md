@@ -29,6 +29,7 @@ right skill fired and that the stated decision matches the rule.
 | `checkpoint-skill-proposal` | a procedure repeated in the session is proposed as one project skill, asked first |
 | `relay-after-compact` | after a compact, relay runs in full before a request that is already waiting |
 | `checkpoint-log-split` | a status doc that still holds its session log is split: old entries move word for word to `docs/log.md`, the new entry goes there, the status doc stays a snapshot |
+| `motif-show-me` | on "Show me", design-motif drafts a page of sample tiles before asking for a pick, the same pieces in each tile |
 | `checkpoint-pause` | a checkpoint ends with one question — what next — and no compact block: a plain `/compact` is enough |
 
 **When a case fails**, read its transcript in the results folder before changing anything: a

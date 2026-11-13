@@ -1,6 +1,6 @@
 ---
 name: design-motif
-description: Use when a project's look needs deciding — e.g. "set the design", "choose a motif", "pick a theme", "design direction", "redesign", "design overhaul", "what motif should this be", "surprise me with a design". Runs the fleet motif process end to end — checks for an existing motif, gathers the brief, offers browse / recommend / surprise me / bring your own, picks a family and variant (or researches a universe-inspired brief), loops on mockups until the owner locks it, then records it in design-system.md and decisions.md. Proposes tokens only after the motif is locked.
+description: Use when a project's look needs deciding — e.g. "set the design", "choose a motif", "pick a theme", "design direction", "redesign", "design overhaul", "what motif should this be", "surprise me with a design". Runs the fleet motif process end to end — checks for an existing motif, gathers the brief, offers show me (sample tiles) / browse / recommend / surprise me / bring your own, picks a family and variant (or researches a universe-inspired brief), loops on mockups until the owner locks it, then records it in design-system.md and decisions.md. Proposes tokens only after the motif is locked.
 ---
 
 # Design motif
@@ -56,10 +56,32 @@ Ask with the question tool:
 
 | Option | Then |
 | --- | --- |
-| **Browse** | Show the catalogue grouped as in `motifs.md` — family names and one line each. Offer a shortlist of the three families that best fit the brief as options; the owner can name any other. |
+| **Show me** | Step 3a. |
+| **Browse** | Open the gallery, `${CLAUDE_PLUGIN_ROOT}/motif-gallery.html`, one tile per family, grouped as in `motifs.md` — the way this environment allows (open the file, a preview, an artifact). Where it cannot be shown, list family names and one line each instead, and say so. Offer a shortlist of the three families that best fit the brief as options; the owner can name any other. |
 | **Decide for me** | Recommend the best-fitting family and variant with the reason, plus one or two runners-up, as options. |
 | **Surprise me** | Pick at random among the families that suit the brief — say how many qualified — and give one line on why the pick fits. Never pick one that works against the purpose. |
 | **Bring my own** | A fictional world → Step 4b. Anything else → Step 4c. |
+
+### 3a. Show me — sample tiles
+
+The owner picks with their eyes, so **draft first, ask second**: never ask for a pick from
+names alone on this route.
+
+1. From the brief, choose **three or four candidate families** (a custom or
+   universe-inspired direction may be one of them). Say in a line why each qualified.
+2. Draft **one page of sample tiles**, in the mockups folder (§OWNER) or as an artifact when
+   the owner is on a phone. Each tile is one motif applied to the same small set of pieces,
+   in this project's own name and words: a heading, a paragraph, a button, a card and an
+   input, in light and in dark. The same pieces in every tile, so the motif is the only
+   difference. A tile, not a page: no hero, no layout.
+3. Show the page, then ask with the question tool: one of the candidates, **another
+   round** with different candidates, or **another way in** (back to Step 3).
+4. **None picked is a normal outcome, not a failure**: draft the next round from what the
+   owner said was wrong with this one.
+
+The pick continues at Step 4 for its variant and gets its full mockup in Step 5. Tiles are
+drafts: never recorded as the locked design, and a value in a tile is an illustration, not
+a token (§DESIGN).
 
 ## Step 4 — Family and variant
 

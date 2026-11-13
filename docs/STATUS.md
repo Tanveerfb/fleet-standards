@@ -11,17 +11,19 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 **State:** v3.8.0 is on `main`. **v4.0.0 is in progress: phases 1 to 3 of seven are done**
 (`docs/specs/v4.md`). The rules file is a core (`standards/project-rules.md`, 29 KB) and ten
 files under `standards/rules/`; the fourteen issues (#20 to #33) are built; the game and
-non-application profiles are reworded for the split; ten behaviour evals pass. **No v3.9.0
+non-application profiles are reworded for the split; eleven behaviour evals exist and the three new ones pass. **No v3.9.0
 is released**: that work is folded into v4, and the rules file's version line reads 3.9.0
 until phase 7 (`decisions.md`, 2026-11-13). All of it is pushed to the working branch
 `origin/claude/new-project-mockup-zp2h2z`; on the PC the local branch tracking it is named
 `v4.0.0`. `main` is untouched.
-**Next:** **phase 4, motif previews** (`docs/specs/v4.md`, *Motif previews*): the "Show me"
-way into `design-motif` (skill, `motifs.md`, §DESIGN in `rules/ui.md`, an eval case that it
-drafts before asking for a pick), then the static gallery, one tile per catalogue family.
-The gallery is the long part.
-**Live:** nothing mid-flight. The owner works on the PC in the desktop app and answers
-choices through the question prompt.
+**Phase 4, motif previews, is built** (2026-11-13): "Show me" is a fifth way into
+`design-motif`, and `standards/motif-gallery.html` has a sample tile for all 35 families.
+**Next:** the owner's look at the gallery (below), then **phase 5** (`docs/specs/v4.md`):
+the §SECURITY additions, whose wording needs the owner's approval before it is written in;
+relay's workflow check; the machine inventory (skill, core rule, README).
+**Live:** the gallery is in the mockup loop. The owner chose the tile format (bigger, one
+scheme per row) and has not yet seen all 35 tiles or said it is locked. The owner works on
+the PC in the desktop app and answers choices through the question prompt.
 **Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
 5) and v4's theme name (phase 7).
 **The owner's rule for v4:** quality for the long term, over speed and over size. No hurry.
@@ -76,8 +78,7 @@ Why choices were made, with the alternatives, is in [`decisions.md`](../decision
 
 ## Open items
 
-1. **v4 phases 4 to 7** — motif previews; security rules, the machine inventory and relay's
-   workflow check; the Process X audit of the standard; theme, pilot syncs and release
+1. **v4 phases 5 to 7** — security rules, the machine inventory and relay's workflow check; the Process X audit of the standard; theme, pilot syncs and release
    (`docs/specs/v4.md`).
 2. **Documents that still describe one rules file**, left for phase 7: `README.md`,
    `standards/adopting-the-standard.md`, `docs/maintainer.md`, and `standards/CHANGELOG.md`,

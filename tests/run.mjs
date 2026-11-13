@@ -119,6 +119,37 @@ section("The rules set (standards/project-rules.md and standards/rules/)");
 }
 
 // ---------------------------------------------------------------------------------------------
+section("Motif gallery (standards/motif-gallery.html)");
+{
+  // motifs.md is the source: every family in its catalogue has a tile, in the same group,
+  // and the gallery holds no tile for a family the catalogue does not have.
+  const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const motifs = read("standards/motifs.md").replace(/\r\n/g, "\n");
+  const catalogue = motifs.slice(motifs.indexOf("\n## The catalogue"), motifs.indexOf("\n## Universe-inspired"));
+  const families = []; // [name, group]
+  let group = "";
+  for (const line of catalogue.split("\n")) {
+    const heading = /^### (.+)$/.exec(line);
+    if (heading) group = heading[1];
+    const family = /^\*\*([^*]+)\*\* — /.exec(line);
+    if (family) families.push([family[1], group]);
+  }
+  const stated = Number(/^(\d+) families in/m.exec(catalogue)?.[1]);
+  check(`motifs.md lists ${families.length} families, as its own count says`, families.length > 0 && families.length === stated, `it says ${stated}`);
+
+  const gallery = read("standards/motif-gallery.html");
+  const tiles = [...gallery.matchAll(/\{ name: "([^"]+)", group: "([^"]+)", line: "[^"]+" \}/g)].map((m) => [m[1], m[2]]);
+  const key = ([name, grp]) => `${name} (${grp})`;
+  const missing = families.filter((f) => !tiles.some((t) => key(t) === key(f))).map(key);
+  const extra = tiles.filter((t) => !families.some((f) => key(f) === key(t))).map(key);
+  check("every family in motifs.md has a tile, in its group", missing.length === 0, missing.join(", "));
+  check("no tile without a family in motifs.md", extra.length === 0, extra.join(", "));
+  check("tiles are in the catalogue's order", tiles.map(key).join("|") === families.map(key).join("|"));
+  const unstyled = tiles.filter(([name]) => !["light", "dark"].every((scheme) => gallery.includes(`.m-${slug(name)} .${scheme} {`))).map(([name]) => name);
+  check("every tile has a light and a dark style", unstyled.length === 0, unstyled.join(", "));
+}
+
+// ---------------------------------------------------------------------------------------------
 section("Links and comments in Markdown");
 // Templates are skipped for links: their links point at files in the project they are copied to.
 for (const f of tracked.filter((p) => p.endsWith(".md"))) {

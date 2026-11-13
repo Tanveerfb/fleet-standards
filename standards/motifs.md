@@ -5,13 +5,14 @@ carried through palette, type, shapes, texture, iconography, copy voice and moti
 design decision after that is checked against it. `rules/ui.md` §DESIGN says when a
 motif is chosen and how it is recorded; this file is the catalogue to choose from.
 
-## Choosing a motif — four ways in
+## Choosing a motif — five ways in
 
-The owner decides how much to decide. Offer all four; extra steps are optional, never forced.
+The owner decides how much to decide. Offer all five; extra steps are optional, never forced.
 
 | Way in | The owner | The agent |
 | --- | --- | --- |
-| **Browse** | Picks a family from the catalogue, then a variant | Shows the family's variants, suggested variants and Custom (below) |
+| **Show me** | Looks at three or four candidates side by side and picks one, asks for another round, or switches to another way in | Picks the candidates from the brief, says why each qualified, and drafts one page of sample tiles (below) |
+| **Browse** | Picks a family from the catalogue, then a variant | Opens the gallery (below), then shows the family's variants, suggested variants and Custom |
 | **Recommend** — *"decide for me"* | Describes the site: what it is for, who uses it, where and on what device | Proposes the best-fitting motif and variant with the reason, plus one or two runners-up |
 | **Surprise me** — *"I'm feeling lucky"* | Nothing | Picks at random from the motifs that suit the project's purpose — never one that works against it (no Synthwave for a care provider) — and says in a line why it fits |
 | **Bring your own** | Describes a custom motif, or names a fictional world | Follows **Custom** or **Universe-inspired** below |
@@ -19,6 +20,23 @@ The owner decides how much to decide. Offer all four; extra steps are optional, 
 Every route ends the same way: a mockup in the chosen motif, then the mockup loop (§OWNER)
 until the owner locks it. A recommendation or a lucky pick is a starting point the owner can
 reject, not a commitment.
+
+**Seeing before choosing.** Most motif directions are unknown to an owner by name, so a name
+is not a choice. Two things put a picture in front of the pick:
+
+- **A sample tile** is one motif applied to the same small set of pieces: a heading, a
+  paragraph, a button, a card and an input, in light and in dark. "Show me" drafts one page
+  of three or four tiles, each using this project's own name and words. A tile is enough to
+  feel a direction at a fraction of a mockup's cost; the full mockup is made only for the
+  pick. **None picked is a normal outcome**: draft another round with different candidates.
+  Tiles are drafts. They live with the mockups (`public/_mockups/`, or wherever this
+  environment shows a page) and are never recorded as the locked design; a value in a tile
+  is an illustration, not a token (§DESIGN: tokens come from the locked mockup).
+- **The gallery**, [`motif-gallery.html`](./motif-gallery.html), holds one tile for every
+  family in the catalogue below, in the same format with neutral sample content, grouped as
+  the catalogue is. "Browse" opens it instead of listing names. Custom and universe-inspired
+  motifs are not in it; "Show me" covers those. This file stays the source: a family added
+  here gets its tile in the same commit, and `tests/run.mjs` checks every family has one.
 
 ## Families and variants
 

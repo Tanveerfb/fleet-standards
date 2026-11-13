@@ -17,7 +17,7 @@ motion. The catalogue, and how each motif is used, is
 [`motifs.md`](../motifs.md) in the master copy of this standard.
 
 - **Choose it before designing** — at a new project, or at a redesign or design
-  overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,
+  overhaul. Offer the five ways in from `motifs.md`: *show me* sample tiles, browse the catalogue,
   *decide for me* from a description of the site's purpose and audience,
   *surprise me* from the motifs that suit it, or bring your own. Each motif is a
   family: once one is picked, offer its named variants, one or two suggested
