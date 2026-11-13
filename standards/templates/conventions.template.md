@@ -112,12 +112,3 @@ content**. Map what already covers each job rather than creating empty files.*
 | `docs/log.md` | [`docs/log.md`](./docs/log.md) — the session log; `docs/record/` for the briefs' history |
 | `issues.md` | <> |
 | `roadmap.md` | <> |
-
----
-
-## Project-specific working agreement
-
-*Set by the owner; the operational detail lives in `CLAUDE.md`. Only the things unique to
-this project belong here — the fleet-wide agreement is in the template's `CLAUDE.md`.*
-
-- <>
