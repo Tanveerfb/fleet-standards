@@ -176,8 +176,8 @@ Each cost a real session somewhere in this fleet.
 **From the `fleet` plugin, active in every project once it is installed — nothing to copy:**
 
 - **`checkpoint`** — the full commit and documentation
-  protocol. `git checkpoint` = commit and push, both already authorised. `MAX` = claim-by-claim
-  verified. **It may not appear in the surfaced skills list — look for it rather than
+  protocol. What `checkpoint`, `git checkpoint` and `git CPR` do depends on the project's
+  *Deploys* line (§GIT). `MAX` = claim-by-claim verified. **It may not appear in the surfaced skills list — look for it rather than
   improvising a commit process.**
 - **`relay`** — the inverse, run at the *start* of a session: loads the handoff **and verifies
   it still describes the repo** before any work starts. Its thesis: *the repo beats the
@@ -253,9 +253,10 @@ Then CLAUDE.md, then docs/STATUS.md with a Start here block. Templates for all
 three are in fleet-standards' standards/templates/.
 
 How I work, and these are not negotiable:
-- "git checkpoint" = commit AND push, both already authorised, do not ask again.
-  Never commit unasked. Batch commits, do not spam one per change. Every commit
-  must build standalone.
+- Git follows §GIT and the Deploys line in CLAUDE.md. Ask me once which this project
+  is (single-branch, multi-branch or local only) and write it in before the first
+  commit. Batch commits, do not spam one per change. Every commit must build
+  standalone.
 - Every visual or layout change starts as a mockup I approve, and we iterate until
   I lock it. Only a bug fix restoring an approved design goes straight in.
 - Use the question tool whenever you need input from me. It notifies my phone.
