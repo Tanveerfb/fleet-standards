@@ -386,3 +386,28 @@ agents; its own section, for one rule). The skill is not copied into projects: t
 exist for cloud sessions, which have no machine of the owner's. It asks before adding the
 import line to `~/.claude/CLAUDE.md`, which is the owner's own file. It has no eval case:
 its behaviour is a probe of a real machine, which a read-only eval cannot run.
+
+## 2026-11-13 — The audit of the standard: the owner picks the recommended set
+
+`docs/specs/v4-audit.md`, about 90 findings in eleven groups. The owner: "Recommended set".
+Picked: all of A (two places disagree), B (the guard and the checks), C (v4 end to end), D
+(rules by audience) and E (said twice); F1 to F6; H1 to H4; I1 to I5. Built one commit per
+finding, each named `audit <id>`.
+
+**Not picked, so not raised as new by the next audit:**
+
+- **F7** — four small gaps in `checkpoint` (`git CPR` on a local-only project, creating both
+  files at a first checkpoint, four documents missing from the project-docs step, a finished
+  item taking its Trello link with it).
+- **F8** — rules that projects do not follow with no exception granted (Vitest missing in 5,
+  the filename lint rule in 3). Also a question for the owner: raise a standing gap at the
+  checkpoint, or soften the rule.
+- **F9** — `machine-inventory`'s `timeout` wording, which is right in Bash only.
+- **H5** — running all eleven evals; it stays on phase 7's own list before release.
+
+Group G is phase 7's work whatever was picked. Group K is seven questions that need the
+owner's answers, not a pick; they are open.
+
+One thing reverses an earlier entry: **A1 rewords the branch-protection rule** the owner
+approved "as worded" this morning, to the two points the agent had raised then. The pick of
+A1 is the owner's change of mind, made with the contradiction in front of them.

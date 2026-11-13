@@ -208,7 +208,7 @@ the owner wants any done now.
 
 | Group | Picked | Outcome |
 | --- | --- | --- |
-| A1 to A15 | all | to build |
+| A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **To build:** A2 and A4 (with E1), A3, A10, A11, A14 (with E4) |
 | B1 to B12 | all | B1 to B4 built 2026-11-13; B5 to B12 to build. B7 changes the workflow file and needs the owner's yes when it is reached |
 | C1 to C9 | all | to build |
 | D1 to D12 | all | to build |

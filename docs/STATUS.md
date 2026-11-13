@@ -24,11 +24,17 @@ a new round.
 approved them; relay's workflow check (Step 4); the machine inventory (the
 `machine-inventory` skill, a rule in §AGENTS, the README). After it every open proposal is
 handled.
-**Next:** **phase 6, Process X on the standard itself: the audit is delivered, the owner's
-picks are next.** The ranked list is `docs/specs/v4-audit.md` (2026-11-13): groups A to K,
-each finding with an id, a fix and an effort. **Nothing in it has been built, and nothing is
-built before it is picked.** What is not picked is recorded as declined in `decisions.md`.
-Then build the picks, one commit per finding, and record each file's size before and after.
+**Next:** **phase 6, Process X on the standard itself: picked, and being built.** The
+ranked list is `docs/specs/v4-audit.md` (2026-11-13): groups A to K, each finding with an
+id, a fix and an effort. The owner picked the recommended set (`decisions.md`, 2026-11-13).
+**Its *Picks and outcomes* table says what is built and what is left; build from there**,
+one commit per finding, named `audit <id>`. Built so far: B1 to B4 (the guard) and nine of
+group A. Left: the rest of A, B5 to B12, all of C, D and E, F1 to F6, H1 to H4, I1 to I5.
+B7 changes the workflow file and needs the owner's yes when reached. Group K is seven
+questions for the owner. Sizes before the picks are in the audit file; record them again
+after.
+**A change to a rules file** must add its old and new lines to `tests/split-intended.json`,
+or the split check fails.
 **The audit's sharpest findings:** the shell-write guard does not cover the PowerShell tool
 and lets inline scripts through in ordinary forms (B1, B2, re-run by the agent);
 `new-project` can only make a Next.js project (C1); three projects have recorded that a
