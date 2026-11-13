@@ -186,3 +186,132 @@ apostrophes, each needing an escape, and `tests/run.mjs` and other agents' loade
 line as plain text. CI's `claude plugin validate .` did not catch it; adding
 `claude plugin validate standards` to the workflow is left for the owner, since the workflow
 file was the target of the CI attack and is not changed without being asked.
+
+## 2026-11-12 — v4.0.0 planned: core and profiles
+
+The owner's four choices, planning v4 (`docs/specs/v4.md`):
+
+- **The rules file splits into a core and profiles** (web, game engine, non-application),
+  over keeping one file with all fourteen open issues in it, or a documentation overhaul
+  only. This reverses nothing from 2026-10-21: that entry declined a size budget, not a split.
+- **Issues #20 to #33 all ship inside v4.** The agent recommended the five small fixes as a
+  v3.9.0 first; the owner chose one release and one sync per project.
+- **§SECURITY gains rules from the 11–12 November token attack**, over a relay check alone.
+  A stolen token pushed a secret-stealing workflow to this repository's `main` three times
+  (`fd454a6`, `d8d0206`, `8898dc3`), each followed by a "restore"; `main`'s content is
+  identical to the v3.8.0 merge. The wording is a draft in the spec until the owner approves it.
+- **Issue #26's after-compact hook is also written into each project's settings**, because
+  cloud sessions load no plugin hooks, over keeping a short compact block for cloud.
+
+Five more, the same day, closing the spec's open questions:
+
+- **`project-rules.md` stays at the project root, profiles in `rules/` beside it**, over
+  moving everything under `.claude/fleet/`.
+- **Procedure moves from the core into skills in a later phase 5**, section by section on
+  the owner's yes, over doing it during the split or not at all.
+- **Process X is a process document**, as issue #29 proposes. The agent recommended a skill
+  plus two lines in §OWNER, since a document has no trigger phrase and cannot be evaluated;
+  the owner chose the document.
+- **Branch protection on the default branch is a rule where the GitHub plan allows it**,
+  over a recommendation.
+- **§FIREBASE stays in the web profile; only §AI is read on demand.**
+
+## 2026-11-12 — v4 also audits the standard, and motifs can be seen before they are picked
+
+Two additions from the owner, the same day:
+
+- **The standard gets its own Process X**, a whole audit of what exists, run **after the
+  split**. The agent recommended auditing first, so the split would move only what survives;
+  the owner chose split first. It replaces the "procedure into skills" phase recorded above,
+  which becomes one kind of audit finding. Whether it ships inside v4.0.0 or as v4.1.0 is
+  open in the spec.
+- **`design-motif` gains "Show me"**: the owner's point is that motif names mean little
+  until seen. Live sample tiles of three or four candidates on the project's own content,
+  plus a static gallery of the catalogue; over live drafts alone or a gallery alone. A
+  sample is a tile, over a hero section or a full page each, to keep a round cheap.
+
+## 2026-11-12 — Major versions carry a theme, from v4
+
+The owner's idea: each major version gets a codename and a look, as Android releases did,
+and the README is designed in it. Themes need not share a series or follow the number. v4's
+is not chosen. Also the owner, the same day: v4 is not in a hurry and is to be planned
+properly. The agent's advice on where a theme may and may not appear is in the spec, as
+advice, until the owner rules on it.
+
+## 2026-11-12 — v4: three layers, quality over size, the audit inside the release
+
+- **Three layers of files**: `project-rules.md` (how we work, every repository),
+  `rules/app.md` (engineering for any application code), then the stack (`rules/web.md`,
+  `rules/game.md`). Over one bigger core holding both, or a separate `rules/node.md`. It came
+  from a gap the split map found: local Node tools are a fourth kind of repository, beside
+  web projects, games and non-application repositories, and had no profile.
+- **Quality over size.** The owner: "a compromise on size is okay if it means better
+  workflow in the long run." So a non-application repository now imports the core, where it
+  used to read sections on demand; and v4 has no size target. This replaces the spec's
+  earlier size figures as an acceptance test; sizes are still recorded.
+- **The Process X audit is inside v4.0.0.** The owner's order: handle every open proposal,
+  then the audit and the adjustments it brings, then release. This settles the question left
+  open earlier today (it had been written as v4.1.0).
+- **Why v4 and no v3.9.0**: the owner's reason is that this is several updates in one, plus
+  the audit, taken slowly and done properly.
+
+## 2026-11-12 — v4 split map, rounds 1 to 3 with the owner
+
+The owner's standing instruction for v4: quality for the long term; suggestions look at the
+broader picture, not the short-term goal. Walked layer by layer (`docs/specs/v4-split-map.md`):
+
+- **The files split by concern, not into three layers**: core, `rules/app.md`, `rules/ui.md`,
+  `rules/node.md`, `rules/web.md`, `rules/game.md`, `rules/non-application.md` and
+  `rules/options/`. This refines the "three layers" entry above.
+- **`rules/node.md` is separate**, so `rules/app.md` stays true in any language; the owner's
+  tools are not all Node. Over putting the Node sections in `app.md` (the agent's first
+  recommendation) or leaving them in `web.md`.
+- **`rules/ui.md` is separate.** The owner: agents lacking UI awareness has been an issue in
+  a couple of projects.
+- **§CREDIT and §TRELLO leave the core for a new category, options** (the owner's idea):
+  things a project opts into at setup. §AI is filed there too.
+- **§FIREBASE becomes an option**, reversing the earlier entry that kept it in the web
+  profile. The owner: not every project needs Firebase; some may use Supabase or another
+  backend. godot-toll, a game, already uses it.
+- **§TESTING's universal lines go in the core** (the owner: every project needs testing),
+  over `app.md` and `ui.md`.
+- Every call that needs a rewording waits for the Process X audit, by the owner's ruling.
+  Raised by the owner and parked there: a more robust package manager than npm, and
+  JavaScript as a named choice for niche local projects.
+- **Round 4 approved**: the seven structural wording changes, the `Rules:` / `Options:`
+  line a project declares its files with, and a committed read-only script as the proof
+  that no line was lost.
+- **A machine inventory** (the owner's idea): `~/.claude/machine.md`, kept by a skill, so a
+  project knows what tools the machine has before it proposes one. In the owner's own files,
+  like the studio credit line, over a file in each project, which would repeat and drift.
+
+## 2026-11-13 — v3.9.0 is not released: its work folds into v4.0.0
+
+Two sessions ran apart on 2026-11-12. A cloud session planned v4 with the owner
+(`docs/specs/v4.md`, the five entries above, written about 21:00) and decided all fourteen
+issues ship inside v4 with no v3.9.0 first. A local session that had not fetched that branch
+then built v3.9.0 with the same fourteen issues (the eight entries above it, from 21:30). The
+owner's choice on finding both: **fold**. The built work stays, as v4's issue work done
+ahead of the split; no v3.9.0 pull request is opened, and issues #20 to #33 close with v4.
+Alternative turned down: release v3.9.0 first so the split starts from a released version
+and `godot-toll` gets its profile now (the agent's recommendation) — two syncs per project,
+against the plan's "one release, one sync".
+
+What follows from it:
+
+- **The split's baseline is the rules file as built** (76 KB, commit `1379baa`), not v3.8.0
+  (`bbe46d6`). The split still changes no wording.
+- **The version line reads 3.9.0 until phase 7**, where it becomes 4.0.0 and the changelog's
+  3.9.0 entry is folded into 4.0.0's. Renaming it now was considered: it would put a release
+  date on a version that is seven phases from release, and the map says not to touch the
+  version before phase 7. Nothing reads the line from this branch; projects compare against
+  `main`.
+- **Where the plan and the built work differ, the built work stands**, each already recorded
+  above: Process X's short form is in §OWNER; the game-engine profile is a block in §SCOPE,
+  which the split moves to `rules/game.md` instead of phase 2 writing it new.
+- The two branches are merged on the local branch, renamed `v4.0.0`. This file took both
+  sides whole; the v3.9.0 entries sit above the v4 plan's although they were written after.
+
+**The mistake worth keeping.** A session that starts work on a release fetches every remote
+branch first and reads any status newer than its own. "No open work" was true of the clone,
+not of the repository.
