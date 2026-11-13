@@ -17,12 +17,16 @@ the rules file's version line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11
 and built work are merged and pushed to the working branch
 `origin/claude/new-project-mockup-zp2h2z` (2026-11-13); on the PC the local branch tracking
 it is named `v4.0.0`. `main` is untouched.
-**Next:** **phase 2, profiles** (`docs/specs/v4.md`, *Built ahead of the split* says what
-is left of it): reword `rules/game.md` and the game block in the conventions template, which
-still speak of Part A and of referencing the rules; the same for
-`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. Nothing from
-phase 1 waits for the owner. `checks.yml` fetches full history (the owner's yes, 2026-11-13)
-so the split check runs in CI; that line and the check go at the release.
+**Phase 2, profiles, is done too** (2026-11-13): `rules/game.md` and the conventions
+template's game block say what a game loads; `rules/options/ai.md` is read through a line
+in the root `CLAUDE.md` and in `src/lib/ai/CLAUDE.md`.
+**Next:** **phase 3, documents and sessions** (`docs/specs/v4.md`, *Built ahead of the
+split* says what is left of it): two new eval cases (relay runs first after a compact with
+a request waiting; checkpoint writes the log to `docs/log.md` and leaves STATUS a
+snapshot), and this file's own split into a snapshot and `docs/log.md`, which the next
+checkpoint does. Evals cost money and are run by hand. Nothing waits for the owner.
+`checks.yml` fetches full history (the owner's yes, 2026-11-13) so the split check runs in
+CI; that line and the check go at the release.
 **What each kind loads after the split** (before: 76.5 KB, or nothing for a profile project
 that only referenced the file): web 59.9 KB plus its options; Node tool 42.0; game 44.4;
 non-application 32.0, or 39.5 with a visual surface. Options: credit 4.2, Firebase 3.0,

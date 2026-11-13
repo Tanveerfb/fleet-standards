@@ -62,6 +62,11 @@ files declared. A section that divides between files keeps its name in each.
 the studio credit, a Trello board, Firebase, AI — and record the answer, so a project that
 never opted in has still been asked.
 
+**`rules/options/ai.md` is read, not imported.** A project that chose it carries one line in
+its root `CLAUDE.md` — read that file before any work on an AI feature — and the same line
+in `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under
+`lib/ai/` is read. `ai-setup` writes both. Never act on memory of the file.
+
 **Keeping in step with the master.** The `fleet` plugin (marketplace `tanveerfb`, from
 `Tanveerfb/fleet-standards`) carries this file, its templates and the fleet skills. Its
 `sync-standards` skill brings a project's copy up to date; `propose-standard` sends a change

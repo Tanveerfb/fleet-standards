@@ -149,7 +149,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
      dependency, a `lib/ai/` folder) and ask. Record each answer on the `Rules:` line's
      `Options:` part, `none` if none. An option is imported like any other file, except
      `ai`, which is read on demand: add the template's "read `rules/options/ai.md` before
-     any work on an AI feature" line instead of an import.
+     any work on an AI feature" line instead of an import, and the same line in
+     `src/lib/ai/CLAUDE.md` (create it if the folder exists and the file does not), which
+     loads by itself when AI code is read.
    - **A profile project** (non-application or game-engine) that references the rules file
      instead of importing it now imports the core and its files like any other project.
      Replace the "referenced, not imported" paragraph in `CLAUDE.md` with the import lines.

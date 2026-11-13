@@ -15,6 +15,9 @@ description: Use when a project needs AI or LLM features set up or added — e.g
 
 Adds AI to a project — new or existing — the way `rules/options/ai.md` §AI describes, instead
 of improvising. Read §AI in full before Step 1; this skill is the process, §AI is the rules.
+The file is at `rules/options/ai.md` in a project that already chose the AI option;
+otherwise read the master, `${CLAUDE_PLUGIN_ROOT}/rules/options/ai.md`, and Step 8 brings
+it into the project.
 
 Throughout: choices through the question tool, open questions in prose (§ASK). **No
 dependency is installed without the owner's OK** (§AGENTS), and every package's current
@@ -121,6 +124,15 @@ Build one feature from the brief end to end, through the adapter:
   values), who owns the account.
 - **`decisions.md`** — the tooling choice (Step 3), the models chosen and why.
 - **`CLAUDE.md`** — the technology table and any AI-specific traps found.
+- **The AI option (§SCOPE).** If the project has not chosen it yet: copy
+  `${CLAUDE_PLUGIN_ROOT}/rules/options/ai.md` to `rules/options/ai.md`, and add `ai` to the
+  `Options:` part of the `Rules:` line in `CLAUDE.md`. The file is read on demand, never
+  imported, so write the line that makes a session read it, in two places:
+  - the root `CLAUDE.md`, under the import lines: **Read `rules/options/ai.md` before any
+    work on an AI feature** — never act on memory of it.
+  - `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under
+    `lib/ai/` is read: the same line, then any trap specific to this project's AI code. List
+    it under *Area files* in the root `CLAUDE.md`.
 - **`components.md`** — any AI interface components added.
 
 ## Step 9 — Verify and report

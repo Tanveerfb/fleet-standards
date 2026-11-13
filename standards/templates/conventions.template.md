@@ -34,22 +34,19 @@ here, the files for that code are loaded from that day (§SCOPE) and this block 
 
 ---
 
-<!-- Only for a game built in an engine (`rules/game.md`). Delete this block otherwise.
-     v4 phase 2 rewords this block with `rules/game.md`: until then it still speaks of
-     Part A and of referencing the rules; the project imports the core, app, ui and game. -->
+<!-- Only for a game built in an engine (`rules/game.md`). Delete this block otherwise. -->
 
 ## Profile — game-engine project. **Recorded <DATE>.**
 
-This is a game in <engine and version, language>. Per §SCOPE: Part A, §SECURITY, §GROWTH,
-§MODULES, §SCALE and §SHORTCUTS apply in full. Read for the engine: §NAMING (<the engine's
-case rules>), §DESIGN, §COMPONENTS, §QOL, §PATTERNS and §MOTION where the game has the thing
-(tokens live in <file>), §PACKAGES (add-ons), §BUILD (<the headless test command>) and
-§TESTING (<the test add-on>; screenshots, and film for motion). Not applicable: §TS,
-§STRUCTURE, §LIFECYCLE, §STATE, §FORMS, §HOOKS, §NPM, §RUNTIME, §STYLING, §SHADCN; and
-§DATA, §FIREBASE, §AI <until the game has saves, a backend or an AI feature / now read for
-this project, since <DATE>>. Mockups are <engine screenshots / HTML> in `docs/mockups/`.
-<PC only, so phone-first does not apply / a phone build is planned.> `CLAUDE.md` references
-the rules rather than importing them.
+This is a game in <engine and version, language>. It loads the core, `rules/app.md`,
+`rules/ui.md` and `rules/game.md`. In full: the core, §GROWTH, §MODULES and §SHORTCUTS. Read
+for the engine: §NAMING (<the engine's case rules>), §DESIGN, §COMPONENTS, §QOL, §PATTERNS
+and §MOTION where the game has the thing (tokens live in <file>), add-ons in place of npm
+packages, §BUILD (<the headless test command>) and §TESTING (<the test add-on>; screenshots,
+and film for motion). Not applicable: §LIFECYCLE; and §DATA and the Firebase and AI options
+<until the game has saves, a backend or an AI feature / now read for this project, since
+<DATE>>. Mockups are <engine screenshots / HTML> in `docs/mockups/`. <PC only, so
+phone-first does not apply / a phone build is planned.>
 
 ---
 

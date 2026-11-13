@@ -14,6 +14,16 @@
 
     "[`motifs.md`](./motifs.md) in the master copy of this standard.",
 
+    "Parts B to E are written for a stack it does not have. It follows the **game-engine",
+    "has the block):",
+    "- **Apply in full:** Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS",
+    "  - §PACKAGES: add-ons and plugins in place of npm packages; the documentation rule stands",
+    "- **Not applicable:** §TS, §STRUCTURE, §LIFECYCLE, §STATE, §FORMS, §HOOKS, §NPM, §RUNTIME,",
+    "  §STYLING, §SHADCN. Also §DATA, §FIREBASE and §AI until the game has saves, a backend or an",
+    "  AI feature; the day one arrives, that section is read for the project",
+    "- **This file is referenced, not imported**, as in the non-application profile: `CLAUDE.md`",
+    "  names the sections the profile keeps and says to read the section before working in it",
+
     "- **Part A in full**",
     "- **§SECURITY** in full",
     "- **§DESIGN**, wherever the work has a visual surface (pages, navigation, forms on the",
@@ -83,6 +93,22 @@
     "**Loaded by:** nothing by default. Read on demand, by projects that chose it.",
 
     "[`motifs.md`](../motifs.md) in the master copy of this standard.",
+
+    "the Node and Next.js files are written for a stack it does not have. It follows the **game-engine",
+    "has the block). The project loads the core, `rules/app.md`, `rules/ui.md` and this file:",
+    "- **Apply in full:** the core, and §GROWTH, §MODULES and §SHORTCUTS in `rules/app.md`",
+    "  - Add-ons and plugins stand where npm packages do elsewhere (§PACKAGES, in `rules/node.md`,",
+    "    which a game does not load): the latest version compatible with the engine, its current",
+    "    documentation read before use, none that duplicates what the project has, each recorded",
+    "    in `decisions.md`",
+    "- **Not applicable:** §LIFECYCLE, and everything in `rules/node.md` and `rules/web.md`, which",
+    "  a game does not load. Also §DATA, and the Firebase and AI options, until the game has saves,",
+    "  a backend or an AI feature; the day one arrives, that section is read for the project",
+
+    "**`rules/options/ai.md` is read, not imported.** A project that chose it carries one line in",
+    "its root `CLAUDE.md` — read that file before any work on an AI feature — and the same line",
+    "in `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under",
+    "`lib/ai/` is read. `ai-setup` writes both. Never act on memory of the file.",
 
     "- **The core**, `project-rules.md`, in full",
     "- **`rules/ui.md`**, imported wherever the work has a visual surface (pages, navigation,",

@@ -315,3 +315,35 @@ What follows from it:
 **The mistake worth keeping.** A session that starts work on a release fetches every remote
 branch first and reads any status newer than its own. "No open work" was true of the clone,
 not of the repository.
+
+## 2026-11-13 — v4 phase 1: three calls made while splitting
+
+- **§SCALE goes to the core.** The owner: "Yes, core". The alternative was `rules/app.md`.
+- **The non-application profile keeps its §NAMING and §TESTING lines.** The split map
+  replaced the profile's whole list with the `rules/ui.md` import, which would have dropped
+  both rules, since neither is in a file the profile loads. Kept word for word by the agent;
+  the owner: "Keep".
+- **CI fetches full history** so `tests/split-check.mjs` can read the baseline commit. The
+  owner's yes, after checking that `checks.yml` is the repository's own workflow from
+  2026-10-21 and not the one the attack pushed. Alternative: a copy of the baseline file
+  committed under `tests/` (76 KB of duplicate text, and a second thing to delete at the
+  release).
+
+## 2026-11-13 — `rules/options/ai.md` is read through an area file, not on memory
+
+The owner's choice. A project that chose AI carries the "read it before any AI work" line
+in the root `CLAUDE.md` and again in `src/lib/ai/CLAUDE.md`, which loads by itself when AI
+code is read; `ai-setup` writes both and `sync-standards` adds them at the v4 sync.
+Alternatives: the root line only (a line read at the start of a session is the thing §SCALE
+says gets forgotten); importing the file like the other options (6.6 KB in every session,
+reversing 2026-11-12). The area file holds an instruction, not an `@` import, so it reads
+the same for agents that do not follow imports.
+
+## 2026-11-13 — The game-engine profile, reworded for the split
+
+`rules/game.md` now says what a game loads (the core, `app`, `ui`, `game`) instead of
+listing Parts. Three things changed in substance, each because of where the split put a
+section: its "not applicable" list shrinks to §LIFECYCLE and §DATA, since the Node and
+Next.js files are simply not loaded; §PACKAGES is restated for add-ons in the file itself,
+because a game no longer loads the section it pointed at; and "referenced, not imported"
+goes, as it did for the non-application profile. One project's evidence still, on one engine.

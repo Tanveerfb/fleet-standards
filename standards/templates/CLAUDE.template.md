@@ -32,7 +32,9 @@ goes here; there is nowhere else for it to go.
      `@rules/options/trello.md`, `@rules/options/firebase.md`. The AI option is not imported;
      it is read on demand, so a project that chose it keeps this line instead:
      **Read `rules/options/ai.md` before any work on an AI feature** — never act on memory
-     of it. -->
+     of it.
+     `ai-setup` writes that line here and in `src/lib/ai/CLAUDE.md`, an area file that loads
+     by itself when AI code is read. -->
 <!-- Area files (§SCALE): once the project has them, add a table here — each area file, what
      it holds, when to read it — and this line: **Read the area file for your work before
      starting, wherever that work sits.** An area file loads on its own only when a file
