@@ -45,7 +45,7 @@ rewording is carried to the phase 6 audit (last section).
 | §CREDIT | `rules/options/credit.md` | Round 1: the owner moved it out of the core |
 | §TRELLO | `rules/options/trello.md` | Round 1: the same |
 | §GROWTH, §MODULES, §DATA, §LIFECYCLE, §SHORTCUTS | `rules/app.md` | Round 2 |
-| §SCALE | core | **Confirm before moving it** (below) |
+| §SCALE | core | The owner, 2026-11-13: "Yes, core" |
 | §DESIGN, §COMPONENTS, §QOL, §PATTERNS | `rules/ui.md` | Rounds 2 and 3 |
 | §TS, §NPM, §RUNTIME, §PACKAGES | `rules/node.md` | Round 3 |
 | §STRUCTURE, §STATE, §FORMS, §HOOKS, §STYLING, §SHADCN, the new-project checklist | `rules/web.md` | Round 3 |
