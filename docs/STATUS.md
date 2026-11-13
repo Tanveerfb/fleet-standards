@@ -24,17 +24,18 @@ a new round.
 approved them; relay's workflow check (Step 4); the machine inventory (the
 `machine-inventory` skill, a rule in §AGENTS, the README). After it every open proposal is
 handled.
-**Next:** **phase 6, Process X on the standard itself** (`docs/specs/v4.md`, phase 6; the
-steps are in `standards/process-x.md`). It starts with a read-only audit of every section,
-skill, template, script, hook and eval, delivered as a ranked list the owner picks from:
-keep, cut, merge, move to a skill, tighten, or missing. Nothing changes before the picks.
-The split map's *Carried to the phase 6 audit* list and the two points below go into it.
-**For the audit, from phase 5:** the owner approved the §SECURITY wording as drafted. The
-agent had raised two points, not taken: the branch-protection rule drops "where the plan
-does not allow it, `conventions.md` records the gap" (decided 2026-11-12), and its
-"changes arrive by pull request" sits against §GIT, which lets a single-branch project push
-to `main`.
-**Live:** `machine-inventory` was run on the PC on 2026-11-13 and wrote
+**Next:** **phase 6, Process X on the standard itself: the audit is delivered, the owner's
+picks are next.** The ranked list is `docs/specs/v4-audit.md` (2026-11-13): groups A to K,
+each finding with an id, a fix and an effort. **Nothing in it has been built, and nothing is
+built before it is picked.** What is not picked is recorded as declined in `decisions.md`.
+Then build the picks, one commit per finding, and record each file's size before and after.
+**The audit's sharpest findings:** the shell-write guard does not cover the PowerShell tool
+and lets inline scripts through in ordinary forms (B1, B2, re-run by the agent);
+`new-project` can only make a Next.js project (C1); three projects have recorded that a
+sync must not restore the rules import or the skill copies, which v4's sync step would do
+(C3); `rules/app.md` is loaded by games and Python tools and written in React (D1).
+**Live:** the audit list is in front of the owner for picks. `machine-inventory` was run
+on the PC on 2026-11-13 and wrote
 `~/.claude/machine.md`, imported from `~/.claude/CLAUDE.md` with the owner's yes. Not yet
 seen loading: it takes a new session. Its local-models section is empty: Ollama was not
 running. The owner works on the PC in the desktop app and answers
