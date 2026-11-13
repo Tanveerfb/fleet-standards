@@ -9,7 +9,7 @@ claude plugin eval standards --runs 1 --no-publish --trust-plugin
 ```
 
 Run it from the repository root before releasing a change to a skill or to §GIT. Add
-`--case '<glob>'` for one case. **It costs model usage on your own account** — every run is
+`--case '<name>'` for one case; it takes one name or glob, not a brace list. **It costs model usage on your own account** — every run is
 a full session, and the judge is a small model — so it is not part of CI. Results land in
 `standards/evals/results/`, which is gitignored.
 
@@ -27,6 +27,8 @@ right skill fired and that the stated decision matches the rule.
 | `cpr-single-branch` | `git CPR` on a single-branch project, locally, says there is nothing to release |
 | `cpr-single-branch-cloud` | the same in a cloud session fast-forwards the main branch to the harness branch |
 | `checkpoint-skill-proposal` | a procedure repeated in the session is proposed as one project skill, asked first |
+| `relay-after-compact` | after a compact, relay runs in full before a request that is already waiting |
+| `checkpoint-log-split` | a status doc that still holds its session log is split: old entries move word for word to `docs/log.md`, the new entry goes there, the status doc stays a snapshot |
 | `checkpoint-pause` | a checkpoint ends with one question — what next — and no compact block: a plain `/compact` is enough |
 
 **When a case fails**, read its transcript in the results folder before changing anything: a
