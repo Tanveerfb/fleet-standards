@@ -14,8 +14,9 @@ proves every line of the file as built is in exactly one of them. Issues #20 to 
 with v4, and the standard gets its own Process X audit before the release. The issues were built as "v3.9.0" by a local session that had not seen
 the plan; the owner folded that work into v4 on 2026-11-13, so **no v3.9.0 is released** and
 the rules file's version line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13). Plan
-and built work are merged on the local branch `v4.0.0`, **not pushed**; the plan alone is on
-`origin/claude/new-project-mockup-zp2h2z`. `main` is untouched.
+and built work are merged and pushed to the working branch
+`origin/claude/new-project-mockup-zp2h2z` (2026-11-13); on the PC the local branch tracking
+it is named `v4.0.0`. `main` is untouched.
 **Next:** **phase 2, profiles** (`docs/specs/v4.md`, *Built ahead of the split* says what
 is left of it): reword `rules/game.md` and the game block in the conventions template, which
 still speak of Part A and of referencing the rules; the same for
