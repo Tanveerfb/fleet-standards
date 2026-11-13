@@ -286,7 +286,12 @@ untrue or incomplete:
   at the top gaining a line for anything the owner ruled out.
 - **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
   and **`.env.example`** — where the session added, moved or removed what they list.
-- **`docs/specs/`** — status lines (Step 3.5 covers the cards).
+- **`docs/specs/`** (§SPECS) — if this session built or advanced work from a spec, update its
+  status line: `in progress`, or `built` once its done-means criteria are verified. Without a
+  board, the status word in the spec is the whole record; with one, Step 3.5 moves the card.
+- **Area `CLAUDE.md` files and `docs/architecture.md`** (§SCALE) — a module added, moved or
+  removed updates the map; a rule or trap that belongs to one area goes in that folder's
+  `CLAUDE.md`, not the root one.
 - **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
 - Any other document the project keeps that the session's changes made untrue.
 
@@ -363,15 +368,8 @@ cards first, then reconcile against the snapshot you just wrote:
 
 Never delete or archive a card. Never write anything that is not true in `STATUS.md`.
 
-**Architecture map and area files** (`project-rules.md` §SCALE): if this session added,
-moved or removed a module, update `docs/architecture.md`; if it found a rule or trap that
-belongs to one area, put it in that folder's `CLAUDE.md`, not the root one.
-
-**Spec files** (`docs/specs/`, `project-rules.md` §SPECS): if this session built or advanced
-work from a spec, update its status line — `in progress`, or `built` once its done-means
-criteria are verified. On a project with a board, the spec's status line links its card, so
-move the card to match; without a board, the status word in the spec is the whole record.
-This applies on every checkpoint, board or not.
+**A spec with a card:** its status line links the card, so move the card to match the
+status Step 2.5 gave the spec.
 
 ## Step 4 — Git, if applicable
 
