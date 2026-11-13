@@ -1,7 +1,7 @@
 # v4 phase 1 — the split map
 
-**Status:** approved by the owner, all four rounds (2026-11-12); ready for phase 1. One row
-needs a one-line confirmation first (§SCALE, below). Companion to [`v4.md`](v4.md). Phase 1
+**Status:** built (2026-11-13: *Phase 1, as built*). Approved by the owner, all four rounds
+(2026-11-12); §SCALE confirmed for the core on 2026-11-13. Companion to [`v4.md`](v4.md). Phase 1
 moves text exactly as this map says; nothing has been moved.
 
 **Read through the fold (2026-11-13).** The fourteen issues were built on the unsplit file
@@ -91,6 +91,36 @@ before moving §SCALE**; on a no it goes to `rules/app.md`, and nothing else in 
    `install-skills.mjs`, the templates, `tests/run.mjs`. No skill wording beyond file names.
 7. Do not bump the version, touch the CHANGELOG's release date, or sync any project: v4 is
    released only at the end of phase 7. Checkpoint on the working branch.
+
+## Phase 1, as built (2026-11-13)
+
+Done, on the local branch `v4.0.0`: the check written and seen failing, one commit per file,
+the core last. `tests/split-check.mjs` passes: 1035 baseline lines, each in exactly one of
+11 files; 22 lines removed and 91 added on purpose, all in `tests/split-intended.json`.
+`tests/run.mjs` runs it and checks the set (one version, §SCOPE's table against the folder,
+no section repeated but the four that divide, the template's imports).
+
+**Two things for the owner:**
+
+1. **`rules/non-application.md` keeps two lines the map drops.** Change 6 below replaces the
+   profile's whole list with the `rules/ui.md` import. Its §NAMING line (vocabulary,
+   kebab-case file names) and its §TESTING line (seen working at desktop width and on a
+   phone) are not in the core or in `ui.md`, so the profile would lose both rules. They are
+   kept, word for word: fewer changes than agreed, nothing lost. Say if they should go.
+2. **The split check does not run in CI.** CI's checkout is shallow and does not hold the
+   baseline commit, so the check reports "skipped" there and passes. Running it in CI needs
+   `fetch-depth: 0` in `.github/workflows/checks.yml`, which is not changed without being
+   asked. Locally it runs in full.
+
+**Beyond the seven changes:** one link (`./motifs.md` became `../motifs.md` in
+`rules/ui.md`, which is one folder deeper); and file names in the skills, `motifs.md` and
+the templates where they named `project-rules.md` for a section that moved.
+
+**Left stale on purpose, for their phases:** `rules/game.md` and the game block in the
+conventions template still say "Part A" and "referenced, not imported" (phase 2); the
+README, `adopting-the-standard.md` and `docs/maintainer.md` still describe one file
+(phase 7). `sync-standards` has a v4 step, and `sync-rules.mjs --apply` copies the declared
+set and skips a project with no `Rules:` line.
 
 ## Changed on purpose (round 4, agreed)
 

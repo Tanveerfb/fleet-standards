@@ -13,7 +13,7 @@ description: Use when a project needs AI or LLM features set up or added — e.g
 > integration you have — an MCP server, `gh` — and with none, say so and skip that step.
 > Never skip a step silently because a Claude-specific name did not match.
 
-Adds AI to a project — new or existing — the way `project-rules.md` §AI describes, instead
+Adds AI to a project — new or existing — the way `rules/options/ai.md` §AI describes, instead
 of improvising. Read §AI in full before Step 1; this skill is the process, §AI is the rules.
 
 Throughout: choices through the question tool, open questions in prose (§ASK). **No

@@ -16,7 +16,7 @@ description: Use when starting a brand-new project on the fleet standard — e.g
 Takes an empty folder to a project that is on the standard from its first file, with its
 design decided before any interface is built. The master copies used here:
 
-- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md`
+- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md` and `${CLAUDE_PLUGIN_ROOT}/rules/`
 - Templates: `${CLAUDE_PLUGIN_ROOT}/templates/`
 - Adoption guide, for anything that is not new: `${CLAUDE_PLUGIN_ROOT}/adopting-the-standard.md`
 
@@ -81,7 +81,9 @@ Then, before anything else:
 
 ## Step 3 — The standard
 
-1. Copy `project-rules.md` to the project root.
+1. Copy `project-rules.md` to the project root, and into `rules/` the files a web project
+   loads (§SCOPE): `rules/app.md`, `ui.md`, `node.md`, `web.md`, and `rules/options/` for
+   each option the owner chose.
 2. From the templates, filling in what Steps 1–2 established and leaving the rest as `TODO`
    — never invented:
    - `CLAUDE.template.md` → `CLAUDE.md` — project identity, deploy target if known, the
@@ -119,7 +121,7 @@ as the brief. Continue here once the motif is locked and recorded, and fill in t
 
 ## Step 6 — The rest of the checklist
 
-Work through the remaining items of the checklist at the end of `project-rules.md` **with
+Work through the remaining items of the checklist at the end of `rules/web.md` **with
 the owner**, one at a time — offer each, do not run them all silently:
 
 - tokens in `@theme` from the locked motif, then the **component round** (§SHADCN): the core

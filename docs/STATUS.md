@@ -7,20 +7,26 @@ above the session log is rewritten in place; the log is newest first.*
 
 ## Start here
 
-**State:** v3.8.0 is on `main`. **v4.0.0: the fourteen issues are built, the split has not
-started** (`docs/specs/v4.md`). The rules file splits by concern into a core and files under
-`rules/`, issues #20 to #33 ship with it, and the standard gets its own Process X audit
-before the release. The issues were built as "v3.9.0" by a local session that had not seen
+**State:** v3.8.0 is on `main`. **v4.0.0: the fourteen issues are built and phase 1, the
+split, is done** (`docs/specs/v4.md`, 2026-11-13). The rules file is now a core
+(`project-rules.md`, 29 KB) and ten files under `standards/rules/`; `tests/split-check.mjs`
+proves every line of the file as built is in exactly one of them. Issues #20 to #33 ship
+with v4, and the standard gets its own Process X audit before the release. The issues were built as "v3.9.0" by a local session that had not seen
 the plan; the owner folded that work into v4 on 2026-11-13, so **no v3.9.0 is released** and
 the rules file's version line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13). Plan
 and built work are merged on the local branch `v4.0.0`, **not pushed**; the plan alone is on
 `origin/claude/new-project-mockup-zp2h2z`. `main` is untouched.
-**Next:** **phase 1, the split with no wording changes**, in a local session on the owner's
-PC, from the rules file as built (76.5 KB, commit `1379baa`). Read `docs/specs/v4.md`
-(*Built ahead of the split* first), then `docs/specs/v4-split-map.md`, which is the authority on
-which section goes where and ends with *Phase 1, in order*. Its first step is one question
-to the owner: does §SCALE go to the core (the owner was unsure; the map says why the agent
-recommends yes).
+**Next:** **phase 2, profiles** (`docs/specs/v4.md`, *Built ahead of the split* says what
+is left of it): reword `rules/game.md` and the game block in the conventions template, which
+still speak of Part A and of referencing the rules; the same for
+`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. Two things
+from phase 1 wait for the owner, both in `docs/specs/v4-split-map.md` under *Phase 1, as
+built*: whether the non-application profile keeps its §NAMING and §TESTING lines, and the
+split check in CI.
+**What each kind loads after the split** (before: 76.5 KB, or nothing for a profile project
+that only referenced the file): web 59.9 KB plus its options; Node tool 42.0; game 44.4;
+non-application 32.0, or 39.5 with a visual surface. Options: credit 4.2, Firebase 3.0,
+Trello 1.5; AI 6.6, read on demand.
 **Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
 5) and v4's theme name (phase 7).
 **The owner's rule for v4:** quality for the long term, over speed and over size. No hurry.

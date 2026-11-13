@@ -12,6 +12,8 @@
     "# Part D — Interface",
     "# Part E — Quality",
 
+    "[`motifs.md`](./motifs.md) in the master copy of this standard.",
+
     "- **Part A in full**",
     "- **§SECURITY** in full",
     "- **§DESIGN**, wherever the work has a visual surface (pages, navigation, forms on the",
@@ -79,6 +81,8 @@
     ["**Loaded by:** projects that chose it at setup.", 3],
     "# Fleet rules — option: AI and model features (`rules/options/ai.md`)",
     "**Loaded by:** nothing by default. Read on demand, by projects that chose it.",
+
+    "[`motifs.md`](../motifs.md) in the master copy of this standard.",
 
     "- **The core**, `project-rules.md`, in full",
     "- **`rules/ui.md`**, imported wherever the work has a visual surface (pages, navigation,",

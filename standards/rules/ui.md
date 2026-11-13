@@ -14,7 +14,7 @@ spacing, density, motion and exclusions. Build nothing before it exists.
 **Every project has a motif** — one theme the interface is designed around,
 carried through palette, type, shapes, texture, iconography, copy voice and
 motion. The catalogue, and how each motif is used, is
-[`motifs.md`](./motifs.md) in the master copy of this standard.
+[`motifs.md`](../motifs.md) in the master copy of this standard.
 
 - **Choose it before designing** — at a new project, or at a redesign or design
   overhaul. Offer the four ways in from `motifs.md`: browse the catalogue,

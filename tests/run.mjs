@@ -80,6 +80,45 @@ check(`rules ${rulesVersion} = changelog ${logVersion}`, rulesVersion && rulesVe
 check(`README ${readmeVersion} (${readmeDate}) = changelog ${logVersion} (${logDate})`, readmeVersion === logVersion && readmeDate === logDate);
 
 // ---------------------------------------------------------------------------------------------
+section("The rules set (standards/project-rules.md and standards/rules/)");
+{
+  // One version covers the set, and it lives in the core's header.
+  const ruleFiles = tracked.filter((p) => p.startsWith("standards/rules/") && p.endsWith(".md"));
+  check(`${ruleFiles.length} files under rules/`, ruleFiles.length > 0);
+  const versioned = ruleFiles.filter((f) => /^\*\*Version:\*\*/m.test(read(f)));
+  check("no file under rules/ carries its own version", versioned.length === 0, versioned.join(", "));
+
+  // §SCOPE's table and the folder name the same files.
+  const core = read("standards/project-rules.md");
+  const named = new Set();
+  for (const row of core.matchAll(/^\| (`rules\/[^|]*) \|/gm)) {
+    const cells = [...row[1].matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+    const folder = cells[0].slice(0, cells[0].lastIndexOf("/") + 1);
+    for (const cell of cells) named.add(`standards/${cell.includes("/") ? cell : folder + cell}`);
+  }
+  const unlisted = ruleFiles.filter((f) => !named.has(f));
+  const absent = [...named].filter((f) => !ruleFiles.includes(f));
+  check("every file under rules/ is in §SCOPE's table", unlisted.length === 0, unlisted.join(", "));
+  check("every file in §SCOPE's table exists", absent.length === 0, absent.join(", "));
+
+  // Each section heading is in the set, and only a section that divides appears twice.
+  const DIVIDED = new Set(["§NAMING", "§MOTION", "§BUILD", "§TESTING"]);
+  const headings = ["standards/project-rules.md", ...ruleFiles].flatMap((f) => [...read(f).matchAll(/^## (§[A-Z]+) /gm)].map((m) => m[1]));
+  const repeated = [...new Set(headings.filter((h, i) => headings.indexOf(h) !== i))].filter((h) => !DIVIDED.has(h));
+  check(`${new Set(headings).size} sections, none repeated but the four that divide`, repeated.length === 0, repeated.join(", "));
+
+  // The CLAUDE.md template imports only files that exist.
+  const imports = [...read("standards/templates/CLAUDE.template.md").matchAll(/^@(\S+\.md)$/gm)].map((m) => m[1]);
+  const dangling = imports.filter((f) => !existsSync(join(S, f)));
+  check(`the CLAUDE.md template's ${imports.length} imports exist`, imports.length > 1 && dangling.length === 0, dangling.join(", "));
+
+  // The word-for-word proof of the v4 split. Remove with tests/split-check.mjs and
+  // tests/split-intended.json once v4.0.0 is released.
+  const split = run("node", [join(repo, "tests", "split-check.mjs")]);
+  check(split.stdout.trim().split("\n")[0], split.status === 0, split.stdout.trim().split("\n").slice(1, 6).join(" "));
+}
+
+// ---------------------------------------------------------------------------------------------
 section("Links and comments in Markdown");
 // Templates are skipped for links: their links point at files in the project they are copied to.
 for (const f of tracked.filter((p) => p.endsWith(".md"))) {

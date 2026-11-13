@@ -18,24 +18,25 @@ settled; anything not listed here follows the fleet rules.
 
 ---
 
-<!-- Only for a repository without application code (`project-rules.md` §SCOPE). Delete this
-     block otherwise. It replaces a per-section exception for Parts B to E. -->
+<!-- Only for a repository without application code (`rules/non-application.md`). Delete
+     this block otherwise. -->
 
 ## Profile — non-application repository. **Recorded <DATE>.**
 
 This repository holds <runbooks, records, exported configuration> for <the system it
-describes>, and no application code. Per §SCOPE, Part A, §SECURITY, §NAMING (vocabulary and
-file names), §DESIGN for <the visual surface, or "no visual surface"> and the seen-working
-rule from §TESTING apply; nothing else in Parts B to E does. The production surface is
-<where the work lands>, with <live users / no live users>. `CLAUDE.md` references the rules
-rather than importing them. <If the visual surface is fixed-size media — thumbnails, video,
-social posts, print — say so: rendered drafts are the mockups, per §SCOPE.> If application
-code lands here, Parts B to E apply to it from that day and this block is revisited.
+describes>, and no application code. It loads the core and `rules/non-application.md`<, and
+`rules/ui.md` for <the visual surface>>, with §NAMING's vocabulary and file names and the
+seen-working rule from §TESTING, as that file says; nothing else under `rules/` applies. The
+production surface is <where the work lands>, with <live users / no live users>. <If the
+visual surface is fixed-size media — thumbnails, video, social posts, print — say so:
+rendered drafts are the mockups, per `rules/non-application.md`.> If application code lands
+here, the files for that code are loaded from that day (§SCOPE) and this block is revisited.
 
 ---
 
-<!-- Only for a game built in an engine (`project-rules.md` §SCOPE). Delete this block
-     otherwise. It replaces a per-section exception for Parts B to E. -->
+<!-- Only for a game built in an engine (`rules/game.md`). Delete this block otherwise.
+     v4 phase 2 rewords this block with `rules/game.md`: until then it still speaks of
+     Part A and of referencing the rules; the project imports the core, app, ui and game. -->
 
 ## Profile — game-engine project. **Recorded <DATE>.**
 

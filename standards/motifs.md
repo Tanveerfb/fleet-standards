@@ -2,7 +2,7 @@
 
 A **motif** is the one theme a project's interface is designed around — chosen once, then
 carried through palette, type, shapes, texture, iconography, copy voice and motion. Every
-design decision after that is checked against it. `project-rules.md` §DESIGN says when a
+design decision after that is checked against it. `rules/ui.md` §DESIGN says when a
 motif is chosen and how it is recorded; this file is the catalogue to choose from.
 
 ## Choosing a motif — four ways in

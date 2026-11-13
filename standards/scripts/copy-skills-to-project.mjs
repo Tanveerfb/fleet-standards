@@ -37,7 +37,7 @@ if (!existsSync(join(project, "project-rules.md"))) {
 }
 
 const SKIP_SKILLS = new Set(["new-project"]); // a project that exists is past setup
-const REFERENCE = ["project-rules.md", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
+const REFERENCE = ["project-rules.md", "rules", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
 const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", ".claude/fleet/");
 const version = (readFileSync(join(standards, "project-rules.md"), "utf8").match(/^\*\*Version:\*\*\s*(\S+)/m) ?? [])[1] ?? "unknown";
 

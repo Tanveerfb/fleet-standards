@@ -14,7 +14,7 @@ description: Use when a project's look needs deciding — e.g. "set the design",
 > Never skip a step silently because a Claude-specific name did not match.
 
 Sets — or records — the one motif a project's interface is designed around
-(`project-rules.md` §DESIGN). The catalogue and the rules for using it are
+(`rules/ui.md` §DESIGN). The catalogue and the rules for using it are
 `${CLAUDE_PLUGIN_ROOT}/motifs.md`. **Read it in full before Step 3**; this skill is the
 process, the catalogue is the content.
 
@@ -90,8 +90,8 @@ watch — and get it confirmed.
 
 ## Step 5 — Mockup loop
 
-**Fixed-size media projects** (thumbnails, video, social posts, print — `project-rules.md`
-§SCOPE): the rendered draft is the mockup. Render the motif onto the project's real formats
+**Fixed-size media projects** (thumbnails, video, social posts, print —
+`rules/non-application.md`): the rendered draft is the mockup. Render the motif onto the project's real formats
 instead of an HTML page, and check each at real size and at the size it is really seen at.
 The rest of this step — show, revise, repeat until locked — is unchanged.
 

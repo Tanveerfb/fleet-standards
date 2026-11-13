@@ -15,7 +15,8 @@ description: Use inside a project to bring it up to the latest fleet standard fr
 
 Brings one project up to the fleet standard. The master copies ship inside this plugin:
 
-- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md`
+- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md` (the core) and the files under
+  `${CLAUDE_PLUGIN_ROOT}/rules/`. One version, in the core's header, covers the set
 - History and the v2 → v3 section map: `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md`
 - Templates: `${CLAUDE_PLUGIN_ROOT}/templates/`
 - Adoption guide: `${CLAUDE_PLUGIN_ROOT}/adopting-the-standard.md`
@@ -60,6 +61,11 @@ changed anything, tell the owner to restart the agent and invoke this skill agai
 
 - The master's version: the `**Version:**` line of `${CLAUDE_PLUGIN_ROOT}/project-rules.md`.
 - The project's: the same line of `project-rules.md` at the project root.
+- The files the project loads: the `Rules:` line in its `CLAUDE.md`
+  (`Rules: app, ui, node, web · Options: firebase, trello`) names them, as `rules/<name>.md`
+  and `rules/options/<name>.md`. "Content" below means the core and each of those files,
+  compared with the master's. No `Rules:` line means the project is still on the single
+  file from before v4: Step 4 moves it onto the set.
 
 Then branch:
 
@@ -90,7 +96,10 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
 
 ## Step 4 — Apply
 
-1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy.
+1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy, and each file the
+   `Rules:` line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
+   Copy only what is declared. **A project with no `Rules:` line** is coming from the single
+   file: do the v4 step below first, so nothing that moved out of the core is lost.
 2. Translate numeric section references with the map in `CHANGELOG.md`, in `CLAUDE.md` and
    `conventions.md`. **Never edit `decisions.md`** — it is append-only, and an old entry's
    reference is history, readable through the map.
@@ -126,6 +135,27 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    - **A game in an engine** still carrying its own profile block in `conventions.md`: offer
      to replace it with the game-engine profile block from the conventions template (§SCOPE),
      keeping anything the project's block says that the profile does not.
+
+   For v4 (the rules file became a set; §SCOPE has the tables):
+   - **Which files the project loads.** Work out its kind from the repository (a Next.js
+     app, a Node tool, a tool in another language, a game in an engine, no application code)
+     and whether it has a visual surface, then **confirm it with the owner in one question**
+     before copying. Write the `Rules:` line beside *Deploys* in `CLAUDE.md` and one
+     `@rules/<name>.md` import per file under `@project-rules.md`
+     (`${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.template.md` shows both).
+   - **The options, asked once each.** Studio credit and Trello follow the lines `CLAUDE.md`
+     already has (a board URL, a credit or showcase yes): those projects get the option
+     without a question. Firebase and AI: say what the repository shows (a `firebase`
+     dependency, a `lib/ai/` folder) and ask. Record each answer on the `Rules:` line's
+     `Options:` part, `none` if none. An option is imported like any other file, except
+     `ai`, which is read on demand: add the template's "read `rules/options/ai.md` before
+     any work on an AI feature" line instead of an import.
+   - **A profile project** (non-application or game-engine) that references the rules file
+     instead of importing it now imports the core and its files like any other project.
+     Replace the "referenced, not imported" paragraph in `CLAUDE.md` with the import lines.
+   - **Section references keep working.** No section was renamed; `§GIT` still means `§GIT`.
+     A reference that names the file (`project-rules.md §FIREBASE`) for a section that moved
+     is corrected to the section name alone. Never in `decisions.md`.
 
 ## Step 5 — Wire the project to every agent
 
@@ -184,11 +214,10 @@ git config core.hooksPath .githooks
 If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky and add
 `.githooks/pre-commit || exit 1` to `.husky/pre-commit` instead.
 
-**Profile projects (§SCOPE).** If `conventions.md` records the non-application or the
-game-engine profile and
-`CLAUDE.md` still has the `@project-rules.md` import line, offer to swap it for the reference
-variant in `${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.template.md`. On a yes, retire any
-per-project exception that granted the same thing.
+**Imports match the `Rules:` line (§SCOPE).** Check `CLAUDE.md` has one import line for the
+core and one for each declared file (`ai` excepted: it is read on demand), that each
+imported file exists in the project, and that nothing is imported that the line does not
+declare. Say what differs and fix it on a yes.
 
 ## Step 6 — Report
 

@@ -128,7 +128,7 @@ Before writing anything, reconstruct the session's real shape from your own cont
 
 Two halves: improve the project skills this session used, and look for a workflow that
 deserves a skill of its own. **Both are proposals — the owner decides.** This matters most
-in projects without application code (`project-rules.md` §SCOPE), where most of the work is
+in projects without application code (`rules/non-application.md`), where most of the work is
 procedure — publishing, record-keeping, tenant changes — and a skill is how a procedure stops
 being rediscovered.
 
@@ -337,7 +337,7 @@ output, and writing there instead of into the deep doc loses the handoff.
 
 ## Step 3.5 — Mirror to the Trello board, if the project has one
 
-**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line** (`project-rules.md`
+**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line** (`rules/options/trello.md`
 §TRELLO). No line, or `none`: skip this step silently. Never search Trello for a board that
 might match, and never create one.
 

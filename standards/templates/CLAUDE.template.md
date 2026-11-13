@@ -12,22 +12,27 @@ of the same facts drift, and the stale one is indistinguishable from the current
 goes here; there is nowhere else for it to go.
 
 @project-rules.md
-<!-- If a tool generates AGENTS.md, add `@AGENTS.md` above this line and say so here. -->
-<!-- Non-application profile (project-rules.md §SCOPE): delete the @project-rules.md line and
-     use this instead, so the Next.js parts are not loaded every session:
+@rules/app.md
+@rules/ui.md
+@rules/node.md
+@rules/web.md
+<!-- If a tool generates AGENTS.md, add `@AGENTS.md` above these lines and say so here. -->
+<!-- One import per file of the standard this project loads (project-rules.md §SCOPE). The
+     lines above are a web project's; keep the ones for this kind of repository and delete
+     the rest. The *Rules* line under Project identity names the same files, and
+     `sync-standards` copies exactly those.
 
-     **Rules: `project-rules.md`, referenced, not imported** (non-application profile). The
-     sections that apply here are Part A (§SCOPE to §TOOLS), §SECURITY, §NAMING's vocabulary
-     and file names, and §DESIGN with §TESTING's seen-working rule <or: "no visual surface">.
-     **Read the section before git, documentation, security or design work** — never act
-     on memory of it.
+     Web project (Next.js)        project-rules, app, ui, node, web
+     Local Node tool              project-rules, app, node; ui if it has an interface
+     Tool in another language     project-rules, app; ui if it has an interface
+     Game                         project-rules, app, ui, game
+     Non-application              project-rules, non-application; ui if it has a visual surface
 
-     Game-engine profile (§SCOPE): the same, with the profile's own list —
-
-     **Rules: `project-rules.md`, referenced, not imported** (game-engine profile). In full:
-     Part A, §SECURITY, §GROWTH, §MODULES, §SCALE, §SHORTCUTS. Read for the engine: §NAMING,
-     §DESIGN, §COMPONENTS, §QOL, §PATTERNS, §MOTION, §PACKAGES, §BUILD, §TESTING. **Read the
-     section before working in it** — never act on memory of it. -->
+     An option the project chose is imported too: `@rules/options/credit.md`,
+     `@rules/options/trello.md`, `@rules/options/firebase.md`. The AI option is not imported;
+     it is read on demand, so a project that chose it keeps this line instead:
+     **Read `rules/options/ai.md` before any work on an AI feature** — never act on memory
+     of it. -->
 <!-- Area files (§SCALE): once the project has them, add a table here — each area file, what
      it holds, when to read it — and this line: **Read the area file for your work before
      starting, wherever that work sits.** An area file loads on its own only when a file
@@ -46,9 +51,12 @@ goes here; there is nowhere else for it to go.
   update branch, release on `git CPR`. Multi-branch also names the working branch and the
   release, e.g. "work on `dev`; squash PR into `main`". No application code → name the production surface (the tenant, the
   platform) and whether it has live users (§SCOPE)>
+- **Rules**: <the files under `rules/` this project loads, then the options it chose, as in
+  §SCOPE: "app, ui, node, web · Options: firebase, trello", or "· Options: none". The same
+  files as the import lines above; `sync-standards` reads this line>
 - **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
   <`docs/architecture.md`, or "not yet">
-- **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
+- **Trello board**: <url, or "none" — §TRELLO, `rules/options/trello.md`. No board means no Trello work>
 - **Motif**: <family — variant, recorded in `design-system.md`; or "not chosen yet — run design-motif" (§DESIGN)>
 - **Studio credit**: <yes — the owner's studio, and where it sits; no; or "no studio configured" (§CREDIT)>
 - **Studio showcase**: <yes — where on the studio site, and the request issue's link; no; or "no studio configured" (§CREDIT)>
@@ -62,8 +70,9 @@ briefs used to say). Read them when the current files are unclear.
 
 Two documents sit above this one:
 
-- **`project-rules.md`** — the author's fleet-wide standard, imported above. Its version is
-  in its own header; don't restate it here. Master copy: `standards/project-rules.md` in
+- **`project-rules.md` and the files under `rules/`** — the author's fleet-wide standard,
+  imported above. Its one version is in `project-rules.md`'s header; don't restate it here.
+  Master copy: `standards/project-rules.md` and `standards/rules/` in
   `github.com/Tanveerfb/fleet-standards`.
 - **`conventions.md`** — what this project does differently, and **why each divergence was
   granted**. Per `project-rules.md` §SCOPE, **where the fleet rules and `conventions.md`
@@ -78,7 +87,7 @@ Two documents sit above this one:
 
 ## Working agreement
 
-Everything in `project-rules.md` applies and is **not repeated here** — two copies of a rule
+Everything in the files imported above applies and is **not repeated here** — two copies of a rule
 drift. The owner's standing agreement is **§OWNER**; git is **§GIT**, which depends on the
 *Deploys* line above (single-branch: `git checkpoint` = commit and push, anything else = no
 git; multi-branch: the working branch commits on its own, production only on `git CPR`). Add

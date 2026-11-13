@@ -2,16 +2,19 @@
 // Reports which project-rules.md version each project runs, and optionally copies the master in.
 // Usage: node standards/scripts/sync-rules.mjs [projectsDir] [--apply]
 //   projectsDir defaults to $PROJECTS_DIR, then E:\Projects.
-//   --apply asks per out-of-date repo before copying. Projects with no copy are reported, never
+//   --apply asks per out-of-date repo before copying the core and the files under rules/ the
+//   project declares on its CLAUDE.md `Rules:` line. A project with no such line is skipped:
+//   moving it onto the v4 set is sync-standards' job. Projects with no copy are reported, never
 //   touched — adopting the standard is a migration (adopting-the-standard.md), not a file copy.
 // Copying does not commit. The new copy must be committed in each repo, and the repo's
 // conventions.md re-audited: a v2 -> v3 copy changes every section reference (CHANGELOG.md).
-import { copyFileSync, existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 
-const master = join(dirname(fileURLToPath(import.meta.url)), "..", "project-rules.md");
+const standards = join(dirname(fileURLToPath(import.meta.url)), "..");
+const master = join(standards, "project-rules.md");
 const args = process.argv.slice(2);
 const apply = args.includes("--apply");
 const root = resolve(args.find((a) => !a.startsWith("--")) ?? process.env.PROJECTS_DIR ?? "E:\\Projects");
@@ -21,6 +24,23 @@ const commonDir = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 function versionOf(file) {
   const match = readFileSync(file, "utf8").match(/\*\*Version:\*\*\s*([\d.]+)/);
   return match ? match[1] : null;
+}
+
+/**
+ * The files under rules/ a project declares in its CLAUDE.md
+ * (`Rules: app, ui, node, web · Options: firebase, trello`), or null when it has no such line.
+ */
+function declaredFiles(dir) {
+  const file = join(dir, "CLAUDE.md");
+  if (!existsSync(file)) return null;
+  const line = readFileSync(file, "utf8").match(/^[-*\s]*\**Rules\**:\**\s*([^\n·]*)(?:·\s*\**Options\**:\**\s*([^\n]*))?/m);
+  if (!line) return null;
+  const names = (part) =>
+    (part ?? "")
+      .split(",")
+      .map((name) => name.trim().replace(/[`*.]/g, ""))
+      .filter((name) => /^[a-z-]+$/.test(name) && name !== "none");
+  return [...names(line[1]).map((n) => `rules/${n}.md`), ...names(line[2]).map((n) => `rules/options/${n}.md`)];
 }
 
 /** Compares dotted versions numerically. */
@@ -66,8 +86,26 @@ if (apply) {
   for (const r of behind) {
     const answer = await rl.question(`\nCopy v${current} over ${r.name}'s v${r.version}? [y/N] `);
     if (answer.trim().toLowerCase() !== "y") continue;
+    // From v4 the standard is a set: the core plus the files under rules/ a project declares
+    // on the `Rules:` line of its CLAUDE.md. Copying the core alone over a single-file copy
+    // would drop every section that moved out of it, so a project with no such line is left
+    // for sync-standards, which asks what kind of project it is.
+    const declared = declaredFiles(r.dir);
+    if (!declared) {
+      console.log(`  skipped: ${r.name}'s CLAUDE.md has no "Rules:" line. Run sync-standards in the project.`);
+      continue;
+    }
+    const missing = declared.filter((f) => !existsSync(join(standards, f)));
+    if (missing.length) {
+      console.log(`  skipped: the master has no ${missing.join(", ")}. Fix the "Rules:" line in ${r.name}.`);
+      continue;
+    }
     copyFileSync(master, r.file);
-    console.log(`  copied. Commit it in ${r.name} and re-audit its conventions.md.`);
+    for (const f of declared) {
+      mkdirSync(dirname(join(r.dir, f)), { recursive: true });
+      copyFileSync(join(standards, f), join(r.dir, f));
+    }
+    console.log(`  copied the core and ${declared.length} file(s) under rules/. Commit them in ${r.name} and re-audit its conventions.md.`);
   }
   rl.close();
 }
