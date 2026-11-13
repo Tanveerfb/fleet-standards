@@ -534,7 +534,7 @@ the next session from treating the whole document as equally solid.
 
 **M7. Capture durable user preferences.** Any constraint, working-style rule, or ruling the
 user gave this session that isn't already written somewhere permanent goes into the project's
-durable location (CLAUDE.md, AGENTS.md, a rulings ledger, the deep doc) — not only into the
+durable location (`CLAUDE.md`, `conventions.md`, `decisions.md`) — not only into the
 `Start here` block, which is overwritten next checkpoint by design.
 
 **M8. Cross-link doc and commit.** The deep doc names the commit hash; the commit message
