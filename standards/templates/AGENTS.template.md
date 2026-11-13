@@ -12,8 +12,10 @@ Every other agent: this project's instructions are written for Claude Code, and 
 equally. Before any work, read in this order:
 
 1. **`CLAUDE.md`** — this project's identity, commands, working agreement and traps.
-2. **`project-rules.md`** — the fleet standard. `CLAUDE.md` imports it with an
-   `@project-rules.md` line that only Claude Code expands, so read it yourself.
+2. **`project-rules.md`, then every file under `rules/` that `CLAUDE.md` imports** — the
+   fleet standard. `CLAUDE.md` names them on its *Rules* line and imports each with an `@`
+   line that only Claude Code expands, so read them yourself. If that line lists `ai` among
+   its options, read `rules/options/ai.md` before any work on an AI feature.
 3. **`conventions.md`** — where this project deliberately departs from the standard.
 4. **`docs/STATUS.md`** — the `Start here` block, for where the work is right now.
 5. **Any `CLAUDE.md` in the folder you are about to work in**, and `docs/architecture.md` if
