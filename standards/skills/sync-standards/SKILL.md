@@ -25,7 +25,10 @@ Skills come from the plugin and update with it — **except in cloud sessions, w
 no plugins.** So Step 5 also copies the skills into the project's own `.claude/skills/`, and
 the files they read into `.claude/fleet/`. Those copies are refreshed on every sync.
 
-**This skill never commits.** Git follows §GIT — the owner calls it with `git checkpoint`.
+**This skill makes no commit of its own.** Git follows §GIT and the project's *Deploys*
+line: on a single-branch project the tree is left for the owner's `git checkpoint`; on a
+working branch, and in a cloud session, the sync is committed and pushed with the rest of
+the session's work.
 
 ## Step 0 — Make sure the plugin copy is current
 
@@ -226,7 +229,9 @@ declare. Say what differs and fix it on a yes.
 - Version moved from → to, or "already current".
 - Files changed, with the count of references translated, and the skill copies written.
 - Anything left for the owner: re-audit offered, exceptions to revisit, values asked for.
-- **Not committed.** It lands at the next checkpoint.
+- **Git, as §GIT has it for this project:** left uncommitted on a single-branch project,
+  for the next checkpoint; committed and pushed with the session's work on a working branch
+  or in a cloud session.
 
 ## Common mistakes
 
