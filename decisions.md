@@ -409,5 +409,5 @@ Group G is phase 7's work whatever was picked. Group K is seven questions that n
 owner's answers, not a pick; they are open.
 
 One thing reverses an earlier entry: **A1 rewords the branch-protection rule** the owner
-approved "as worded" this morning, to the two points the agent had raised then. The pick of
+approved "as worded" earlier the same day, to the two points the agent had raised then. The pick of
 A1 is the owner's change of mind, made with the contradiction in front of them.
