@@ -15,8 +15,9 @@ recorded once at the top of `conventions.md` rather than as a per-section except
 - **The core**, `project-rules.md`, in full
 - **`rules/ui.md`**, imported wherever the work has a visual surface (pages, navigation,
   forms on the platform)
-- **§NAMING**: its vocabulary rules and kebab-case file and folder names. The identifier rows
-  and the filename lint rule apply only to code
+- **Naming** (§NAMING, which this profile does not load): the words in the interface, the
+  records and the documentation are the same words, with a glossary once there are more than
+  a handful of terms; files and folders are kebab-case
 - **From §TESTING, one rule:** a visual change is done when it has been seen working, at
   desktop width and on a phone (fixed-size media: below)
 

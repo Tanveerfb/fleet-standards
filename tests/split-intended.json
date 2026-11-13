@@ -29,6 +29,8 @@
     "- **This file is referenced, not imported**, as in the non-application profile: `CLAUDE.md`",
     "  names the sections the profile keeps and says to read the section before working in it",
 
+    "- **§NAMING**: its vocabulary rules and kebab-case file and folder names. The identifier rows",
+    "  and the filename lint rule apply only to code",
     "- **Part A in full**",
     "- **§SECURITY** in full",
     "- **§DESIGN**, wherever the work has a visual surface (pages, navigation, forms on the",
@@ -144,6 +146,9 @@
     "in `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under",
     "`lib/ai/` is read. `ai-setup` writes both. Never act on memory of the file.",
 
+    "- **Naming** (§NAMING, which this profile does not load): the words in the interface, the",
+    "  records and the documentation are the same words, with a glossary once there are more than",
+    "  a handful of terms; files and folders are kebab-case",
     "- **The core**, `project-rules.md`, in full",
     "- **`rules/ui.md`**, imported wherever the work has a visual surface (pages, navigation,",
     "  forms on the platform)",
