@@ -181,6 +181,13 @@ issues is the churn, status is the current position.
   inline Python or Node code and heredocs that write a file. The `fleet` plugin registers it,
   and `sync-standards` adds it to each project's `.claude/settings.json` for cloud sessions.
   A project that needs a stricter block (every `<<`) keeps its own hook beside it
+- **Read the machine file before proposing a tool.** The owner's `~/.claude/machine.md`
+  lists what this machine has installed (ffmpeg, Blender, local models and the like), its
+  hardware, and tools worth suggesting; the `machine-inventory` skill keeps it true. Before
+  proposing a tool for media, AI or file work: prefer what is installed; if nothing fits,
+  suggest from its list; only then search. A cloud session has no such file and assumes
+  nothing about the owner's machine. A project that needs a tool records it in its own
+  `environment.md`, so a machine without it finds out at setup
 
 ---
 
@@ -463,6 +470,17 @@ first time an agent duplicates something or works in the wrong place.
   what bites at client handover
 - Prices, permissions, roles and record states are decided server-side. Anything
   the client can send, the client can forge
+- **No token in code a browser receives.** A front-end bundle is public. Anything it holds
+  is published, however the repository is set
+- **A token is as small as its job.** Fine-grained, scoped to the repositories it needs,
+  with an expiry. Never a classic token with account-wide `repo` scope in a script or app.
+  `environment.md` records each token, its scope and its expiry
+- **The default branch is protected** where the plan allows it: changes arrive by pull
+  request, and force pushes are off
+- **A workflow declares the least `permissions` it needs**, and a repository that needs no
+  Actions secrets has none
+- **An unexplained change under `.github/workflows/` is an incident until proven
+  otherwise.** Do not run it, do not "fix" it; tell the owner first
 
 ---
 

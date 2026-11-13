@@ -39,6 +39,7 @@ into each project, with sections referenced by name (`§GIT`, `§MOTION`):
 | `ai-setup` | "set up AI", "add an AI feature" | Adds AI to a new or existing project: checks what's there, lets you choose Firebase AI Logic, the Vercel AI SDK or both, scaffolds the adapter, protects every model call, optionally wires local models (Ollama, LM Studio), and builds the first feature |
 | `sync-standards` | "sync standards" | Brings a project's copy of the rules up to the latest version, explaining what changed |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
+| `machine-inventory` | "machine inventory", "I just installed ffmpeg" | Records what this machine has installed in `~/.claude/machine.md`, so projects prefer it before proposing a tool |
 
 **Design motifs** — [`standards/motifs.md`](standards/motifs.md): 35 families of themes
 a project's interface can be designed around, in seven groups — Stationery, Classroom,
@@ -72,7 +73,8 @@ In any Claude Code session:
 ```
 
 The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:new-project`,
-`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards` and `fleet:propose-standard`.
+`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards`, `fleet:propose-standard`
+and `fleet:machine-inventory`.
 To receive updates automatically, open `/plugin` → **Marketplaces** → `tanveerfb` →
 **Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
@@ -89,6 +91,21 @@ project is then asked, once, whether it carries the credit and — with a showca
 it is featured; featured projects request their entry and its updates as issues on the
 studio site's repository (`§CREDIT`).
 
+**Optional — a machine inventory.** A project does not know what your machine has unless you
+say so each time. Say **"machine inventory"** and the skill probes the machine, read-only,
+and writes `~/.claude/machine.md`, imported from your `~/.claude/CLAUDE.md` with one line:
+
+```
+@machine.md
+```
+
+The file holds the tools installed that matter to project work, with version and what each
+is good for (ffmpeg, yt-dlp, Blender, ComfyUI, Ollama and the like), the hardware that
+matters (GPU and its memory), and a short list of tools not installed but worth suggesting.
+Never a credential. Agents read it before proposing a tool (`§AGENTS`); run the skill again
+when you install something. One file per machine; cloud sessions have none and assume
+nothing.
+
 ### Codex, Copilot, Cursor, Gemini CLI — with the installer
 
 Needs `git` and Node 18 or later:
@@ -100,8 +117,8 @@ node fleet-standards/standards/scripts/install-skills.mjs
 
 | Installs | To | Read by |
 | --- | --- | --- |
-| The seven skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
-| The seven skills | `~/.codex/skills/` | OpenAI Codex |
+| The eight skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
+| The eight skills | `~/.codex/skills/` | OpenAI Codex |
 | Rules and templates | `~/.agents/fleet/` | The skills, which look for the standard there |
 
 Restart your agent afterwards. To update: `git pull` in the clone and run the installer again

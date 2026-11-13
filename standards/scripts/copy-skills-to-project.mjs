@@ -3,7 +3,7 @@
 // sessions (Claude Code on the web) install no plugins, but they do load a repository's own
 // `.claude/skills/`. Run by sync-standards (Step 5); not meant to be run by hand.
 //
-//   skills (all but new-project) -> <project>/.claude/skills/<name>/
+//   skills (all but new-project and machine-inventory) -> <project>/.claude/skills/<name>/
 //   files the skills read        -> <project>/.claude/fleet/
 //   the two hooks                -> <project>/.claude/fleet/scripts/block-shell-writes.mjs and
 //                                   after-compact.mjs, registered in
@@ -36,7 +36,9 @@ if (!existsSync(join(project, "project-rules.md"))) {
   process.exit(2);
 }
 
-const SKIP_SKILLS = new Set(["new-project"]); // a project that exists is past setup
+// new-project: a project that exists is past setup. machine-inventory: the copies are for
+// cloud sessions, which have no machine of the owner's to inventory.
+const SKIP_SKILLS = new Set(["new-project", "machine-inventory"]);
 const REFERENCE = ["project-rules.md", "rules", "motifs.md", "motif-gallery.html", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
 const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", ".claude/fleet/");
 const version = (readFileSync(join(standards, "project-rules.md"), "utf8").match(/^\*\*Version:\*\*\s*(\S+)/m) ?? [])[1] ?? "unknown";

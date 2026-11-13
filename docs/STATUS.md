@@ -20,11 +20,23 @@ until phase 7 (`decisions.md`, 2026-11-13). All of it is pushed to the working b
 `design-motif`, and `standards/motif-gallery.html` has a sample tile for all 35 families.
 The gallery is **locked** by the owner (`decisions.md`, 2026-11-13): changing a tile takes
 a new round.
-**Next:** **phase 5** (`docs/specs/v4.md`). Done of it: relay's workflow check (Step 4).
-Left: the §SECURITY additions, whose wording needs the owner's approval before it is
-written in; the machine inventory (a new skill, a core rule, the README).
-**Live:** the §SECURITY wording is in front of the owner. The owner works on the PC in the
-desktop app and answers choices through the question prompt.
+**Phase 5 is done** (2026-11-13): five §SECURITY rules from the token attack, as the owner
+approved them; relay's workflow check (Step 4); the machine inventory (the
+`machine-inventory` skill, a rule in §AGENTS, the README). After it every open proposal is
+handled.
+**Next:** **phase 6, Process X on the standard itself** (`docs/specs/v4.md`, phase 6; the
+steps are in `standards/process-x.md`). It starts with a read-only audit of every section,
+skill, template, script, hook and eval, delivered as a ranked list the owner picks from:
+keep, cut, merge, move to a skill, tighten, or missing. Nothing changes before the picks.
+The split map's *Carried to the phase 6 audit* list and the two points below go into it.
+**For the audit, from phase 5:** the owner approved the §SECURITY wording as drafted. The
+agent had raised two points, not taken: the branch-protection rule drops "where the plan
+does not allow it, `conventions.md` records the gap" (decided 2026-11-12), and its
+"changes arrive by pull request" sits against §GIT, which lets a single-branch project push
+to `main`.
+**Live:** nothing mid-flight. The owner has not run `machine-inventory` on the PC yet, so
+no `~/.claude/machine.md` exists. The owner works on the PC in the desktop app and answers
+choices through the question prompt.
 **Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
 5) and v4's theme name (phase 7).
 **The owner's rule for v4:** quality for the long term, over speed and over size. No hurry.
@@ -69,7 +81,7 @@ and `new-project`; none of the ten cases covers those three skills.
 
 The fleet standard: a core rules file (`standards/project-rules.md`) and the files under
 `standards/rules/`, copied into each of the owner's projects according to what the project
-is; the `fleet` Claude Code plugin that carries them with seven skills, templates, a startup
+is; the `fleet` Claude Code plugin that carries them with eight skills, templates, a startup
 check, a relay-after-compact hook and a shell-write guard; and an installer for other
 agents. Changes arrive as `[proposal]` issues from projects, usually raised by
 `propose-standard`, and ship as versioned releases recorded in `standards/CHANGELOG.md`.

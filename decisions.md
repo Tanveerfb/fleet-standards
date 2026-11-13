@@ -362,3 +362,27 @@ The agent's calls inside it: the page's own chrome is neutral, left for v4's the
 (the alternative, 70 hand-written samples, drifts the first time the sample changes); the
 sample text is neutral bookkeeping copy. Web fonts come from Google Fonts and fall back to
 system fonts offline. Changing a tile now takes a new round with the owner.
+
+## 2026-11-13 — §SECURITY: five rules from the token attack, as drafted
+
+The owner: "Approve as worded", for the five sentences in `docs/specs/v4.md`. They are in
+the core, so every repository loads them. The agent raised two points before the answer,
+and neither was taken; both go to the phase 6 audit rather than being decided here:
+
+- The branch-protection rule says "where the plan allows it" and stops. The 2026-11-12
+  decision also had: where it does not, the gap is recorded in `conventions.md`.
+- "Changes arrive by pull request" sits against §GIT, under which a single-branch project
+  pushes to `main`.
+
+With it, `relay` Step 4 lists commits that touch `.github/workflows/` or
+`.claude/settings.json`. The agent added the remote's production branch to that check: the
+attack pushed straight to `main`, where a look at the clone alone would not have seen it.
+
+## 2026-11-13 — The machine inventory: a skill, a rule in §AGENTS, nothing in projects
+
+Built as agreed on 2026-11-12. The agent's calls: the rule is a bullet in §AGENTS, beside
+the other things an agent does before acting (alternatives: §TOOLS, which is about other
+agents; its own section, for one rule). The skill is not copied into projects: the copies
+exist for cloud sessions, which have no machine of the owner's. It asks before adding the
+import line to `~/.claude/CLAUDE.md`, which is the owner's own file. It has no eval case:
+its behaviour is a probe of a real machine, which a read-only eval cannot run.
