@@ -20,9 +20,9 @@ it is named `v4.0.0`. `main` is untouched.
 **Next:** **phase 2, profiles** (`docs/specs/v4.md`, *Built ahead of the split* says what
 is left of it): reword `rules/game.md` and the game block in the conventions template, which
 still speak of Part A and of referencing the rules; the same for
-`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. One thing
-from phase 1 waits for the owner (`docs/specs/v4-split-map.md`, *Phase 1, as built*): the
-split check is skipped in CI until `checks.yml` fetches full history.
+`rules/non-application.md`; the on-demand trigger for `rules/options/ai.md`. Nothing from
+phase 1 waits for the owner. `checks.yml` fetches full history (the owner's yes, 2026-11-13)
+so the split check runs in CI; that line and the check go at the release.
 **What each kind loads after the split** (before: 76.5 KB, or nothing for a profile project
 that only referenced the file): web 59.9 KB plus its options; Node tool 42.0; game 44.4;
 non-application 32.0, or 39.5 with a visual surface. Options: credit 4.2, Firebase 3.0,

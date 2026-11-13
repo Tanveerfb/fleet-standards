@@ -111,7 +111,8 @@ no section repeated but the four that divide, the template's imports).
 2. **The split check does not run in CI.** CI's checkout is shallow and does not hold the
    baseline commit, so the check reports "skipped" there and passes. Running it in CI needs
    `fetch-depth: 0` in `.github/workflows/checks.yml`, which is not changed without being
-   asked. Locally it runs in full.
+   asked. Locally it runs in full. **The owner, 2026-11-13: "Yes, add it"**; added, to be
+   removed with the check at the release.
 
 **Beyond the seven changes:** one link (`./motifs.md` became `../motifs.md` in
 `rules/ui.md`, which is one folder deeper); and file names in the skills, `motifs.md` and

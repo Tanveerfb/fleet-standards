@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: tests/split-check.mjs reads the rules file from the commit before
+          # the v4 split. Remove with that check once v4.0.0 is released.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
