@@ -91,8 +91,8 @@ Why choices were made, with the alternatives, is in [`decisions.md`](../decision
 
 ## Open items
 
-1. **v4 phases 5 to 7** — security rules, the machine inventory and relay's workflow check; the Process X audit of the standard; theme, pilot syncs and release
-   (`docs/specs/v4.md`).
+1. **v4 phases 6 and 7** — the Process X audit of the standard; theme, pilot syncs and
+   release (`docs/specs/v4.md`).
 2. **Documents that still describe one rules file**, left for phase 7: `README.md`,
    `standards/adopting-the-standard.md`, `docs/maintainer.md`, and `standards/CHANGELOG.md`,
    which has a dated 3.9.0 entry for a version that was never released.
