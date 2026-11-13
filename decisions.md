@@ -347,3 +347,18 @@ section: its "not applicable" list shrinks to §LIFECYCLE and §DATA, since the 
 Next.js files are simply not loaded; §PACKAGES is restated for add-ons in the file itself,
 because a game no longer loads the section it pointed at; and "referenced, not imported"
 goes, as it did for the non-application profile. One project's evidence still, on one engine.
+
+## 2026-11-13 — The motif gallery: the bigger tile, locked
+
+`standards/motif-gallery.html`, one tile for each of the 35 families: the same five pieces
+(a heading, a paragraph, a button, a card, an input) in light, then in dark. Shown a
+four-tile draft with light and dark side by side, the owner chose "Bigger tiles", one
+scheme per row, so each sample is wider and shows more texture; the page is about twice as
+long. Shown all 35, the owner: "Locked". The gallery is the deliverable, so it is its own
+locked design and no copy is kept under `docs/design/`.
+
+The agent's calls inside it: the page's own chrome is neutral, left for v4's theme in phase
+7; tiles are drawn by a script from one list, so a family is one entry and one style block
+(the alternative, 70 hand-written samples, drifts the first time the sample changes); the
+sample text is neutral bookkeeping copy. Web fonts come from Google Fonts and fall back to
+system fonts offline. Changing a tile now takes a new round with the owner.

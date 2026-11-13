@@ -150,6 +150,20 @@ Establish:
   `git config core.hooksPath` prints `.githooks`. If it does not, this clone commits with no
   credential check — put that under *the user's call*, with the one-line fix
   (`git config core.hooksPath .githooks`). Relay reports; it does not set it.
+- **Did anything change what runs unattended?** List the commits since the last
+  checkpoint's that touch `.github/workflows/` or `.claude/settings.json`:
+
+  ```bash
+  git log --format='%h %ad %an %s' --date=short <checkpoint sha>..HEAD -- .github/workflows .claude/settings.json
+  ```
+
+  With no checkpoint commit to start from, use the last ten commits that touch them. Run
+  it against the remote's production branch too (`origin/main` or the one the *Deploys*
+  line names), after a `git fetch`: a push made with a stolen token lands there, not in the
+  clone. **A commit the newest log entry does not explain goes at the top of the report,**
+  above everything else, with its author and date. Read its diff; never run it and never
+  "fix" it. An unexplained change to a workflow is an incident until the owner says
+  otherwise (§SECURITY).
 
 ## Step 4.5 — Read the Trello board, if the project has one
 

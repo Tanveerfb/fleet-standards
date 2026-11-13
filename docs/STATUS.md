@@ -16,14 +16,15 @@ is released**: that work is folded into v4, and the rules file's version line re
 until phase 7 (`decisions.md`, 2026-11-13). All of it is pushed to the working branch
 `origin/claude/new-project-mockup-zp2h2z`; on the PC the local branch tracking it is named
 `v4.0.0`. `main` is untouched.
-**Phase 4, motif previews, is built** (2026-11-13): "Show me" is a fifth way into
+**Phase 4, motif previews, is done** (2026-11-13): "Show me" is a fifth way into
 `design-motif`, and `standards/motif-gallery.html` has a sample tile for all 35 families.
-**Next:** the owner's look at the gallery (below), then **phase 5** (`docs/specs/v4.md`):
-the §SECURITY additions, whose wording needs the owner's approval before it is written in;
-relay's workflow check; the machine inventory (skill, core rule, README).
-**Live:** the gallery is in the mockup loop. The owner chose the tile format (bigger, one
-scheme per row) and has not yet seen all 35 tiles or said it is locked. The owner works on
-the PC in the desktop app and answers choices through the question prompt.
+The gallery is **locked** by the owner (`decisions.md`, 2026-11-13): changing a tile takes
+a new round.
+**Next:** **phase 5** (`docs/specs/v4.md`). Done of it: relay's workflow check (Step 4).
+Left: the §SECURITY additions, whose wording needs the owner's approval before it is
+written in; the machine inventory (a new skill, a core rule, the README).
+**Live:** the §SECURITY wording is in front of the owner. The owner works on the PC in the
+desktop app and answers choices through the question prompt.
 **Blocked on:** nothing. Open in the spec, needed only later: the §SECURITY wording (phase
 5) and v4's theme name (phase 7).
 **The owner's rule for v4:** quality for the long term, over speed and over size. No hurry.
