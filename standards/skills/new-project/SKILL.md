@@ -61,7 +61,9 @@ npx create-next-app@latest <name> --ts --tailwind --eslint --app --src-dir \
   --import-alias "@/*" --use-npm --disable-git
 ```
 
-`--disable-git` because git is the owner's call (§GIT). If the CLI writes its own
+`--disable-git` so the scaffold makes no commit of its own (§GIT). Then, with the owner's
+yes, run `git init` in the new folder: Step 4's credential hook needs a repository, and
+nothing is committed until the owner's first checkpoint. If the CLI writes its own
 `AGENTS.md` (current versions do, inside a generated block), keep it; Step 4 adds the
 pointer above the block.
 
