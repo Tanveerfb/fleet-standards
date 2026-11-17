@@ -74,6 +74,14 @@ request. The compact's own summary is a second account, not the record: where it
 repo disagree, the repo wins. Where no hook runs (other agents), the rule is the same: after
 a compact, run relay first.
 
+**After a resume: the short form.** A resumed session keeps its conversation, so relay
+checks only what may have moved while it was away: read `Start here`, run Step 4's
+`git status -sb` and `git log --oneline -5` (with a `git fetch` where there is a remote), and
+compare both with what the conversation last knew. Nothing moved: report it in a line or
+two, then handle the waiting request. Anything moved (a commit the conversation did not
+make, a rewritten `Start here`, a branch that changed), or the conversation is not intact:
+run relay in full.
+
 ## Step 1 — Orient from `Start here`
 
 Read the `Start here` block at the top of the status doc and extract,

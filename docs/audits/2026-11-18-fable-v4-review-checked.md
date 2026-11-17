@@ -88,7 +88,7 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 | R8 | Two core sentences: "documentation is the intent" scoped; a granted divergence is settled | 6, 7 | **built 2026-11-18** |
 | R9 | Reference pass; no private material in a proposal; the `CLAUDE.md` template by kind; `git init` order; a project's own `rules/` | 13, 11, 16a-c | **built 2026-11-18.** "v4" beside `3.9.0` resolves at the version bump |
 | R10 | A declined option recorded, so no sync asks again | 12 | **built 2026-11-18:** `no-<name>` on the *Rules* line, read by `rules-line.mjs` (tested); a declined sync goes in `decisions.md`, and relay reads it |
-| R11 | Trim the always-loaded text: plumbing to the skills, one kind table, a short relay for a same-day resume. Not the 50 KB line (K4) | 14 | to build |
+| R11 | Trim the always-loaded text: plumbing to the skills, one kind table, a short relay for a same-day resume. Not the 50 KB line (K4) | 14 | **built 2026-11-18:** the §AGENTS shell-write bullet 286 → about 110 words, §SCOPE's skill notes cut, the kind table only in §SCOPE, relay's short form after a resume (the hook asks for it; tested). The core is 31,760 bytes after R1 to R11 |
 | R12 | Nobody to answer: an unattended session stops and leaves the question instead of guessing | missing | to build |
 | R13 | First remote in `new-project`: the repository, the working branch, branch protection, each on a yes | missing | to build |
 | R14 | Hook scripts diffed before the sync copies them | missing | to build |

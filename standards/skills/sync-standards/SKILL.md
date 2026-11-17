@@ -276,7 +276,8 @@ whatever the file already holds: the §AGENTS shell-write hook
 (`.claude/fleet/scripts/after-compact.mjs`, `SessionStart` on `compact|resume`). On the
 owner's machine each skill then appears twice, as `/checkpoint` and `/fleet:checkpoint`, and
 the shell-write hook runs twice, once from the plugin; that is expected, and both behave the
-same. The plugin's relay-after-compact hook stays silent where the project registers its
+same. A project that keeps a stricter hook of its own (one refusing every `<<`) keeps it
+beside this one. The plugin's relay-after-compact hook stays silent where the project registers its
 own, so that instruction arrives once. A local-only project, skipped here, gets both hooks
 from the plugin. **A project with its own relay-after-compact hook** from before v3.9 can
 drop it now: offer that, never remove it unasked.

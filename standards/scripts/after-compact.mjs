@@ -45,11 +45,20 @@ try {
     }
 
     if (onTheStandard && !projectRegistersIt) {
-      const lines = [
-        `This session was picked up after a ${source}. Before anything else, run the full relay skill: it reads the status doc's Start here, including its Live line, the tail of decisions.md and git.`,
-        "This comes first even when a request from the owner is already waiting: never skip or shorten relay for it.",
-        "Give relay's report, then handle the request; if there is no request, wait for the owner's go-ahead.",
-      ];
+      // A compact loses the conversation, so relay runs in full. A resume keeps it, so relay's
+      // short form (its *After a resume* section) is enough unless the repo moved meanwhile.
+      const lines =
+        source === "compact"
+          ? [
+              "This session was picked up after a compact. Before anything else, run the full relay skill: it reads the status doc's Start here, including its Live line, the tail of decisions.md and git.",
+              "This comes first even when a request from the owner is already waiting: never skip or shorten relay for it.",
+              "Give relay's report, then handle the request; if there is no request, wait for the owner's go-ahead.",
+            ]
+          : [
+              "This session was picked up after a resume. Before anything else, run relay's short form (its section After a resume): Start here and git, checked against what this conversation last knew.",
+              "If either moved since, or the conversation is not intact, run the full relay instead.",
+              "Give relay's report, then handle any waiting request; if there is none, wait for the owner's go-ahead.",
+            ];
       process.stdout.write(
         JSON.stringify({
           hookSpecificOutput: { hookEventName: "SessionStart", additionalContext: lines.join("\n") },

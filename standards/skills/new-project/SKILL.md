@@ -37,17 +37,10 @@ Establish the project's name (kebab-case for the folder and repo) and what it is
 
 Then, through the question tool, where the spec does not settle them (§ASK):
 
-1. **The kind of repository** (§SCOPE's second table), which decides the files it loads:
-
-   | Kind | Loads | Scaffold (Step 2) |
-   | --- | --- | --- |
-   | Web project (Next.js) | core, app, ui, node, web | `create-next-app` |
-   | Local Node tool | core, app, node; ui if it has an interface | `package.json` and `tsconfig.json` by hand |
-   | Tool in another language (bash, Python) | core, app; python for Python; ui if it has an interface | a Python package: `uv init`; otherwise none |
-   | Game | core, app, ui, game | the engine's own new-project |
-   | Non-application | core, non-application; ui if it has a visual surface | none |
-
-   For the three with an "if", ask that too.
+1. **The kind of repository**, which decides the files it loads (§SCOPE's second table has
+   them) and its scaffold (Step 2): web project (Next.js), local Node tool, tool in another
+   language (bash, Python), game, or non-application. For the kinds whose files depend on
+   an interface or a visual surface, ask that too.
 2. **How it ships** — the *Deploys* line (§GIT): **single-branch**, **multi-branch** (a
    live domain or real users means this: name the working branch and the release), or
    **local only** (no remote, by decision). For a repository without application code, also

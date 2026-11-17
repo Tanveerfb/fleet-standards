@@ -19,14 +19,8 @@ goes here; there is nowhere else for it to go.
 <!-- If a tool generates AGENTS.md, add `@AGENTS.md` above these lines and say so here. -->
 <!-- One import per file of the standard this project loads (project-rules.md §SCOPE). The
      lines above are a web project's; keep the ones for this kind of repository and delete
-     the rest. The *Rules* line under Project identity names the same files, and
-     `sync-standards` copies exactly those.
-
-     Web project (Next.js)        project-rules, app, ui, node, web
-     Local Node tool              project-rules, app, node; ui if it has an interface
-     Tool in another language     project-rules, app; python for Python; ui if it has an interface
-     Game                         project-rules, app, ui, game
-     Non-application              project-rules, non-application; ui if it has a visual surface
+     the rest: §SCOPE's second table says which files each kind loads. The *Rules* line under
+     Project identity names the same files, and `sync-standards` copies exactly those.
 
      An option the project chose is imported too: `@rules/options/trello.md`,
      `@rules/options/firebase.md`, `@rules/options/sqlite.md`. The credit option is not imported: the skills read it when
