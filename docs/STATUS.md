@@ -12,12 +12,14 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** **phase 7**, the theme name first. Offered and not yet run: a Fable review of v4
+**Next:** the Fable review of v4, then **phase 7**. The theme is chosen: **v4 Sutlej**, the
+five rivers of Punjab (`decisions.md`, 2026-11-18); how the README's look is made is still
+the owner's to say. Offered and not yet run: a Fable review of v4
 through `fable-audit` (open item 4), priced before the owner's go. The 4.0.0 changelog entry
 must end with its *What a project must change* list (`docs/maintainer.md`). `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
 5 → 8, 6 → 9).
-**Blocked on:** the theme name for phase 7.
+**Blocked on:** the owner's go for the Fable review, after its price.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
 `relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
 run; the skills' new paths (every kind in
@@ -82,7 +84,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
 | 6. Process X on the standard | **Built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I, and K from the owner's answers: pnpm, JavaScript tools, `rules/options/sqlite.md`, `rules/python.md`) but I4, at the release |
-| 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
+| 7. Theme and release | Not started. The theme is chosen: v4 Sutlej. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
 only referenced the file), measured 2026-11-18 after group E: web 60.4 KB plus its options;
@@ -123,7 +125,8 @@ plain text in `E:\Installed`. It was not opened.
    phase 7 are its first use; the 4.0.0 changelog entry has to carry its list.
 4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). A Fable review
    of v4 itself is offered, not run: dry run for the price first, then the owner's go.
-5. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
+5. **Phase 7** — the themed README (Sutlej: river blues, a Phulkari-style pattern, original
+   art), the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all fifteen evals run once, then the release.
 6. **The machine file's local-models section is empty**: Ollama was not running when

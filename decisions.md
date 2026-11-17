@@ -485,3 +485,24 @@ auditor where the owner has one, and the in-session audit stays the fallback: th
 on one PC, needs the owner's API key, and costs per run with their go, so a cloud session or
 another machine cannot depend on it. A Fable review of v4 itself is offered before release,
 priced first. Turned down: Fable required for every Process X; a v4 review alone.
+
+## 2026-11-18 — The release theme: the five rivers of Punjab, v4 is Sutlej
+
+The owner wanted a naming series for major versions, as AI companies name their model
+lines, drawn from what they enjoy. Their threads: anime and fiction (Dragon Ball's "Super
+Saiyan 4" was the first idea), being Punjabi from Ludhiana, space, and elements (they named
+git branches "aqua" once). Picked: **the five rivers of Punjab**, from home and moving west:
+**v4 Sutlej** (Ludhiana's river), v5 Beas, v6 Ravi, v7 Chenab, v8 Jhelum; a new family after
+v8. The README look: river blues and a Phulkari-style pattern, all original artwork.
+
+Turned down in the same two rounds: martial-arts words (Kata), Dragon Ball forms (Super
+Saiyan 4), Japanese craft words (Kintsugi), power-up states (Awakening), the classical
+elements (Aqua), guiding stars (Polaris), Punjabi crafts and arts (Phulkari as a name).
+
+Of the four points of advice in `docs/specs/v4.md` (*A release theme*), the owner accepted
+two: **the theme lives on the surface only** (README, changelog heading, release notes, the
+gallery page, the startup check's banner; rules and skills stay plain), and **original
+artwork only** (the repository is public). Not ticked: "the version number stays the
+reference" and "the look goes through `design-motif`". What the owner wants instead is not
+yet said. The scripts read only `x.y.z` (`scripts/standard.mjs`), so the number stays in
+the version line whatever the README leads with.
