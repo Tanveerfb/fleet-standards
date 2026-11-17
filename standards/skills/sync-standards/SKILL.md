@@ -28,6 +28,12 @@ the session's work.
 
 ## Step 0 — Make sure the plugin copy is current
 
+**A master folder named by the owner wins.** To pilot a release before it ships, the owner
+may name a checkout of `fleet-standards` on its branch ("sync against
+`E:\…\fleet-standards`"). Then read every `${CLAUDE_PLUGIN_ROOT}/` and `.claude/fleet/` path
+in this skill from that checkout's `standards/` folder, run its scripts from there, say in
+the report which folder and branch it was, and skip the rest of this step.
+
 **First: are you running the project's own copy of this skill?** If the paths above read
 `.claude/fleet/` rather than an absolute plugin path, you are (a cloud session, or a machine
 without the plugin). `.claude/fleet/` holds what the last sync copied, **not the master** —
