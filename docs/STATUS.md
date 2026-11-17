@@ -14,7 +14,7 @@ are done and phase 6, the audit of the standard, is picked and partly built. `ma
 untouched; nothing is released.
 **Next:** **build the rest of the audit's picks.** Open `docs/specs/v4-audit.md`, go to
 *Picks and outcomes*, and take the next unbuilt finding: one commit per finding, named
-`audit <id>`. Groups A and B are built; start with C1.
+`audit <id>`. Groups A, B and C are built; start with D1.
 **Blocked on:** nothing. Group K in the audit is seven questions only the owner can answer.
 **Don't trust:** the PowerShell half of the shell-write guard is tested by `tests/run.mjs`
 only, never seen refusing in a live session. Each behaviour eval ran once; the eight older
@@ -75,7 +75,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A and B, E1, E4, I3. Left: about 42 |
+| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A, B and C, E1, E4, I3. Left: about 33 |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -104,9 +104,9 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — about 42 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
-   The large ones: C1 (`new-project` for every kind of repository), E2 (§GIT trimmed to its
-   rules), D1 (`rules/app.md` made language-neutral).
+1. **The audit's picks** — about 33 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
+   The large ones: D1 (`rules/app.md` made language-neutral), E2 (§GIT trimmed to its
+   rules).
 2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
    a named choice, the cases where agents missed interface rules, when to split a
    `CLAUDE.md`, and three smaller ones.
@@ -141,10 +141,11 @@ plain text in `E:\Installed`. It was not opened.
 ## Assumed, not verified
 
 - The eight older eval cases still pass. They were not re-run after the split, nor after
-  the nine group-A changes to `checkpoint`, `sync-standards` and `new-project`.
-- `sync-standards`' v4 step, `ai-setup`'s area file and `new-project`'s copy of the set are
-  written and read through, never run against a project. The pilot syncs in phase 7 are
-  their first real use.
+  groups A to C rewrote parts of `checkpoint`, `sync-standards`, `relay` and `new-project`.
+- `sync-standards` (its checks a to i, *Adding an option*, the stale-copy and declined-import
+  paths), `new-project` for each kind, `ai-setup` and `design-motif` by kind: written and
+  read through, never run against a project. The pilot syncs in phase 7 are their first
+  real use.
 - The audit's findings without a "checked" mark rest on a reader's line reference.
 - That `~/.claude/machine.md` loads: it takes a new session to see.
 
