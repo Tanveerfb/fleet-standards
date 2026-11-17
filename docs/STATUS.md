@@ -14,9 +14,8 @@ are done and phase 6, the audit of the standard, is picked and partly built. `ma
 untouched; nothing is released.
 **Next:** **build the rest of the audit's picks.** Open `docs/specs/v4-audit.md`, go to
 *Picks and outcomes*, and take the next unbuilt finding: one commit per finding, named
-`audit <id>`. Group A is built; start with B5.
-**Blocked on:** nothing. B7 changes the workflow file and needs the owner's yes when it is
-reached. Group K in the audit is seven questions only the owner can answer.
+`audit <id>`. Groups A and B are built; start with C1.
+**Blocked on:** nothing. Group K in the audit is seven questions only the owner can answer.
 **Don't trust:** the PowerShell half of the shell-write guard is tested by `tests/run.mjs`
 only, never seen refusing in a live session. Each behaviour eval ran once; the eight older
 ones last ran before the split.
@@ -76,7 +75,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: all of group A, B1 to B4, E1, E4. Left: about 50 |
+| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A and B, E1, E4, I3. Left: about 42 |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -105,7 +104,7 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — about 50 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
+1. **The audit's picks** — about 42 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
    The large ones: C1 (`new-project` for every kind of repository), E2 (§GIT trimmed to its
    rules), D1 (`rules/app.md` made language-neutral).
 2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
@@ -114,31 +113,30 @@ plain text in `E:\Installed`. It was not opened.
 3. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all eleven evals run once, then the release.
-4. **`claude plugin validate standards` is not in CI** (audit B7). Only that form parses each
-   skill's frontmatter.
-5. **The machine file's local-models section is empty**: Ollama was not running when
+4. **The machine file's local-models section is empty**: Ollama was not running when
    `machine-inventory` ran. Start Ollama and run the skill again.
-6. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
+5. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
    checking at their next sync whether the stricter block is still wanted.
 
 ---
 
-## Verified, by measurement (2026-11-13)
+## Verified, by measurement (2026-11-13, and 2026-11-17 where dated)
 
-- `node tests/run.mjs` — all checks pass: the rules set, the gallery (35 families, each with
-  a tile in its group and order), the split check (1035 baseline lines, each in exactly one
-  of 11 files), and the shell-write guard's 100-odd cases for both shells.
-- `claude plugin validate .` and `claude plugin validate standards` — pass, one expected
-  warning each.
-- CI — success on the working branch, with the split check running in full.
+- `node tests/run.mjs` — all checks pass (2026-11-17): the rules set, the gallery (35
+  families, each with a tile in its group and order), the split check, the shell-write
+  guard's 100-odd cases for both shells, and the scripts: the startup check's declared-set
+  report, the *Rules* line reader, the fleet report, the installer, stale skill copies and
+  every hook path.
+- `claude plugin validate .` and `claude plugin validate standards` — pass, with warnings
+  only; both now run in CI (2026-11-17).
+- CI — success on the working branch at `a6c03d5` (2026-11-17), actions pinned by commit,
+  the split check running in full.
 - Behaviour evals — the three new cases (`relay-after-compact`, `checkpoint-log-split`,
   `motif-show-me`) score 1.00 with the skill and 0.00 without.
 - The gallery — every group seen at desktop width, and the page at 375px with no overflow.
 - The guard's faults — the agent ran the five inline-script forms and the PowerShell call
   against the old guard (all passed it) and against the new one (all refused).
 - `machine-inventory` — run once on this PC; `~/.claude/machine.md` written and imported.
-- `sync-rules.mjs --apply` on two scratch projects: a declared set is copied, a project with
-  no *Rules* line is skipped.
 
 ## Assumed, not verified
 
