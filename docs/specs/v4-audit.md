@@ -209,7 +209,7 @@ the owner wants any done now.
 | Group | Picked | Outcome |
 | --- | --- | --- |
 | A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **Built 2026-11-17:** A2 and A4 (with E1; bare `CPR` kept and given a row in §GIT). A3 (§GIT names the checkpoint's follow-up commit as the one exception). A10 (the template's "What shipped" became *Current state*; the mistake worth keeping moved to the log template). A11 (one list in Step 2, snapshot or log for each item). A14 (with E4). Group A is built |
-| B1 to B12 | all | B1 to B4 built 2026-11-13. **Built 2026-11-17:** B5 (one reader of the *Rules* line, `scripts/rules-line.mjs`, used by the startup check; relay Step 4.6 checks the same). To build: B6 to B12. B7 changes the workflow file and needs the owner's yes when it is reached |
+| B1 to B12 | all | B1 to B4 built 2026-11-13. **Built 2026-11-17:** B5 (one reader of the *Rules* line, `scripts/rules-line.mjs`, used by the startup check; relay Step 4.6 checks the same), B6. To build: B7 to B12. B7 changes the workflow file and needs the owner's yes when it is reached |
 | C1 to C9 | all | to build |
 | D1 to D12 | all | to build |
 | E1 to E11 | all | **built 2026-11-17:** E1, E4 (`web` 10,427 → 8,094 bytes). To build: E2, E3, E5 to E11 |

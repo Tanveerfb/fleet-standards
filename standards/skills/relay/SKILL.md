@@ -151,10 +151,12 @@ Establish:
   credential check — put that under *the user's call*, with the one-line fix
   (`git config core.hooksPath .githooks`). Relay reports; it does not set it.
 - **Did anything change what runs unattended?** List the commits since the last
-  checkpoint's that touch `.github/workflows/` or `.claude/settings.json`:
+  checkpoint's that touch `.github/workflows/`, `.claude/settings.json`, the hook scripts in
+  `.claude/fleet/scripts/` (they run on every shell command and after every compact) or the
+  git hooks in `.githooks/`:
 
   ```bash
-  git log --format='%h %ad %an %s' --date=short <checkpoint sha>..HEAD -- .github/workflows .claude/settings.json
+  git log --format='%h %ad %an %s' --date=short <checkpoint sha>..HEAD -- .github/workflows .claude/settings.json .claude/fleet/scripts .githooks
   ```
 
   With no checkpoint commit to start from, use the last ten commits that touch them. Run
