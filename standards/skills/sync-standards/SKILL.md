@@ -179,15 +179,22 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    on the *Rules* line's `Options:` part:*
    - **Studio credit** — if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:` line and
      the project's `CLAUDE.md` lacks either the `Studio credit:` or the `Studio showcase:`
-     line — or says `local only — not asked` — read `rules/options/credit.md` from the
-     master and ask its missing questions once, as it says. With no `Studio credit:` line in
-     the owner's file, write `no studio
-     configured` and ask nothing. A project already crediting the studio gets the option
-     without a question.
+     line — or says `local only — not asked`, or `no studio configured` while the owner's
+     file now names a studio — read `rules/options/credit.md` from the master and ask its
+     missing questions once, as it says. With no `Studio credit:` line in the owner's file,
+     write `no studio configured` and ask nothing. A project already crediting the studio
+     gets the option without a question, and so does **the studio's own site** (the
+     repository the owner's line names as its showcase, or the site at its URL): record
+     `credit` with "the studio's own site", and ask nothing.
    - **Trello** — a `Trello board: <url or none>` line in `CLAUDE.md` (§TRELLO); a project
      with a board URL gets the option without a question.
-   - **Firebase, SQLite and AI** — say what the repository shows (a `firebase` dependency,
-     a SQLite driver such as `better-sqlite3` or `sqlite3`, a `lib/ai/` folder) and ask. A
+   - **Firebase, SQLite and AI** — only for a kind with application code; a repository
+     without it is asked about Firebase only if it holds Firebase configuration, and never
+     about SQLite or AI (as `new-project` asks). Say what the repository shows and ask:
+     Firebase by a `firebase` dependency **or** a `firebase.json`, `.firebaserc`,
+     `firestore.rules` or code calling Firestore in any language (a game's GDScript); SQLite
+     by a driver such as `better-sqlite3`, `sqlite3` or Python's `sqlite3`; AI by a
+     `lib/ai/` folder or a model SDK in the dependencies. A
      project on SQLite that carries a §FIREBASE exception gets the SQLite option instead,
      and the exception is offered for removal (Step 2).
 
