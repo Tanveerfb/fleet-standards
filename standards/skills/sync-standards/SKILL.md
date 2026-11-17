@@ -101,6 +101,11 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
 
 ## Step 4 — Apply
 
+0. **Is `rules/` free?** Before anything is copied into it: a project's `rules/` folder is
+   the standard's only if every file in it is one the master has, opening with
+   `# Fleet rules —`. A folder that holds anything else — a game's rules, Firestore or
+   storage rules, lint rules — **stops the sync**: say what is there and ask the owner how to
+   proceed. Never write into it, move it or rename it unasked.
 1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy, and each file the
    *Rules* line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
    Copy only what is declared. **A project with no *Rules* line** is coming from the single
