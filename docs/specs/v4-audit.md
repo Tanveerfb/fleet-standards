@@ -208,7 +208,7 @@ the owner wants any done now.
 
 | Group | Picked | Outcome |
 | --- | --- | --- |
-| A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **Built 2026-11-17:** A2 and A4 (with E1; bare `CPR` kept and given a row in §GIT). A3 (§GIT names the checkpoint's follow-up commit as the one exception). **To build:** A10, A11, A14 (with E4) |
+| A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **Built 2026-11-17:** A2 and A4 (with E1; bare `CPR` kept and given a row in §GIT). A3 (§GIT names the checkpoint's follow-up commit as the one exception). A10 (the template's "What shipped" became *Current state*; the mistake worth keeping moved to the log template). **To build:** A11, A14 (with E4) |
 | B1 to B12 | all | B1 to B4 built 2026-11-13; B5 to B12 to build. B7 changes the workflow file and needs the owner's yes when it is reached |
 | C1 to C9 | all | to build |
 | D1 to D12 | all | to build |

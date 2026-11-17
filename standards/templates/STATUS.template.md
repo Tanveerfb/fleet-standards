@@ -39,10 +39,11 @@ working (e.g. on a phone: drafts as artifacts, short replies), what is mid-fligh
 
 ---
 
-## What shipped in this checkpoint
+## Current state
 
-<Concretely. File paths, commands, config keys. Include the measurements, not just the
-claims.>
+<What exists right now and where it lives, concretely: file paths, commands, config keys, and
+for non-code work the data store, dashboard or service that holds it. What this checkpoint
+did is history: it goes in the log entry, not here.>
 
 ---
 
@@ -63,10 +64,6 @@ Trello board, an item with a card carries the card's link — that link, not the
 said.*
 
 - <claim> — <how it was verified>
-
-**The mistake worth keeping.** <Any claim this checkpoint had to correct, what it said before,
-and why it was wrong. A future session that meets the old claim elsewhere needs to recognise
-it as retired.>
 
 ---
 

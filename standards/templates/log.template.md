@@ -19,5 +19,10 @@ on the way out destroys the evidence.*
 
 Commits `<hashes>`. <Pushed / not pushed>, <and whether that branch auto-deploys>.
 
-<What happened, why, and what was decided against. Superseded numbers, measurements and the
-owner's quotes belong here, not in the snapshot.>
+<What happened, why, and what was decided against. What shipped, concretely: file paths,
+commands, config keys, with the measurements. Superseded numbers and the owner's quotes
+belong here, not in the snapshot.>
+
+**The mistake worth keeping.** <Any claim this checkpoint had to correct: what it said
+before, and why it was wrong. A future session that meets the old claim elsewhere needs to
+recognise it as retired. Leave the paragraph out when there is none.>

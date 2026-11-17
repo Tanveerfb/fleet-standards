@@ -488,8 +488,10 @@ unchecked assertion sit in the doc in the same voice as a checked one.
 **M3. Sweep the whole doc for staleness, don't just append.** Read the existing deep doc end to
 end and fix anything the session made untrue, including in sections you didn't otherwise touch.
 A checkpoint that appends a correct new section below a now-wrong old one has made the document
-worse. When you correct a claim, say what it said before and why it was wrong — a future
-session that encounters the old claim elsewhere needs to recognize it as retired.
+worse. When you correct a claim, the snapshot carries only the corrected line; **what it
+said before and why it was wrong goes in this checkpoint's log entry** (*The mistake worth
+keeping*) — a future session that meets the old claim elsewhere needs to recognise it as
+retired.
 
 **M4. Run the project's verification and record the real output.** Tests, typecheck, lint,
 build — whatever this project actually uses. Write down what ran and what it said. If something
