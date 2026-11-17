@@ -192,8 +192,12 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      and the exception is offered for removal (Step 2).
 
    Record each answer on the `Options:` part: a chosen option by name, **a declined one as
-   `no-<name>`** (`Options: trello, no-firebase, no-sqlite, no-ai`), so no later sync asks it
-   again; Trello and the credit keep their answers on their own lines. An option is copied and
+   `no-<name>`** (`Options: trello, credit, no-firebase, no-sqlite, no-ai`), so no later sync
+   asks it again. **Every option goes there, Trello and the credit included** (`trello` or
+   `no-trello`, `credit` or `no-credit`): item 1 copies what this part declares, so an option
+   missing from it is never copied or updated. Those two also keep their details on their own
+   lines (`Trello board:`; `Studio credit:` and `Studio showcase:`). With no studio in the
+   owner's file the credit is not asked and not listed. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,
    which is copied but never imported — the skills read it when they reach its step, so
    read it before asking the credit questions — and `ai`: add the template's
@@ -359,7 +363,7 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
 1. Read the option's file in the master (`${CLAUDE_PLUGIN_ROOT}/rules/options/<name>.md`)
    and say in two lines what taking it on means for this project.
 2. On the owner's yes: copy it into `rules/options/`, add `<name>` to the *Rules* line's
-   `Options:` part (dropping `none`), and add its `@rules/options/<name>.md` import under the
+   `Options:` part (in place of its `no-<name>`, or of an old `none`), and add its `@rules/options/<name>.md` import under the
    others. **Two are not imported** (§SCOPE): the credit is copied with no import line, and
    AI goes to `ai-setup`, which copies the file and writes the two read-on-demand lines.
 3. Write what the option needs on `CLAUDE.md`'s own lines: `Trello board: <url>`; the

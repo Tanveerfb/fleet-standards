@@ -49,8 +49,9 @@ goes here; there is nowhere else for it to go.
   release, e.g. "work on `dev`; squash PR into `main`". No application code → name the production surface (the tenant, the
   platform) and whether it has live users (§SCOPE)>
 - **Rules**: <the files under `rules/` this project loads, then the options it chose, as in
-  §SCOPE: "app, ui, node, web · Options: firebase, trello, no-ai". A declined option is
-  written `no-<name>` so it is not asked again. The same files as the import lines above;
+  §SCOPE: "app, ui, node, web · Options: firebase, trello, credit, no-ai". Every option
+  asked is listed, the credit and Trello included; a declined one is written `no-<name>` so
+  it is not asked again. The same files as the import lines above;
   `sync-standards` reads this line>
 - **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
   <`docs/architecture.md`, or "not yet">

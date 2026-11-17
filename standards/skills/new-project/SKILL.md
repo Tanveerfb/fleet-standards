@@ -45,8 +45,9 @@ Then, through the question tool, where the spec does not settle them (§ASK):
    live domain or real users means this: name the working branch and the release), or
    **local only** (no remote, by decision). For a repository without application code, also
    the production surface and whether it has live users.
-3. **The options, each asked once** (§SCOPE), and the answer recorded either way (a declined
-   backend or AI as `no-<name>` on the *Rules* line's `Options:` part):
+3. **The options, each asked once** (§SCOPE), and every answer recorded on the *Rules*
+   line's `Options:` part, a chosen one by name and a declined one as `no-<name>`, the credit
+   and Trello included:
    - **Studio credit** — only if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
      line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` (§CREDIT; read on demand,
      never imported) and do what it says: its two questions, the client's agreement for a
@@ -126,7 +127,7 @@ standard's files alone; the work's own files come with the work.
        template's comment lists them by kind); Trello and Firebase imported, AI and the
        credit never — they are read on demand (§SCOPE);
      - **the *Rules* line**: the same files and the options, e.g.
-       `app, node · Options: trello`, or `· Options: none` — the line the startup check and
+       `app, node · Options: trello, no-credit, no-sqlite, no-ai` — the line the startup check and
        `sync-standards` read (§SCOPE);
      - **the *Deploys* line** from Step 1, the `Trello board:` line (a URL or `none`), the
        `Studio credit:` and `Studio showcase:` lines, and the `Motif:` line (`not chosen yet`
