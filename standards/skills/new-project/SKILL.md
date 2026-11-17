@@ -59,8 +59,10 @@ Then, through the question tool, where the spec does not settle them (§ASK):
      client project, and a showcase yes filed as a request there. Local-only projects are
      asked too.
    - **A Trello board** — its URL, or none.
-   - **Firebase** — for a kind with application code; a non-application repository is
-     asked only if it will hold Firebase configuration.
+   - **The backend: Firebase, SQLite or none** — for a kind with application code; a
+     non-application repository is asked only if it will hold Firebase configuration.
+     SQLite (§SQLITE) is for a local-first project: one device, its own data, nothing
+     hosted. Ask the driver with it, and record it in `decisions.md`.
    - **AI features** — and, for a web project, the tooling: Firebase AI Logic, the Vercel AI
      SDK, or both (§AI lays out the trade-offs). Step 4 hands to `ai-setup`.
 4. **For a web project only:** zustand and zod needed or not (§STATE).

@@ -29,7 +29,7 @@ goes here; there is nowhere else for it to go.
      Non-application              project-rules, non-application; ui if it has a visual surface
 
      An option the project chose is imported too: `@rules/options/trello.md`,
-     `@rules/options/firebase.md`. The credit option is not imported: the skills read it when
+     `@rules/options/firebase.md`, `@rules/options/sqlite.md`. The credit option is not imported: the skills read it when
      they reach its step, and the Studio lines below carry the answers. The AI option is not
      imported either; it is read on demand, so a project that chose it keeps this line instead:
      **Read `rules/options/ai.md` before any work on an AI feature** — never act on memory

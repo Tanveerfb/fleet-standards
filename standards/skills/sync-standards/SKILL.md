@@ -161,8 +161,10 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
      without a question.
    - **Trello** — a `Trello board: <url or none>` line in `CLAUDE.md` (§TRELLO); a project
      with a board URL gets the option without a question.
-   - **Firebase and AI** — say what the repository shows (a `firebase` dependency, a
-     `lib/ai/` folder) and ask.
+   - **Firebase, SQLite and AI** — say what the repository shows (a `firebase` dependency,
+     a SQLite driver such as `better-sqlite3` or `sqlite3`, a `lib/ai/` folder) and ask. A
+     project on SQLite that carries a §FIREBASE exception gets the SQLite option instead,
+     and the exception is offered for removal (Step 2).
 
    Record each answer on the `Options:` part, `none` if none. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,

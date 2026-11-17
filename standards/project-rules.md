@@ -45,7 +45,7 @@ core. The rest are loaded only where they apply:
 | `rules/web.md` | The Next.js stack | Web projects |
 | `rules/game.md` | The game-engine stack | Games |
 | `rules/non-application.md` | What a repository without application code does differently | Those repositories |
-| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |
+| `rules/options/trello.md`, `firebase.md`, `sqlite.md` | Things a project opts into at setup | Projects that chose them |
 | `rules/options/ai.md` | AI and model features | Read on demand by projects that chose it |
 | `rules/options/credit.md` | The studio credit and showcase | Read on demand, by the skills that reach its steps |
 
@@ -53,7 +53,7 @@ core. The rest are loaded only where they apply:
 | --- | --- |
 | Web project (Next.js) | core, app, ui, node, web, its options |
 | Local Node tool | core, app, node; ui if it has an interface; its options |
-| Tool in another language (bash, Python) | core, app; ui if it has an interface |
+| Tool in another language (bash, Python) | core, app; ui if it has an interface; its options |
 | Game | core, app, ui, game, its options |
 | Non-application | core, non-application; ui if it has a visual surface |
 
@@ -63,7 +63,7 @@ line beside *Deploys* that `sync-standards` reads:
 files declared. A section that divides between files keeps its name in each.
 
 **The options are asked about once.** `new-project` and `sync-standards` ask about each —
-the studio credit, a Trello board, Firebase, AI — and record the answer, so a project that
+the studio credit, a Trello board, Firebase or SQLite, AI — and record the answer, so a project that
 never opted in has still been asked.
 
 **`rules/options/ai.md` is read, not imported.** A project that chose it carries one line in
