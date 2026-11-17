@@ -218,7 +218,7 @@ the owner wants any done now.
 | G1 to G10 | phase 7 | not a pick |
 | H1 to H4 | picked | to build |
 | H5 | not picked | the run before release is in phase 7's own list |
-| I1 to I5 | all | to build; I4 at the release |
+| I1 to I5 | all | **built 2026-11-17:** I3 (ahead of its group: B11 lands on what it leaves). To build: I1, I2, I5; I4 at the release |
 | K1 to K7 | the owner's answers | open |
 
 **Sizes before the picks** (bytes, 2026-11-13): core 31,001; `web` 10,427; `ui` 7,531;

@@ -96,10 +96,10 @@ node standards/scripts/sync-rules.mjs [projectsDir]
 ```
 
 Lists the rules version in every project folder under `projectsDir` (default
-`$PROJECTS_DIR`, then `E:\Projects`). `--apply` offers to copy the master over each
-out-of-date copy. It never commits, and never touches a project with no copy — adopting the
-standard is a migration, not a file copy. Per project, `sync-standards` does the same job with
-more care; this script is for the overview.
+`$PROJECTS_DIR`, then `E:\Projects`). It reads only: bringing a project up to date is
+`sync-standards`' job, run inside that project, which translates references, writes the
+imports and the skill copies, and asks first. (The `--apply` that copied files without any of
+that was dropped in v4.)
 
 ## Known drift
 

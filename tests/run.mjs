@@ -589,7 +589,7 @@ section("Every registered hook names a script that exists");
 }
 
 // ---------------------------------------------------------------------------------------------
-section("Report and copy across projects (standards/scripts/sync-rules.mjs)");
+section("Fleet-wide report (standards/scripts/sync-rules.mjs)");
 {
   const script = join(S, "scripts", "sync-rules.mjs");
   const projects = join(scratch, "projects");
@@ -609,6 +609,8 @@ section("Report and copy across projects (standards/scripts/sync-rules.mjs)");
   check("report: exit 0", report.status === 0, report.stderr);
   check("report: behind, current and none told apart", row("a-declared").includes("behind") && row("c-current").includes("current") && row("d-none").includes("none"));
   check("report: copies nothing", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(undeclared, "rules")));
+  run("node", [script, projects, "--apply"], { input: "y\ny\n" });
+  check("--apply is gone: it copies nothing either", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(declared, "rules")));
   check("a missing projects folder: exit 1", run("node", [script, join(scratch, "no-such-folder")]).status === 1);
 }
 
