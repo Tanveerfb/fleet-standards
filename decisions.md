@@ -512,5 +512,12 @@ the version line whatever the README leads with.
 The owner: "Mockups, no gallery". The README's look skips `design-motif`'s brief-and-tiles
 step ("Show me"): it starts as mockups of the README itself, revised until the owner locks
 one, and is built only after the lock (§OWNER). Turned down: the full `design-motif` loop;
-deciding at phase 7. Still open: whether the README and changelog lead with "Sutlej" or the
-number.
+deciding at phase 7.
+
+## 2026-11-18 — The number leads: "v4.0.0 · Sutlej"
+
+Asked at the start of phase 7, the owner picked the number first and the river as its
+subtitle, in the README's title area and the changelog heading. The version stays the thing
+a reader scans for; the name carries the look. This settles the open "version number stays
+the reference" point above. Turned down: "Sutlej · v4.0.0", name first; the name only in the
+banner art.
