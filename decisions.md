@@ -411,3 +411,32 @@ owner's answers, not a pick; they are open.
 One thing reverses an earlier entry: **A1 rewords the branch-protection rule** the owner
 approved "as worded" earlier the same day, to the two points the agent had raised then. The pick of
 A1 is the owner's change of mind, made with the contradiction in front of them.
+
+## 2026-11-17 to 18 — Choices made while building the audit's groups A to E
+
+The owner picked each group in turn ("Yes, group B" … "Yes, group E"). Where a finding
+offered two fixes, or its fix needed a choice the audit did not make, the agent chose; each
+is recorded here so a later session does not re-decide it.
+
+- **Bare `CPR` is kept** (A4), and §GIT gained its row: as `checkpoint`, then ask before the
+  release. The alternative was dropping the phrase from the skill. Kept because the owner
+  uses the phrase family, and a phrase that asks before production is safe to keep.
+- **The workflow change (B7)** had the owner's yes: "Yes, apply". Actions pinned to the
+  commit their `v4` tags pointed at (v4.4.0), a 10-minute timeout, `claude plugin validate
+  standards` added. The triggers were left as they are.
+- **`sync-rules.mjs --apply` is gone** (I3, built ahead of its group): B9's tests found it
+  dying on a second piped answer, and `sync-standards` does the job with more care.
+- **Stale skill copies** (B10) are tracked through `.claude/fleet/copied.json`, the list of
+  what each sync wrote, and removed only with `--remove-stale` on the owner's yes. The
+  alternative, guessing from skill names, cannot tell a retired fleet skill from a project's
+  own.
+- **A declined import keeps its *Rules* line out too** (C3): with the line and no import,
+  the startup check would report a fault every session.
+- **Sections may divide between files** where the rule is shared and the stack's half is not:
+  §RUNTIME, §STATE and §PACKAGES joined §NAMING, §MOTION, §BUILD and §TESTING (D5 to D7).
+- **The profile sections are named §GAME and §NONAPP** (D10), the audit's proposal. Renaming
+  later is a sync's reference translation away.
+- **The credit option is read on demand** (D11), by the skills that reach its step, and is
+  never imported; the startup check reports an import of it.
+- **`checkpoint`'s steps are numbered 1 to 9** (E11). The audit said 1 to 8; there are nine.
+  The CHANGELOG keeps the old numbers as history.

@@ -13,6 +13,62 @@ relocation, never summarising.***
 
 ---
 
+### 2026-11-17 to 18 — the audit's groups A to E built
+
+Commits `27abdb9` to the head of `claude/new-project-mockup-zp2h2z`, 52 including this
+checkpoint's, all pushed; nothing reached `main`. The same session as the entry below,
+continued after a compact on the owner's word ("we can do a checkpoint here and then i
+compact you and then you continue here?"). The owner picked each group in turn: "Yes, group
+B", "Yes, group C", "Yes, group D", "Yes, group E", then "Checkpoint first". One commit per
+finding, named `audit <id>`, each recorded in `docs/specs/v4-audit.md`, *Picks and outcomes*.
+The choices the audit left open are in `decisions.md` under these dates.
+
+- **Group A, the rest** (A2, A3, A4, A10, A11, A14, with E1 and E4). One git table in
+  `checkpoint`, with a cloud column; §GIT gained a row for bare `CPR` and names the
+  checkpoint's follow-up commit as the one exception to "an approval does not generalise".
+  History left the status template; the skill's content list names a file for each item.
+  The new-project checklist moved out of `rules/web.md` into the skill (10,427 → 8,094 bytes).
+- **Group B and I3.** One reader of the *Rules* line (`scripts/rules-line.mjs`), used by the
+  startup check and the fleet report; relay watches `.claude/fleet/scripts/` and `.githooks/`;
+  the workflow pins its actions by commit, times out, and validates the skills (the owner:
+  "Yes, apply"); the split check fails in CI rather than skipping; tests for the hook paths,
+  the report, the installer, and crashes that used to pass as silence; `.claude/fleet/copied.json`
+  and `--remove-stale`; the project's after-compact hook carries `--project-copy`; `null`
+  JSON handled. `sync-rules.mjs --apply` was removed.
+- **Group C.** `new-project` sets up every kind of repository; `sync-standards`' per-version
+  steps became nine state checks (a to i), with *Adding an option*, a declined import or
+  copy asked about and never undone, the old profile wording replaced, lines read bold or
+  not, and a `rules/` folder that is not the standard's stopping the sync; `design-motif` and
+  `ai-setup` read the kind; `propose-standard` names the whole set.
+- **Group D.** Every file a repository loads now applies to it: `app.md` in any language,
+  web detail out of the core and `ui.md`, Firestore into the Firebase option, `node.md`'s
+  §RUNTIME and zod sorted from the web half, §PACKAGES in `app.md`, citations outside the
+  core naming their file, §TESTING's core part for every kind, §GAME and §NONAPP, the credit
+  read on demand, the GPU line pointing at the machine file.
+- **Group E.** §GIT trimmed to its rules (core 32,783 → 31,185 bytes), §DESIGN and §OWNER
+  pointing at the skill and `process-x.md`, each option's steps in one place, the "Common
+  mistakes" lists cut to what the steps do not say, the "Outside Claude Code" block one
+  sentence (the installer now rewrites the plugin path), one reference list and version
+  reader (`scripts/standard.mjs`), `checkpoint`'s steps numbered 1 to 9.
+
+Measured after group E: a web project loads 60.4 KB, a Node tool 44.3, a game 46.5, a
+repository without application code 33.9 (40.9 with a visual surface). The core is 31.0 KB;
+it grew to 32.8 across groups A to D and came back in E. `checkpoint` is 35.7 KB, from 38.2.
+`tests/run.mjs` passes; CI succeeded on each push. No behaviour eval was run.
+
+**What the new tests found:** `sync-rules.mjs --apply` exits 13 on a second piped answer
+(readline drains the buffered input) — the reason I3 was built early; a plain sync
+forgetting a stale copy it had just reported (fixed before B10's commit); and the split
+check never visiting an intended entry whose line had left every file, so four stale
+entries had passed unseen (fixed in its own commit, `e92ac1f`). `tests/split-check.mjs`
+gained a `--json` mode that prints the lines to paste into `split-intended.json`.
+
+**The mistake worth keeping.** The first draft of the new `new-project` told the agent to
+run Godot's "headless project creation". There is no such command; caught on reading it
+back, removed before the commit. And the audit miscounted twice — the "Outside Claude Code"
+block was in eight skills, not six, and `checkpoint` has nine steps, not eight — so an
+audit's count is checked before it is built to.
+
 ### 2026-11-13 — v4 phases 1 to 5, the audit of the standard, and the first of its picks
 
 Commits `37ed966` to the head of `claude/new-project-mockup-zp2h2z`, pushed, the last being

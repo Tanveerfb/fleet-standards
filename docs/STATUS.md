@@ -10,21 +10,22 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 
 **State:** v3.8.0 is on `main`. **v4.0.0 is in progress on the working branch
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
-are done and phase 6, the audit of the standard, is picked and partly built. `main` is
-untouched; nothing is released.
-**Next:** **build the rest of the audit's picks.** Open `docs/specs/v4-audit.md`, go to
-*Picks and outcomes*, and take the next unbuilt finding: one commit per finding, named
-`audit <id>`. Groups A to E are built; start with F1. `checkpoint`'s steps are now
-numbered 1 to 9 (E11): the audit's rows still cite the old numbers (Step 4 is now 7).
+are done and phase 6, the audit of the standard, is built through groups A to E; 14 small
+picks remain. `main` is untouched; nothing is released.
+**Next:** **build the last picks:** F1 to F6, then H1 to H4, then I1, I2, I5, from
+`docs/specs/v4-audit.md` → *Picks and outcomes*, one commit each named `audit <id>`.
+`checkpoint`'s steps are numbered 1 to 9 since E11; the audit's rows cite the old numbers
+(old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7, 5 → 8, 6 → 9).
 **Blocked on:** nothing. Group K in the audit is seven questions only the owner can answer.
-**Don't trust:** the PowerShell half of the shell-write guard is tested by `tests/run.mjs`
-only, never seen refusing in a live session. Each behaviour eval ran once; the eight older
-ones last ran before the split.
-**Live:** the owner is on the PC in the desktop app, answers choices through the question
-prompt, and means to compact this session and continue in it. **After the compact nothing
-runs relay by itself here** (the installed plugin is `main`'s: see the first line under
-*Things that will save a session*), so read this file and the newest entry of `docs/log.md`
-before anything else.
+**Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
+`relay`, `sync-standards` and `new-project`; the skills' new paths (every kind in
+`new-project`, sync checks a to i, *Adding an option*, `--remove-stale`) have never met a
+real project. The PowerShell half of the shell-write guard is tested, never seen live.
+**Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
+line, and keeps this one session going: checkpoint, compact, continue here. **After a
+compact nothing runs relay by itself here** (the installed plugin is `main`'s: see the
+first line under *Things that will save a session*), so read this file and the newest entry
+of `docs/log.md` before anything else.
 
 > **Things that will save a session:**
 > - **On the PC, the installed `fleet` plugin is `main`'s (v3.8.0).** Its `checkpoint` and
@@ -34,7 +35,9 @@ before anything else.
 > - **Fetch every remote branch before starting release work**, and read any status newer
 >   than the clone's. Two sessions built apart on 2026-11-12 because one did not.
 > - **A change to a rules file** adds its old and new lines to `tests/split-intended.json`,
->   or `tests/split-check.mjs` fails. Until v4 is released.
+>   or `tests/split-check.mjs` fails. Until v4 is released. `node tests/split-check.mjs
+>   --json` prints exactly the lines to paste; a line already on the *added* list that the
+>   change removes comes off that list rather than going on *removed*.
 > - Files change through the editor tools, never the shell (§AGENTS) — this repo included.
 >   The shell-write hook is registered in `.claude/settings.json` for Bash and PowerShell and
 >   refuses inline scripts, `echo` or `printf` to a file, `sed -i` and file-writing heredocs.
@@ -76,7 +79,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A to E, I3. Left: 14 |
+| 6. Process X on the standard | **Picked, mostly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A to E, I3. Left: 14 small ones (F1 to F6, H1 to H4, I1, I2, I5); I4 at the release |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -109,7 +112,7 @@ plain text in `E:\Installed`. It was not opened.
 
 1. **The audit's picks** — 14 left (`docs/specs/v4-audit.md`, *Picks and outcomes*): F1 to
    F6, H1 to H4, I1, I2, I5; I4 at the release. All small; H1 and H2 add eval cases, which
-   cost a few cents a run when they are run.
+   cost about $0.30 a run when they are run, by hand and with the owner's go.
 2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
    a named choice, the cases where agents missed interface rules, when to split a
    `CLAUDE.md`, and three smaller ones.
@@ -123,19 +126,23 @@ plain text in `E:\Installed`. It was not opened.
 
 ---
 
-## Verified, by measurement (2026-11-13, and 2026-11-17 where dated)
+## Verified, by measurement (2026-11-13, and 2026-11-18 where dated)
 
-- `node tests/run.mjs` — all checks pass (2026-11-17): the rules set, the gallery (35
-  families, each with a tile in its group and order), the split check, the shell-write
-  guard's 100-odd cases for both shells, and the scripts: the startup check's declared-set
-  report, the *Rules* line reader, the fleet report, the installer, stale skill copies and
-  every hook path.
+- `node tests/run.mjs` — all checks pass (2026-11-18): the rules set (sections, the
+  divided ones, the template's imports), the gallery (35 families, each with a tile in its
+  group and order), the split check, the shell-write guard's 100-odd cases for both shells,
+  and the scripts: the startup check's declared-set report, the *Rules* line reader, the
+  shared reference list and version reader, both manifests naming every skill, the fleet
+  report, the installer and its path rewrite, stale skill copies, the `--project-copy`
+  flag, `null` JSON, and every hook path.
 - `claude plugin validate .` and `claude plugin validate standards` — pass, with warnings
-  only; both now run in CI (2026-11-17).
-- CI — success on the working branch at `a6c03d5` (2026-11-17), actions pinned by commit,
+  only; both run in CI.
+- CI — success on the working branch at `41a819f` (2026-11-18), actions pinned by commit,
   the split check running in full.
+- The sizes in *Where v4 stands* — measured with `wc -c` on 2026-11-18.
 - Behaviour evals — the three new cases (`relay-after-compact`, `checkpoint-log-split`,
-  `motif-show-me`) score 1.00 with the skill and 0.00 without.
+  `motif-show-me`) scored 1.00 with the skill and 0.00 without, on 2026-11-13, before
+  groups A to E.
 - The gallery — every group seen at desktop width, and the page at 375px with no overflow.
 - The guard's faults — the agent ran the five inline-script forms and the PowerShell call
   against the old guard (all passed it) and against the new one (all refused).
