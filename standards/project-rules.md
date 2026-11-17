@@ -318,7 +318,7 @@ does not restate them.
   a restyle, a spacing or layout change, a new component's look, copy the business owns.
   Never build a visual change first and show it after. The one exception is a bug fix that
   restores an already-approved design (a broken alignment, a wrong token); it goes straight
-  in, with a line in the running small-changes document
+  in, with a line in that session's log entry (§DOCS)
 - **Iterate until the owner is satisfied.** One mockup is a starting point, not a
   deliverable. Offer alternatives where the direction is open, revise on feedback, and keep
   going round by round — the loop ends when the owner says the design is locked, not when

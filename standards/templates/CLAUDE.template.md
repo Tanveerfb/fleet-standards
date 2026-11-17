@@ -108,20 +108,22 @@ pnpm dev               # <port, and anything non-obvious about how it starts>
 pnpm build             # production build — verify after changes
 ```
 
-<!-- The manager the project uses (§NPM): pnpm for a new project, or the one an existing
-     project kept, written here as its commands. -->
+<!-- The commands above are a web project's on pnpm. Write this kind's own, in the manager
+     it uses (§NPM): an existing project keeps npm if it is on npm; a Python package's are
+     `uv run pytest`, `uv run ruff check`, `uv run pyright` (§PYTHON); a game's are its
+     engine's headless run (`rules/game.md`). State plainly which scripts DO NOT exist: a
+     session that assumes a test or lint script will invent one. In a repository without
+     application code (§SCOPE), replace this section with one line saying no commands exist,
+     and make the Technology table below describe the platform (tenant, services, licences)
+     instead of a framework. -->
 
-
-<!-- State plainly which scripts DO NOT exist. A session that assumes a test or lint script
-     will invent one. In a repository without application code (§SCOPE), replace this
-     section with one line saying no commands exist, and make the Technology table below
-     describe the platform (tenant, services, licences) instead of a framework. -->
-
-**Do not use `npm run lint` to validate builds — use `npm run build`.**
+**Lint does not prove the build: before a checkpoint, run the build** (`pnpm build` here).
 
 ## Technology
 
-Verified against `package.json` and `node_modules`, **<DATE>**.
+Verified against `package.json` and `node_modules` (or `pyproject.toml` and `uv.lock`, or
+the engine's project file), **<DATE>**. The rows below are a web project's; write this kind's
+own.
 
 | | |
 | --- | --- |

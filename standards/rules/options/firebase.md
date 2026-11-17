@@ -40,8 +40,8 @@ The default backend for auth, data and storage across the fleet.
   fail fast.** The Admin SDK retries, so the symptom is a build that *hangs* until the
   framework kills the page, reporting nothing useful. Suspect a missing index before
   anything else when a page build times out.
-- **Firebase is not exempt from §QOL or §FORMS.** Every read and write path gets loading,
-  error and empty states.
+- **Firebase is not exempt from §QOL, or from §FORMS where the project loads `rules/web.md`.**
+  Every read and write path gets loading, error and empty states.
 - **Live data uses Firestore `onSnapshot` listeners**, exposed by the data adapter as a
   subscription method (§DATA), and unsubscribed when the view that opened them closes.
   Sign-in with Firebase Auth runs in the browser, through the client SDK.

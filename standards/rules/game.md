@@ -29,5 +29,5 @@ has the block). The project loads the core, `rules/app.md`, `rules/ui.md` and th
   a backend or an AI feature; the day one arrives, that section is read for the project
 - **Mockups (§OWNER)** are engine screenshots side by side, or HTML when the owner is on a
   phone, kept in `docs/mockups/`
-- **Phone-first does not apply to a PC-only game.** It returns the day a phone build is
-  planned
+- **"Mobile is first-class" (§OWNER) does not apply to a PC-only game.** It returns the day
+  a phone build is planned

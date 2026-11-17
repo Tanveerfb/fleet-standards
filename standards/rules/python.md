@@ -43,13 +43,14 @@ it is one. A folder of scripts that grows shared logic becomes a package.
 - **Before a checkpoint, a package runs** `uv run pytest`, `uv run ruff check`,
   `uv run ruff format --check` and `uv run pyright`, and the checkpoint records the result
 - **Environment checked at startup** in one settings module: a missing or malformed
-  variable stops the program with its name (§RUNTIME's rule, in Python)
+  variable stops the program with its name (the rule `rules/node.md` §RUNTIME sets for
+  Node, in Python)
 - **Text on Windows** *(every shape)*: every `open()` names `encoding="utf-8"`; a program
   that prints reconfigures `stdout` and `stderr` to UTF-8 (the console default is cp1252).
   Line endings are written as the project declares: a package writes `"\n"`; a folder whose
   files are mixed reads and writes with `newline=""` and never normalises in passing
 - **A script is a file** *(every shape)*: never `python -c` or `python -` (§AGENTS); a
-  one-off goes in the scratchpad
+  one-off goes in a temporary folder outside the repository
 - **Processes on Windows:** `os.kill(pid, 0)` ends the process there instead of testing it,
   and a venv's `python.exe` is a launcher whose pid is not the program's. Check liveness and
   find the real pid through the operating system

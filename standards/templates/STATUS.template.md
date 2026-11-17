@@ -53,7 +53,7 @@ did is history: it goes in the log entry, not here.>
 *Priority-ordered. Renumber when items are closed, and say in one line that you did — a
 reader who remembers "item 3" needs to know the numbering moved. Where the project has a
 Trello board, an item with a card carries the card's link — that link, not the title, is how
-`checkpoint` matches item to card (`project-rules.md` §TRELLO).*
+`checkpoint` matches item to card (`rules/options/trello.md` §TRELLO).*
 
 1. **<item>** — <why it matters, and what it is waiting on> · [card](<trello card url, if the project has a board>)
 

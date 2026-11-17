@@ -16,7 +16,7 @@ in git is **one table, in Step 7**; nowhere else in this skill restates it.
 
 - **`git`** — the commit, and the push where there is one, are already authorised. Saying
   "git checkpoint" *is* the owner calling the commit; asking again is the failure mode.
-- **`MAX`** — depth. `checkpoint max` and `git checkpoint max` run Steps 1 to 8 *plus* the
+- **`MAX`** — depth. `checkpoint max` and `git checkpoint max` run Steps 1 to 9 *plus* the
   MAX protocol below, which is mandatory, not a suggestion.
 - **`CPR`** — CheckPoint and Release: the checkpoint, then the project's release to
   production. `git CPR` authorises both; `CPR` alone asks before the release.
@@ -136,7 +136,7 @@ after the docs and git are safe. Note the proposals now, while the session is fr
   declined it — so no later checkpoint proposes it again
 
 Approved changes are committed as Step 9 says. If there is nothing that meets the bar, Step
-6 leaves the question out — don't manufacture something to improve or create.
+9 leaves the question out — don't manufacture something to improve or create.
 
 ## Step 3 — Write/update the deep documentation
 

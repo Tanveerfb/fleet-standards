@@ -71,8 +71,10 @@ Play the answers back in a few lines before Step 2.
 
 ## Step 2 — Scaffold, by kind
 
-**Every kind:** with the owner's yes, `git init` in the new folder — Step 4's credential
-hook needs a repository, and nothing is committed until the owner's first checkpoint. A
+**Every kind:** with the owner's yes, `git init` in the project folder — Step 4's credential
+hook needs a repository, and nothing is committed until the owner's first checkpoint. A web
+project's folder is made by `create-next-app <name>`, run from the folder that will hold
+it, so there `git init` comes after the scaffold, inside `<name>`. A
 `.gitignore` that covers `.env*` and `.secrets/` (§SECURITY), with an `!.env.example`
 exception where the kind keeps one.
 

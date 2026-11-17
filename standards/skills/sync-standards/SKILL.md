@@ -117,7 +117,10 @@ everything untouched.
    the standard's only if every file in it is one the master has, opening with
    `# Fleet rules —`. A folder that holds anything else — a game's rules, Firestore or
    storage rules, lint rules — **stops the sync**: say what is there and ask the owner how to
-   proceed. Never write into it, move it or rename it unasked.
+   proceed. Never write into it, move it or rename it unasked. The way forward to offer: move
+   the project's own files to a folder named for what they are (`game-rules/`,
+   `firestore/`), with `git mv`, and update every path that points at them (configs, imports,
+   `CLAUDE.md`), then build or run what reads them before the sync goes on.
 1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy, and each file the
    *Rules* line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
    Copy only what is declared. **A project with no *Rules* line** is coming from the single

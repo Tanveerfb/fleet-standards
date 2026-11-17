@@ -37,6 +37,11 @@ From the conversation, establish — and ask only for what is genuinely missing:
 - **Kind:** fix, addition, loosening, removal. A removal says what the rule was protecting
   and why that no longer matters.
 
+**Nothing private goes into a proposal.** `fleet-standards` is public. No credentials, client
+names or data, internal URLs, or code from a client's repository: describe the evidence in
+general terms ("a client's web app", "a form with a file upload"). In a client project,
+quoting even the file path is the owner's call.
+
 ## Step 2 — Check it is not already proposed
 
 Search open issues on `Tanveerfb/fleet-standards` for the same section or topic. If one exists, the
