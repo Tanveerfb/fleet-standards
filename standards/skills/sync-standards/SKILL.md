@@ -120,9 +120,11 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
      of their own: "a fleet sync must not put the import back", 70 KB of Next.js rules that
      did not apply. **Never restore either unasked.** Quote the entry, say what changed (the
      core is about 31 KB, all of it applies to every kind, and the kind's files are the only
-     others loaded), and ask. A no stands: leave the import out, record the answer in
-     `decisions.md`, and say in the report that the project reads its rules by reference.
-     The same holds for the skill copies in Step 5.
+     others loaded), and ask. A no stands: leave the import and the *Rules* line out (the
+     startup check would report a declared file not imported every session), record the
+     answer in `decisions.md`, and say in the report that the project reads its rules by
+     reference. A later sync that finds that answer recorded asks nothing. The same holds
+     for the skill copies in Step 5.
    - **Which files the project loads.** Work out its kind from the repository (a Next.js
      app, a Node tool, a tool in another language, a game in an engine, no application code)
      and whether it has a visual surface, then **confirm it with the owner in one question**
