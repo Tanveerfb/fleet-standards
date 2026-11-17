@@ -84,9 +84,10 @@ planned.push([
 //                           silent when the project registers this one.
 const HOOKS = [
   { file: "block-shell-writes.mjs", event: "PreToolUse", matcher: "Bash|PowerShell" },
-  { file: "after-compact.mjs", event: "SessionStart", matcher: "compact|resume" },
+  // --project-copy: the script cannot always tell from paths that it is the project's copy.
+  { file: "after-compact.mjs", event: "SessionStart", matcher: "compact|resume", args: " --project-copy" },
 ];
-const commandOf = (file) => `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${file}"`;
+const commandOf = (file, args = "") => `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${file}"${args}`;
 for (const { file } of HOOKS) {
   planned.push([join(project, ".claude", "fleet", "scripts", file), readFileSync(join(standards, "scripts", file), "utf8")]);
 }
@@ -98,24 +99,43 @@ if (existsSync(settingsPath)) {
     settings = JSON.parse(readFileSync(settingsPath, "utf8"));
   } catch {
     settingsReadable = false;
-    console.log(`! .claude/settings.json is not valid JSON: register the hooks by hand — ${HOOKS.map((h) => `${h.event} (${h.matcher}): ${commandOf(h.file)}`).join("; ")}`);
+  }
+  // Valid JSON that is not an object (`null`, a list) is as unusable as invalid JSON.
+  if (!settings || typeof settings !== "object" || Array.isArray(settings)) settingsReadable = false;
+  if (!settingsReadable) {
+    settings = {};
+    console.log(`! .claude/settings.json is not a JSON object: register the hooks by hand — ${HOOKS.map((h) => `${h.event} (${h.matcher}): ${commandOf(h.file, h.args)}`).join("; ")}`);
   }
 }
 if (settingsReadable) {
   let added = false;
-  for (const { file, event, matcher } of HOOKS) {
-    const command = commandOf(file);
-    const registered = settings?.hooks?.[event]?.find((entry) => entry?.hooks?.some((h) => h?.command === command));
+  for (const { file, event, matcher, args } of HOOKS) {
+    const command = commandOf(file, args);
+    const script = `.claude/fleet/scripts/${file}`;
+    const list = Array.isArray(settings?.hooks?.[event]) ? settings.hooks[event] : null;
+    const registered = list?.find((entry) => Array.isArray(entry?.hooks) && entry.hooks.some((h) => typeof h?.command === "string" && h.command.includes(script)));
     if (registered) {
-      // An older sync registered the guard for Bash alone; bring the tools it covers up to date.
+      // An older sync registered the guard for Bash alone, or the hook without its flag:
+      // bring the registration up to date in place, never add a second one.
       if (registered.matcher !== matcher) {
         registered.matcher = matcher;
         added = true;
       }
+      for (const h of registered.hooks) {
+        if (typeof h?.command === "string" && h.command.includes(script) && h.command !== command) {
+          h.command = command;
+          added = true;
+        }
+      }
       continue;
     }
     settings.hooks ??= {};
-    settings.hooks[event] ??= [];
+    const hooksOk = typeof settings.hooks === "object" && settings.hooks !== null && !Array.isArray(settings.hooks);
+    if (hooksOk) settings.hooks[event] ??= [];
+    if (!hooksOk || !Array.isArray(settings.hooks[event])) {
+      console.log(`! .claude/settings.json has an unexpected hooks.${event}: register it by hand — ${matcher}: ${command}`);
+      continue;
+    }
     settings.hooks[event].push({ matcher, hooks: [{ type: "command", command, timeout: 10 }] });
     added = true;
   }

@@ -40,7 +40,9 @@ function readVersion(file) {
 
 function readState(file) {
   try {
-    return JSON.parse(readFileSync(file, "utf8"));
+    const state = JSON.parse(readFileSync(file, "utf8"));
+    // Valid JSON that is not an object (`null`, a list) would throw on the first lookup.
+    return state && typeof state === "object" && !Array.isArray(state) ? state : {};
   } catch {
     return {};
   }

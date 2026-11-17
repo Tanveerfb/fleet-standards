@@ -29,9 +29,12 @@ try {
     const projectDir = resolve(process.env.CLAUDE_PROJECT_DIR || input?.cwd || process.cwd());
     const onTheStandard = existsSync(join(projectDir, "docs", "STATUS.md")) || existsSync(join(projectDir, "project-rules.md"));
 
-    // Is this the plugin's copy, and does the project register one of its own?
+    // Is this the plugin's copy, and does the project register one of its own? The project's
+    // registration passes --project-copy: through a symlink or junction the paths compared
+    // below can differ, and the project's copy would take itself for the plugin's and stay
+    // silent too. The path check stays for registrations made before the flag.
     const projectCopy = join(projectDir, ".claude", "fleet", "scripts");
-    const isProjectCopy = here === projectCopy || here.startsWith(projectCopy + sep);
+    const isProjectCopy = process.argv.includes("--project-copy") || here === projectCopy || here.startsWith(projectCopy + sep);
     let projectRegistersIt = false;
     if (!isProjectCopy) {
       try {

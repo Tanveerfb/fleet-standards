@@ -263,6 +263,10 @@ section("Relay after compact (standards/scripts/after-compact.mjs)");
   cpSync(script, ownScript);
   check("the plugin's copy is silent where the project registers its own", silent(hook(own, JSON.stringify({ source: "compact" }))));
   check("the project's own copy speaks", context(hook(own, JSON.stringify({ source: "compact" }), ownScript)).includes("full relay skill"));
+  // Through a symlink or junction the path check can fail; the registered flag still says
+  // which copy this is (audit B12). Run from the plugin's path, so only the flag can tell.
+  const flagged = run("node", [script, "--project-copy"], { input: JSON.stringify({ source: "compact" }), env: { ...process.env, CLAUDE_PROJECT_DIR: own } });
+  check("--project-copy speaks where the paths do not show it is the project's copy", context(flagged).includes("full relay skill"));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -302,6 +306,9 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   check("bad --decline arguments: exit 1", run("node", [script, "--decline", "x", "y"]).status === 1);
   writeFileSync(state, "{not json");
   check("corrupt state file: still speaks, never crashes", hook(behind).status === 0 && hook(behind).stdout.includes("additionalContext"));
+  writeFileSync(state, "null");
+  check("a state file holding null: still speaks", hook(behind).stdout.includes("additionalContext"));
+  check("and --decline over it records the version", decline(rulesVersion).status === 0 && JSON.parse(readFileSync(state, "utf8"))[behind] === rulesVersion);
 
   // The declared set (rules-line.mjs): a current core with the set wrong is not silent.
   const setProject = (name, claude, files) => {
@@ -522,6 +529,18 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   const compactEntries = (p) => (settingsOf(p).hooks?.SessionStart ?? []).filter((e) => e.hooks?.some((h) => h.command.includes("after-compact.mjs")));
   check("the relay-after-compact hook is copied", existsSync(join(project, ".claude", "fleet", "scripts", "after-compact.mjs")));
   check("it is registered once, on compact|resume", compactEntries(project).length === 1 && compactEntries(project)[0].matcher === "compact|resume");
+  check("with --project-copy, so the script knows which copy it is", compactEntries(project)[0].hooks[0].command.endsWith(" --project-copy"));
+  {
+    // A project synced before the flag: the next sync updates the command, never adds one.
+    const file = join(project, ".claude", "settings.json");
+    const old = settingsOf(project);
+    old.hooks.SessionStart.find((e) => e.hooks?.some((h) => h.command.includes("after-compact.mjs"))).hooks[0].command =
+      'node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/after-compact.mjs"';
+    writeFileSync(file, JSON.stringify(old, null, 2) + "\n");
+    check("a registration without the flag is reported by --check", copy("--check").status === 1);
+    copy();
+    check("and updated in place, still registered once", compactEntries(project).length === 1 && compactEntries(project)[0].hooks[0].command.endsWith(" --project-copy"));
+  }
   check("process-x.md is copied for the rules to point at", existsSync(join(project, ".claude", "fleet", "process-x.md")));
   copy();
   check("a second run does not register either twice", hookEntries(project).length === 1 && compactEntries(project).length === 1);
@@ -572,6 +591,12 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   writeFileSync(join(existing, ".claude", "settings.json"), "{not json");
   const broken = run("node", [script, existing]);
   check("unreadable settings are left alone, with a warning", readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "{not json" && broken.stdout.includes("register the hooks by hand"));
+  writeFileSync(join(existing, ".claude", "settings.json"), "null");
+  const nulled = run("node", [script, existing]);
+  check("settings holding null: a warning, no crash, the file left alone", nulled.status === 0 && nulled.stdout.includes("register the hooks by hand") && readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "null", nulled.stderr);
+  writeFileSync(join(existing, ".claude", "settings.json"), JSON.stringify({ hooks: "x" }));
+  const oddHooks = run("node", [script, existing]);
+  check("a hooks value that is not an object: a warning, no crash", oddHooks.status === 0 && oddHooks.stdout.includes("register it by hand"), oddHooks.stderr);
 }
 
 // ---------------------------------------------------------------------------------------------
