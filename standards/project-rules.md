@@ -32,8 +32,9 @@ outcome in `decisions.md`, and update the standard if it should apply everywhere
 **A divergence `conventions.md` records as granted is settled**, not a conflict: follow it
 without asking again.
 
-**A section is cited by name; one outside the core names its file once**
+**The standard cites a section by name; one outside the core names its file once**
 (`rules/ui.md` §MOTION), so a reader knows where to look and whether the project loads it.
+A project's own documents cite the name alone, which survives a section moving file.
 
 **The standard is a set of files, split by concern.** Every repository loads this file, the
 core. The rest are loaded only where they apply:

@@ -188,8 +188,9 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      instead of importing it now imports the core and its files like any other project.
      Replace the "referenced, not imported" paragraph in `CLAUDE.md` with the import lines.
    - **Section references that name the file** (`project-rules.md §FIREBASE`) for a section
-     that moved are corrected to the section name alone. No section was renamed. Never in
-     `decisions.md`.
+     that moved are corrected to the section name alone, as a project's documents cite it
+     (§SCOPE; only the standard's own files name a section's file). No section was renamed.
+     Never in `decisions.md`.
 
    **b. The *Deploys* line (§GIT).** *If it does not say single-branch, multi-branch or local
    only,* ask once and write the answer. *If it says multi-branch without naming the working

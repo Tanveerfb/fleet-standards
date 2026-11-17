@@ -490,7 +490,8 @@
 
     "**Where the standard and a project's `conventions.md` disagree, stop and ask.**",
     "outcome in `decisions.md`, and update the standard if it should apply everywhere.",
-    "**A section is cited by name; one outside the core names its file once**",
+    "**The standard cites a section by name; one outside the core names its file once**",
+    "A project's own documents cite the name alone, which survives a section moving file.",
     "(`rules/ui.md` §MOTION), so a reader knows where to look and whether the project loads it.",
     "| `components.md` | What already exists (or a table in `design-system.md`: `rules/ui.md` §COMPONENTS) | A component is added, moved or removed |",
     "- **Ask when the standard and `conventions.md` conflict** (§SCOPE)",
