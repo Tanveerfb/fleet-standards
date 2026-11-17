@@ -87,11 +87,17 @@ and the data adapter, where there is one, in `lib/data/` (`rules/app.md` §DATA,
 
 ## §NPM — Package manager
 
-- **npm is the fleet default.** Use it unless the project's own `CLAUDE.md` explicitly says
-  otherwise.
-- A project may pin a different manager for its own reasons. That is a per-project override,
-  **documented in that project's `CLAUDE.md`**, not a fleet change. Do not switch a
-  project's package manager without asking.
+- **New projects use pnpm.** Vercel and Firebase (App Hosting and Cloud Functions) both pick
+  it from `pnpm-lock.yaml`, checked 2026-11-18. Pin its version in `package.json`'s
+  `packageManager` field. pnpm blocks dependencies' install scripts unless allowed, and
+  Firebase's no-argument SDK setup needs one: allow it in `pnpm-workspace.yaml`
+  (`allowBuilds`; `onlyBuiltDependencies` on pnpm 10 and older)
+- **An existing project keeps its manager.** Most are on npm, which stays. Never switch a
+  project's manager without asking, and keep exactly one lockfile: two lockfiles is a fault
+  to fix, on the owner's word about which goes
+- **The manager is named in the project's `CLAUDE.md`** (its *Commands*). Commands in this
+  set are written for npm; a pnpm project runs the same with `pnpm` (`npm run build` is
+  `pnpm build`, `npx` is `pnpm dlx`)
 
 ---
 

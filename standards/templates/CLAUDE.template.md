@@ -104,9 +104,13 @@ it and get a yes, not never touch.
 ## Commands
 
 ```bash
-npm run dev            # <port, and anything non-obvious about how it starts>
-npm run build          # production build — verify after changes
+pnpm dev               # <port, and anything non-obvious about how it starts>
+pnpm build             # production build — verify after changes
 ```
+
+<!-- The manager the project uses (§NPM): pnpm for a new project, or the one an existing
+     project kept, written here as its commands. -->
+
 
 <!-- State plainly which scripts DO NOT exist. A session that assumes a test or lint script
      will invent one. In a repository without application code (§SCOPE), replace this

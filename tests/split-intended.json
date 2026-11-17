@@ -239,7 +239,12 @@
     "Nothing is built before it is picked, and a visual change is locked before it is built. It",
     "counts as that release's deep audit.",
     "them rather than improvising a commit process.**",
-    "or request back as an issue on `fleet-standards`. **Never edit this file in place inside a project** —"
+    "or request back as an issue on `fleet-standards`. **Never edit this file in place inside a project** —",
+    "- **npm is the fleet default.** Use it unless the project's own `CLAUDE.md` explicitly says",
+    "  otherwise.",
+    "- A project may pin a different manager for its own reasons. That is a per-project override,",
+    "  **documented in that project's `CLAUDE.md`**, not a fleet change. Do not switch a",
+    "  project's package manager without asking."
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -535,6 +540,17 @@
     "inside a project** — this file, `rules/`, the skill copies, or anything under `.claude/fleet/`:",
     "- **Read a rewritten config's diff before reverting it.** A file its own tool rewrote (an",
     "  engine, an IDE, a build tool) can carry noise and a real change in the same diff: compare",
-    "  the settings and restore only the noise. Never a blind `git checkout -- <file>`"
+    "  the settings and restore only the noise. Never a blind `git checkout -- <file>`",
+    "- **New projects use pnpm.** Vercel and Firebase (App Hosting and Cloud Functions) both pick",
+    "  it from `pnpm-lock.yaml`, checked 2026-11-18. Pin its version in `package.json`'s",
+    "  `packageManager` field. pnpm blocks dependencies' install scripts unless allowed, and",
+    "  Firebase's no-argument SDK setup needs one: allow it in `pnpm-workspace.yaml`",
+    "  (`allowBuilds`; `onlyBuiltDependencies` on pnpm 10 and older)",
+    "- **An existing project keeps its manager.** Most are on npm, which stays. Never switch a",
+    "  project's manager without asking, and keep exactly one lockfile: two lockfiles is a fault",
+    "  to fix, on the owner's word about which goes",
+    "- **The manager is named in the project's `CLAUDE.md`** (its *Commands*). Commands in this",
+    "  set are written for npm; a pnpm project runs the same with `pnpm` (`npm run build` is",
+    "  `pnpm build`, `npx` is `pnpm dlx`)"
   ]
 }

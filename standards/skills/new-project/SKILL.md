@@ -74,12 +74,13 @@ hook needs a repository, and nothing is committed until the owner's first checkp
 `.gitignore` that covers `.env*` and `.secrets/` (§SECURITY), with an `!.env.example`
 exception where the kind keeps one.
 
-**Web project.** Check the current options first (`npx create-next-app@latest --help`) —
-flags change (§PACKAGES). As of this writing:
+**Web project.** Check the current options first (`pnpm dlx create-next-app@latest --help`)
+— flags change (§PACKAGES). As of this writing, with pnpm, the manager for a new project
+(§NPM):
 
 ```bash
-npx create-next-app@latest <name> --ts --tailwind --eslint --app --src-dir \
-  --import-alias "@/*" --use-npm --disable-git
+pnpm dlx create-next-app@latest <name> --ts --tailwind --eslint --app --src-dir \
+  --import-alias "@/*" --use-pnpm --disable-git
 ```
 
 `--disable-git` so the scaffold makes no commit of its own (§GIT); `git init` follows, as
@@ -96,7 +97,7 @@ block), keep it; Step 4 adds the pointer above the block. Then, before anything 
 - **Environment checking** (§RUNTIME): `src/lib/env.ts` with server and client zod schemas,
   and a committed `.env.example`. Variables are added to both as they appear.
 
-**Local Node tool.** No framework. `package.json` (`npm init -y`, then the name, `type`,
+**Local Node tool.** No framework. `package.json` (`pnpm init`, then the name, `type`,
 `engines.node` and `.nvmrc` as §RUNTIME says), `tsconfig.json` strict (§TS), and the
 scripts `rules/node.md` §BUILD names. Every dependency is the owner's yes (§AGENTS).
 
@@ -228,11 +229,12 @@ Used once, here, so it lives in this skill rather than in a rules file every ses
       applicable, web search
 - [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, every
       model call protected before any AI feature ships (§AI)
-- [ ] Vitest installed and `npm test` wired (§TESTING)
-- [ ] First `npm run build` passes clean — last
+- [ ] pnpm pinned in `packageManager`, one lockfile (§NPM)
+- [ ] Vitest installed and `pnpm test` wired (§TESTING)
+- [ ] First `pnpm build` passes clean — last
 
 **Local Node tool, in addition:** `tsconfig.json` strict; Node pinned in `engines` and
-`.nvmrc`; Vitest and `npm test` once there is logic to test (`rules/node.md`); the typecheck
+`.nvmrc`; pnpm pinned in `packageManager`; Vitest and `pnpm test` once there is logic to test (`rules/node.md`); the typecheck
 passes — last.
 
 **Game, in addition:** the profile block in `conventions.md`; the engine's test add-on
