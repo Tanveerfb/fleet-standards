@@ -202,7 +202,21 @@
     "  site (Firebase Remote Config, or the platform's flags)",
     "— at a checkpoint, or on a working branch at the end of a piece of work. A long string of",
     "small commits is not tidiness — it is the thing this rule exists to prevent, and it makes a",
-    "session's history harder to read rather than easier."
+    "session's history harder to read rather than easier.",
+
+    "  *decide for me* from a description of the site's purpose and audience,",
+    "  *surprise me* from the motifs that suit it, or bring your own. Each motif is a",
+    "  family: once one is picked, offer its named variants, one or two suggested",
+    "  variants — one built from the existing tokens where the project has them —",
+    "  Custom, and *decide for me*. Ground every suggestion in subject and audience:",
+    "  a tool used outdoors on a phone and a dashboard read at a desk are different",
+    "  design problems",
+    "- **Universe-inspired** (a motif drawn from a fictional world) has no option",
+    "  list: ask which world, research it on the web, ask scoping questions, and get",
+    "  a written brief confirmed before any design work — the process is in",
+    "  `motifs.md`. Inspired, never copied",
+    "- **The `design-motif` skill runs this whole process** — use it rather than",
+    "  improvising one. `new-project` calls it before any interface work"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -261,7 +275,6 @@
 
     "[`motifs.md`](../motifs.md) in the master copy of this standard.",
 
-    "  overhaul. Offer the five ways in from `motifs.md`: *show me* sample tiles, browse the catalogue,",
 
     "  **This rule is enforced, in part:** a PreToolUse hook (`scripts/block-shell-writes.mjs`) on",
     "  the Bash and PowerShell tools refuses inline interpreter code, text written to a file from",
@@ -476,6 +489,11 @@
     "name, except that **`git CPR` on a single-branch project fast-forwards the main branch to",
     "it** — fast-forward only, the target named from the *Deploys* line, never forced. `git CPR`",
     "is the only permission for that push. Never open a pull request unless the owner asks.",
-    "— at a checkpoint, or on a working branch at the end of a piece of work."
+    "— at a checkpoint, or on a working branch at the end of a piece of work.",
+
+    "  overhaul. **The `design-motif` skill runs the choice** — the ways in, the variants, a",
+    "  universe-inspired brief — so use it rather than improvising one; `new-project` calls it",
+    "  before any interface work. Every suggestion is grounded in subject and audience",
+    "- **Universe-inspired** motifs are inspired by a fictional world, never copied from it"
   ]
 }

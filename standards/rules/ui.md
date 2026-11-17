@@ -17,19 +17,11 @@ motion. The catalogue, and how each motif is used, is
 [`motifs.md`](../motifs.md) in the master copy of this standard.
 
 - **Choose it before designing** — at a new project, or at a redesign or design
-  overhaul. Offer the five ways in from `motifs.md`: *show me* sample tiles, browse the catalogue,
-  *decide for me* from a description of the site's purpose and audience,
-  *surprise me* from the motifs that suit it, or bring your own. Each motif is a
-  family: once one is picked, offer its named variants, one or two suggested
-  variants — one built from the existing tokens where the project has them —
-  Custom, and *decide for me*. Ground every suggestion in subject and audience:
-  a tool used outdoors on a phone and a dashboard read at a desk are different
-  design problems
+  overhaul. **The `design-motif` skill runs the choice** — the ways in, the variants, a
+  universe-inspired brief — so use it rather than improvising one; `new-project` calls it
+  before any interface work. Every suggestion is grounded in subject and audience
 - **A project that already has a motif keeps it.** Record it; do not re-choose
-- **Universe-inspired** (a motif drawn from a fictional world) has no option
-  list: ask which world, research it on the web, ask scoping questions, and get
-  a written brief confirmed before any design work — the process is in
-  `motifs.md`. Inspired, never copied
+- **Universe-inspired** motifs are inspired by a fictional world, never copied from it
 - **One motif.** A blend only with the owner's approval, recorded as its own
   motif
 - **Record it** in `design-system.md` (the block is in `motifs.md`) and the
@@ -39,8 +31,6 @@ motion. The catalogue, and how each motif is used, is
   text stay plainly readable
 - **Starter kits and full motif specs** are produced on request — proposals,
   approved through the mockup loop (§OWNER) like any visual change
-- **The `design-motif` skill runs this whole process** — use it rather than
-  improvising one. `new-project` calls it before any interface work
 
 Then, always:
 
