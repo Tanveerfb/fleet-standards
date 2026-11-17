@@ -165,6 +165,9 @@ issues is the churn, status is the current position.
   Propose them
 - Check what already exists before creating anything: the filesystem, and
   `components.md` where the project keeps one (`rules/ui.md` §COMPONENTS)
+- **Before touching an interface file, read `rules/ui.md`** where the project loads it — a
+  component, a page, a style, a game's UI scene — however the session began, a script or a
+  question included. Its rules and §OWNER's visual ones bind every interface change
 - Do not introduce a colour, size, spacing or motion value outside
   `design-system.md`
 - Where the project has a data adapter or a status map, never bypass it

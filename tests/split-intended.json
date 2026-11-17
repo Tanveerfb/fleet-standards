@@ -556,6 +556,9 @@
     "  `decisions.md`, never for a web project, a client's project or anything deployed. It keeps",
     "  the type checking: `.mjs` files, a `tsconfig.json` with `\"checkJs\": true`, `\"strict\": true`",
     "  and `\"noEmit\": true`, types in JSDoc, and `tsc --noEmit` passing as it would for",
-    "  TypeScript. The rules below hold, written in JSDoc"
+    "  TypeScript. The rules below hold, written in JSDoc",
+    "- **Before touching an interface file, read `rules/ui.md`** where the project loads it — a",
+    "  component, a page, a style, a game's UI scene — however the session began, a script or a",
+    "  question included. Its rules and §OWNER's visual ones bind every interface change"
   ]
 }
