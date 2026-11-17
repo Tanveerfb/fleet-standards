@@ -151,6 +151,10 @@ issues is the churn, status is the current position.
 - **Ask before structural decisions** — navigation, auth strategy, folder
   conventions
 - **Ask when the standard and `conventions.md` conflict** (§SCOPE)
+- **When nobody can answer** (a GitHub Action, a scheduled run), never guess what would be
+  asked. Stop the part that needs the answer, finish what does not, and leave the question
+  where the owner will see it (the run's output, the pull request, `Start here`'s *Blocked
+  on*) with the options and a recommendation
 
 ---
 

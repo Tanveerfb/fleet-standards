@@ -701,6 +701,10 @@
     "  heredoc that only feeds a command's input (a commit message) is fine, and so are files a",
     "  tool generates. A bulk change is made file by file; a script that changes files is shown",
     "  to the owner and asked about first. A hook (`scripts/block-shell-writes.mjs`) refuses the",
-    "  common forms; what it misses is still forbidden"
+    "  common forms; what it misses is still forbidden",
+    "- **When nobody can answer** (a GitHub Action, a scheduled run), never guess what would be",
+    "  asked. Stop the part that needs the answer, finish what does not, and leave the question",
+    "  where the owner will see it (the run's output, the pull request, `Start here`'s *Blocked",
+    "  on*) with the options and a recommendation"
   ]
 }
