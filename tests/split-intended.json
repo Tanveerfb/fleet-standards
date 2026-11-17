@@ -250,7 +250,9 @@
     "| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |",
     "  change even though git never ships it; §GIT's branch rules govern only the repository",
     "  (`firebase_validate_security_rules` via the Firebase MCP), then",
-    "  `firebase deploy --only firestore:rules`. Then read the live rules back and compare them"
+    "  `firebase deploy --only firestore:rules`. Then read the live rules back and compare them",
+    "- Where documentation and code disagree, the documentation is the intent and the",
+    "  code is the bug, unless told otherwise"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -667,6 +669,12 @@
     "**On a multi-branch project, `git CPR` fast-forwards the working branch to the harness",
     "branch** the same way, then releases as the *Deploys* line declares. Until then the work is",
     "on the harness branch alone: the checkpoint says so by name, and the next session's relay",
-    "lists it."
+    "lists it.",
+    "**A divergence `conventions.md` records as granted is settled**, not a conflict: follow it",
+    "without asking again.",
+    "- Where a spec, `data-model.md`, `design-system.md` or a locked design disagrees with the",
+    "  code, the document is the intent and the code is the bug, unless told otherwise. A status",
+    "  doc, README or handoff that disagrees with the code is the stale one: the repo wins, and",
+    "  the document is corrected"
   ]
 }

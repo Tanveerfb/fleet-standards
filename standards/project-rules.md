@@ -29,6 +29,8 @@ These rules are the default for every project. A project may hold its own
 Neither wins by default — a conflict usually means one of the two is out of
 date, and resolving it is the owner's decision, not an inference. Record the
 outcome in `decisions.md`, and update the standard if it should apply everywhere.
+**A divergence `conventions.md` records as granted is settled**, not a conflict: follow it
+without asking again.
 
 **A section is cited by name; one outside the core names its file once**
 (`rules/ui.md` §MOTION), so a reader knows where to look and whether the project loads it.
@@ -175,8 +177,10 @@ issues is the churn, status is the current position.
   (`rules/app.md` §DATA, §LIFECYCLE)
 - Do not add dependencies without asking
 - Never read a credential file's contents into context
-- Where documentation and code disagree, the documentation is the intent and the
-  code is the bug, unless told otherwise
+- Where a spec, `data-model.md`, `design-system.md` or a locked design disagrees with the
+  code, the document is the intent and the code is the bug, unless told otherwise. A status
+  doc, README or handoff that disagrees with the code is the stale one: the repo wins, and
+  the document is corrected
 - Git follows §GIT, without exception
 - **Read a rewritten config's diff before reverting it.** A file its own tool rewrote (an
   engine, an IDE, a build tool) can carry noise and a real change in the same diff: compare
