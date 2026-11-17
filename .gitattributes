@@ -1,0 +1,4 @@
+# project-rules.md §GIT: shell scripts keep LF. This repository's credential hook runs from
+# standards/templates (git config core.hooksPath standards/templates).
+*.sh text eol=lf
+standards/templates/pre-commit text eol=lf

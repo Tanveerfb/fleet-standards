@@ -12,15 +12,30 @@ of the same facts drift, and the stale one is indistinguishable from the current
 goes here; there is nowhere else for it to go.
 
 @project-rules.md
-<!-- If a tool generates AGENTS.md, add `@AGENTS.md` above this line and say so here. -->
-<!-- Non-application profile (project-rules.md §SCOPE): delete the @project-rules.md line and
-     use this instead, so the Next.js parts are not loaded every session:
+@rules/app.md
+@rules/ui.md
+@rules/node.md
+@rules/web.md
+<!-- If a tool generates AGENTS.md, add `@AGENTS.md` above these lines and say so here. -->
+<!-- One import per file of the standard this project loads (project-rules.md §SCOPE). The
+     lines above are a web project's; keep the ones for this kind of repository and delete
+     the rest: §SCOPE's second table says which files each kind loads. The *Rules* line under
+     Project identity names the same files, and `sync-standards` copies exactly those.
 
-     **Rules: `project-rules.md`, referenced, not imported** (non-application profile). The
-     sections that apply here are Part A (§SCOPE to §TOOLS), §SECURITY, §NAMING's vocabulary
-     and file names, and §DESIGN with §TESTING's seen-working rule <or: "no visual surface">.
-     **Read the section before git, documentation, security or design work** — never act
-     on memory of it. -->
+     An option the project chose is imported too: `@rules/options/trello.md`,
+     `@rules/options/firebase.md`, `@rules/options/sqlite.md`. The credit option is not imported: the skills read it when
+     they reach its step, and the Studio lines below carry the answers. The AI option is not
+     imported either; it is read on demand, so a project that chose it keeps this line instead:
+     **Read `rules/options/ai.md` before any work on an AI feature** — never act on memory
+     of it.
+     `ai-setup` writes that line here and in `src/lib/ai/CLAUDE.md`, an area file that loads
+     by itself when AI code is read. -->
+<!-- Area files (§SCALE): once the project has them, add a table here — each area file, what
+     it holds, when to read it — and this line: **Read the area file for your work before
+     starting, wherever that work sits.** An area file loads on its own only when a file
+     inside its folder is read. -->
+<!-- This file holds what is true now (§DOCS). A replaced line moves, word for word, to
+     `docs/record/<area>.md`; it never stays here as a "was". -->
 
 ## Project identity
 
@@ -30,12 +45,17 @@ goes here; there is nowhere else for it to go.
 - **Deploys**: <**single-branch**, **multi-branch** or **local only** (§GIT), then where,
   from which branch, and whether that branch auto-deploys. Local only: no remote by decision,
   and where the work lands, if anywhere. Live domain or real users → multi-branch: work on an
-  update branch, release on `git CPR`. Multi-branch also names the release, e.g. "squash PR
-  into `main`". No application code → name the production surface (the tenant, the
+  update branch, release on `git CPR`. Multi-branch also names the working branch and the
+  release, e.g. "work on `dev`; squash PR into `main`". No application code → name the production surface (the tenant, the
   platform) and whether it has live users (§SCOPE)>
+- **Rules**: <the files under `rules/` this project loads, then the options it chose, as in
+  §SCOPE: "app, ui, node, web · Options: firebase, trello, credit, no-ai". Every option
+  asked is listed, the credit and Trello included; a declined one is written `no-<name>` so
+  it is not asked again. The same files as the import lines above;
+  `sync-standards` reads this line>
 - **Area files**: <the subfolder `CLAUDE.md` files that exist, or "none"> · **Map**:
   <`docs/architecture.md`, or "not yet">
-- **Trello board**: <url, or "none" — `project-rules.md` §TRELLO. No board means no Trello work>
+- **Trello board**: <url, or "none" — §TRELLO, `rules/options/trello.md`. No board means no Trello work>
 - **Motif**: <family — variant, recorded in `design-system.md`; or "not chosen yet — run design-motif" (§DESIGN)>
 - **Studio credit**: <yes — the owner's studio, and where it sits; no; or "no studio configured" (§CREDIT)>
 - **Studio showcase**: <yes — where on the studio site, and the request issue's link; no; or "no studio configured" (§CREDIT)>
@@ -43,12 +63,15 @@ goes here; there is nowhere else for it to go.
 ## Status
 
 `docs/STATUS.md` is the living project record — current state, open items, and what is
-verified versus assumed. **Read it first in a new session.**
+verified versus assumed. **Read it first in a new session.** History is kept apart, in files
+nothing loads by default: `docs/log.md` (the session log) and `docs/record/` (what the
+briefs used to say). Read them when the current files are unclear.
 
 Two documents sit above this one:
 
-- **`project-rules.md`** — the author's fleet-wide standard, imported above. Its version is
-  in its own header; don't restate it here. Master copy: `standards/project-rules.md` in
+- **`project-rules.md` and the files under `rules/`** — the author's fleet-wide standard,
+  imported above. Its one version is in `project-rules.md`'s header; don't restate it here.
+  Master copy: `standards/project-rules.md` and `standards/rules/` in
   `github.com/Tanveerfb/fleet-standards`.
 - **`conventions.md`** — what this project does differently, and **why each divergence was
   granted**. Per `project-rules.md` §SCOPE, **where the fleet rules and `conventions.md`
@@ -63,7 +86,7 @@ Two documents sit above this one:
 
 ## Working agreement
 
-Everything in `project-rules.md` applies and is **not repeated here** — two copies of a rule
+Everything in the files imported above applies and is **not repeated here** — two copies of a rule
 drift. The owner's standing agreement is **§OWNER**; git is **§GIT**, which depends on the
 *Deploys* line above (single-branch: `git checkpoint` = commit and push, anything else = no
 git; multi-branch: the working branch commits on its own, production only on `git CPR`). Add
@@ -77,20 +100,26 @@ it and get a yes, not never touch.
 ## Commands
 
 ```bash
-npm run dev            # <port, and anything non-obvious about how it starts>
-npm run build          # production build — verify after changes
+pnpm dev               # <port, and anything non-obvious about how it starts>
+pnpm build             # production build — verify after changes
 ```
 
-<!-- State plainly which scripts DO NOT exist. A session that assumes a test or lint script
-     will invent one. In a repository without application code (§SCOPE), replace this
-     section with one line saying no commands exist, and make the Technology table below
-     describe the platform (tenant, services, licences) instead of a framework. -->
+<!-- The commands above are a web project's on pnpm. Write this kind's own, in the manager
+     it uses (§NPM): an existing project keeps npm if it is on npm; a Python package's are
+     `uv run pytest`, `uv run ruff check`, `uv run pyright` (§PYTHON); a game's are its
+     engine's headless run (`rules/game.md`). State plainly which scripts DO NOT exist: a
+     session that assumes a test or lint script will invent one. In a repository without
+     application code (§SCOPE), replace this section with one line saying no commands exist,
+     and make the Technology table below describe the platform (tenant, services, licences)
+     instead of a framework. -->
 
-**Do not use `npm run lint` to validate builds — use `npm run build`.**
+**Lint does not prove the build: before a checkpoint, run the build** (`pnpm build` here).
 
 ## Technology
 
-Verified against `package.json` and `node_modules`, **<DATE>**.
+Verified against `package.json` and `node_modules` (or `pyproject.toml` and `uv.lock`, or
+the engine's project file), **<DATE>**. The rows below are a web project's; write this kind's
+own.
 
 | | |
 | --- | --- |

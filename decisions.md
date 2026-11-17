@@ -126,3 +126,464 @@ write: a guess about what code does is easy to slip past. Written fresh rather t
 toll-kits' reference hook, which was not reachable from this session; it strips heredoc
 bodies and quoted text before looking, so the commit-message false positive the issue
 describes does not occur. This repository registers it for itself too.
+
+## 2026-11-12 — v3.9.0: all fourteen proposals, #20 to #33, in one release
+
+The owner's choice, over the small ones now and the large later, or going through them one
+by one. Issue #25 is folded into #28: the same game profile, #28 the later and fuller
+wording after Process X. Each issue's wording was taken, with the agent's additions below.
+
+## 2026-11-12 — The game-engine profile: what the two issues left unplaced
+
+§SHORTCUTS applies in full; §PATTERNS joins the "where the game has the thing" group;
+§PACKAGES is read as add-ons. Neither issue placed them. §GIT, §DOCS and §SPECS are not
+listed, because "Part A in full" already covers them. The rules file is referenced, not
+imported, following the 2026-10-21 decision for profile projects — the issues did not say.
+One project's evidence, on one engine.
+
+## 2026-11-12 — Relay after compact: projects carry the hook too, and it arrives once
+
+Issue #26 says cloud sessions load the plugin's hooks; this repository's record says they
+install no plugins (2026-10-20, 2026-11-02), so `sync-standards` copies the hook into each
+project, as it does the shell-write hook. Two copies would print the instruction twice, so
+the plugin's copy stays silent where the project's settings register its own. Added to the
+issue: the hook is silent in a project with neither `docs/STATUS.md` nor `project-rules.md`,
+since the plugin is enabled in folders that keep no fleet record. Alternative turned down:
+plugin only, trusting the issue's line about cloud sessions — unverified, and a miss there
+is silent. If the owner asks for compact instructions anyway, the answer is one line, as the
+issue proposed.
+
+## 2026-11-12 — History apart: the checkpoint migrates, and the fold moves to the log
+
+Added to issue #33: who moves an existing session log. The next checkpoint does, verbatim,
+rather than `sync-standards` (a sync changes rules, not records, and never commits) or a
+script (§AGENTS: files change through the editor tools). The ~800-line fold now applies to
+`docs/log.md`; dropping it was considered, since nothing auto-reads the log, but relay still
+opens that file for its newest entry. The root brief's record is `docs/record/root.md`; the
+issue named only `<area>`. The briefs' split is offered by `sync-standards` as its own piece
+of work, never done as a side effect.
+
+## 2026-11-12 — Process X: short form in §OWNER, the steps in their own file
+
+The issue offered §OWNER or §GIT; §OWNER, because it is the owner's process and not a git
+trigger. The seven steps as run in `godot-toll` are in `standards/process-x.md`, kept out of
+the rules file, which every session loads (69 KB at v3.8.0). The file is copied to projects
+through both reference lists so the rule's pointer resolves in a cloud session.
+
+## 2026-11-12 — `.gitattributes`: the hook folder too, and this repository
+
+Issue #20 covered `*.sh`. The credential hook is a shell script with no extension, so the
+template also pins `.githooks/*`. This repository gets a `.gitattributes` for its own hook.
+Found while testing: `tests/run.mjs` failed 14 frontmatter checks on a Windows checkout with
+`core.autocrlf` on, before any change; it now normalises line endings before reading.
+
+## 2026-11-12 — Skill descriptions stay plain YAML values, reworded rather than quoted
+
+`checkpoint` and `relay` did not load: "Goal: " in an unquoted description breaks the
+frontmatter. Reworded to drop the colon, and `tests/run.mjs` enforces it. Alternative turned
+down: quoting the whole description — every description is full of double quotes and
+apostrophes, each needing an escape, and `tests/run.mjs` and other agents' loaders read the
+line as plain text. CI's `claude plugin validate .` did not catch it; adding
+`claude plugin validate standards` to the workflow is left for the owner, since the workflow
+file was the target of the CI attack and is not changed without being asked.
+
+## 2026-11-12 — v4.0.0 planned: core and profiles
+
+The owner's four choices, planning v4 (`docs/specs/v4.md`):
+
+- **The rules file splits into a core and profiles** (web, game engine, non-application),
+  over keeping one file with all fourteen open issues in it, or a documentation overhaul
+  only. This reverses nothing from 2026-10-21: that entry declined a size budget, not a split.
+- **Issues #20 to #33 all ship inside v4.** The agent recommended the five small fixes as a
+  v3.9.0 first; the owner chose one release and one sync per project.
+- **§SECURITY gains rules from the 11–12 November token attack**, over a relay check alone.
+  A stolen token pushed a secret-stealing workflow to this repository's `main` three times
+  (`fd454a6`, `d8d0206`, `8898dc3`), each followed by a "restore"; `main`'s content is
+  identical to the v3.8.0 merge. The wording is a draft in the spec until the owner approves it.
+- **Issue #26's after-compact hook is also written into each project's settings**, because
+  cloud sessions load no plugin hooks, over keeping a short compact block for cloud.
+
+Five more, the same day, closing the spec's open questions:
+
+- **`project-rules.md` stays at the project root, profiles in `rules/` beside it**, over
+  moving everything under `.claude/fleet/`.
+- **Procedure moves from the core into skills in a later phase 5**, section by section on
+  the owner's yes, over doing it during the split or not at all.
+- **Process X is a process document**, as issue #29 proposes. The agent recommended a skill
+  plus two lines in §OWNER, since a document has no trigger phrase and cannot be evaluated;
+  the owner chose the document.
+- **Branch protection on the default branch is a rule where the GitHub plan allows it**,
+  over a recommendation.
+- **§FIREBASE stays in the web profile; only §AI is read on demand.**
+
+## 2026-11-12 — v4 also audits the standard, and motifs can be seen before they are picked
+
+Two additions from the owner, the same day:
+
+- **The standard gets its own Process X**, a whole audit of what exists, run **after the
+  split**. The agent recommended auditing first, so the split would move only what survives;
+  the owner chose split first. It replaces the "procedure into skills" phase recorded above,
+  which becomes one kind of audit finding. Whether it ships inside v4.0.0 or as v4.1.0 is
+  open in the spec.
+- **`design-motif` gains "Show me"**: the owner's point is that motif names mean little
+  until seen. Live sample tiles of three or four candidates on the project's own content,
+  plus a static gallery of the catalogue; over live drafts alone or a gallery alone. A
+  sample is a tile, over a hero section or a full page each, to keep a round cheap.
+
+## 2026-11-12 — Major versions carry a theme, from v4
+
+The owner's idea: each major version gets a codename and a look, as Android releases did,
+and the README is designed in it. Themes need not share a series or follow the number. v4's
+is not chosen. Also the owner, the same day: v4 is not in a hurry and is to be planned
+properly. The agent's advice on where a theme may and may not appear is in the spec, as
+advice, until the owner rules on it.
+
+## 2026-11-12 — v4: three layers, quality over size, the audit inside the release
+
+- **Three layers of files**: `project-rules.md` (how we work, every repository),
+  `rules/app.md` (engineering for any application code), then the stack (`rules/web.md`,
+  `rules/game.md`). Over one bigger core holding both, or a separate `rules/node.md`. It came
+  from a gap the split map found: local Node tools are a fourth kind of repository, beside
+  web projects, games and non-application repositories, and had no profile.
+- **Quality over size.** The owner: "a compromise on size is okay if it means better
+  workflow in the long run." So a non-application repository now imports the core, where it
+  used to read sections on demand; and v4 has no size target. This replaces the spec's
+  earlier size figures as an acceptance test; sizes are still recorded.
+- **The Process X audit is inside v4.0.0.** The owner's order: handle every open proposal,
+  then the audit and the adjustments it brings, then release. This settles the question left
+  open earlier today (it had been written as v4.1.0).
+- **Why v4 and no v3.9.0**: the owner's reason is that this is several updates in one, plus
+  the audit, taken slowly and done properly.
+
+## 2026-11-12 — v4 split map, rounds 1 to 3 with the owner
+
+The owner's standing instruction for v4: quality for the long term; suggestions look at the
+broader picture, not the short-term goal. Walked layer by layer (`docs/specs/v4-split-map.md`):
+
+- **The files split by concern, not into three layers**: core, `rules/app.md`, `rules/ui.md`,
+  `rules/node.md`, `rules/web.md`, `rules/game.md`, `rules/non-application.md` and
+  `rules/options/`. This refines the "three layers" entry above.
+- **`rules/node.md` is separate**, so `rules/app.md` stays true in any language; the owner's
+  tools are not all Node. Over putting the Node sections in `app.md` (the agent's first
+  recommendation) or leaving them in `web.md`.
+- **`rules/ui.md` is separate.** The owner: agents lacking UI awareness has been an issue in
+  a couple of projects.
+- **§CREDIT and §TRELLO leave the core for a new category, options** (the owner's idea):
+  things a project opts into at setup. §AI is filed there too.
+- **§FIREBASE becomes an option**, reversing the earlier entry that kept it in the web
+  profile. The owner: not every project needs Firebase; some may use Supabase or another
+  backend. godot-toll, a game, already uses it.
+- **§TESTING's universal lines go in the core** (the owner: every project needs testing),
+  over `app.md` and `ui.md`.
+- Every call that needs a rewording waits for the Process X audit, by the owner's ruling.
+  Raised by the owner and parked there: a more robust package manager than npm, and
+  JavaScript as a named choice for niche local projects.
+- **Round 4 approved**: the seven structural wording changes, the `Rules:` / `Options:`
+  line a project declares its files with, and a committed read-only script as the proof
+  that no line was lost.
+- **A machine inventory** (the owner's idea): `~/.claude/machine.md`, kept by a skill, so a
+  project knows what tools the machine has before it proposes one. In the owner's own files,
+  like the studio credit line, over a file in each project, which would repeat and drift.
+
+## 2026-11-13 — v3.9.0 is not released: its work folds into v4.0.0
+
+Two sessions ran apart on 2026-11-12. A cloud session planned v4 with the owner
+(`docs/specs/v4.md`, the five entries above, written about 21:00) and decided all fourteen
+issues ship inside v4 with no v3.9.0 first. A local session that had not fetched that branch
+then built v3.9.0 with the same fourteen issues (the eight entries above it, from 21:30). The
+owner's choice on finding both: **fold**. The built work stays, as v4's issue work done
+ahead of the split; no v3.9.0 pull request is opened, and issues #20 to #33 close with v4.
+Alternative turned down: release v3.9.0 first so the split starts from a released version
+and `godot-toll` gets its profile now (the agent's recommendation) — two syncs per project,
+against the plan's "one release, one sync".
+
+What follows from it:
+
+- **The split's baseline is the rules file as built** (76 KB, commit `1379baa`), not v3.8.0
+  (`bbe46d6`). The split still changes no wording.
+- **The version line reads 3.9.0 until phase 7**, where it becomes 4.0.0 and the changelog's
+  3.9.0 entry is folded into 4.0.0's. Renaming it now was considered: it would put a release
+  date on a version that is seven phases from release, and the map says not to touch the
+  version before phase 7. Nothing reads the line from this branch; projects compare against
+  `main`.
+- **Where the plan and the built work differ, the built work stands**, each already recorded
+  above: Process X's short form is in §OWNER; the game-engine profile is a block in §SCOPE,
+  which the split moves to `rules/game.md` instead of phase 2 writing it new.
+- The two branches are merged on the local branch, renamed `v4.0.0`. This file took both
+  sides whole; the v3.9.0 entries sit above the v4 plan's although they were written after.
+
+**The mistake worth keeping.** A session that starts work on a release fetches every remote
+branch first and reads any status newer than its own. "No open work" was true of the clone,
+not of the repository.
+
+## 2026-11-13 — v4 phase 1: three calls made while splitting
+
+- **§SCALE goes to the core.** The owner: "Yes, core". The alternative was `rules/app.md`.
+- **The non-application profile keeps its §NAMING and §TESTING lines.** The split map
+  replaced the profile's whole list with the `rules/ui.md` import, which would have dropped
+  both rules, since neither is in a file the profile loads. Kept word for word by the agent;
+  the owner: "Keep".
+- **CI fetches full history** so `tests/split-check.mjs` can read the baseline commit. The
+  owner's yes, after checking that `checks.yml` is the repository's own workflow from
+  2026-10-21 and not the one the attack pushed. Alternative: a copy of the baseline file
+  committed under `tests/` (76 KB of duplicate text, and a second thing to delete at the
+  release).
+
+## 2026-11-13 — `rules/options/ai.md` is read through an area file, not on memory
+
+The owner's choice. A project that chose AI carries the "read it before any AI work" line
+in the root `CLAUDE.md` and again in `src/lib/ai/CLAUDE.md`, which loads by itself when AI
+code is read; `ai-setup` writes both and `sync-standards` adds them at the v4 sync.
+Alternatives: the root line only (a line read at the start of a session is the thing §SCALE
+says gets forgotten); importing the file like the other options (6.6 KB in every session,
+reversing 2026-11-12). The area file holds an instruction, not an `@` import, so it reads
+the same for agents that do not follow imports.
+
+## 2026-11-13 — The game-engine profile, reworded for the split
+
+`rules/game.md` now says what a game loads (the core, `app`, `ui`, `game`) instead of
+listing Parts. Three things changed in substance, each because of where the split put a
+section: its "not applicable" list shrinks to §LIFECYCLE and §DATA, since the Node and
+Next.js files are simply not loaded; §PACKAGES is restated for add-ons in the file itself,
+because a game no longer loads the section it pointed at; and "referenced, not imported"
+goes, as it did for the non-application profile. One project's evidence still, on one engine.
+
+## 2026-11-13 — The motif gallery: the bigger tile, locked
+
+`standards/motif-gallery.html`, one tile for each of the 35 families: the same five pieces
+(a heading, a paragraph, a button, a card, an input) in light, then in dark. Shown a
+four-tile draft with light and dark side by side, the owner chose "Bigger tiles", one
+scheme per row, so each sample is wider and shows more texture; the page is about twice as
+long. Shown all 35, the owner: "Locked". The gallery is the deliverable, so it is its own
+locked design and no copy is kept under `docs/design/`.
+
+The agent's calls inside it: the page's own chrome is neutral, left for v4's theme in phase
+7; tiles are drawn by a script from one list, so a family is one entry and one style block
+(the alternative, 70 hand-written samples, drifts the first time the sample changes); the
+sample text is neutral bookkeeping copy. Web fonts come from Google Fonts and fall back to
+system fonts offline. Changing a tile now takes a new round with the owner.
+
+## 2026-11-13 — §SECURITY: five rules from the token attack, as drafted
+
+The owner: "Approve as worded", for the five sentences in `docs/specs/v4.md`. They are in
+the core, so every repository loads them. The agent raised two points before the answer,
+and neither was taken; both go to the phase 6 audit rather than being decided here:
+
+- The branch-protection rule says "where the plan allows it" and stops. The 2026-11-12
+  decision also had: where it does not, the gap is recorded in `conventions.md`.
+- "Changes arrive by pull request" sits against §GIT, under which a single-branch project
+  pushes to `main`.
+
+With it, `relay` Step 4 lists commits that touch `.github/workflows/` or
+`.claude/settings.json`. The agent added the remote's production branch to that check: the
+attack pushed straight to `main`, where a look at the clone alone would not have seen it.
+
+## 2026-11-13 — The machine inventory: a skill, a rule in §AGENTS, nothing in projects
+
+Built as agreed on 2026-11-12. The agent's calls: the rule is a bullet in §AGENTS, beside
+the other things an agent does before acting (alternatives: §TOOLS, which is about other
+agents; its own section, for one rule). The skill is not copied into projects: the copies
+exist for cloud sessions, which have no machine of the owner's. It asks before adding the
+import line to `~/.claude/CLAUDE.md`, which is the owner's own file. It has no eval case:
+its behaviour is a probe of a real machine, which a read-only eval cannot run.
+
+## 2026-11-13 — The audit of the standard: the owner picks the recommended set
+
+`docs/specs/v4-audit.md`, about 90 findings in eleven groups. The owner: "Recommended set".
+Picked: all of A (two places disagree), B (the guard and the checks), C (v4 end to end), D
+(rules by audience) and E (said twice); F1 to F6; H1 to H4; I1 to I5. Built one commit per
+finding, each named `audit <id>`.
+
+**Not picked, so not raised as new by the next audit:**
+
+- **F7** — four small gaps in `checkpoint` (`git CPR` on a local-only project, creating both
+  files at a first checkpoint, four documents missing from the project-docs step, a finished
+  item taking its Trello link with it).
+- **F8** — rules that projects do not follow with no exception granted (Vitest missing in 5,
+  the filename lint rule in 3). Also a question for the owner: raise a standing gap at the
+  checkpoint, or soften the rule.
+- **F9** — `machine-inventory`'s `timeout` wording, which is right in Bash only.
+- **H5** — running all eleven evals; it stays on phase 7's own list before release.
+
+Group G is phase 7's work whatever was picked. Group K is seven questions that need the
+owner's answers, not a pick; they are open.
+
+One thing reverses an earlier entry: **A1 rewords the branch-protection rule** the owner
+approved "as worded" earlier the same day, to the two points the agent had raised then. The pick of
+A1 is the owner's change of mind, made with the contradiction in front of them.
+
+## 2026-11-17 to 18 — Choices made while building the audit's groups A to E
+
+The owner picked each group in turn ("Yes, group B" … "Yes, group E"). Where a finding
+offered two fixes, or its fix needed a choice the audit did not make, the agent chose; each
+is recorded here so a later session does not re-decide it.
+
+- **Bare `CPR` is kept** (A4), and §GIT gained its row: as `checkpoint`, then ask before the
+  release. The alternative was dropping the phrase from the skill. Kept because the owner
+  uses the phrase family, and a phrase that asks before production is safe to keep.
+- **The workflow change (B7)** had the owner's yes: "Yes, apply". Actions pinned to the
+  commit their `v4` tags pointed at (v4.4.0), a 10-minute timeout, `claude plugin validate
+  standards` added. The triggers were left as they are.
+- **`sync-rules.mjs --apply` is gone** (I3, built ahead of its group): B9's tests found it
+  dying on a second piped answer, and `sync-standards` does the job with more care.
+- **Stale skill copies** (B10) are tracked through `.claude/fleet/copied.json`, the list of
+  what each sync wrote, and removed only with `--remove-stale` on the owner's yes. The
+  alternative, guessing from skill names, cannot tell a retired fleet skill from a project's
+  own.
+- **A declined import keeps its *Rules* line out too** (C3): with the line and no import,
+  the startup check would report a fault every session.
+- **Sections may divide between files** where the rule is shared and the stack's half is not:
+  §RUNTIME, §STATE and §PACKAGES joined §NAMING, §MOTION, §BUILD and §TESTING (D5 to D7).
+- **The profile sections are named §GAME and §NONAPP** (D10), the audit's proposal. Renaming
+  later is a sync's reference translation away.
+- **The credit option is read on demand** (D11), by the skills that reach its step, and is
+  never imported; the startup check reports an import of it.
+- **`checkpoint`'s steps are numbered 1 to 9** (E11). The audit said 1 to 8; there are nine.
+  The CHANGELOG keeps the old numbers as history.
+
+## 2026-11-18 — Group K: the owner's answers to the audit's seven questions
+
+Asked through the question tool, two rounds; each answer is the option the owner picked.
+
+- **K1, package manager:** "pnpm new, npm stays". New projects use pnpm; existing projects
+  stay on their manager. Checked against current Vercel and Firebase documentation before it
+  is written. Turned down: npm only (the pnpm project takes an exception), pnpm everywhere
+  (every project migrates at its next sync).
+- **K2, JavaScript:** "Yes, local tools only". JavaScript with type checking on is a named
+  choice for a local tool, made at setup; never for a client or deployed project. Turned
+  down: TypeScript always.
+- **K3, interface rules missed:** "Core pointer to ui.md". One line in the core: before
+  touching an interface file, read `rules/ui.md`. Turned down: the owner naming the cases
+  first; no change.
+- **K4, splitting a `CLAUDE.md`:** "Yes, past 50 KB". The checkpoint measures the root
+  `CLAUDE.md` and proposes a split past 50 KB, done on a yes. The recommendation was 30 KB;
+  the owner chose the looser line. Turned down: no automatic check.
+- **K5, §MOTION exceptions:** "Drop at next sync". Moot since §MOTION left animation to the
+  mockup stage; `sync-standards` says so and removes them on a yes. Nothing in the standard.
+- **K6, other backends:** "Add a SQLite option". A new `rules/options/sqlite.md` in v4, for
+  `roleodex` and `cutscene`, whose §FIREBASE exceptions go. The recommendation was to wait for
+  a third project; the owner chose to write it now.
+- **K7, Python:** "Yes, in v4". A new `rules/python.md`, from what `toll-pipeline` and
+  `cutscene` already do, loaded by the "tool in another language" kind when it is Python.
+  Turned down: after v4; never.
+
+## 2026-11-18 — An upgrade path and an independent auditor, both the owner's ideas
+
+**Upgrade path.** The owner: a project moving from an older version needs a tool that helps
+the transition and audits it, so it is smooth (an old status doc still holding entries, for
+one). Picked: "Inside sync-standards". The sync audits the project read-only against every
+Step 4 check and the *What a project must change* lists of the releases it is behind, shows
+one upgrade report, asks once, applies, and re-runs the checks. Each release's changelog
+entry ends with that list, and a change no check covers gets a new check. Turned down: a
+separate `upgrade-standard` skill (two skills doing overlapping work, the duplication I3
+removed); talking it through first.
+
+**An independent auditor.** The owner proposed the `fable-audit` skill (their global skill:
+Fable 5.2 through the API, findings with suggestions) instead of the in-session audit in
+Process X. Picked: "Optional auditor". Process X's audit may be run by an independent
+auditor where the owner has one, and the in-session audit stays the fallback: the skill is
+on one PC, needs the owner's API key, and costs per run with their go, so a cloud session or
+another machine cannot depend on it. A Fable review of v4 itself is offered before release,
+priced first. Turned down: Fable required for every Process X; a v4 review alone.
+
+## 2026-11-18 — The release theme: the five rivers of Punjab, v4 is Sutlej
+
+The owner wanted a naming series for major versions, as AI companies name their model
+lines, drawn from what they enjoy. Their threads: anime and fiction (Dragon Ball's "Super
+Saiyan 4" was the first idea), being Punjabi from Ludhiana, space, and elements (they named
+git branches "aqua" once). Picked: **the five rivers of Punjab**, from home and moving west:
+**v4 Sutlej** (Ludhiana's river), v5 Beas, v6 Ravi, v7 Chenab, v8 Jhelum; a new family after
+v8. The README look: river blues and a Phulkari-style pattern, all original artwork.
+
+Turned down in the same two rounds: martial-arts words (Kata), Dragon Ball forms (Super
+Saiyan 4), Japanese craft words (Kintsugi), power-up states (Awakening), the classical
+elements (Aqua), guiding stars (Polaris), Punjabi crafts and arts (Phulkari as a name).
+
+Of the four points of advice in `docs/specs/v4.md` (*A release theme*), the owner accepted
+two: **the theme lives on the surface only** (README, changelog heading, release notes, the
+gallery page, the startup check's banner; rules and skills stay plain), and **original
+artwork only** (the repository is public). Not ticked: "the version number stays the
+reference" and "the look goes through `design-motif`". What the owner wants instead is not
+yet said. The scripts read only `x.y.z` (`scripts/standard.mjs`), so the number stays in
+the version line whatever the README leads with.
+
+## 2026-11-18 — Sutlej's look: mockups straight away, no sample gallery
+
+The owner: "Mockups, no gallery". The README's look skips `design-motif`'s brief-and-tiles
+step ("Show me"): it starts as mockups of the README itself, revised until the owner locks
+one, and is built only after the lock (§OWNER). Turned down: the full `design-motif` loop;
+deciding at phase 7.
+
+## 2026-11-18 — The number leads: "v4.0.0 · Satluj"
+
+Asked at the start of phase 7, the owner picked the number first and the river as its
+subtitle, in the README's title area and the changelog heading. The version stays the thing
+a reader scans for; the name carries the look. This settles the open "version number stays
+the reference" point above. Turned down: the name first; the name only in the banner art.
+
+## 2026-11-18 — The spelling is Satluj
+
+The owner asked "Sutlej or Sutluj?". Picked: **Satluj**, closest to the Punjabi ਸਤਲੁਜ and the
+form in Indian official use (Satluj Jal Vidyut Nigam). Turned down: Sutlej, the common
+English and map spelling from the colonial era; Sutluj, rare in print. Entries above and the
+session log keep "Sutlej" as written then; everything from here uses Satluj. The other four
+keep their usual spellings: Beas, Ravi, Chenab, Jhelum.
+
+## 2026-11-18 — Satluj's README look locked: A, river bands
+
+Three mockups were shown as a private page (A river bands, B bagh field, C quiet mark); the
+owner locked **A** on the first round. The banner is an SVG in the repository on its own
+dark-water ground, so it reads on GitHub's light and dark themes: five flowing bands, one
+per river, the Satluj band bright and the other four quiet; a Phulkari-style border along the
+bottom (an original diamond darn-stitch in gold, saffron and rani pink on river blue); the
+title "fleet-standards", then "v4.0.0 · Satluj" with ਸਤਲੁਜ beside it. Under it: shields
+badges (standard, skills, license) and a line naming the five releases. The banner's text is
+outlined to paths, since GitHub shows an SVG as an image and loads no fonts. Turned down: B,
+a whole Phulkari field with the river cut through it; C, a small mark beside a plain heading.
+
+## 2026-11-18 — Check m: the repository's security settings get a sync check
+
+Writing the 4.0.0 changelog showed three §SECURITY rules from the token attack (branch
+protection, token scopes in `environment.md`, workflow `permissions`) that no `sync-standards`
+check covered, against `docs/maintainer.md`'s rule that every must-change item has one. The
+owner: "Yes, add check m". It reads first and changes each item only on the owner's yes;
+unused Actions secrets are named, never removed. Turned down: leaving them as rules a
+session follows, with the changelog saying no check covers them.
+
+## 2026-11-18 — The pilots: a dry run, its fixes, and real syncs after the release
+
+The phase 7 pilot syncs ran read-only first: one project per kind (`tinker-together`,
+`toll-kits`, `cutscene`, `godot-toll`, `nca-automations`), each given the upgrade report the
+sync would show. It found seventeen problems with the skill
+(`docs/audits/2026-11-18-pilot-dry-run.md`); the owner picked every one but 14 (the
+`AGENTS.md` pointer), and all are built. Asked whether to apply real syncs before the
+release: **"After release"**. Each project syncs from the released plugin when its owner next
+works in it. Turned down: one real pilot first (`tinker-together`, against the branch); all
+five before the release. The behaviour evals ran first instead, all fifteen, on the owner's
+"Yes, run all 15".
+
+## 2026-11-18 — I4 at the release, including the workflow edit
+
+The split check, its intended list and its call in `tests/run.mjs` were removed at the
+release, as planned in the audit (I4). Removing `fetch-depth: 0` changes
+`.github/workflows/checks.yml`, which takes the owner's yes each time; asked separately, the
+owner: "Yes, edit it". Only the checkout's `with:` block went.
+
+## 2026-11-18 — The release ran overnight on the agent's calls
+
+The owner, going to sleep: "whatever, if there's an issue, just go with your best call ...
+and then I have my go to run git CPR max afterwards and finish up". So the evals, their
+follow-up, the version bump, I4, the MAX checkpoint and the release ran without a question
+in between. The calls made under it:
+
+- **`sync-asks-first` failed (0.33)**: the reply did what the skill now says, but the grader
+  predated R10 (a declined sync recorded in `decisions.md`) and P13 (the report's questions
+  asked with the go-ahead; a git preflight first). The case was out of date, so the grader was
+  brought in line with those picks and nothing else, per the evals README ("fix the case").
+  Rerun: 1.00, three of three judges.
+- **`relay-after-compact` failed (0.33)** with a reply that ran relay first and reported
+  before the request; the judges marked it down for not naming what relay reads in an empty
+  test folder. Rerun unchanged: 1.00. Recorded as judge variance, nothing changed.
+- **The release is a merge pull request into `main`**, as v3.8.0 was (pull request #19), not a
+  squash; this repository has no `CLAUDE.md` *Deploys* line to say otherwise. Issues #20 to
+  #33 close with it (`decisions.md`, 2026-11-13).

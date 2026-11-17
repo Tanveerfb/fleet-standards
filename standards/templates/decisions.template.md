@@ -19,6 +19,16 @@ backfilled from <where> rather than lost.
 
 ---
 
+## Declined, never again
+
+*The one part of this file kept current rather than appended to (§DOCS): one line per thing
+the owner ruled out, pointing at the dated entry below that holds their words. Read it before
+proposing anything.*
+
+- <what was declined> — <DATE> entry
+
+---
+
 ## <DATE> — <decision in one line>
 
 **<The choice, stated plainly.>**

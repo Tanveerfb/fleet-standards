@@ -1,17 +1,13 @@
 ---
 name: relay
-description: Use at the START of a work session to pick up where the last one left off — e.g. "relay", "relay max", "let's continue", "continue where we left off", "catch me up", "where were we", "resume the project", "what was I doing", "pick up from the handoff". The inverse of the checkpoint skill: checkpoint writes the handoff, relay loads it AND verifies it still describes the repo before any work starts. "MAX" means claim-by-claim verification plus a fresh test/build baseline. Goal: start with a true picture, not a confident stale one.
+description: Use at the START of a work session to pick up where the last one left off — e.g. "relay", "relay max", "let's continue", "continue where we left off", "catch me up", "where were we", "resume the project", "what was I doing", "pick up from the handoff". The inverse of the checkpoint skill — checkpoint writes the handoff, relay loads it AND verifies it still describes the repo before any work starts. "MAX" means claim-by-claim verification plus a fresh test/build baseline. The goal is to start with a true picture, not a confident stale one.
 ---
 
 # Relay
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 The baton half of `checkpoint`. Checkpoint's job is to write the record; relay's
 job is to **load it and distrust it**.
@@ -70,6 +66,22 @@ section, `PROJECT.md`) and say in the report that the convention isn't
 followed. A `=== HANDOFF ===` block from another plugin is a hint, not the
 record — where it disagrees with `Start here`, report the disagreement.
 
+## After a compact or a resume
+
+The fleet's `SessionStart` hook (matcher `compact|resume`) asks for relay first. **It runs in
+full even when a request of the owner's is already waiting**; then the report, then the
+request. The compact's own summary is a second account, not the record: where it and the
+repo disagree, the repo wins. Where no hook runs (other agents), the rule is the same: after
+a compact, run relay first.
+
+**After a resume: the short form.** A resumed session keeps its conversation, so relay
+checks only what may have moved while it was away: read `Start here`, run Step 4's
+`git status -sb` and `git log --oneline -5` (with a `git fetch` where there is a remote), and
+compare both with what the conversation last knew. Nothing moved: report it in a line or
+two, then handle the waiting request. Anything moved (a commit the conversation did not
+make, a rewritten `Start here`, a branch that changed), or the conversation is not intact:
+run relay in full.
+
 ## Step 1 — Orient from `Start here`
 
 Read the `Start here` block at the top of the status doc and extract,
@@ -79,6 +91,9 @@ explicitly:
 - **Next** — the single stated entry point.
 - **Blocked on** — anything waiting on the owner.
 - **Don't trust** — what the previous checkpoint itself flagged as assumed.
+- **Live** — state outside the repo: where the owner is, how they are working, what was
+  mid-flight. It is what a compact used to carry. A status doc written before the line
+  existed has none; carry on without it.
 - **The latest commit** named in the newest session-log entry, if any.
 - **Anything flagged as the agent's own invention** rather than the owner's
   decision. These are the highest-risk items in the document because they look
@@ -86,13 +101,21 @@ explicitly:
 
 ## Step 2 — Read the rest of the snapshot and the newest log entry
 
-Do not read the whole document — the session log grows long and most of it is
-history. Read:
+The session log is `docs/log.md` (`project-rules.md` §DOCS), which nothing loads
+by default; a status doc written before the split still carries it below the
+snapshot. Either way, do not read the whole log — it grows long and most of it
+is history. Read:
 
-- the snapshot sections above the session log — **Open items**, **Verified this
-  checkpoint**, **Assumed, not verified**, **Confidence and gaps**;
+- the snapshot sections — **Open items**, **Verified this checkpoint**,
+  **Assumed, not verified**, **Confidence and gaps**;
 - the newest session-log entry, end to end. Skip anything marked
   `**RETIRED**`.
+
+`docs/record/` holds what the briefs used to say. Read it only when a line in
+`CLAUDE.md` or an area file is unclear, never as a matter of course.
+
+If the status doc still holds its own session log, or stacks several "still
+true" blocks, say so in the report: the next checkpoint splits it.
 
 If the doc has no confidence or assumed sections, say so in the report — it
 means the previous checkpoint was shallow and your picture is correspondingly
@@ -104,7 +127,9 @@ The fleet keeps an append-only `decisions.md` — what was chosen, what was
 tried and abandoned, what the owner declined, what was deferred. Read the
 **tail**: the most recent entries are the ones a new session is most likely to
 violate, because they encode things that changed recently, and the declined
-and abandoned entries are what stop you re-proposing a dead end.
+and abandoned entries are what stop you re-proposing a dead end. Where the
+file opens with a "declined, never again" index, read that too: it is short,
+and it is the list of things not to propose.
 
 ## Step 4 — Check git reality
 
@@ -123,16 +148,40 @@ Establish:
 - **What landed since?** If commits exist after the handoff's, the handoff
   describes a repo that has moved.
 - **Are you on the branch the handoff assumed?**
+- **Is work stranded on another branch?** After a `git fetch`, list remote branches with
+  commits the production branch lacks (`git branch -r --no-merged origin/<production>`),
+  newest first. A cloud session leaves its work on a harness branch (§GIT, *Cloud
+  sessions*); one the handoff does not mention goes under *the user's call*, with its last
+  commit's subject and date.
 - **No upstream?** If `CLAUDE.md`'s *Deploys* line says **local only**, that is the design,
   not a finding — say so in a word. Anywhere else, a missing upstream is worth raising.
 - **Is the credential hook live?** If the project has `.githooks/pre-commit`, check
   `git config core.hooksPath` prints `.githooks`. If it does not, this clone commits with no
   credential check — put that under *the user's call*, with the one-line fix
-  (`git config core.hooksPath .githooks`). Relay reports; it does not set it.
+  (`git config core.hooksPath .githooks`). Relay reports; it does not set it, **except in a
+  cloud session**, whose fresh clone commits unattended: there it sets it and says so in a
+  word.
+- **Did anything change what runs unattended?** List the commits since the last
+  checkpoint's that touch `.github/workflows/`, `.claude/settings.json`, the hook scripts in
+  `.claude/fleet/scripts/` (they run on every shell command and after every compact) or the
+  git hooks in `.githooks/`:
+
+  ```bash
+  git log --format='%h %ad %an %s' --date=short <checkpoint sha>..HEAD -- .github/workflows .claude/settings.json .claude/fleet/scripts .githooks
+  ```
+
+  With no checkpoint commit to start from, use the last ten commits that touch them. Run
+  it against the remote's production branch too (`origin/main` or the one the *Deploys*
+  line names), after a `git fetch`: a push made with a stolen token lands there, not in the
+  clone. **A commit the newest log entry does not explain goes at the top of the report,**
+  above everything else, with its author and date. Read its diff; never run it and never
+  "fix" it. An unexplained change to a workflow is an incident until the owner says
+  otherwise (§SECURITY).
 
 ## Step 4.5 — Read the Trello board, if the project has one
 
-**Only if `CLAUDE.md` has a `Trello board: <url>` line** (`project-rules.md`
+**Only if `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the template writes
+`- **Trello board**: <url>`; `rules/options/trello.md`
 §TRELLO); otherwise skip silently. **Read only — relay never writes to the
 board.** Corrections are the next checkpoint's job.
 
@@ -160,9 +209,23 @@ master's:
 - otherwise — a cloud session, which does not install plugins — `standards/project-rules.md`
   on `main` of `Tanveerfb/fleet-standards`, through whatever GitHub access the session has.
 
-Behind → it goes under *the user's call* in the report, offering `sync-standards`. **Read
-only: relay never syncs.** If the plugin's startup check already raised it this session, do
+Behind → it goes under *the user's call* in the report, offering `sync-standards`, unless
+`decisions.md` records the owner declining a sync to that master version: then one line
+saying so, no offer. **Read only: relay never syncs.** If the plugin's startup check already raised it this session, do
 not raise it twice. If no master copy can be reached, say so in one line.
+
+**The declared set, current core or not.** If `CLAUDE.md` has a *Rules* line (§SCOPE), every
+file it declares is in the project's `rules/` and imported with an `@rules/…` line —
+`rules/options/ai.md` excepted, which is read on demand and named in a line instead — and
+every `@rules/…` import is on the line. A mismatch goes under *the user's call*, offering
+`sync-standards`. The startup check reports the same; do not raise it twice.
+
+**A studio that appeared since the project was asked.** Also read the owner's
+`~/.claude/CLAUDE.md` for a `Studio credit:` line (§CREDIT; a cloud session has no such file,
+so skip this there). If one exists and the project's `CLAUDE.md` has no answer to it — no
+`Studio credit:` line, or one that says "no studio configured" or "not asked" — say so in the
+report and offer the two §CREDIT questions, through `sync-standards`' *Adding an option*,
+which works on a project already current. **Relay itself never adds a credit.**
 
 ## Step 5 — Report, then STOP
 
@@ -175,10 +238,12 @@ Report, in this order and briefly:
    and what is actually true, including where the Trello board disagrees with
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
 4. **What is the user's call** — anything flagged as the previous agent's
-   invention, any open question the previous session raised, and a rules copy that is
-   behind the master (Step 4.6).
+   invention, any open question the previous session raised, a rules copy that is
+   behind the master, and a studio credit not yet asked about (Step 4.6).
 
-**Then stop and wait.** Do not start the entry point.
+**Then stop and wait.** Do not start the entry point. After a compact or a resume with a
+request of the owner's already waiting, the report comes first and the request is handled
+straight after it: that request is the go-ahead.
 
 This is the deliberate design: a stale handoff usually means someone else worked
 in the repo, and the user needs to know that before an agent acts on it. Ask for
@@ -226,16 +291,13 @@ rather than silently skipping it.
 
 ## Common mistakes
 
+*Only the traps the steps above do not already name.*
+
 - **Summarising the handoff back at the user.** They can read it. Relay earns
   its keep with the parts the handoff *can't* contain: whether it is still true.
-- **Re-reading auto-injected files** to look thorough. Check context first.
-- **Reading the entire status doc.** The log is mostly history by design.
-  Snapshot, newest log entry, tail of `decisions.md`.
 - **Trusting the status doc because it is detailed.** Detail and accuracy are
   unrelated. The most dangerous line in any status doc is a confident
   present-tense claim about something that works.
-- **Starting the entry point immediately.** Relay ends in a report and a pause.
-  Momentum is not the goal; a true picture is.
 - **Skipping R2 because "nothing changed since last time".** You cannot know
   that until you have run it, and that is the entire point.
 - **Reporting an empty staleness list as an absence.** Say "I checked N claims

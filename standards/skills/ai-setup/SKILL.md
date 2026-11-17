@@ -1,25 +1,44 @@
 ---
 name: ai-setup
-description: Use when a project needs AI or LLM features set up or added — e.g. "set up AI", "add AI to this project", "integrate an LLM", "add a chatbot", "add an AI feature", "connect Ollama", "use a local model", "add Firebase AI Logic", "add the AI SDK". Follows project-rules §AI end to end — inventories any AI already in the code, gathers the brief, puts the tooling choice (Firebase AI Logic, Vercel AI SDK, or both) to the owner, scaffolds the lib/ai adapter, protects every model call, optionally wires local models, builds the first feature through the adapter, and records it. Never commits.
+description: Use when a project needs AI or LLM features set up or added — e.g. "set up AI", "add AI to this project", "integrate an LLM", "add a chatbot", "add an AI feature", "connect Ollama", "use a local model", "add Firebase AI Logic", "add the AI SDK". Follows §AI end to end — inventories any AI already in the code, gathers the brief, puts the tooling choice (Firebase AI Logic, Vercel AI SDK, or both) to the owner, scaffolds the lib/ai adapter, protects every model call, optionally wires local models, builds the first feature through the adapter, and records it. Never commits.
 ---
 
 # AI setup
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
-Adds AI to a project — new or existing — the way `project-rules.md` §AI describes, instead
+Adds AI to a project — new or existing — the way `rules/options/ai.md` §AI describes, instead
 of improvising. Read §AI in full before Step 1; this skill is the process, §AI is the rules.
+The file is at `rules/options/ai.md` in a project that already chose the AI option;
+otherwise read the master, `${CLAUDE_PLUGIN_ROOT}/rules/options/ai.md`, and Step 8 brings
+it into the project.
 
 Throughout: choices through the question tool, open questions in prose (§ASK). **No
 dependency is installed without the owner's OK** (§AGENTS), and every package's current
 version and API is checked first — npm for the version, Context7 or the provider's docs for
 the API (§PACKAGES). AI SDKs change fast; never write their code from memory.
+
+## Which kind of project
+
+Read the *Rules* line in `CLAUDE.md` (§SCOPE). The steps below are written for a **web
+project**; for the others, read them with these changes:
+
+- **Local Node tool** — no Route Handlers or Server Actions: the calls live in the tool's
+  own modules, behind the same `lib/ai/` adapter. Step 3 is between the AI SDK and a
+  provider's own SDK; Firebase AI Logic is a client SDK for apps and is not offered. Keys
+  come from an untracked env file (§SECURITY). Step 5's per-user limits become an output cap
+  per task and a spend limit set at the provider, which the owner confirms. Local models
+  (Step 6) fit well here. Step 9 runs the typecheck and the tool itself, not `npm run build`.
+- **Tool in another language** — the provider's SDK for that language, the same adapter
+  shape (an interface in domain terms, a mock, a model map), and the tool's own test run.
+- **Game** — a key is never shipped in a build. A game that calls a hosted model needs a
+  server between it and the provider: ask the owner before going further. A local model
+  over the engine's HTTP client is the exception, for development or a PC-only build.
+- **Non-application** — no code to scaffold. Record the platform's AI feature and its
+  settings (Steps 2, 3 and 8, with `environment.md` naming what data reaches it); Steps 4 to
+  7 and 9 do not apply.
 
 ## Step 1 — What is already here
 
@@ -81,39 +100,26 @@ lib/ai/
 
 ## Step 5 — Protect every model call
 
-Before anything is user-facing (§AI):
-
-- **AI Logic:** App Check registered and enforced, limited-use tokens preferred, per-user
-  quotas set. Enforcement and quotas live in the Firebase console — list exactly what the
-  owner has to click, and do not mark this step done until they confirm.
-- **AI SDK:** routes require an authenticated user and rate-limit per user on the server. If
-  the project has no rate limiter, propose options (a Firestore counter, a hosted limiter)
-  and let the owner choose.
-- Output caps (max tokens) set per task.
+Before anything is user-facing, every protection §AI lists for the chosen tooling is in
+place, with an output cap per task. Two things are the owner's: **AI Logic's enforcement and
+quotas live in the Firebase console** — list exactly what to click, and do not mark this
+step done until they confirm; and **a rate limiter the project lacks** — propose options (a
+Firestore counter, a hosted limiter) and let them choose.
 
 ## Step 6 — Local models (AI SDK only, if wanted)
 
-- Base URL and model name from environment variables — Ollama `http://localhost:11434/v1`,
-  LM Studio `http://localhost:1234/v1`, through the AI SDK's OpenAI-compatible provider.
-- Ask the owner which model; use the name exactly as `ollama list` or LM Studio shows it.
-- Make one real call from the server side of the dev app and show the response. If the
-  server is not running or the model is missing, say so plainly.
-- Remind the owner: a deployed app cannot reach their PC, and small local models are weaker
-  at tool calling and structured output — test with the model that will serve the feature.
+Wire them as §AI describes (base URL and model name from the environment). Ask the owner
+which model and use its name exactly as `ollama list` or LM Studio shows it; check the
+machine file for what this GPU runs. Make one real call from the server side of the dev app
+and show the response — if the server is not running or the model is missing, say so
+plainly — and remind the owner that a deployed app cannot reach their PC.
 
 ## Step 7 — The first feature
 
-Build one feature from the brief end to end, through the adapter:
-
-- a zod schema for any structured output (§AI, §STATE), parsed on every response, one retry
-  then an error state;
-- a prompt file with typed input, user input delimited from instructions;
-- output treated as untrusted — never raw HTML, never executed;
-- tools, if any: zod-parsed arguments, server-side permission checks, user confirmation for
-  side effects;
-- the interface: streaming, a skeleton while waiting, stop and retry, an error state that says
-  what to do, AI-generated content marked (§QOL). Any visual work goes through the mockup
-  loop first (§OWNER) and fits the project's motif (§DESIGN).
+Build one feature from the brief end to end, through the adapter, meeting every rule in §AI
+for structured output, prompts, untrusted output, tools and the interface. Parse each
+response, retry once, then show an error state. Any visual work goes through the mockup loop
+first (§OWNER) and fits the project's motif (`rules/ui.md` §DESIGN).
 
 ## Step 8 — Record
 
@@ -121,6 +127,16 @@ Build one feature from the brief end to end, through the adapter:
   values), who owns the account.
 - **`decisions.md`** — the tooling choice (Step 3), the models chosen and why.
 - **`CLAUDE.md`** — the technology table and any AI-specific traps found.
+- **The AI option (§SCOPE).** If the project has not chosen it yet: copy
+  `${CLAUDE_PLUGIN_ROOT}/rules/options/ai.md` to `rules/options/ai.md`, and add `ai` to the
+  `Options:` part of the *Rules* line in `CLAUDE.md` (`- **Rules**: …` in the template;
+  bold or not), changing `none` to `ai`. The file is read on demand, never
+  imported, so write the line that makes a session read it, in two places:
+  - the root `CLAUDE.md`, under the import lines: **Read `rules/options/ai.md` before any
+    work on an AI feature** — never act on memory of it.
+  - `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under
+    `lib/ai/` is read: the same line, then any trap specific to this project's AI code. List
+    it under *Area files* in the root `CLAUDE.md`.
 - **`components.md`** — any AI interface components added.
 
 ## Step 9 — Verify and report

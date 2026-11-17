@@ -33,6 +33,218 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 4.0.0 · Satluj — 2026-11-18
+
+The first named release: the five rivers of Punjab, v4 Satluj, then Beas, Ravi, Chenab and
+Jhelum. The name is on the surface only (README, this heading, the release notes); the rules
+and skills stay plain, and the version line reads `4.0.0`.
+
+**The standard is no longer one file.** v3's `project-rules.md` was 76 KB, loaded in full
+every turn by every project, most of it about Next.js. v4 keeps a **core** every repository
+loads (`project-rules.md`, about 32 KB) and moves the rest into **files a project loads by
+its kind** (`rules/`) and **options it chose** (`rules/options/`). A `Rules:` line in
+`CLAUDE.md` declares the set (`Rules: app, ui, node, web · Options: firebase, trello`);
+`sync-standards` copies only what it declares. Measured at the end: a web project loads 62
+KB, a Node tool 46, a Python tool 42, a game 48, a repository without application code 35.
+**No section was renamed:** `§GIT` still means `§GIT`; only the file it lives in changed.
+The move was word for word, proved by a line check against the file as built, and every
+rewording came after it in its own commit.
+
+v4 also carries the fourteen proposals first built as 3.9.0, which was never released (the
+section below, kept as written), the rules from the 11–12 November token attack, an audit of
+the whole standard (about 90 findings, the owner's picks all built), and an independent
+review by Fable 5.2 (7 out of 10; its fifteen findings all built).
+
+### Where each section lives
+
+| File | Sections | Loaded by |
+| --- | --- | --- |
+| `project-rules.md` (the core) | §SCOPE §DOCS §ASK §AGENTS §GIT §OWNER §SPECS §TOOLS §SCALE §SECURITY §TESTING | every repository |
+| `rules/app.md` | §GROWTH §MODULES §NAMING §DATA §LIFECYCLE §SHORTCUTS §PACKAGES §BUILD | anything with application code |
+| `rules/ui.md` | §DESIGN §COMPONENTS §QOL §PATTERNS §MOTION | anything with a visual surface |
+| `rules/node.md` | §NAMING §TS §STATE §PACKAGES §NPM §RUNTIME §BUILD §TESTING | web projects and Node tools |
+| `rules/web.md` | §STRUCTURE §RUNTIME §STATE §FORMS §HOOKS §STYLING §SHADCN §MOTION §TESTING | Next.js projects |
+| `rules/python.md` (new) | §PYTHON | Python tools |
+| `rules/game.md` | §GAME (v3's game-engine block in §SCOPE) | games in an engine |
+| `rules/non-application.md` | §NONAPP (v3's non-application block in §SCOPE) | repositories without application code |
+| `rules/options/firebase.md` | §FIREBASE | projects that chose Firebase |
+| `rules/options/sqlite.md` (new) | §SQLITE | projects that chose SQLite |
+| `rules/options/trello.md` | §TRELLO | projects with a board |
+| `rules/options/ai.md` | §AI | read before AI work, through a line in `CLAUDE.md` and `src/lib/ai/CLAUDE.md`; not imported |
+| `rules/options/credit.md` | §CREDIT | read by the skills at the credit step; not imported |
+
+A section that appears in two files (§NAMING, §PACKAGES, §BUILD, §STATE, §RUNTIME, §MOTION,
+§TESTING) is divided: each file holds the part true for its kind, under the same name.
+
+### What changed
+
+- **Kinds and options.** `rules/python.md`, two shapes (a package with uv, pyright strict,
+  pydantic, ruff and pytest; a folder of scripts), with snake_case, UTF-8 on every open and
+  never `python -c` in both. `rules/options/sqlite.md` for local-first projects, asked beside
+  Firebase. **New projects use pnpm** (§NPM: `packageManager`, approved build scripts, one
+  lockfile); existing projects keep their manager. JavaScript is a named choice for a local
+  tool, with `checkJs` and strict (§TS). `rules/app.md` says each rule in any language.
+- **§SECURITY, from the token attack.** No token in code a browser receives; a token as
+  small as its job, recorded in `environment.md`; **the default branch protected** where the
+  plan allows, the gap recorded where it does not; a workflow declares the least
+  `permissions`; an unexplained change under `.github/workflows/` is an incident. `relay`
+  lists commits since the last checkpoint that touch workflows, settings, hook scripts or
+  git hooks, and raises any the log does not explain.
+- **§GIT, production outside git.** A deploy, a change to security rules or a hosted
+  database, `rm -rf`, dropping data: each needs the owner's go, every time. The Firebase
+  option's deploy follows it.
+- **`checkpoint`** runs the kind's build and tests before its git step, so a failing build
+  never reaches a push that deploys; checks the branch before a push it was not asked for;
+  stages by path; names its own commit in the log entry; proposes splitting a root
+  `CLAUDE.md` past 50 KB. Its steps are numbered 1 to 9. A cloud session names the branch its
+  work is on; a squash release merges production back into the working branch.
+- **`relay`** runs first after a compact, and in a short form after a resume. It lists
+  remote branches not yet merged, so cloud work is not stranded on a harness branch.
+- **§ASK:** a session with nobody to answer (an Action, a scheduled run) stops and leaves
+  the question instead of guessing.
+- **`sync-standards` is the upgrade path.** It audits the transition into one upgrade
+  report, applies on one yes, then re-runs its checks. Its per-version steps became state
+  checks, a to m (below), so a project several versions behind takes the same path. A
+  declined option is recorded as `no-<name>` on the *Rules* line and a declined sync in
+  `decisions.md`, so neither is asked again. `copied.json` keeps a hash per copied skill, so
+  a local edit (`! edited`) shows apart from a master change (`~ changed`). Hook scripts are
+  shown as a diff before they are copied. A project's own `rules/` folder stops the sync.
+- **`new-project` sets up every kind**, asks the backend (Firebase, SQLite or none) and, on
+  a yes for each, creates the GitHub repository, the working branch and branch protection.
+- **`design-motif` gains "Show me"**: sample tiles of three or four candidates, and
+  `motif-gallery.html`, a tile for each of the 35 families.
+- **A new skill, `machine-inventory`**, records what the machine has installed in
+  `~/.claude/machine.md`, so projects prefer it before proposing a tool.
+- **Process X** may use an independent auditor where the owner has one (`process-x.md`).
+- **Other agents** read the whole set, and the installer puts the scripts beside the skills
+  with an absolute path; it no longer waits on a prompt without a terminal.
+- **The shell-write guard** reads through runners (`uv run`, `pnpm exec`, `timeout`) and
+  quoted interpreter paths, covers PowerShell, and its refusal says to ask first.
+- **Less text every turn.** Procedure moved out of the core into the skills that run it; the
+  core keeps the rules. Fifteen behaviour eval cases, up from eight.
+
+### What a project must change
+
+`sync-standards` does each of these: Step 4's checks, by letter, in its upgrade report.
+
+1. **Step 4, item 0:** a `rules/` folder of the project's own (a game's, Firestore's) moves to a
+   folder named for what it is, on the owner's word, before anything is copied.
+2. **(a) The rules set.** Write the *Rules* line, copy the core and the kind's files, and
+   import them in `CLAUDE.md`. A game or non-application project that referenced the rules
+   file now imports its set like any other. `project-rules.md §FIREBASE`-style references
+   for moved sections become the section name alone.
+3. **(b) The *Deploys* line** says single-branch, multi-branch or local only, and names the
+   working branch on a multi-branch project.
+4. **(c) The options,** each asked once and recorded on the *Rules* line, a declined one as
+   `no-<name>`. SQLite is new: a project on SQLite with a §FIREBASE exception takes the
+   option instead, and the exception is offered for removal.
+5. **(d) A `Motif:` line** where the project loads `ui`.
+6. **(e)** Bullets in `CLAUDE.md`'s working agreement that §OWNER now holds come out.
+7. **(f) `.gitattributes`** pins `.sh` files and `.githooks/` to LF.
+8. **(g) The profile block in `conventions.md`** that speaks of "Part A", "Parts B to E" or
+   "referenced, not imported" becomes the block for its kind.
+9. **(h) History out of the files agents read:** the next checkpoint moves the session log
+   from `docs/STATUS.md` into `docs/log.md`; briefs carrying history are offered a split.
+10. **(i) `decisions.md`** gains its "declined, never again" index.
+11. **(j) One package manager,** one lockfile, and the *Commands* naming it.
+12. **(k) Python's shape,** package or folder of scripts, in `conventions.md`.
+13. **(l) Moot exceptions** the owner approves are removed from `conventions.md`.
+14. **(m) The repository's security settings,** each on the owner's yes: the default branch
+    protected or the gap recorded in `conventions.md`; each token's scope and expiry in
+    `environment.md`; workflows declaring their `permissions`; unused Actions secrets named.
+15. **Step 5:** the relay-after-compact and shell-write hooks in `.claude/settings.json`
+    (cloud sessions load no plugin hooks), and the skill copies with their hashes.
+
+### Built as 3.9.0, never released (issues #20 to #33)
+
+Fourteen proposals, most from `godot-toll`'s Process X and the `toll-*` projects, built on
+2026-11-12 as 3.9.0 and folded into 4.0.0 (`decisions.md`, 2026-11-13). Written before the
+split: where an item names `project-rules.md` or §SCOPE's profile blocks, read it through
+the table above.
+
+- **§DOCS — current truth and history live apart.** A file an agent reads by default
+  (`CLAUDE.md`, its area files, `docs/STATUS.md`) holds only what is true now. Every "was",
+  superseded number, quote and measurement moves word for word into a record nothing loads
+  by default: `docs/record/<area>.md` for the briefs, **`docs/log.md` for the session log**,
+  `docs/archive/` for anything folded. `docs/STATUS.md` is the snapshot only, one
+  current-state block, never stacked. `decisions.md` opens with a short "declined, never
+  again" index. In `godot-toll` the briefs and status had become histories read whole
+  (`docs/STATUS.md` 114 KB, three area files of 50 to 65 KB); split, they are 8 to 15 KB.
+  **What a project does:** nothing by hand — the next checkpoint moves the session log out
+  of `docs/STATUS.md` into `docs/log.md`, verbatim; `sync-standards` offers the briefs' split
+  and the index. `checkpoint` writes its entry to `docs/log.md`, `relay` reads the newest
+  entry there, and both still handle a status doc that has not been split. New
+  `templates/log.template.md`; `STATUS.template.md` loses its session-log zone;
+  `decisions.template.md` gains the index. The ~800-line fold now applies to the log.
+  Issue #33.
+- **`checkpoint`, `relay`, hooks — relay after a compact, a Live line, no compact block.**
+  A `SessionStart` hook (matcher `compact|resume`, `scripts/after-compact.mjs`) tells a
+  session picked up after a compact or a resume to run relay in full first, even when a
+  request is already waiting. `Start here` gains a **Live** line for the state a compact
+  used to carry (where the owner is, how they are working, what is mid-flight); standing
+  rules go into `CLAUDE.md`. **Removed:** Step 6's compact block and its "compact
+  instructions now or later" question — a plain `/compact` is enough. The block kept growing
+  because nothing else carried live state across a compact (`godot-toll`, 2026-11-08).
+  `sync-standards` adds the hook to each project's `.claude/settings.json` for cloud
+  sessions, which install no plugins; the plugin's copy stays silent where a project
+  registers its own, and in a project with no status doc and no rules file. Issue #26.
+- **§SCOPE — a game-engine profile** (Godot first; Unity and Unreal read the same way),
+  beside the non-application profile: what applies in full, what is read for the engine
+  (naming case, the engine's test run in place of `tsc` and `npm run build`, its test add-on
+  in place of Vitest), and what does not apply until saves, a backend or an AI feature
+  arrive. Mockups are engine screenshots; phone-first does not apply to a PC-only game; the
+  rules file is referenced, not imported. `conventions.template.md` and
+  `CLAUDE.template.md` carry the blocks; `adopting-the-standard.md` names it. `godot-toll`
+  had carried its own profile since 2026-10-21, through five beta releases. Issues #25 and
+  #28, merged: #28's wording, with #25's "recorded once in `conventions.md`".
+- **§OWNER — Process X**, a repeatable whole-product audit and upgrade for a project that
+  has outgrown its adoption: audit as a ranked list, the owner's picks, drafts then build,
+  shared pieces, motif, the fleet re-audit, proposals back to fleet. Nothing is built before
+  it is picked; it counts as that release's deep audit. The steps are in the new
+  `standards/process-x.md`, which the installer and `sync-standards` copy beside the rules.
+  Issue #29.
+- **§SCALE — splitting a `CLAUDE.md` safely, and the loading trap.** Sections move word for
+  word, then a read-only check confirms every non-blank line of the old file is in exactly
+  one new file. An area file loads only when a file inside its folder is read, so the root
+  tells a session to read the area file for its work first, wherever that work sits
+  (`godot-toll`: a 681-line root split into five area files, no line lost). Issue #27.
+- **§TESTING, §MOTION — motion is checked on film.** An animation is verified by recording
+  the real screen and reading it frame by frame, in each layout, mirrored, at each speed. In
+  `godot-toll` every still looked right; the film showed an effect running over the screen's
+  top strip at 1v1. Issue #32.
+- **§COMPONENTS — the register may live in `design-system.md`** in a project without a
+  component library, as a table of shared pieces; a separate `components.md` when the table
+  outgrows it. Issue #30.
+- **§FIREBASE — read the live Firestore rules back after a deploy** and compare them with
+  the file; a deploy's own output is not confirmation (`godot-toll`, 2026-10-23: one MCP
+  target reported success and changed nothing). If they cannot be read back, say they are
+  unconfirmed. Issue #23.
+- **§GIT — shell scripts keep LF.** A repository with `.sh` files or a `.githooks/` folder
+  carries a `.gitattributes` pinning them to `eol=lf` (new `templates/.gitattributes`), so a
+  Windows checkout cannot break them under bash (`toll-pipeline`'s unattended chains).
+  `new-project`, `sync-standards` and the adoption guide add it. Issue #20.
+- **`templates/pre-commit` — two more shapes:** a Discord webhook URL, and a Google OAuth
+  client secret. Both were found unguarded in real projects (`toll-kits`, `godot-toll`);
+  projects that added them locally can retire the divergence at their next sync. Issue #21.
+- **`CLAUDE.template.md` — the *Deploys* line names the working branch** on a multi-branch
+  project, not only the release; `sync-standards` asks where it is missing. Issue #22.
+- **`relay` Step 4.6 — a studio that appeared later is noticed.** Relay reads the owner's
+  `~/.claude/CLAUDE.md`; a `Studio credit:` line the project has no answer to goes into the
+  report with the two §CREDIT questions offered. A project already on the latest standard
+  never runs a sync, so nothing else would ask. Issue #31.
+- **`checkpoint` and `relay` load again.** Both descriptions held a colon followed by a
+  space ("Goal: …"), which is not valid in an unquoted YAML value. Current Claude Code
+  (seen on 2.1.322) then loads the skill with empty metadata, silently, so neither appeared
+  in a session's skill list — the two skills the standard leans on most. Found when the
+  behaviour evals scored 0 with "Skill called 0x"; `claude plugin validate standards` names
+  the fault, `claude plugin validate .` does not. Reworded, and `tests/run.mjs` now fails a
+  description that is not a plain YAML value. **If the two skills were missing from your
+  sessions, update the plugin.**
+- **`checkpoint` Step 4 — read a tool-rewritten config's diff before reverting it.** An
+  engine or IDE may rewrite a file and also carry a real change; never a blind
+  `git checkout -- <file>` (`godot-toll` lost and restored new scene settings this way).
+  Issue #24.
+
 ## 3.8.0 — 2026-11-02
 
 - **§GIT — `git CPR` releases in a cloud session on a single-branch project.** The harness

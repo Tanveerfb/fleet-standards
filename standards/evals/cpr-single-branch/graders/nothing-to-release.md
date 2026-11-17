@@ -9,7 +9,7 @@ invent a release step — no new branch, no pull request, no tag, no separate de
 second push to the main branch.
 
 Ending with the checkpoint's own closing question to the owner (skill proposals, whether to
-compact and continue, compact instructions now or later) is expected and is not a release
+compact and continue) is expected and is not a release
 step. Neither is saying that the checkpoint's own push to `main` deploys to production — the
 skill requires saying so.
 

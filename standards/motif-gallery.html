@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motif gallery</title>
+<!--
+  The fleet standard's motif gallery: one sample tile per family in motifs.md, grouped as the
+  catalogue is. motifs.md is the source: a family added there gets a tile here in the same
+  commit, and tests/run.mjs checks every family has one.
+
+  A tile is one motif applied to the same five pieces (a heading, a paragraph, a button, a
+  card, an input), in light and in dark. Every value here is an illustration, not a token:
+  a project's tokens come from its own locked mockup (rules/ui.md §DESIGN).
+
+  To add a family: one entry in FAMILIES (name exactly as in motifs.md) and one CSS block
+  `.m-<id>` setting the variables below for `.light` and `.dark`, plus any bespoke rules.
+  Text on a fill follows §DESIGN: white on a saturated fill darkened until it reaches 4.5:1,
+  dark text on a genuinely light fill.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Fredoka:wght@400;600&family=Orbitron:wght@500;700&family=Permanent+Marker&family=Playfair+Display:wght@500;700&family=Press+Start+2P&family=Space+Grotesk:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page: #f6f5f2; --ink: #1c1b19; --soft: #5f5c55; --line: #dcd9d1; --panel: #ffffff;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #151517; --ink: #ecebe7; --soft: #a3a09a; --line: #2e2e33; --panel: #1d1d20;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #151517; --ink: #ecebe7; --soft: #a3a09a; --line: #2e2e33; --panel: #1d1d20;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .page { max-width: 1320px; margin: 0 auto; padding: 28px 16px 64px; }
+  .page > header h1 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .page > header p { margin: 0; color: var(--soft); max-width: 68ch; }
+  nav.groups { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
+  nav.groups a {
+    color: var(--ink); text-decoration: none; font-size: 0.85rem;
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--panel);
+  }
+  nav.groups a:hover { border-color: var(--soft); }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  section.group { margin-top: 36px; scroll-margin-top: 12px; }
+  section.group > h2 { font-size: 1.15rem; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .tiles { display: grid; gap: 20px; align-items: start; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); }
+
+  /* A tile: the family's name and line, then the same sample in light, then in dark. */
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .tile > header { padding: 12px 16px 10px; }
+  .tile > header h3 { margin: 0; font-size: 1rem; }
+  .tile > header p { margin: 2px 0 0; font-size: 0.82rem; color: var(--soft); }
+
+  /* The sample. Each motif sets these variables for .light and .dark. */
+  .s {
+    --hs: 1.25rem; --hw: 700; --ht: 0; --hc: none; --bw: 1px; --r: 8px; --sh: none; --bs: none;
+    position: relative; background: var(--bg); color: var(--fg); font-family: var(--fb);
+    padding: 20px 18px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px;
+    align-items: start; min-width: 0;
+  }
+  .s h4, .s p { grid-column: 1 / -1; }
+  .s .form { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  @media (max-width: 560px) { .s { grid-template-columns: 1fr; } }
+  .s h4 {
+    margin: 0; font-family: var(--fh); font-size: var(--hs); font-weight: var(--hw);
+    letter-spacing: var(--ht); text-transform: var(--hc); line-height: 1.2;
+  }
+  .s p { margin: 0; font-size: 0.88rem; line-height: 1.45; color: var(--mu); }
+  .s .card {
+    position: relative; background: var(--cd); border: var(--bw) solid var(--bd); border-radius: var(--r);
+    padding: 12px 14px; box-shadow: var(--sh); display: grid; gap: 2px;
+  }
+  .s .card span { font-size: 0.74rem; color: var(--cm, var(--mu)); }
+  .s .card b { font-family: var(--fh); font-size: 1.4rem; font-weight: var(--hw); color: var(--cf, inherit); }
+  .s label { display: grid; gap: 4px; font-size: 0.74rem; color: var(--mu); }
+  .s input {
+    width: 100%; min-width: 0; font: inherit; font-size: 0.86rem; color: var(--fg);
+    background: var(--in, var(--cd)); border: var(--bw) solid var(--bd); border-radius: var(--r);
+    padding: 9px 11px;
+  }
+  .s input::placeholder { color: var(--mu); opacity: 0.85; }
+  .s button {
+    justify-self: start; font: inherit; font-family: var(--fh); font-size: 0.86rem; font-weight: 700;
+    letter-spacing: var(--ht); text-transform: var(--hc); cursor: pointer;
+    color: var(--oa); background: var(--ac); border: var(--bw) solid var(--bb, var(--ac));
+    border-radius: var(--br, var(--r)); padding: 9px 16px; box-shadow: var(--bs);
+  }
+  @media (prefers-reduced-motion: no-preference) { .s button { transition: transform 0.12s, box-shadow 0.12s; } }
+
+  /* ================================================================ Paper and craft */
+  .m-stationery .s { --fh: "Caveat", "Segoe Print", cursive; --fb: Georgia, "Times New Roman", serif; --hs: 1.8rem; --r: 3px; }
+  .m-stationery .light { --bg: #fbf7ea; --fg: #2b2a26; --mu: #5d5a50; --cd: #fff6b3; --bd: #d9cf9a; --in: #fffdf4; --ac: #1f4e8c; --oa: #fff; --sh: 2px 3px 0 rgba(60, 50, 20, 0.18); background-image: repeating-linear-gradient(#fbf7ea 0 23px, #cfdcf0 23px 24px); }
+  .m-stationery .dark { --bg: #25241f; --fg: #f1ead6; --mu: #b9b199; --cd: #4a4526; --bd: #6b6436; --in: #2e2d27; --ac: #f2d15c; --oa: #25241f; --sh: 2px 3px 0 rgba(0, 0, 0, 0.4); background-image: repeating-linear-gradient(#25241f 0 23px, #34352f 23px 24px); }
+  .m-stationery .card { transform: rotate(-1.2deg); }
+  .m-stationery .card::before { content: ""; position: absolute; top: -8px; left: 50%; width: 54px; height: 16px; margin-left: -27px; background: rgba(150, 190, 220, 0.55); transform: rotate(2deg); }
+  .m-stationery h4 { text-decoration: underline wavy; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+
+  .m-classroom .s { --fh: "Caveat", "Segoe Print", cursive; --fb: "Trebuchet MS", Verdana, sans-serif; --hs: 1.8rem; --r: 4px; }
+  .m-classroom .light { --bg: #fdfdfb; --fg: #1f2a37; --mu: #4a5563; --cd: #fff; --bd: #c9ced6; --ac: #1d4ed8; --oa: #fff; --bw: 2px; box-shadow: inset 0 0 0 6px #d5d9df; }
+  .m-classroom .dark { --bg: #23402f; --fg: #f3f1e7; --mu: #cfdccf; --cd: transparent; --bd: #e8e6da; --in: transparent; --ac: #f3f1e7; --oa: #23402f; --bw: 2px; box-shadow: inset 0 0 0 6px #7a5a3a; }
+  .m-classroom .dark .card, .m-classroom .dark input { border-style: dashed; }
+  .m-classroom .card b::after { content: " ★"; color: #d49a00; }
+  .m-classroom .dark .card b::after { color: #ffd54a; }
+
+  .m-scrapbook .s { --fh: "Caveat", "Segoe Print", cursive; --fb: Georgia, serif; --hs: 1.8rem; --r: 2px; --cf: #2b2622; --cm: #5d564c; }
+  .m-scrapbook .light { --bg: #e9dcc3; --fg: #2b2622; --mu: #55493a; --cd: #fff; --bd: #fff; --in: #f7f0e2; --ac: #b4232a; --oa: #fff; --sh: 0 6px 14px rgba(60, 40, 10, 0.28); }
+  .m-scrapbook .dark { --bg: #2b2622; --fg: #f3ede2; --mu: #c7bca9; --cd: #f3ede2; --bd: #f3ede2; --in: #3a342f; --ac: #f0b23e; --oa: #2b2622; --sh: 0 6px 14px rgba(0, 0, 0, 0.5); }
+  .m-scrapbook .card { border-width: 6px 6px 18px; transform: rotate(1.6deg); }
+  .m-scrapbook .card::before { content: ""; position: absolute; top: -14px; left: 16px; width: 60px; height: 18px; background: rgba(240, 178, 62, 0.75); transform: rotate(-6deg); }
+  .m-scrapbook h4 { justify-self: start; padding: 0 8px; background: linear-gradient(transparent 55%, rgba(240, 178, 62, 0.55) 55%); }
+  .m-scrapbook input { border-style: dashed; border-color: var(--mu); }
+
+  .m-papercraft .s { --fh: "Fredoka", "Trebuchet MS", sans-serif; --fb: "Fredoka", "Trebuchet MS", sans-serif; --r: 14px; --bw: 0px; }
+  .m-papercraft .light { --bg: #dfeae6; --fg: #23383a; --mu: #46605f; --cd: #fff; --bd: transparent; --ac: #b8364a; --oa: #fff; --sh: 0 2px 0 #c4d5d0, 0 5px 0 #b3c7c1, 0 12px 16px rgba(30, 60, 55, 0.18); --bs: 0 3px 0 #8a2536; }
+  .m-papercraft .dark { --bg: #1e2a33; --fg: #eef4f2; --mu: #b3c4c2; --cd: #2c3d49; --bd: transparent; --in: #26343f; --ac: #f2a65a; --oa: #1e2a33; --sh: 0 2px 0 #24323d, 0 5px 0 #1a252d, 0 12px 16px rgba(0, 0, 0, 0.4); --bs: 0 3px 0 #b7742f; }
+  .m-papercraft input { box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.12); }
+
+  .m-risograph .s { --fh: "Space Grotesk", Arial, sans-serif; --fb: "Space Grotesk", Arial, sans-serif; --r: 0; --bw: 2px; --hs: 1.45rem; }
+  .m-risograph .light { --bg: #f4efe4; --fg: #1b2a6b; --mu: #2f3d7c; --cd: #ffe14d; --bd: #1b2a6b; --in: #f4efe4; --ac: #1b2a6b; --oa: #fff; --sh: 5px 5px 0 #ff6b8a; --bs: 3px 3px 0 #ff6b8a; }
+  .m-risograph .dark { --bg: #151a3a; --fg: #f4efe4; --mu: #cfd3ee; --cd: #ff6b8a; --bd: #f4efe4; --cf: #151a3a; --cm: #151a3a; --in: #151a3a; --ac: #ffe14d; --oa: #151a3a; --sh: 5px 5px 0 #ffe14d; --bs: 3px 3px 0 #ff6b8a; }
+  .m-risograph .s::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.35; background-image: radial-gradient(rgba(0, 0, 0, 0.35) 0.6px, transparent 0.7px); background-size: 4px 4px; mix-blend-mode: multiply; }
+  .m-risograph .dark::after { background-image: radial-gradient(rgba(255, 255, 255, 0.25) 0.6px, transparent 0.7px); mix-blend-mode: screen; }
+
+  /* ================================================================ Soft and tactile */
+  .m-claymorphism .s { --fh: "Fredoka", "Trebuchet MS", sans-serif; --fb: "Fredoka", "Trebuchet MS", sans-serif; --r: 22px; --br: 999px; --bw: 0px; }
+  .m-claymorphism .light { --bg: #e6e1ff; --fg: #2c2552; --mu: #554c85; --cd: #f6f4ff; --bd: transparent; --ac: #6d4fd8; --oa: #fff; --sh: 8px 8px 16px rgba(110, 90, 200, 0.28), inset -4px -4px 8px rgba(110, 90, 200, 0.2), inset 4px 4px 8px #fff; --bs: 4px 6px 12px rgba(80, 50, 190, 0.4), inset -3px -3px 6px rgba(0, 0, 0, 0.2), inset 3px 3px 6px rgba(255, 255, 255, 0.35); }
+  .m-claymorphism .dark { --bg: #23203a; --fg: #f0edff; --mu: #bdb6e6; --cd: #302c50; --bd: transparent; --ac: #b9a6ff; --oa: #23203a; --sh: 8px 8px 16px rgba(0, 0, 0, 0.45), inset 3px 3px 6px rgba(255, 255, 255, 0.07), inset -3px -3px 6px rgba(0, 0, 0, 0.35); --bs: 4px 6px 12px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(0, 0, 0, 0.25), inset 3px 3px 6px rgba(255, 255, 255, 0.4); }
+  .m-claymorphism input { box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.14), inset -2px -2px 5px rgba(255, 255, 255, 0.25); }
+  .m-claymorphism button:active { transform: scale(0.96); }
+
+  .m-neumorphism .s { --fh: system-ui, "Segoe UI", sans-serif; --fb: system-ui, "Segoe UI", sans-serif; --r: 14px; --bw: 0px; --hw: 600; }
+  .m-neumorphism .light { --bg: #e6e9ef; --fg: #2f3a4a; --mu: #56627a; --cd: #e6e9ef; --bd: transparent; --ac: #e6e9ef; --oa: #1f4fb0; --sh: 6px 6px 12px #c3c8d1, -6px -6px 12px #fff; --bs: 5px 5px 10px #c3c8d1, -5px -5px 10px #fff; }
+  .m-neumorphism .dark { --bg: #2a2d34; --fg: #e3e6ec; --mu: #aab1bf; --cd: #2a2d34; --bd: transparent; --ac: #2a2d34; --oa: #9cc0ff; --sh: 6px 6px 12px #1e2025, -6px -6px 12px #363a43; --bs: 5px 5px 10px #1e2025, -5px -5px 10px #363a43; }
+  .m-neumorphism .light input { box-shadow: inset 4px 4px 8px #c3c8d1, inset -4px -4px 8px #fff; }
+  .m-neumorphism .dark input { box-shadow: inset 4px 4px 8px #1e2025, inset -4px -4px 8px #363a43; }
+  .m-neumorphism .light button:active { box-shadow: inset 4px 4px 8px #c3c8d1, inset -4px -4px 8px #fff; }
+  .m-neumorphism .dark button:active { box-shadow: inset 4px 4px 8px #1e2025, inset -4px -4px 8px #363a43; }
+
+  .m-glassmorphism .s { --fh: system-ui, "Segoe UI", sans-serif; --fb: system-ui, "Segoe UI", sans-serif; --r: 16px; --hw: 600; }
+  .m-glassmorphism .light { --bg: #9db8ff; --fg: #14183a; --mu: #252a57; --cd: rgba(255, 255, 255, 0.38); --bd: rgba(255, 255, 255, 0.7); --ac: #14183a; --oa: #fff; --sh: 0 8px 24px rgba(40, 30, 110, 0.18); background-image: radial-gradient(circle at 15% 20%, #c9f0ff 0 18%, transparent 40%), radial-gradient(circle at 85% 80%, #ffb3d6 0 20%, transparent 45%), linear-gradient(135deg, #8fb0ff, #c9a2ff); }
+  .m-glassmorphism .dark { --bg: #1b1f4a; --fg: #fff; --mu: #dadcf7; --cd: rgba(255, 255, 255, 0.1); --bd: rgba(255, 255, 255, 0.28); --ac: #fff; --oa: #1b1f4a; --sh: 0 8px 24px rgba(0, 0, 0, 0.35); background-image: radial-gradient(circle at 15% 20%, #2a6a9c 0 14%, transparent 40%), radial-gradient(circle at 85% 80%, #8a2a7c 0 16%, transparent 45%), linear-gradient(135deg, #1b1f4a, #3a1d6e); }
+  .m-glassmorphism .card, .m-glassmorphism input { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+
+  .m-tactile-hardware .s { --fh: "Orbitron", Consolas, monospace; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 6px; --hs: 1rem; --ht: 0.08em; --hc: uppercase; --cd: #14171a; --bd: #000; --bw: 2px; }
+  .m-tactile-hardware .light { --bg: #d6d3cb; --fg: #1f2023; --mu: #45474c; --cf: #ffb347; --cm: #d99a3d; --in: #f1efe9; --ac: #ecebe6; --oa: #1f2023; --bb: #8a867c; --bs: 0 4px 0 #8a867c, 0 6px 8px rgba(0, 0, 0, 0.2); --sh: inset 0 2px 6px rgba(0, 0, 0, 0.8); background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 3px); }
+  .m-tactile-hardware .dark { --bg: #2a2c2f; --fg: #e8e6e0; --mu: #b3b1ab; --cf: #7dffb0; --cm: #4fc486; --in: #1c1e20; --ac: #4a4d52; --oa: #fff; --bb: #17181a; --bs: 0 4px 0 #17181a, 0 6px 8px rgba(0, 0, 0, 0.4); --sh: inset 0 2px 6px rgba(0, 0, 0, 0.9); background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px); }
+  .m-tactile-hardware input { border-color: #8a867c; }
+  .m-tactile-hardware button:active { transform: translateY(4px); box-shadow: none; }
+  .m-tactile-hardware h4::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 50%; background: #2fd16b; box-shadow: 0 0 6px #2fd16b; }
+
+  .m-cozy-storybook .s { --fh: Georgia, "Times New Roman", serif; --fb: Georgia, "Times New Roman", serif; --r: 18px; --br: 999px; --bw: 2px; --hs: 1.4rem; }
+  .m-cozy-storybook .light { --bg: #fbf1df; --fg: #4a3426; --mu: #6d5443; --cd: #fffaf0; --bd: #e2c9a0; --ac: #a84a22; --oa: #fff; }
+  .m-cozy-storybook .dark { --bg: #2d2320; --fg: #f6e7d2; --mu: #cdb9a2; --cd: #3a2e29; --bd: #6b5444; --ac: #f0b27a; --oa: #2d2320; }
+  .m-cozy-storybook h4 { font-style: italic; }
+  .m-cozy-storybook .s p::first-letter { font-size: 1.9em; float: left; line-height: 0.9; padding-right: 5px; color: var(--ac); font-weight: 700; }
+  .m-cozy-storybook .card { border-style: dashed; }
+
+  /* ================================================================ Bold and graphic */
+  .m-neo-brutalism .s { --fh: "Space Grotesk", Arial, sans-serif; --fb: "Space Grotesk", Arial, sans-serif; --bw: 3px; --r: 0; --hs: 1.45rem; }
+  .m-neo-brutalism .light { --bg: #fffbe6; --fg: #111; --mu: #333; --cd: #ffd23f; --bd: #111; --ac: #2b59ff; --oa: #fff; --bb: #111; --in: #fff; --sh: 6px 6px 0 #111; --bs: 4px 4px 0 #111; }
+  .m-neo-brutalism .dark { --bg: #17171a; --fg: #fff; --mu: #d6d6d6; --cd: #2b59ff; --bd: #fff; --cm: #fff; --ac: #ffd23f; --oa: #111; --bb: #fff; --in: #000; --sh: 6px 6px 0 #fff; --bs: 4px 4px 0 #fff; }
+  .m-neo-brutalism button:active { transform: translate(4px, 4px); box-shadow: none; }
+
+  .m-comic-book-pop-art .s { --fh: "Bangers", Impact, sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --bw: 3px; --r: 18px; --br: 4px; --hs: 1.7rem; --hw: 400; --ht: 0.04em; --cd: #fff; --cf: #111; --cm: #333; }
+  .m-comic-book-pop-art .light { --bg: #ffe45c; --fg: #111; --mu: #222; --bd: #111; --ac: #d81f26; --oa: #fff; --bb: #111; --in: #fff; --bs: 3px 3px 0 #111; background-image: radial-gradient(rgba(0, 0, 0, 0.13) 1.3px, transparent 1.4px); background-size: 9px 9px; }
+  .m-comic-book-pop-art .dark { --bg: #1a1a40; --fg: #fff; --mu: #e4e4f5; --bd: #fff; --ac: #ffd400; --oa: #111; --bb: #fff; --in: #0e0e2a; --bs: 3px 3px 0 #fff; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.3px, transparent 1.4px); background-size: 9px 9px; }
+  .m-comic-book-pop-art .card { border-color: #111; margin-bottom: 12px; }
+  .m-comic-book-pop-art .card::after { content: ""; position: absolute; left: 26px; bottom: -15px; width: 20px; height: 20px; background: #fff; border-right: 3px solid #111; border-bottom: 3px solid #111; transform: skew(28deg) rotate(38deg); }
+  .m-comic-book-pop-art .light h4 { text-shadow: 2px 2px 0 #fff; }
+
+  .m-shonen-ink .s { --fh: "Bangers", Impact, sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --bw: 3px; --r: 0; --hs: 1.8rem; --hw: 400; --ht: 0.03em; --hc: uppercase; }
+  .m-shonen-ink .light { --bg: #fff; --fg: #000; --mu: #2b2b2b; --cd: #fff; --bd: #000; --ac: #000; --oa: #fff; background-image: repeating-linear-gradient(98deg, transparent 0 13px, rgba(0, 0, 0, 0.07) 13px 14px); }
+  .m-shonen-ink .dark { --bg: #0c0c0c; --fg: #fff; --mu: #dcdcdc; --cd: #0c0c0c; --bd: #fff; --ac: #fff; --oa: #000; background-image: repeating-linear-gradient(98deg, transparent 0 13px, rgba(255, 255, 255, 0.09) 13px 14px); }
+  .m-shonen-ink h4 { transform: skewX(-8deg); transform-origin: left; }
+  .m-shonen-ink .card { overflow: hidden; }
+  .m-shonen-ink .card::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34%; opacity: 0.5; background-image: radial-gradient(currentColor 1px, transparent 1.2px); background-size: 6px 6px; -webkit-mask-image: linear-gradient(90deg, transparent, #000); mask-image: linear-gradient(90deg, transparent, #000); }
+  .m-shonen-ink button { transform: skewX(-8deg); }
+
+  .m-maximalism .s { --fh: "Playfair Display", Georgia, serif; --fb: Georgia, serif; --r: 12px; --bw: 3px; --hs: 1.5rem; }
+  .m-maximalism .light { --bg: #ffcf33; --fg: #2b1a6b; --mu: #2b1a6b; --pb: #fff; --cd: #0c6b5e; --bd: #ffcf33; --cf: #fff; --cm: #e4fff9; --in: #fff; --ac: #6a1fb1; --oa: #fff; --bb: #fff; background-image: radial-gradient(circle at 12px 12px, #ff5fa2 0 5px, transparent 6px), repeating-linear-gradient(45deg, #ffcf33 0 14px, #ff8a5c 14px 28px); background-size: 28px 28px, auto; }
+  .m-maximalism .dark { --bg: #3b1466; --fg: #fff; --mu: #fff; --pb: #1a1030; --cd: #a01f55; --bd: #ffcf33; --cf: #fff; --cm: #ffe3ef; --in: #1a1030; --ac: #ffcf33; --oa: #2b1a6b; --bb: #2b1a6b; background-image: radial-gradient(circle at 12px 12px, #18a999 0 5px, transparent 6px), repeating-linear-gradient(45deg, #3b1466 0 14px, #0c4a52 14px 28px); background-size: 28px 28px, auto; }
+  .m-maximalism h4, .m-maximalism .s p, .m-maximalism label { background: var(--pb); padding: 6px 10px; border-radius: 8px; }
+  .m-maximalism h4 { justify-self: start; border: 3px double var(--ac); }
+  .m-maximalism .card { border-style: double; border-width: 6px; }
+
+  .m-streetwear-graffiti .s { --fh: "Permanent Marker", Impact, sans-serif; --fb: "Arial Narrow", Arial, sans-serif; --r: 2px; --bw: 0px; --hs: 1.6rem; --hw: 400; }
+  .m-streetwear-graffiti .light { --bg: #e4e3df; --fg: #111; --mu: #333; --cd: #111; --bd: #111; --cf: #fff; --cm: #d6d6d6; --in: #fff; --ac: #c80028; --oa: #fff; background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1.4px), radial-gradient(rgba(0, 0, 0, 0.04) 2px, transparent 2.6px); background-size: 7px 7px, 19px 19px; }
+  .m-streetwear-graffiti .dark { --bg: #161616; --fg: #f2f2f2; --mu: #c9c9c9; --cd: #262626; --bd: #f5e611; --in: #000; --ac: #f5e611; --oa: #111; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px); background-size: 7px 7px; }
+  .m-streetwear-graffiti h4 { transform: rotate(-2deg); transform-origin: left; }
+  .m-streetwear-graffiti .card { border-left: 8px solid var(--ac); transform: rotate(1deg); }
+  .m-streetwear-graffiti button { text-transform: uppercase; letter-spacing: 0.06em; font-family: "Arial Narrow", Arial, sans-serif; }
+  .m-streetwear-graffiti input { border: 2px solid var(--fg); }
+
+  /* ================================================================ Retro and nostalgic */
+  .m-memphis .s { --fh: "Space Grotesk", Arial, sans-serif; --fb: "Space Grotesk", Arial, sans-serif; --r: 0; --bw: 3px; --hs: 1.45rem; }
+  .m-memphis .light { --bg: #fff7f0; --fg: #1d1d2b; --mu: #40405a; --cd: #fff; --bd: #1d1d2b; --ac: #0f766e; --oa: #fff; --bb: #1d1d2b; --sh: 7px 7px 0 #ffb3c7; background-image: radial-gradient(circle at 92% 14%, #ffd23f 0 14px, transparent 15px), radial-gradient(circle at 6% 88%, #7ee0d2 0 10px, transparent 11px), repeating-linear-gradient(135deg, transparent 0 46px, rgba(255, 93, 143, 0.14) 46px 50px); }
+  .m-memphis .dark { --bg: #1f1b2e; --fg: #fff; --mu: #d5d0ea; --cd: #2a2540; --bd: #fff; --ac: #7ee0d2; --oa: #1f1b2e; --bb: #fff; --sh: 7px 7px 0 #ff5d8f; background-image: radial-gradient(circle at 92% 14%, #ffd23f 0 14px, transparent 15px), radial-gradient(circle at 6% 88%, #ff5d8f 0 10px, transparent 11px), repeating-linear-gradient(135deg, transparent 0 46px, rgba(126, 224, 210, 0.12) 46px 50px); }
+  .m-memphis h4 { text-decoration: underline wavy #ff5d8f; text-decoration-thickness: 3px; text-underline-offset: 6px; padding-bottom: 6px; }
+
+  .m-retro-pixel .s { --fh: "Press Start 2P", Consolas, monospace; --fb: Consolas, "Courier New", monospace; --r: 0; --bw: 4px; --hs: 0.82rem; --hw: 400; }
+  .m-retro-pixel .light { --bg: #f8f0d8; --fg: #2a2a40; --mu: #4a4a66; --cd: #fff; --bd: #2a2a40; --ac: #b83227; --oa: #fff; --bb: #2a2a40; --bs: inset -4px -4px 0 rgba(0, 0, 0, 0.28); }
+  .m-retro-pixel .dark { --bg: #1a1c2c; --fg: #f4f4f4; --mu: #c0c4dc; --cd: #29366f; --bd: #f4f4f4; --in: #1a1c2c; --ac: #a7f070; --oa: #1a1c2c; --bb: #f4f4f4; --bs: inset -4px -4px 0 rgba(0, 0, 0, 0.28); }
+  .m-retro-pixel h4 { line-height: 1.6; }
+  .m-retro-pixel .card b { font-size: 0.95rem; line-height: 1.8; }
+  .m-retro-pixel button { font-size: 0.62rem; padding: 12px 14px; }
+
+  .m-retro-desktop .s { --fh: Tahoma, "MS Sans Serif", Verdana, sans-serif; --fb: Tahoma, "MS Sans Serif", Verdana, sans-serif; --r: 0; --bw: 2px; --hs: 0.86rem; --ht: 0; }
+  .m-retro-desktop .light { --bg: #c0c0c0; --fg: #000; --mu: #222; --cd: #fff; --ac: #c0c0c0; --oa: #000; --tb: #000080; --hi: #fff; --lo: #6d6d6d; box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #6d6d6d; }
+  .m-retro-desktop .dark { --bg: #3a3a3a; --fg: #f0f0f0; --mu: #d0d0d0; --cd: #1e1e1e; --ac: #4c4c4c; --oa: #fff; --tb: #1f4f9f; --hi: #7a7a7a; --lo: #111; box-shadow: inset 2px 2px 0 #7a7a7a, inset -2px -2px 0 #111; }
+  .m-retro-desktop h4 { background: var(--tb); color: #fff; padding: 4px 8px; display: flex; justify-content: space-between; }
+  .m-retro-desktop h4::after { content: "×"; font-weight: 700; }
+  .m-retro-desktop .card, .m-retro-desktop input { border-style: solid; border-color: var(--lo) var(--hi) var(--hi) var(--lo); }
+  .m-retro-desktop button { border-style: solid; border-color: var(--hi) var(--lo) var(--lo) var(--hi); font-weight: 400; padding: 6px 18px; }
+  .m-retro-desktop button:active { border-color: var(--lo) var(--hi) var(--hi) var(--lo); }
+
+  .m-synthwave .s { --fh: "Orbitron", "Trebuchet MS", sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 4px; --hs: 1.05rem; --ht: 0.1em; --hc: uppercase; }
+  .m-synthwave .light { --bg: #ffd1a8; --fg: #3a0f4f; --mu: #55215f; --cd: rgba(255, 255, 255, 0.6); --bd: #b0267f; --ac: #7a1fa2; --oa: #fff; background-image: linear-gradient(#ffe2b8, #ffb3c9 70%, #ff9ec4); }
+  .m-synthwave .dark { --bg: #1a0b3a; --fg: #fdf2ff; --mu: #e6c4ff; --cd: rgba(20, 5, 50, 0.65); --bd: #ff4fd8; --ac: #00e5ff; --oa: #1a0b3a; --sh: 0 0 14px rgba(255, 79, 216, 0.5); --bs: 0 0 14px rgba(0, 229, 255, 0.6); background-image: linear-gradient(transparent 62%, rgba(255, 79, 216, 0.22) 62%), repeating-linear-gradient(90deg, transparent 0 27px, rgba(255, 79, 216, 0.35) 27px 28px), linear-gradient(#1a0b3a, #3a0f5a); }
+  .m-synthwave .dark h4 { text-shadow: 0 0 10px #ff4fd8; }
+
+  .m-mid-century-modern .s { --fh: "Century Gothic", Futura, "Trebuchet MS", sans-serif; --fb: "Century Gothic", Futura, "Trebuchet MS", sans-serif; --r: 22px 4px 22px 4px; --br: 999px; --bw: 0px; --hs: 1.35rem; }
+  .m-mid-century-modern .light { --bg: #f3ead7; --fg: #2d3b3a; --mu: #4c5c5a; --cd: #fff8ea; --bd: transparent; --ac: #b93d0b; --oa: #fff; --hc2: #0f6b6b; }
+  .m-mid-century-modern .dark { --bg: #1f2f33; --fg: #f3ead7; --mu: #c9c3b0; --cd: #2a3f44; --bd: transparent; --ac: #f29f4b; --oa: #1f2f33; --hc2: #7fd1c7; }
+  .m-mid-century-modern h4 { color: var(--hc2); }
+  .m-mid-century-modern h4::before { content: "✶ "; color: var(--ac); }
+  .m-mid-century-modern .card { border-bottom: 6px solid var(--hc2); }
+  .m-mid-century-modern input { border: 0; border-bottom: 2px solid var(--hc2); border-radius: 0; background: transparent; }
+
+  .m-heritage .s { --fh: "Cormorant Garamond", "Playfair Display", Georgia, serif; --fb: Georgia, "Times New Roman", serif; --r: 0; --hs: 1.5rem; --hc: none; }
+  .m-heritage .light { --bg: #f4ecd8; --fg: #2c1e12; --mu: #55402c; --cd: #fbf5e6; --bd: #7a5b2e; --ac: #6b1d1d; --oa: #fbf0d4; }
+  .m-heritage .dark { --bg: #1e1711; --fg: #ecdcb8; --mu: #c2b08a; --cd: #2a2018; --bd: #a8884f; --ac: #c9a45a; --oa: #1e1711; }
+  .m-heritage h4 { font-variant: small-caps; letter-spacing: 0.06em; text-align: center; }
+  .m-heritage h4::after { content: "❦"; display: block; font-size: 0.9rem; color: var(--bd); margin-top: 2px; }
+  .m-heritage .card { border-width: 3px; border-style: double; text-align: center; }
+  .m-heritage .s p { text-align: center; font-style: italic; }
+  .m-heritage button { font-variant: small-caps; letter-spacing: 0.08em; }
+
+  /* ================================================================ Dark and techy */
+  .m-cyberpunk .s { --fh: "Orbitron", "Trebuchet MS", sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 0; --hs: 1.05rem; --ht: 0.1em; --hc: uppercase; }
+  .m-cyberpunk .light { --bg: #e6e8ee; --fg: #0d0f14; --mu: #353a48; --cd: #fff; --bd: #0d0f14; --ac: #f7ee2a; --oa: #0d0f14; --bb: #0d0f14; }
+  .m-cyberpunk .dark { --bg: #08090d; --fg: #e8f7ff; --mu: #9bc0d4; --cd: #0f131c; --bd: #00e5ff; --ac: #ff2a6d; --oa: #08090d; --sh: 0 0 12px rgba(0, 229, 255, 0.3); }
+  .m-cyberpunk .dark h4 { text-shadow: 1.5px 0 #ff2a6d, -1.5px 0 #00e5ff; }
+  .m-cyberpunk .card, .m-cyberpunk button { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+  .m-cyberpunk .card { border-left-width: 4px; }
+
+  .m-terminal .s { --fh: "VT323", Consolas, monospace; --fb: Consolas, "Courier New", monospace; --r: 0; --hs: 1.8rem; --hw: 400; }
+  .m-terminal .light { --bg: #f4f1e4; --fg: #1d2b1d; --mu: #4a5a4a; --cd: transparent; --bd: #1d2b1d; --ac: #1d2b1d; --oa: #f4f1e4; }
+  .m-terminal .dark { --bg: #0b0f0b; --fg: #7dff9a; --mu: #58c474; --cd: transparent; --bd: #2f7d45; --ac: #7dff9a; --oa: #0b0f0b; }
+  .m-terminal h4::before { content: "> "; }
+  .m-terminal h4::after { content: "_"; }
+  @media (prefers-reduced-motion: no-preference) {
+    .m-terminal h4::after { animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  }
+  .m-terminal .card { border-style: dashed; }
+  .m-terminal button { font-family: Consolas, "Courier New", monospace; }
+  .m-terminal button::before { content: "[ "; }
+  .m-terminal button::after { content: " ]"; }
+
+  .m-sci-fi-hud .s { --fh: "Orbitron", "Trebuchet MS", sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 0; --hs: 0.95rem; --hw: 500; --ht: 0.14em; --hc: uppercase; }
+  .m-sci-fi-hud .light { --bg: #eef4f6; --fg: #0d2a36; --mu: #3f6170; --cd: transparent; --bd: #6aa5b8; --ac: #0d5a75; --oa: #fff; --in: #fff; }
+  .m-sci-fi-hud .dark { --bg: #06121a; --fg: #bfefff; --mu: #7fb4c8; --cd: rgba(95, 215, 255, 0.05); --bd: rgba(120, 220, 255, 0.45); --ac: rgba(0, 200, 255, 0.16); --oa: #bfefff; --bb: #5fd7ff; --in: transparent; background-image: repeating-linear-gradient(transparent 0 3px, rgba(95, 215, 255, 0.04) 3px 4px); }
+  .m-sci-fi-hud .card::before, .m-sci-fi-hud .card::after { content: ""; position: absolute; width: 12px; height: 12px; border: 2px solid var(--fg); }
+  .m-sci-fi-hud .card::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+  .m-sci-fi-hud .card::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+  .m-sci-fi-hud h4::before { content: "// "; opacity: 0.6; }
+
+  .m-industrial .s { --fh: Impact, "Arial Narrow", Arial, sans-serif; --fb: Arial, Helvetica, sans-serif; --r: 2px; --hs: 1.4rem; --hw: 400; --ht: 0.05em; --hc: uppercase; --bw: 2px; }
+  .m-industrial .light { --bg: #e7e5e0; --fg: #1a1a1a; --mu: #3d3d3d; --cd: #fff; --bd: #1a1a1a; --ac: #f2b705; --oa: #111; --bb: #111; }
+  .m-industrial .dark { --bg: #1b1c1e; --fg: #f1f1f1; --mu: #c4c4c4; --cd: #26282b; --bd: #5a5d62; --ac: #ff7a1a; --oa: #111; --bb: #111; }
+  .m-industrial .card { padding-top: 18px; overflow: hidden; }
+  .m-industrial .card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: repeating-linear-gradient(45deg, #111 0 8px, #f2b705 8px 16px); }
+  .m-industrial .card b { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+
+  .m-space .s { --fh: system-ui, "Segoe UI", sans-serif; --fb: system-ui, "Segoe UI", sans-serif; --r: 14px; --br: 999px; --hw: 600; --ht: 0.02em; }
+  .m-space .light { --bg: #e9ecff; --fg: #1b1e4b; --mu: #3d4178; --cd: rgba(255, 255, 255, 0.72); --bd: #b9bdf0; --ac: #3730a3; --oa: #fff; background-image: radial-gradient(circle at 88% -10%, #ffd9f0 0 22%, transparent 48%), linear-gradient(#e9ecff, #f3e9ff); }
+  .m-space .dark { --bg: #0a0b1e; --fg: #eef0ff; --mu: #b9bde8; --cd: rgba(255, 255, 255, 0.06); --bd: rgba(255, 255, 255, 0.24); --ac: #c7b8ff; --oa: #0a0b1e; background-image: radial-gradient(#fff 0.7px, transparent 0.9px), radial-gradient(rgba(255, 255, 255, 0.7) 0.6px, transparent 0.8px), radial-gradient(circle at 85% -10%, #4a2f9a 0 18%, transparent 55%); background-size: 61px 67px, 37px 41px, auto; background-position: 7px 11px, 23px 5px, 0 0; }
+  .m-space .card { overflow: hidden; }
+  .m-space .card::after { content: ""; position: absolute; right: -34px; top: -34px; width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--bd); }
+
+  /* ================================================================ Calm and refined */
+  .m-minimalist .s { --fh: "Helvetica Neue", Helvetica, Arial, sans-serif; --fb: "Helvetica Neue", Helvetica, Arial, sans-serif; --r: 2px; --hs: 1.6rem; --hw: 600; --ht: -0.02em; }
+  .m-minimalist .light { --bg: #fff; --fg: #111; --mu: #5c5c5c; --cd: #fff; --bd: #e2e2e2; --ac: #111; --oa: #fff; --cf: #c9302c; }
+  .m-minimalist .dark { --bg: #0f0f0f; --fg: #f5f5f5; --mu: #a6a6a6; --cd: #0f0f0f; --bd: #2c2c2c; --ac: #f5f5f5; --oa: #0f0f0f; --cf: #ff7b72; }
+  .m-minimalist .s { gap: 18px 24px; padding: 28px 24px; }
+  .m-minimalist .card { border-width: 1px 0 0; padding: 12px 0 0; }
+  .m-minimalist input { border-width: 0 0 1px; padding-left: 0; background: transparent; }
+
+  .m-japandi .s { --fh: Georgia, "Times New Roman", serif; --fb: "Helvetica Neue", Helvetica, Arial, sans-serif; --r: 2px; --hs: 1.4rem; --hw: 400; --ht: 0.02em; }
+  .m-japandi .light { --bg: #efe9df; --fg: #33302a; --mu: #645f55; --cd: #f7f3ec; --bd: #d6cdbd; --ac: #536350; --oa: #fff; }
+  .m-japandi .dark { --bg: #262420; --fg: #e9e2d4; --mu: #b5ad9d; --cd: #302d28; --bd: #4a453c; --ac: #c8b99a; --oa: #262420; }
+  .m-japandi .s { gap: 18px 24px; padding: 28px 24px; }
+  .m-japandi .card { border-left: 3px solid var(--ac); }
+  .m-japandi button { font-weight: 400; letter-spacing: 0.06em; }
+
+  .m-art-deco .s { --fh: "Playfair Display", Georgia, serif; --fb: Georgia, "Times New Roman", serif; --r: 0; --ht: 0.1em; --hc: uppercase; --hs: 1.1rem; }
+  .m-art-deco .light { --bg: #f7f1e1; --fg: #1c2a2a; --mu: #4d5a58; --cd: #fffaf0; --bd: #9a7b2f; --ac: #14403c; --oa: #f6e7b4; }
+  .m-art-deco .dark { --bg: #101a1c; --fg: #f0e3b8; --mu: #b9ad86; --cd: #16262a; --bd: #c9a54a; --ac: #c9a54a; --oa: #101a1c; }
+  .m-art-deco .card { outline: 1px solid var(--bd); outline-offset: 3px; margin: 4px; text-align: center; }
+  .m-art-deco h4 { text-align: center; padding-bottom: 8px; border-bottom: 3px double var(--bd); }
+  .m-art-deco .s p { text-align: center; }
+
+  .m-dreamlike .s { --fh: "Cormorant Garamond", Georgia, serif; --fb: Georgia, "Times New Roman", serif; --r: 28px; --br: 999px; --hs: 1.7rem; --hw: 500; }
+  .m-dreamlike .light { --bg: #f1e6ff; --fg: #3b2f5c; --mu: #584d80; --cd: rgba(255, 255, 255, 0.62); --bd: rgba(255, 255, 255, 0.95); --ac: #6347bd; --oa: #fff; --sh: 0 14px 34px rgba(140, 120, 220, 0.28); background-image: radial-gradient(circle at 80% 10%, #fff3d6 0 16%, transparent 45%), linear-gradient(160deg, #fbe8ff, #dff3ff 60%, #ffe9f3); }
+  .m-dreamlike .dark { --bg: #1c1638; --fg: #f3ecff; --mu: #cbc1ea; --cd: rgba(255, 255, 255, 0.08); --bd: rgba(255, 255, 255, 0.22); --ac: #e7c8ff; --oa: #1c1638; --sh: 0 14px 34px rgba(0, 0, 0, 0.4); background-image: radial-gradient(circle at 80% 10%, #5a3d8a 0 12%, transparent 45%), linear-gradient(160deg, #1c1638, #122a44 60%, #3a1d4a); }
+  .m-dreamlike h4 { font-style: italic; }
+  @media (prefers-reduced-motion: no-preference) {
+    .m-dreamlike .card { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 50% { transform: translateY(-5px); } }
+  }
+
+  .m-academia .s { --fh: "Cormorant Garamond", "Playfair Display", Georgia, serif; --fb: Georgia, "Times New Roman", serif; --r: 2px; --hs: 1.55rem; }
+  .m-academia .light { --bg: #efe6d3; --fg: #2a1f14; --mu: #55432f; --cd: #3b2a1c; --bd: #b08d57; --cf: #f1e3c4; --cm: #dcc79c; --in: #f8f1e1; --ac: #5a1e1e; --oa: #f6e9cc; }
+  .m-academia .dark { --bg: #1a1410; --fg: #e9dcc0; --mu: #bcab89; --cd: #2b2018; --bd: #8a6d3f; --ac: #b08d57; --oa: #1a1410; background-image: radial-gradient(circle at 50% -20%, rgba(255, 190, 90, 0.2), transparent 60%); }
+  .m-academia .card { box-shadow: inset 0 0 0 3px var(--cd), inset 0 0 0 4px var(--bd); }
+  .m-academia h4 { border-bottom: 1px solid var(--bd); padding-bottom: 6px; }
+  .m-academia .s p { font-style: italic; }
+
+  .m-organic .s { --fh: Georgia, "Times New Roman", serif; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 22px 10px 22px 10px; --br: 999px; --hs: 1.4rem; --hw: 500; }
+  .m-organic .light { --bg: #eef0e2; --fg: #2d3a26; --mu: #52604a; --cd: #fbfaf0; --bd: #c9cfae; --ac: #3f6b3a; --oa: #fff; background-image: radial-gradient(rgba(60, 80, 40, 0.07) 1px, transparent 1.3px); background-size: 5px 5px; }
+  .m-organic .dark { --bg: #1f2a1c; --fg: #e8ecd8; --mu: #b4bda2; --cd: #2a3725; --bd: #47583e; --ac: #b9d48a; --oa: #1f2a1c; background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1.3px); background-size: 5px 5px; }
+  .m-organic h4::before { content: "❧ "; color: var(--ac); }
+
+  /* ================================================================ Institutional and product */
+  .m-accessibility-first .s { --fh: Verdana, Arial, sans-serif; --fb: Verdana, Arial, sans-serif; --r: 4px; --bw: 2px; --hs: 1.3rem; }
+  .m-accessibility-first .light { --bg: #fff; --fg: #000; --mu: #1f1f1f; --cd: #fff; --bd: #000; --ac: #003a8c; --oa: #fff; }
+  .m-accessibility-first .dark { --bg: #000; --fg: #fff; --mu: #ededed; --cd: #000; --bd: #fff; --ac: #ffe600; --oa: #000; }
+  .m-accessibility-first .s p { font-size: 1rem; line-height: 1.6; }
+  .m-accessibility-first label, .m-accessibility-first .card span { font-size: 0.9rem; font-weight: 700; }
+  .m-accessibility-first input { font-size: 1rem; padding: 12px; }
+  .m-accessibility-first button { font-size: 1rem; padding: 13px 20px; text-decoration: underline; }
+
+  .m-consumer-warm .s { --fh: "Fredoka", "Trebuchet MS", sans-serif; --fb: "Trebuchet MS", Verdana, sans-serif; --r: 16px; --br: 999px; --hs: 1.4rem; --hw: 600; }
+  .m-consumer-warm .light { --bg: #fff6ee; --fg: #3a2a22; --mu: #66524a; --cd: #fff; --bd: #f1dccb; --ac: #b93d0b; --oa: #fff; --sh: 0 6px 16px rgba(180, 120, 80, 0.16); }
+  .m-consumer-warm .dark { --bg: #2a211d; --fg: #fdeee2; --mu: #d2bcae; --cd: #372c27; --bd: #4d3e37; --ac: #ffb38a; --oa: #2a211d; --sh: 0 6px 16px rgba(0, 0, 0, 0.35); }
+
+  .m-clean-saas .s { --fh: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --fb: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --r: 8px; --hs: 1.2rem; --hw: 600; }
+  .m-clean-saas .light { --bg: #f7f8fa; --fg: #111827; --mu: #4b5563; --cd: #fff; --bd: #e5e7eb; --ac: #2563eb; --oa: #fff; --sh: 0 1px 2px rgba(0, 0, 0, 0.06); }
+  .m-clean-saas .dark { --bg: #0f1218; --fg: #f3f4f6; --mu: #9ca3af; --cd: #171b23; --bd: #2a303c; --ac: #2563eb; --oa: #fff; --sh: 0 1px 2px rgba(0, 0, 0, 0.4); }
+  .m-clean-saas .card b::after { content: "▲ 12%"; margin-left: 8px; font-size: 0.72rem; font-weight: 600; color: #15803d; vertical-align: middle; }
+  .m-clean-saas .dark .card b::after { color: #4ade80; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Motif gallery</h1>
+    <p>One tile for each family in the catalogue. Every tile is the same five pieces, a
+      heading, a paragraph, a button, a card and an input, in light and in dark, so the
+      motif is the only thing that changes. Values are illustrations, not tokens.</p>
+  </header>
+  <nav class="groups" aria-label="Groups"></nav>
+  <main id="gallery"><noscript>This page draws its tiles with a script. Turn scripts on, or read the catalogue in motifs.md.</noscript></main>
+</div>
+
+<script>
+  // One entry per family in motifs.md: the name exactly as written there, its group, and a
+  // few words from its entry. The CSS class is `.m-<slug of the name>`.
+  const FAMILIES = [
+    { name: "Stationery", group: "Paper and craft", line: "Paper, pencil marks, sticky notes, tape" },
+    { name: "Classroom", group: "Paper and craft", line: "Boards, gold stars, pinned notices" },
+    { name: "Scrapbook", group: "Paper and craft", line: "Torn paper, photos, tape, layered cut-outs" },
+    { name: "Papercraft", group: "Paper and craft", line: "Layered cut paper, depth from stacked sheets" },
+    { name: "Risograph", group: "Paper and craft", line: "Two or three inks overprinted, visible grain" },
+    { name: "Claymorphism", group: "Soft and tactile", line: "Puffy rounded shapes, a squish on press" },
+    { name: "Neumorphism", group: "Soft and tactile", line: "Surfaces extruded and pressed from the background" },
+    { name: "Glassmorphism", group: "Soft and tactile", line: "Frosted translucent layers over colour" },
+    { name: "Tactile hardware", group: "Soft and tactile", line: "Knobs, switches, readouts, device detailing" },
+    { name: "Cozy storybook", group: "Soft and tactile", line: "Hand-made illustration, rounded serifs, warm and gentle" },
+    { name: "Neo-brutalism", group: "Bold and graphic", line: "Thick borders, hard offset shadows, flat blocks" },
+    { name: "Comic book / pop art", group: "Bold and graphic", line: "Halftone dots, speech bubbles, bold primaries" },
+    { name: "Shonen ink", group: "Bold and graphic", line: "Bold ink lines, screentone, speed lines" },
+    { name: "Maximalism", group: "Bold and graphic", line: "Layered patterns, clashing colour, dense ornament" },
+    { name: "Streetwear / graffiti", group: "Bold and graphic", line: "Spray paint, tags, stickers, bold drops" },
+    { name: "Memphis", group: "Retro and nostalgic", line: "Squiggles, confetti shapes, clashing pastels" },
+    { name: "Retro pixel", group: "Retro and nostalgic", line: "Pixel fonts, chunky bordered UI, limited palettes" },
+    { name: "Retro desktop", group: "Retro and nostalgic", line: "Windows, title bars and bevels of an old operating system" },
+    { name: "Synthwave", group: "Retro and nostalgic", line: "Retro-futurist glow, gradients and grids" },
+    { name: "Mid-century modern", group: "Retro and nostalgic", line: "Starbursts, boomerang shapes, teal and orange" },
+    { name: "Heritage", group: "Retro and nostalgic", line: "Period styles: classical, ornate, historic" },
+    { name: "Cyberpunk", group: "Dark and techy", line: "Near-black base, neon signal colour, angular shapes" },
+    { name: "Terminal", group: "Dark and techy", line: "Monospace, prompts and cursors, text-mode framing" },
+    { name: "Sci-fi HUD", group: "Dark and techy", line: "Thin linework, brackets and corner marks, readouts" },
+    { name: "Industrial", group: "Dark and techy", line: "Utilitarian type, signal colours, stencils" },
+    { name: "Space", group: "Dark and techy", line: "Starfields, orbit lines, deep dark gradients" },
+    { name: "Minimalist", group: "Calm and refined", line: "Whitespace, a strong type scale, one accent" },
+    { name: "Japandi", group: "Calm and refined", line: "Muted natural tones, lots of space, quiet type" },
+    { name: "Art deco", group: "Calm and refined", line: "Gold linework, geometric frames, symmetry" },
+    { name: "Dreamlike", group: "Calm and refined", line: "Soft light, floating forms" },
+    { name: "Academia", group: "Calm and refined", line: "Libraries, leather, serif type, candlelight" },
+    { name: "Organic", group: "Calm and refined", line: "Earthy colour, grain, soft curves" },
+    { name: "Accessibility-first", group: "Institutional and product", line: "High contrast, large targets, plain language" },
+    { name: "Consumer-warm", group: "Institutional and product", line: "Friendly rounded type, warm neutrals" },
+    { name: "Clean SaaS", group: "Institutional and product", line: "Neutral greys, one brand colour, crisp cards" },
+  ];
+
+  const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+  const sample = (scheme) => `
+    <div class="s ${scheme}">
+      <h4>Weekly summary</h4>
+      <p>Three invoices went out this week, and two of them are paid.</p>
+      <div class="card"><span>Paid so far</span><b>$1,240</b><span>2 of 3 invoices</span></div>
+      <div class="form">
+        <label>Client name<input type="text" placeholder="Start typing" autocomplete="off"></label>
+        <button type="button">Send reminder</button>
+      </div>
+    </div>`;
+
+  const groups = [...new Set(FAMILIES.map((f) => f.group))];
+  document.querySelector("nav.groups").innerHTML = groups.map((g) => `<a href="#${slug(g)}">${g}</a>`).join("");
+  document.getElementById("gallery").innerHTML = groups
+    .map(
+      (g) => `
+    <section class="group" id="${slug(g)}">
+      <h2>${g}</h2>
+      <div class="tiles">${FAMILIES.filter((f) => f.group === g)
+        .map(
+          (f) => `
+        <article class="tile m-${slug(f.name)}" data-family="${f.name}">
+          <header><h3>${f.name}</h3><p>${f.line}</p></header>
+          ${sample("light")}${sample("dark")}
+        </article>`,
+        )
+        .join("")}</div>
+    </section>`,
+    )
+    .join("");
+</script>
+</body>
+</html>

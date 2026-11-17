@@ -1,105 +1,48 @@
 ---
 name: checkpoint
-description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects, or single-branch in a cloud session). Ends by asking whether to compact and continue. Goal: the next session picks up with nothing missing and nothing assumed.
+description: Use when wrapping up a work session — e.g. "checkpoint", "let's checkpoint", "git checkpoint", "checkpoint MAX", "git checkpoint max", "wrap up for today", "save state before I go", "end of session", "git CPR", "git CPR max". Brings the project's status doc, README and other docs, and its Trello board (if any) current; offers skill improvements and new skills for repeated workflows; then handles git per project-rules §GIT. "git" = commit and push without asking; "MAX" = exhaustive, claim-by-claim verification; "CPR" = checkpoint, then release (multi-branch projects, or single-branch in a cloud session). Ends by asking whether to compact and continue. The goal is a next session that picks up with nothing missing and nothing assumed.
 ---
 
 # Checkpoint
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 ## Invocation modes
 
-Two independent dials. Read the user's exact words and set both before starting.
+Three dials, read from the owner's exact words before starting. What each combination does
+in git is **one table, in Step 7**; nowhere else in this skill restates it.
 
-**The `git` prefix — commit and push authorization.**
+- **`git`** — the commit, and the push where there is one, are already authorised. Saying
+  "git checkpoint" *is* the owner calling the commit; asking again is the failure mode.
+- **`MAX`** — depth. `checkpoint max` and `git checkpoint max` run Steps 1 to 9 *plus* the
+  MAX protocol below, which is mandatory, not a suggestion.
+- **`CPR`** — CheckPoint and Release: the checkpoint, then the project's release to
+  production. `git CPR` authorises both; `CPR` alone asks before the release.
 
-| Phrase | Git behaviour |
-| --- | --- |
-| `checkpoint`, `let's checkpoint`, `wrap up`, `end of session` | Do Steps 1–3, then **ask** whether to commit, and ask separately whether to push. |
-| **`git checkpoint`** | **Commit and push. Both already authorized — do not ask for either.** |
-
-Saying "git checkpoint" IS the user calling the commit. Draft the message in the repo's house
-style, commit, push, and report the hash and the ref range. Do not stop midway to confirm. You
-still stop for the real safety cases: a secret in the staged diff, an unexpectedly dirty tree
-containing work that isn't yours, a detached HEAD, or a push that would need a force. Those are
-worth a sentence; a routine push is not.
-
-If the repo auto-deploys from the pushed branch, say so in the confirmation — the user should
-never learn from somewhere else that a checkpoint shipped to production.
-
-**On a multi-branch project** (`project-rules.md` §GIT, declared on the *Deploys* line of
-`CLAUDE.md`), the working branch is already authorised: `checkpoint` and `git checkpoint`
-both commit and push it, without asking. The production branch still changes only on
-`git CPR`. If the *Deploys* line does not say single-branch or multi-branch, treat the
-project as single-branch, ask once, and write the answer into that line.
-
-**The `MAX` suffix — depth.**
-
-| Phrase | Depth |
-| --- | --- |
-| `checkpoint`, `git checkpoint` | Standard. Steps 1–5 as written. |
-| **`checkpoint MAX`**, **`git checkpoint max`** | **Exhaustive.** Steps 1–5 *plus* the MAX protocol below, which is mandatory, not a suggestion. |
-
-The dials combine. `checkpoint max` = exhaustive, then ask about git. `git checkpoint max` =
-exhaustive, then commit and push.
-
-**`CPR` — CheckPoint and Release. Multi-branch projects, and single-branch projects in a
-cloud session.**
-
-| Phrase | Behaviour |
-| --- | --- |
-| **`git CPR`** | `git checkpoint` to the working branch, **then the project's release** — both pre-authorized. |
-| **`git CPR max`** | `git checkpoint max`, then the release. |
-| `CPR` (no `git`) | Checkpoint, then **ask** before commit, push and release — each separately. |
-
-Applies **only where the project works on a branch that is released to a production branch**
-(e.g. work on a `dev` branch, release = squash PR into `master`). The project's own
-`CLAUDE.md` defines what "release" means there — follow it exactly, don't improvise one. On a
-single-branch project there is nothing to release: **say so and stop after the checkpoint**,
-rather than inventing a release step.
-
-**Except in a cloud session** (§GIT, *Cloud sessions*). There the checkpoint lands on the
-harness branch, so the release is a **fast-forward of the main branch to it**:
-`git push origin HEAD:<main branch>`, with the branch named from the *Deploys* line, never
-computed. Fetch it (`git fetch origin <main branch>`), then check
-`git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails,
-the main branch has moved on — stop and ask (merge, or a pull request), and never force. If
-the push itself is refused (branch protection, or the harness blocks it), say so and offer a
-pull request. The confirmation says the main branch moved, and whether anything deploys from
-it.
-
-**Name the release target explicitly** — `git push origin HEAD:main`, a pull request into
-the named branch, or the release command in `CLAUDE.md`. Never compute it from `origin/HEAD`
-or any other ref a shallow or fresh clone may lack: a computed target once created a stray
-remote branch literally named `HEAD`.
-
-Order is fixed: the checkpoint's commit and push land first, then the release ships them.
-If the checkpoint stops for a safety case, the release does not happen. The confirmation says
-plainly that **production is updating** — a CPR is a production deploy.
+The dials combine: `git CPR max` is an exhaustive checkpoint, committed and pushed, then the
+release. Which column of Step 7's table applies comes from the *Deploys* line of `CLAUDE.md`
+(`project-rules.md` §GIT), and from whether this is a cloud session.
 
 ## Overview
 
-A checkpoint has three layers, done in order:
+A checkpoint has four parts, done in order:
 
-1. **The deep doc** — the project's living record. It has two zones: a **snapshot** at the top
-   (what is true right now, rewritten every checkpoint) opening with a **Start here** block, and a
-   **session log** below it (what happened, newest first). One artifact, two jobs.
-   Alongside it, **the project's own documentation** — README and the rest — brought current
-   for what the session changed (Step 2.5).
-2. **The Trello board** (Step 3.5, only if the project's `CLAUDE.md` names one) — mirror the
+1. **The deep doc** — the project's living record, in two files with two jobs
+   (`project-rules.md` §DOCS): the **snapshot**, `docs/STATUS.md` (what is true right now,
+   rewritten every checkpoint), opening with a **Start here** block; and the **session log**,
+   `docs/log.md` (what happened, newest first), which nothing loads by default.
+   Alongside them, **the project's own documentation** — README and the rest — brought current
+   for what the session changed (Step 4).
+2. **The Trello board** (Step 6, only if the project's `CLAUDE.md` names one) — mirror the
    snapshot onto it.
 3. **Git** (if applicable) — get the actual history current, or explicitly confirm there's nothing
    to commit / it's not a repo.
-4. **The pause** (Step 6) — one question: approve any skill proposals or showcase update,
-   choose to compact and continue, compact and stop, or keep going, and have the compact
-   instructions written now or on request. The moment the doc and git are current is the
-   moment the conversation becomes safe to shed; whether to shed it is the owner's call.
+4. **The pause** (Step 9) — one question: approve any skill proposals or showcase update,
+   and choose to compact and continue, compact and stop, or keep going. The moment the doc
+   and git are current is the moment the conversation becomes safe to shed; whether to shed
+   it is the owner's call.
 
 There is deliberately no separate terse handoff file. A handoff kept outside the deep doc drifts
 from it, and a handoff kept outside version control isn't there when someone needs it — the
@@ -123,11 +66,11 @@ Before writing anything, reconstruct the session's real shape from your own cont
 - Any non-obvious gotcha, constraint, or user preference surfaced this session that isn't already
   written down somewhere durable (CLAUDE.md, existing docs).
 
-## Step 1.5 — Improve the project's skills, and propose new ones
+## Step 2 — Improve the project's skills, and propose new ones
 
 Two halves: improve the project skills this session used, and look for a workflow that
 deserves a skill of its own. **Both are proposals — the owner decides.** This matters most
-in projects without application code (`project-rules.md` §SCOPE), where most of the work is
+in projects without application code (`rules/non-application.md`), where most of the work is
 procedure — publishing, record-keeping, tenant changes — and a skill is how a procedure stops
 being rediscovered.
 
@@ -137,11 +80,11 @@ copies of the fleet skills (`checkpoint`, `relay`, `sync-standards`, `design-mot
 sync overwrites them and flags any edit as tampering. An improvement to one of those goes back
 to the master through `propose-standard`, and is offered as that.
 
-### 1.5a — Improve the project skills used this session
+### 2a — Improve the project skills used this session
 
-Check whether this project has `.claude/skills/` (project-scoped, distinct from this global
-`checkpoint` skill itself). If it does, and any of its own skills were actually read or
-followed this session, look for what the session taught that the skill does not yet say:
+Check whether this project has `.claude/skills/` skills of its own: not the fleet's, which
+`sync-standards` copies there and `.claude/fleet/copied.json` lists. If it does, and any of
+those skills were actually read or followed this session, look for what the session taught that the skill does not yet say:
 
 - **A documented warning got hit anyway.** If a skill already said "don't do X" and X got done
   anyway this session (buried mid-paragraph, easy to skim past, wrong section), that's a skill
@@ -158,7 +101,7 @@ This is the whole point of splitting workflows into project skills in the first 
 paying the same token cost twice for a mistake or a lesson already learned once. A skill nobody
 edits after the session that proved it wrong or wasteful isn't doing that job.
 
-### 1.5b — Look for a workflow that deserves a new skill
+### 2b — Look for a workflow that deserves a new skill
 
 Propose a new skill **only when a multi-step procedure was done twice** — in this session, or
 again after an earlier session did it — **or had to be worked out again because nothing
@@ -177,9 +120,9 @@ Where it lives:
 - **User-scoped** (`~/.claude/skills/`) only for a personal habit that fits no repository.
   Say that user skills do not load in cloud sessions
 
-### 1.5c — Put it to the owner, then do it in this checkpoint
+### 2c — Put it to the owner, then do it in this checkpoint
 
-Every proposal from 1.5a and 1.5b goes into **Step 6's question** — one multi-select, each
+Every proposal from 2a and 2b goes into **Step 9's question** — one multi-select, each
 option naming the skill and the change in a line — so the checkpoint asks the owner once,
 after the docs and git are safe. Note the proposals now, while the session is fresh.
 
@@ -192,25 +135,40 @@ after the docs and git are safe. Note the proposals now, while the session is fr
 - **A declined new skill** gets a one-line `decisions.md` entry — the idea, and that the owner
   declined it — so no later checkpoint proposes it again
 
-Approved changes are committed as Step 6 says. If there is nothing that meets the bar, Step
-6 leaves the question out — don't manufacture something to improve or create.
+Approved changes are committed as Step 9 says. If there is nothing that meets the bar, Step
+9 leaves the question out — don't manufacture something to improve or create.
 
-## Step 2 — Write/update the deep documentation
+## Step 3 — Write/update the deep documentation
 
 **Location:** detect the project's existing convention first — an existing `docs/STATUS.md`,
 `README.md` "Status" section, `CHANGELOG.md`, `PROJECT.md`, whatever's already there and clearly
 serves this purpose. Update it in place, don't fork a second doc. If nothing like this exists,
 create `docs/STATUS.md` at the project root.
 
-**If the doc already exists, read the whole thing first.** A checkpoint updates and extends it —
-it does not overwrite history. Keep sections that are still true; revise sections that changed;
-add new sections for new ground covered.
+**If the doc already exists, read the whole snapshot first.** A checkpoint updates it and
+extends the log — it does not lose history. Keep sections that are still true; revise
+sections that changed; add new sections for new ground covered.
 
-**Two zones, and they are maintained differently.**
+**Two files, and they are maintained differently** (`project-rules.md` §DOCS).
 
-- The **snapshot** (top) is *rewritten in place* every checkpoint. Its job is to be current, not
-  complete. If a line in it is no longer true, it is corrected or cut — never appended below.
-- The **session log** (below) is append-at-top, newest first. Its job is history.
+- The **snapshot** (`docs/STATUS.md`) is *rewritten in place* every checkpoint. Its job is to
+  be current, not complete: `Start here` and one current-state block, never a stack of them.
+  If a line in it is no longer true, it is corrected or cut — never appended below, never
+  kept as a "was".
+- The **session log** (`docs/log.md`) is append-at-top, newest first. Its job is history, and
+  nothing loads it by default. This checkpoint's entry goes there: superseded numbers,
+  measurements and the owner's quotes with it.
+
+**A status doc that still holds its session log** (written before the standard split them) is
+split in this checkpoint: move the log, verbatim, into `docs/log.md`, newest first, and leave
+the pointer line from `templates/STATUS.template.md` in its place. Stacked "still true"
+blocks from earlier checkpoints go the same way, into the log entry of the checkpoint that
+wrote them. Say in Step 8 that the log moved. Relocation, never summarising.
+
+**The briefs follow the same rule.** `CLAUDE.md` and its area files hold what is true now.
+When this checkpoint replaces a line in one, the old line moves, word for word, under the
+same heading in `docs/record/<area>.md` (`docs/record/root.md` for the root file) in the same
+pass: a brief never gains a "was", a record never loses a line.
 
 **Fold before you append.** History belongs in the record; it does not belong in the reader's way.
 
@@ -219,10 +177,10 @@ add new sections for new ground covered.
    commit <hash>**` as the first line of that entry. An entry that documents a system which no
    longer exists, without saying so, is actively misleading — it reads exactly like an entry that
    still applies.
-2. **Fold when the doc passes ~800 lines.** Move the oldest session-log entries into
-   `docs/archive/<DOCNAME>-<YYYY-MM>.md` (create the directory), oldest first, until the live doc
+2. **Fold when the log passes ~800 lines.** Move the oldest session-log entries into
+   `docs/archive/log-<YYYY-MM>.md` (create the directory), oldest first, until the log
    is back under the line. Retired entries go first regardless of age.
-3. **Leave a stub.** Each folded entry leaves one line in the live doc: date, one-clause subject,
+3. **Leave a stub.** Each folded entry leaves one line in the log: date, one-clause subject,
    and a link to the archive file. A reader must be able to find folded history without knowing
    it exists.
 4. **Folding is relocation, never deletion.** Nothing is dropped, summarized away, or rewritten on
@@ -231,25 +189,46 @@ add new sections for new ground covered.
    2,700 lines, most of it describing deleted systems, which cost every later session real reading
    time and taught several of them things that were no longer true.
 
-**Content to cover** (adapt headings to the project, but hit all of these):
+**Content to cover — and which file each goes in.** This list is the format; the templates
+(`templates/STATUS.template.md`, `templates/log.template.md`) follow it heading for heading,
+and `relay` reads the snapshot's sections by these names. Adapt the wording to the project,
+never the set.
 
+**The snapshot, `docs/STATUS.md`**, in this order:
+
+- **Start here** — Step 5.
+- **Things that will save a session** — the few environment facts not discoverable from the
+  code that cost real time when unknown. Kept while true.
 - **What this project is** — one paragraph, in case the reader has zero prior context.
 - **Current state** — what exists right now, concretely. For a codebase: what's built, where.
   For non-code work: what config/content/state exists and where it lives (it may not be files in
   this repo at all — e.g. a running app's own data store, a cloud dashboard, a third-party
   service).
+- **Open items** — recommended next steps, priority-ordered.
+- **Verified this checkpoint, by measurement** — only what this session checked, with the
+  check named.
+- **Assumed, not verified** — anything untested or carried on an earlier session's word,
+  named plainly and never in the same voice as the section above.
+- **Confidence and gaps** — what you would check first coming back cold (M6 fills it claim
+  by claim).
+
+**This checkpoint's entry in the log, `docs/log.md`:**
+
+- **What happened** — what got built, changed or fixed, concretely, with the commits and the
+  measurements.
 - **Decisions and why** — every meaningful choice, especially reversals or abandoned approaches.
   Include *what was tried and didn't work*, not just what succeeded — this is the single most
-  valuable thing for preventing a future session from re-treading dead ends.
+  valuable thing for preventing a future session from re-treading dead ends. A choice that
+  should bind later sessions also goes in `decisions.md` (Step 4).
 - **Explicit deviations from any spec/plan the user gave** — anything you or the user changed
   from an original ask, flagged clearly so it doesn't read as an oversight later.
-- **Open items / recommended next steps**, priority-ordered.
-- **Anything untested or unverified**, named plainly.
+- **The mistake worth keeping** — a claim this checkpoint corrected, what it said before,
+  and why it was wrong. Left out when there is none.
 
 Write it so a reader with *zero* memory of this session — not even the general shape of it —
 comes away able to act correctly. Don't assume they'll re-derive intent from file diffs.
 
-## Step 2.5 — Bring the project's own documentation current
+## Step 4 — Bring the project's own documentation current
 
 The status doc records the session; the project's documentation describes the project. Both
 must be true when the checkpoint lands. **This matters most when the checkpoint pushes** —
@@ -264,10 +243,21 @@ untrue or incomplete:
   commands and scripts, environment variables, deployment, screenshots. A new feature, a new
   script, a renamed command, a new env var, a changed setup step: each one is a README change.
 - **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
-  `Deploys`, `Trello board` and `Motif` lines, traps found this session.
+  `Deploys`, `Trello board` and `Motif` lines, traps found this session. A replaced line
+  moves to `docs/record/` (Step 3); it is not kept beside the new one. **Measure the root
+  `CLAUDE.md`** (`wc -c`, or the file's size in PowerShell): past 50 KB, propose a split by
+  §SCALE in Step 9's question, with the sections that would move and where. Never split
+  unasked.
+- **`decisions.md`** — the session's choices appended, and its "declined, never again" index
+  at the top gaining a line for anything the owner ruled out.
 - **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
   and **`.env.example`** — where the session added, moved or removed what they list.
-- **`docs/specs/`** — status lines (Step 3.5 covers the cards).
+- **`docs/specs/`** (§SPECS) — if this session built or advanced work from a spec, update its
+  status line: `in progress`, or `built` once its done-means criteria are verified. Without a
+  board, the status word in the spec is the whole record; with one, Step 6 moves the card.
+- **Area `CLAUDE.md` files and `docs/architecture.md`** (§SCALE) — a module added, moved or
+  removed updates the map; a rule or trap that belongs to one area goes in that folder's
+  `CLAUDE.md`, not the root one.
 - **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
 - Any other document the project keeps that the session's changes made untrue.
 
@@ -281,11 +271,11 @@ Rules:
 - **Copy the business owns is drafted, not applied** (§OWNER). A product or marketing
   README, or user-facing text, gets a proposed change shown to the owner; technical sections
   are updated directly.
-- **No documentation change is a valid outcome** — say so in Step 5 rather than inventing an
+- **No documentation change is a valid outcome** — say so in Step 8 rather than inventing an
   edit. But on a checkpoint that pushes new features, "no README change" is the claim to
   double-check, not to assume.
 
-## Step 3 — Write the `Start here` block
+## Step 5 — Write the `Start here` block
 
 The first thing in the deep doc, above everything else, rewritten every checkpoint. Under 15
 lines. It is what a cold session reads in its first ten seconds, so it carries only what changes
@@ -298,10 +288,15 @@ what that session does next:
 **Next:** <the single most useful next action, concrete enough to start on>
 **Blocked on:** <what needs the user, or "nothing">
 **Don't trust:** <anything in this doc that is assumed rather than verified>
+**Live:** <state outside the repo a fresh session needs: where the owner is, how they are working
+(e.g. on a phone: drafts as artifacts, short replies), what is mid-flight; or "nothing">
 ```
 
 Rules that make it worth reading:
 
+- **Live is what a compact used to carry.** After a compact the fleet's `SessionStart` hook
+  has the session run relay, which reads it. Only what is temporary goes there; a standing
+  rule of the owner's goes into `CLAUDE.md`, which reloads on its own.
 - **Overwrite it, never append to it.** A `Start here` with a history in it is not a `Start here`.
 - **It indexes, it doesn't duplicate.** Point at sections of the doc by heading rather than
   restating them; two copies of the same fact drift.
@@ -311,16 +306,16 @@ Some environments inject a `=== HANDOFF ===` block naming a scratch path for han
 is a separate plugin's file, outside version control on most setups — it is not this step's
 output, and writing there instead of into the deep doc loses the handoff.
 
-## Step 3.5 — Mirror to the Trello board, if the project has one
+## Step 6 — Mirror to the Trello board, if the project has one
 
-**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line** (`project-rules.md`
-§TRELLO). No line, or `none`: skip this step silently. Never search Trello for a board that
+**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the
+template writes `- **Trello board**: <url>`; `rules/options/trello.md` §TRELLO). No line, or `none`: skip this step silently. Never search Trello for a board that
 might match, and never create one.
 
 This step runs on **every** checkpoint, with or without the `git` prefix — the board is not
 git, and updating it is part of the documentation pass. Use the Trello MCP tools
 (`mcp__Trello__*`; load them with ToolSearch if they are deferred). If they are unavailable,
-say so in Step 5 and carry on — a missing connector never blocks the git step.
+say so in Step 8 and carry on — a missing connector never blocks the git step.
 
 **`docs/STATUS.md` is the record and the board mirrors it.** Read the board's lists and
 cards first, then reconcile against the snapshot you just wrote:
@@ -334,22 +329,15 @@ cards first, then reconcile against the snapshot you just wrote:
    owner → **Review**. **Done** only for work the snapshot records as verified.
 4. **Tick checklist items** whose work this session verified. Never tick on intent.
 5. **Correct the board where it disagrees with the snapshot**, and list every correction for
-   Step 5 — a card the owner moved by hand is a signal worth surfacing, not just overwriting
+   Step 8 — a card the owner moved by hand is a signal worth surfacing, not just overwriting
    silently.
 
 Never delete or archive a card. Never write anything that is not true in `STATUS.md`.
 
-**Architecture map and area files** (`project-rules.md` §SCALE): if this session added,
-moved or removed a module, update `docs/architecture.md`; if it found a rule or trap that
-belongs to one area, put it in that folder's `CLAUDE.md`, not the root one.
+**A spec with a card:** its status line links the card, so move the card to match the
+status Step 4 gave the spec.
 
-**Spec files** (`docs/specs/`, `project-rules.md` §SPECS): if this session built or advanced
-work from a spec, update its status line — `in progress`, or `built` once its done-means
-criteria are verified. On a project with a board, the spec's status line links its card, so
-move the card to match; without a board, the status word in the spec is the whole record.
-This applies on every checkpoint, board or not.
-
-## Step 4 — Git, if applicable
+## Step 7 — Git, if applicable
 
 Check whether this is a git repository:
 
@@ -361,7 +349,14 @@ git rev-parse --is-inside-work-tree 2>&1
 commit") and stop here. Do not suggest `git init` unless the user asks — that's their call, not
 implied by running a checkpoint.
 
-**If it is a repo:**
+**If it is a repo, first run the kind's checks** when this session changed code: the build
+and the tests its rules files name (`pnpm build` and `pnpm test` on a web project,
+`uv run pytest` and `uv run pyright` on a Python package, the engine's headless run on a
+game), or what `CLAUDE.md`'s *Commands* say. Record what ran and what it said in the log
+entry. **A failure stops any push that deploys** — on a single-branch project, the push is
+the release — and is said in Step 8; a working branch may still be pushed, the failure named
+in the commit message. A repository with nothing to build says so in a line. MAX's M4 is
+this run done claim by claim.
 
 ```bash
 git status -sb
@@ -370,31 +365,81 @@ git diff --stat --cached
 ```
 
 Show the user what's uncommitted (working tree + staged) and, if there's an upstream, what's
-ahead/behind. Draft the commit message from the session's actual changes in the repo's own
+ahead/behind. A config file its own tool rewrote is read before it is reverted (§AGENTS).
+Draft the commit message from the session's actual changes in the repo's own
 conventions — read `git log` for the house style first, and match its length and voice rather
 than defaulting to a one-liner.
 
-Then branch on the invocation mode:
+Then do what the table says. It is §GIT's table with the cloud column added; where the two
+ever disagree, §GIT wins and this table is the fault. `max` changes the depth, never the git.
 
-- **Plain `checkpoint`:** **ask** whether to commit. If yes, ask separately whether to push.
-  Never push without an explicit yes. If the user says no to committing, that's a valid answer —
-  note in your summary that changes are left uncommitted, and don't push back.
-- **`git checkpoint`:** commit and push. Both are already authorized by the phrasing; asking
-  again is the failure mode here, not a courtesy.
-- **Multi-branch project, either phrase:** commit and push the working branch without asking
-  (§GIT). Nothing reaches the production branch except through `git CPR`.
-- **Local only** (the *Deploys* line says so; the repo has no remote by decision): commit as
-  above, then stop. There is no push to ask about or attempt, and never add a remote unasked.
+| The owner says | Single-branch | Multi-branch | Local only | Cloud session (any *Deploys*) |
+| --- | --- | --- | --- | --- |
+| `checkpoint` | **Ask** whether to commit; if yes, ask separately whether to push. | Commit and push the working branch. | **Ask** whether to commit. No push. | Commit and push the harness branch. |
+| **`git checkpoint`** | Commit and push. | The same as `checkpoint`. | Commit. No push. | Commit and push the harness branch. |
+| `CPR` | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. |
+| **`git CPR`** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release.** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release**: the fast-forward below, of the main branch (single-branch) or of the working branch and then the declared release (multi-branch). |
 
-Either way, follow the standard git safety rules: a new commit (don't amend unless asked), no
-`--no-verify`, and review the staged diff for anything resembling a credential before committing.
+- **A *Deploys* line that is missing or unclear:** treat the project as single-branch, ask
+  the owner once which it is, and write the answer into that line.
+- **A no** to the commit is a valid answer: say in Step 8 that the changes are left
+  uncommitted, and do not push back. Never push without a yes or a phrase that gives one.
+- **Local only:** never add a remote unasked.
+- **What to stage:** what this session changed, by path. Never `git add -A` or `git add .`:
+  list any other change in the tree and ask whether it goes in.
+- **Multi-branch, before the push made without asking:** check that the branch checked out
+  (`git branch --show-current`) is not the production branch the *Deploys* line names. If it
+  is, stop and ask: that push would be a release, which only `git CPR` authorises.
+- **Cloud session:** the harness branch is a working branch (§GIT, *Cloud sessions*): it is
+  pushed without asking because the container is discarded and unpushed work is lost. Never
+  push to a branch the harness did not name, except the release below. **Short of a release,
+  say in Step 8 by name that the work is on `<harness branch>` and not in the main or
+  working branch**: it reaches them only through `git CPR` or a pull request the owner asks
+  for, and the next relay lists it.
 
-## Step 5 — Confirm
+**The release.** The project's own `CLAUDE.md` says what "release" means on a multi-branch
+project (e.g. a squash pull request from `dev` into `master`): follow it exactly, never
+improvise one. **Name the target explicitly** — `git push origin HEAD:main`, a pull request
+into the named branch, or the release command in `CLAUDE.md`. Never compute it from
+`origin/HEAD` or any other ref a shallow or fresh clone may lack: a computed target once
+created a stray remote branch literally named `HEAD`.
+
+**After a squash release**, the working branch still holds the commits the squash replaced,
+and the next pull request would carry them again. Bring it back in line as the last step of
+the same release: `git fetch origin <production>`, then on the working branch
+`git merge origin/<production>` (an ordinary merge commit, never a reset or a force push)
+and push the working branch. A conflict stops the release there: say so and ask.
+
+**A single-branch project in a cloud session** releases by **fast-forwarding the main branch
+to the harness branch**: `git fetch origin <main branch>`, then
+`git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails, the main branch has
+moved on — stop and ask (merge, or a pull request), and never force. Then
+`git push origin HEAD:<main branch>`, the branch named from the *Deploys* line. If the push is
+refused (branch protection, or the harness blocks it), say so and offer a pull request.
+
+**A multi-branch project in a cloud session** fast-forwards **the working branch** the
+*Deploys* line names to the harness branch the same way (fetch, the ancestor check, stop and
+ask if it moved on, `git push origin HEAD:<working branch>`), then releases exactly as the
+*Deploys* line declares, from the working branch.
+
+Order is fixed: the checkpoint's commit and push land first, then the release ships them. If
+the checkpoint stops for a safety case, the release does not happen. The confirmation says
+plainly that **production is updating** — a release is a production deploy.
+
+**Safety cases stop any commit or push, authorised or not**, and are worth a sentence: a
+secret in the staged diff, a dirty tree containing work that is not yours, a detached HEAD,
+or a push that would need a force. A routine push is not. Otherwise: a new commit (never
+amend unless asked), no `--no-verify`, and the staged diff read for anything resembling a
+credential before committing. **Where the pushed branch auto-deploys**, say so in the
+confirmation: the owner should never learn from somewhere else that a checkpoint shipped.
+
+## Step 8 — Confirm
 
 Tell the user, briefly:
 
-- Path to the deep doc (created or updated).
-- Project documentation updated in Step 2.5 — each file and what changed in it — any owner
+- Paths to the snapshot and the log (created or updated), and whether a session log or a
+  replaced line moved out of a file agents read, and where to.
+- Project documentation updated in Step 4 — each file and what changed in it — any owner
   copy drafted for approval, or "no documentation change needed" and why.
 - Anything folded to the archive this pass, with the archive path — the user should know when
   history moved, and where to.
@@ -405,9 +450,9 @@ Tell the user, briefly:
 Keep this confirmation short — the checkpoint's value is in the files it wrote, not in a long
 chat summary repeating them.
 
-Then do Step 6, which is part of every checkpoint.
+Then do Step 9, which is part of every checkpoint.
 
-## Step 6 — Pause: one question, then do what it decides
+## Step 9 — Pause: one question, then do what it decides
 
 A checkpoint is a pause point. The docs and git are current, so the conversation is now safe
 to shed — but whether to shed it now is the owner's call: the agent cannot see how full its
@@ -415,68 +460,62 @@ context window is, and the owner can (`/context`, or the app's context indicator
 
 **Ask once, in one question tool call**, every question below that applies:
 
-1. **Skill proposals** — only if Step 1.5 found any: a multi-select, each option naming the
+1. **Skill proposals** — only if Step 2 found any: a multi-select, each option naming the
    skill and the change in a line.
-2. **Showcase update** — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
+2. **Showcase update** — read `rules/options/credit.md` first (§CREDIT; read on demand, never
+   imported) — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
    checkpoint recorded a phase done or a notable verified feature: file an update request on
    the studio site's repository (§CREDIT)? Say in a line what it would report.
-3. **What next?**
+3. **A `CLAUDE.md` split** — only if Step 4 measured the root past 50 KB: split it by
+   §SCALE? Name the sections that would move and their area files in a line.
+4. **What next?**
    - **Compact, then continue** — compact now and carry on with the next task in a fresh
      window.
    - **Compact and stop here** — the session ends at this checkpoint.
    - **Keep going, compact later** — there is room for another task first.
-4. **Compact instructions?** **Now** — written in this reply — or **later**, when the owner
-   asks ("compact instructions").
 
-Recommend an option for 3 and 4, and say what the recommendation rests on: you cannot measure
+Recommend an option for 4, and say what the recommendation rests on: you cannot measure
 the window, so judge from what you can see — a long session, many large outputs (screenshots,
 logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
 A phase boundary is the usual moment to recommend *Compact, then continue*.
 
 Then act on the answers, and report in a line or two what was done:
 
-- **Approved skill changes are made now** (1.5c); a declined new skill gets its
+- **Approved skill changes are made now** (2c); a declined new skill gets its
   `decisions.md` line.
-- **An approved showcase update is filed as §CREDIT says** — an issue on the studio site's
-  repository, its link in `decisions.md`; if this session cannot reach that repository, the
-  request is written in full as an open item in `docs/STATUS.md`, and you say so.
-- **Those changes are committed under the answer Step 4 already had** — one follow-up commit,
-  pushed if Step 4 pushed, committed only if Step 4 only committed, left uncommitted (and said
+- **An approved showcase update is filed as §CREDIT says**, kept as an open item when the
+  studio's repository cannot be reached.
+- **An approved split is the next piece of work**, done by §SCALE's steps after the pause,
+  not in the follow-up commit: it is too large to ride on Step 7's answer.
+- **Those changes are committed under the answer Step 7 already had** (§GIT, *An approval
+  does not generalise*, names this one exception) — one follow-up commit,
+  pushed if Step 7 pushed, committed only if Step 7 only committed, left uncommitted (and said
   so) if the owner declined. A release is not repeated: after a `git CPR`, say the follow-up
-  commit is on the branch Step 4 used and ships with the next release.
-- **Compact instructions now:** write the block below. **Later:** write it when asked, from
-  the context as it is then — never a block saved now and handed over stale.
+  commit is on the branch Step 7 used and ships with the next release — in a cloud session,
+  name that branch: it is not in the main or working branch until the next `git CPR`.
+- **On either compact answer**, tell the owner in one line that a plain `/compact` is enough,
+  and why (below).
 
-### The compact block
+### A plain `/compact`
 
-A fenced block the owner can copy straight into `/compact`. You are the only one who knows
-which parts of this context the deep doc did *not* capture.
+**A plain `/compact` is enough.** The fleet's `SessionStart` hook (matcher `compact|resume`)
+tells the next session to run relay, and relay reads `Start here` with its **Live** line. So
+before the pause, make sure of two things:
 
-**The one rule that makes these worth anything: preserve only what is NOT on disk.** Everything
-written to the deep doc, CLAUDE.md, the spec files and project memory is already durable — telling
-the summariser to keep it burns the budget on facts a cold session can simply read. The failure
-mode is a compact block that restates the status doc. Point at the files instead.
+- **Live holds everything that is not on disk**: live state outside the repo (seeded test
+  data in a production database, a deployment serving a stale build), what is mid-flight and
+  its next concrete action, and what is believed but *un*verified — kept apart from what was
+  checked, because a summariser flattens that distinction.
+- **Every new standing rule of the owner's is in `CLAUDE.md`** — "never commit on your own
+  initiative", "don't touch X without asking". It reloads on its own; Live is overwritten at
+  the next checkpoint.
 
-What actually belongs in it:
+If Step 9 changed either file, that is part of its follow-up commit.
 
-- **Standing user constraints**, verbatim where the wording matters — "never commit or push on
-  your own initiative", "don't touch X without asking". These are behavioural, and they live
-  nowhere a file lookup would surface at the right moment.
-- **Live state outside the repo** that reading the code would never reveal: seeded test data
-  sitting in a production database, a deployment serving a stale build, a service configured but
-  unreachable.
-- **What this session verified but has not yet written down**, and — separately — what is believed
-  but explicitly *un*verified. A summariser will otherwise flatten that distinction, and the next
-  session will treat a guess as established fact.
-- **Whatever is mid-flight**: the task in progress and the next concrete action.
+If the owner asks for compact instructions anyway, give one line: `/compact`, plus only what
+is new since the checkpoint. Never a block restating the status doc.
 
-End the block by naming the files that hold everything else, with an instruction to summarise the
-rest aggressively rather than re-deriving project state.
-
-Keep it short. A compact block over fifteen lines is almost always restating the doc.
-
-Never run `/compact` yourself, and never assume the owner will. Writing the block is Step 6's
-job; using it is their call.
+Never run `/compact` yourself, and never assume the owner will. It is their call.
 
 ## MAX protocol
 
@@ -499,39 +538,39 @@ unchecked assertion sit in the doc in the same voice as a checked one.
 **M3. Sweep the whole doc for staleness, don't just append.** Read the existing deep doc end to
 end and fix anything the session made untrue, including in sections you didn't otherwise touch.
 A checkpoint that appends a correct new section below a now-wrong old one has made the document
-worse. When you correct a claim, say what it said before and why it was wrong — a future
-session that encounters the old claim elsewhere needs to recognize it as retired.
+worse. When you correct a claim, the snapshot carries only the corrected line; **what it
+said before and why it was wrong goes in this checkpoint's log entry** (*The mistake worth
+keeping*) — a future session that meets the old claim elsewhere needs to recognise it as
+retired.
 
 **M4. Run the project's verification and record the real output.** Tests, typecheck, lint,
 build — whatever this project actually uses. Write down what ran and what it said. If something
 fails, that failure goes in the doc; a green claim you didn't verify is worse than an honest
 red one. If verification can't run, record why.
 
-**M5. Write the negative space.** These are the parts a future session cannot recover and will
-otherwise redo:
-- What was tried and abandoned, and *why* it didn't work.
-- What the user explicitly declined or ruled out, in their own words where you have them.
-- What was deliberately deferred, and to when or to what condition.
-- What is out of scope by decision rather than by oversight.
-- Open questions you raised that the user hasn't answered yet.
+**M5. Write the negative space in full.** Step 3's log items, without gaps — beyond what was
+tried and abandoned and why: what the owner declined, in their own words; what was deferred,
+and to when; what is out of scope by decision; open questions not yet answered.
 
-**M6. Add a "Confidence and gaps" section.** Name plainly: what is verified, what is assumed,
-what is untested, and what you'd check first if you came back cold. This section is what stops
-the next session from treating the whole document as equally solid.
+**M6. Fill *Confidence and gaps* claim by claim** (Step 3's snapshot section): every verified,
+assumed and untested item named, and what you would check first coming back cold.
 
-**M7. Capture durable user preferences.** Any constraint, working-style rule, or ruling the
-user gave this session that isn't already written somewhere permanent goes into the project's
-durable location (CLAUDE.md, AGENTS.md, a rulings ledger, the deep doc) — not only into the
-`Start here` block, which is overwritten next checkpoint by design.
+**M7. Every ruling to its durable place.** Each constraint or ruling the owner gave this
+session goes to `CLAUDE.md`, `conventions.md` or `decisions.md`, never only into `Start here`
+(Step 5).
 
-**M8. Cross-link doc and commit.** The deep doc names the commit hash; the commit message
-reflects what the doc says. A session landing on either can reach the other.
+**M8. Cross-link doc and commit.** The log entry names the commits; the commit message
+reflects what the doc says. A session landing on either can reach the other. The entry is
+written before its own commit exists, so it names the session's earlier commits by hash and
+this checkpoint's as "and this one" (the log template's *Commits* line). Never amend to add
+the hash, and never make a commit only to record it.
 
 **M9. Verify the fold, don't just do it.** After folding, confirm the archive file contains the
-moved entries verbatim and the live doc's stubs point at paths that exist. A fold that loses an
+moved entries verbatim and the log's stubs point at paths that exist. The same check covers a
+session log moved out of the status doc and a line moved to `docs/record/`. A fold that loses an
 entry is the one failure mode of this whole step, and it fails silently.
 
-**M10. Verify the board after writing it.** Where Step 3.5 ran, re-read the board and
+**M10. Verify the board after writing it.** Where Step 6 ran, re-read the board and
 confirm every card the snapshot links exists, sits in the list the snapshot implies, and every
 new card's link was written back into `STATUS.md`.
 
@@ -541,45 +580,17 @@ session touched. A MAX checkpoint that pushes leaves no stale instruction in the
 
 ## Common mistakes
 
-- Pushing a new feature with a README that still describes the app before it. On a
-  `git checkpoint` or `git CPR`, the README ships with the code.
+*Only the traps the steps above do not already name.*
 
-- Searching Trello for a board because the project "probably has one". No `Trello board:`
-  line in `CLAUDE.md` means no Trello work.
-- Moving a card to Done because the code was written. Done means verified; finished but
-  unverified is Review.
 - Writing the deep doc *after* asking about git, so a "no, don't commit yet" answer leaves docs
   updated but uncommitted with no clear note of that — always doc → `Start here` → git, in that order,
   so the git step naturally includes the doc updates in what it offers to commit.
 - Treating the `Start here` block as sufficient on its own. It is deliberately lossy (under 15
-  lines). If Step 2 is skipped, real information is lost, not just deferred.
-- Restating the doc's content inside `Start here` instead of pointing at headings — two sources of
-  truth that will drift.
-- Appending a correct new session-log entry above an old one that describes a system this session
-  deleted, without marking the old one RETIRED. The doc now contradicts itself and gives no way to
-  tell which half is current.
-- Folding by summarizing. The archive gets the entry verbatim or the fold has destroyed evidence.
+  lines). If Step 3 is skipped, real information is lost, not just deferred.
 - Assuming a project is code just because most projects are. Some projects (like a streaming-app
   config rebuild, a document, an infra change) have no meaningful git diff at all — the "current
   state" lives somewhere else entirely. Document *that* location precisely.
-- Skipping the "what was tried and abandoned" content because it feels like noise. It's the
-  opposite of noise — it's the exact information that prevents a future session from burning time
-  re-discovering a dead end you already found.
-- Asking "want me to commit?" after the user said **git checkpoint**. They already answered.
-  Asking again reads as not having listened.
-- Ending the checkpoint without the Step 6 question, or printing the compact block unasked.
-  The owner decides whether the session stops here and when the block is written.
-- Asking Step 6's questions in several prompts. One call holds them all; questions that do
-  not apply are left out, not asked as "none".
-- Handing over a compact block written at an earlier checkpoint when the owner asks "later" —
-  write it from the context as it is now.
-- `git CPR` on a single-branch project in a cloud session ending at "nothing to release". The
-  harness branch is the working branch there; the release fast-forwards the main branch.
-- Writing a compact block that restates the status doc. Anything already on disk is the one thing
-  that does *not* need preserving — the block exists for what only this conversation knows.
 - Treating **MAX** as "write more words". Length is not the dial — verification is. A shorter
   document where every claim was checked beats a longer one padded with confident recollection.
 - Skipping M4 because the suite was green earlier in the session. "Earlier" isn't now, and the
   checkpoint's own doc edits may have been the thing that broke it.
-- Letting a verified claim and an assumed one sit in the same voice. If you didn't check it,
-  the document has to say so.

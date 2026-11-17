@@ -5,20 +5,20 @@ description: Use from inside any project to send a change or request back to the
 
 # Propose a standard change
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 The fleet standard improves from real projects. This skill carries a lesson from the project
 in front of you back to `Tanveerfb/fleet-standards`, where the owner decides — without anyone editing
 a copy in place.
 
-**What can be proposed:** a rule in `project-rules.md`, a template, `adopting-the-standard.md`,
-or one of the fleet skills (`checkpoint`, `relay`, `sync-standards`, this one).
+**What can be proposed:** a rule anywhere in the set — the core, `project-rules.md`, or any
+file under `rules/` and `rules/options/` (§SCOPE) — a template, `motifs.md`,
+`adopting-the-standard.md`, a script or hook, or any of the eight fleet skills
+(`checkpoint`, `relay`, `new-project`, `design-motif`, `ai-setup`, `sync-standards`,
+`machine-inventory`, this one). A new option or a new kind of repository is an addition like
+any other.
 
 **Never edit the installed plugin files** under `${CLAUDE_PLUGIN_ROOT}` to "fix" a skill or
 rule. They are a cache; the next plugin update overwrites them, and the fix is lost. Every
@@ -28,13 +28,19 @@ change goes through here.
 
 From the conversation, establish — and ask only for what is genuinely missing:
 
-- **Target:** which file, and which section by anchor (`§MOTION`, `checkpoint` Step 3.5).
+- **Target:** which file, and which section by anchor (`rules/ui.md` §MOTION, `checkpoint`
+  Step 6). A section that divides between files keeps its name in each: name the file.
 - **Problem:** what the current wording causes in practice. Concrete — the project, the
   file, what went wrong or what it blocked.
 - **Proposed wording:** the actual text, not a description of it. Read the current section
   from `${CLAUDE_PLUGIN_ROOT}` and write the replacement against it.
 - **Kind:** fix, addition, loosening, removal. A removal says what the rule was protecting
   and why that no longer matters.
+
+**Nothing private goes into a proposal.** `fleet-standards` is public. No credentials, client
+names or data, internal URLs, or code from a client's repository: describe the evidence in
+general terms ("a client's web app", "a form with a file upload"). In a client project,
+quoting even the file path is the owner's call.
 
 ## Step 2 — Check it is not already proposed
 
@@ -64,11 +70,16 @@ Report the issue link.
 
 Only when the owner says to make the PR — now, or later against an existing proposal issue:
 
-1. Branch `proposal/<short-slug>` from `main` of `fleet-standards`. Never commit to `main`.
-2. Make the edit. For `project-rules.md`, also bump its `**Version:**` (patch for wording,
-   minor for an addition or loosening, major for a renumbering or removal) and add a
-   `CHANGELOG.md` entry that says *why*, in the existing voice. A skill change needs no
-   version bump — the plugin tracks commits.
+1. **Get a checkout of `fleet-standards`** — never the plugin's cache, and never this
+   project's `.claude/fleet/` copy. On the owner's machine, their own clone if they keep
+   one (ask where); otherwise `git clone https://github.com/Tanveerfb/fleet-standards` into
+   a temporary folder outside this project. In a cloud session, attach the repository first
+   (Step 3). Branch `proposal/<short-slug>` from its `main`. Never commit to `main`.
+2. Make the edit. **A change to any rules file — the core or a file under `rules/` — bumps
+   the one `**Version:**` line, in `project-rules.md`'s header**, which covers the whole set
+   (patch for wording, minor for an addition or loosening, major for a removal or a section
+   moved between files), and adds a `CHANGELOG.md` entry that says *why*, in the existing
+   voice. A skill change needs no version bump — the plugin tracks commits.
 3. Keep anchors stable. Never rename or renumber a section as a side effect.
 4. Open the PR referencing the issue (`Closes #<n>`). **Never merge it** — the owner reviews
    and merges in `fleet-standards`.

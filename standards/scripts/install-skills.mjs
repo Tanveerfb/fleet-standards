@@ -5,7 +5,8 @@
 //                     -> ~/.codex/skills/<name>/   (OpenAI Codex)
 //   rules, templates  -> ~/.agents/fleet/          (the skills read the standard from here)
 // Usage: node standards/scripts/install-skills.mjs [--yes]
-// Without --yes, asks before overwriting an installed skill that differs from this checkout.
+// Without --yes, asks before overwriting an installed skill that differs from this checkout;
+// with no terminal to ask on (an agent's shell), it skips that skill and says so instead.
 // To update: `git pull` in this repo, then run this again.
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -13,24 +14,52 @@ import { homedir } from "node:os";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
+import { REFERENCE } from "./standard.mjs";
 
 const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repo = resolve(standards, "..");
 const skillTargets = [join(homedir(), ".agents", "skills"), join(homedir(), ".codex", "skills")];
 const fleetRoot = join(homedir(), ".agents", "fleet");
-const reference = ["project-rules.md", "motifs.md", "CHANGELOG.md", "adopting-the-standard.md", "templates"];
 const yes = process.argv.includes("--yes");
-const rl = createInterface({ input: process.stdin, output: process.stdout });
+const canAsk = Boolean(process.stdin.isTTY);
+const rl = canAsk && !yes ? createInterface({ input: process.stdin, output: process.stdout }) : null;
 
-/** True when both skill folders hold an identical SKILL.md. */
+// Inside the installed skills, `${CLAUDE_PLUGIN_ROOT}/` becomes the absolute path of
+// `~/.agents/fleet/`, where this script puts the standard, as copy-skills-to-project.mjs does
+// for a project's copies: only plugin skills get the variable substituted. Absolute, because
+// the skills quote their paths and a quoted `~` is never expanded. A bare
+// `${CLAUDE_PLUGIN_ROOT}` with no slash after it is left alone; the skills use it to tell a
+// plugin session from a copy.
+const fleetPath = `${fleetRoot.replaceAll("\\", "/")}/`;
+const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", fleetPath);
+
+/** Every file under `dir`, as paths relative to it. */
+function filesIn(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? filesIn(join(dir, e.name)).map((f) => join(e.name, f)) : [e.name],
+  );
+}
+
+/** True when the installed skill matches what this checkout would install. */
 function sameSkill(a, b) {
   const target = join(b, "SKILL.md");
-  return existsSync(target) && readFileSync(join(a, "SKILL.md"), "utf8") === readFileSync(target, "utf8");
+  return existsSync(target) && rewrite(readFileSync(join(a, "SKILL.md"), "utf8")) === readFileSync(target, "utf8");
+}
+
+/** Copies a skill folder, rewriting the plugin path in its Markdown. */
+function installSkill(from, to) {
+  for (const f of filesIn(from)) {
+    mkdirSync(dirname(join(to, f)), { recursive: true });
+    const text = readFileSync(join(from, f), "utf8");
+    writeFileSync(join(to, f), f.endsWith(".md") ? rewrite(text) : text);
+  }
 }
 
 // Reference files are overwritten without asking: they are copies of this repo by definition.
+// `scripts` too, since the skills run them from here, and `skills` as the master, unrewritten,
+// which copy-skills-to-project.mjs reads beside the scripts.
 mkdirSync(fleetRoot, { recursive: true });
-for (const item of reference) {
+for (const item of [...REFERENCE, "scripts", "skills"]) {
   cpSync(join(standards, item), join(fleetRoot, item), { recursive: true });
 }
 
@@ -49,11 +78,18 @@ console.log(`+ standard: ${fleetRoot} (commit ${commit})`);
 
 for (const target of skillTargets) {
   mkdirSync(target, { recursive: true });
-  for (const name of readdirSync(join(standards, "skills"))) {
+  // Folders only: a stray file in skills/ is not a skill.
+  for (const entry of readdirSync(join(standards, "skills"), { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const name = entry.name;
     const from = join(standards, "skills", name);
     const to = join(target, name);
     if (existsSync(to) && sameSkill(from, to)) {
       console.log(`= ${to}: already current`);
+      continue;
+    }
+    if (existsSync(to) && !yes && !rl) {
+      console.log(`- ${to}: differs from this checkout, skipped (no terminal to ask on; show the owner, then run again with --yes)`);
       continue;
     }
     if (existsSync(to) && !yes) {
@@ -64,9 +100,9 @@ for (const target of skillTargets) {
         continue;
       }
     }
-    cpSync(from, to, { recursive: true });
+    installSkill(from, to);
     console.log(`+ ${to}`);
   }
 }
-rl.close();
+rl?.close();
 console.log("\nRestart your agent so it picks the skills up.");

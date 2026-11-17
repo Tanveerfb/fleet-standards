@@ -1,20 +1,16 @@
 ---
 name: design-motif
-description: Use when a project's look needs deciding — e.g. "set the design", "choose a motif", "pick a theme", "design direction", "redesign", "design overhaul", "what motif should this be", "surprise me with a design". Runs the fleet motif process end to end — checks for an existing motif, gathers the brief, offers browse / recommend / surprise me / bring your own, picks a family and variant (or researches a universe-inspired brief), loops on mockups until the owner locks it, then records it in design-system.md and decisions.md. Proposes tokens only after the motif is locked.
+description: Use when a project's look needs deciding — e.g. "set the design", "choose a motif", "pick a theme", "design direction", "redesign", "design overhaul", "what motif should this be", "surprise me with a design". Runs the fleet motif process end to end — checks for an existing motif, gathers the brief, offers show me (sample tiles) / browse / recommend / surprise me / bring your own, picks a family and variant (or researches a universe-inspired brief), loops on mockups until the owner locks it, then records it in design-system.md and decisions.md. Proposes tokens only after the motif is locked.
 ---
 
 # Design motif
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 Sets — or records — the one motif a project's interface is designed around
-(`project-rules.md` §DESIGN). The catalogue and the rules for using it are
+(`rules/ui.md` §DESIGN). The catalogue and the rules for using it are
 `${CLAUDE_PLUGIN_ROOT}/motifs.md`. **Read it in full before Step 3**; this skill is the
 process, the catalogue is the content.
 
@@ -56,10 +52,32 @@ Ask with the question tool:
 
 | Option | Then |
 | --- | --- |
-| **Browse** | Show the catalogue grouped as in `motifs.md` — family names and one line each. Offer a shortlist of the three families that best fit the brief as options; the owner can name any other. |
+| **Show me** | Step 3a. |
+| **Browse** | Open the gallery, `${CLAUDE_PLUGIN_ROOT}/motif-gallery.html`, one tile per family, grouped as in `motifs.md` — the way this environment allows (open the file, a preview, an artifact). Where it cannot be shown, list family names and one line each instead, and say so. Offer a shortlist of the three families that best fit the brief as options; the owner can name any other. |
 | **Decide for me** | Recommend the best-fitting family and variant with the reason, plus one or two runners-up, as options. |
 | **Surprise me** | Pick at random among the families that suit the brief — say how many qualified — and give one line on why the pick fits. Never pick one that works against the purpose. |
 | **Bring my own** | A fictional world → Step 4b. Anything else → Step 4c. |
+
+### 3a. Show me — sample tiles
+
+The owner picks with their eyes, so **draft first, ask second**: never ask for a pick from
+names alone on this route.
+
+1. From the brief, choose **three or four candidate families** (a custom or
+   universe-inspired direction may be one of them). Say in a line why each qualified.
+2. Draft **one page of sample tiles**, in the mockups folder (§OWNER) or as an artifact when
+   the owner is on a phone. Each tile is one motif applied to the same small set of pieces,
+   in this project's own name and words: a heading, a paragraph, a button, a card and an
+   input, in light and in dark. The same pieces in every tile, so the motif is the only
+   difference. A tile, not a page: no hero, no layout.
+3. Show the page, then ask with the question tool: one of the candidates, **another
+   round** with different candidates, or **another way in** (back to Step 3).
+4. **None picked is a normal outcome, not a failure**: draft the next round from what the
+   owner said was wrong with this one.
+
+The pick continues at Step 4 for its variant and gets its full mockup in Step 5. Tiles are
+drafts: never recorded as the locked design, and a value in a tile is an illustration, not
+a token (§DESIGN).
 
 ## Step 4 — Family and variant
 
@@ -90,13 +108,17 @@ watch — and get it confirmed.
 
 ## Step 5 — Mockup loop
 
-**Fixed-size media projects** (thumbnails, video, social posts, print — `project-rules.md`
-§SCOPE): the rendered draft is the mockup. Render the motif onto the project's real formats
+**Fixed-size media projects** (thumbnails, video, social posts, print —
+`rules/non-application.md`): the rendered draft is the mockup. Render the motif onto the project's real formats
 instead of an HTML page, and check each at real size and at the size it is really seen at.
 The rest of this step — show, revise, repeat until locked — is unchanged.
 
-Otherwise, build a static HTML mockup in the gitignored `public/_mockups/` (§OWNER), rendering
-desktop and a 390px phone from the same markup. It shows:
+Otherwise, build a static HTML mockup **where the project's rules files say mockups live**
+(§OWNER): the gitignored `public/_mockups/` in a web project; `_mockups/` at the root of a
+repository without application code or a Node tool with no dev server; for a game, engine
+screenshots side by side, or HTML when the owner is on a phone, in `docs/mockups/`
+(`rules/game.md`). Render desktop and a 390px phone from the same markup, except for a
+PC-only game. It shows:
 
 - the motif in its **signature places** — hero, an empty state, the moment the product
   exists for;
@@ -113,11 +135,9 @@ On lock, move the approved mockup to `docs/design/motif.html` (committed, never 
 
 ## Step 6 — Check the result against the rules
 
-Before recording: sentence case, state never by colour alone, don't state the obvious,
-icon-only controls have accessible names, `prefers-reduced-motion` honoured, and **every
-text-on-colour pair checked** (§DESIGN): white on saturated red, green, blue, purple and
-orange fills — darkened until white reaches 4.5:1, never swapped to black — dark text only on
-genuinely light fills, each ratio noted. Fix the mockup if any fail.
+Before recording, check the mockup against `rules/ui.md` §DESIGN's *Then, always* list —
+**every text-on-colour pair** among them, each ratio noted — and §OWNER's "don't state the
+obvious", with `prefers-reduced-motion` honoured. Fix the mockup if any fail.
 
 ## Step 7 — Record it
 
@@ -126,6 +146,8 @@ genuinely light fills, each ratio noted. Fix the mockup if any fail.
    off-limits, colour schemes, palette sources.
 2. **`decisions.md`** — a dated entry: the motif, the way in, the alternatives offered and
    why they lost.
+3. **The `Motif:` line in `CLAUDE.md`** — `family — variant`, written or, on a redesign,
+   replaced (the old line moves to `docs/record/root.md`, §DOCS).
 
 From here the motif is a standing rule for every visual change in this project.
 
@@ -134,12 +156,15 @@ From here the motif is a standing rule for every visual change in this project.
 Offer, without starting any of it unasked:
 
 - a **starter kit** or a **full motif spec** (`motifs.md` → *Three levels of detail*);
-- **tokens** in `@theme` derived from the locked mockup;
-- the **component round** (§SHADCN) — the next mockup round, and not a quick one: the core
-  kit and the signature component designed in the motif, two or three creative options per
-  core component, every state, desktop and phone. **No stock component restyled with tokens
-  counts as done** — the generic test in §SHADCN applies. Built afterwards on shadcn's
-  behaviour primitives, keyboard and focus intact.
+- **tokens** derived from the locked mockup, where the project keeps them: `@theme` in a
+  web project; a code file the engine reads in a game (`rules/game.md`); the platform's
+  theme settings for a repository without application code;
+- the **component round** — the next mockup round, and not a quick one: the core kit and the
+  signature component designed in the motif, two or three creative options per core
+  component, every state, desktop and phone (§COMPONENTS). **No stock component restyled
+  with tokens counts as done.** In a web project the generic test in §SHADCN applies, and
+  the kit is built afterwards on shadcn's behaviour primitives, keyboard and focus intact;
+  elsewhere, on what the engine or platform provides.
 
 No git step of its own; git follows §GIT. Report: the motif and variant, where it is recorded, the locked mockup's
 path, and what is offered next.

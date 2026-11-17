@@ -11,20 +11,44 @@ versions of the same rules file at once.
 
 ## Releasing a change
 
-- **`project-rules.md`** — bump `**Version:**` (patch for wording, minor for an addition or
-  loosening, major for a removal or anything that breaks section references) and add a
+- **The rules set** is `project-rules.md`, every file in `standards/rules/` and every file
+  in `standards/rules/options/`. They share one version, the `**Version:**` line in the
+  core's header. A change to any of them bumps it: patch for wording, minor for an addition
+  or loosening, major for a removal or anything that breaks section references. Add a
   `CHANGELOG.md` entry saying *why*. Never rename or renumber a section anchor as a side
-  effect.
+  effect. A section that moves to another file keeps its name, so a reference by name still
+  holds. The entry ends with **What a project must change**: each thing a project already
+  on the standard has to do to move up, naming the `sync-standards` Step 4 check that does it.
+  The checks run from a to m. A change no existing check covers gets a new check in the same
+  release, with the next letter, so the sync's upgrade report finds it in every project
+  behind.
+- **The changelog heading** is `## x.y.z · Name — yyyy-mm-dd`. The name is the major
+  version's river, from the five rivers of Punjab: v4 Satluj, v5 Beas, v6 Ravi, v7 Chenab,
+  v8 Jhelum. A new series starts after v8 (`decisions.md`, 2026-11-18). The name stays on the
+  surface: the README, the changelog heading and the release notes. Rules and skills stay
+  plain. While a release is being built, its entry reads `— unreleased` in place of the
+  date, and `tests/run.mjs` holds its version checks. The release dates it.
+- **A new file in `rules/`**, a project kind or an option. Add it to §SCOPE's tables. Add
+  its import line to `standards/templates/CLAUDE.template.md`, or to the comment there for
+  an option (the tests check that every import exists). Teach `new-project` and
+  `sync-standards` to ask for it where they name the kinds and options, and give
+  `sync-standards` a Step 4 check if projects already on the standard need it. The installer
+  and the project copies need nothing: `REFERENCE` in `standards/scripts/standard.mjs` lists
+  the `rules` folder whole.
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
 - **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but
-  gets a line in `CHANGELOG.md` and the counts in the README kept true.
+  gets a line in `CHANGELOG.md` and the counts in the README and in `motifs.md` kept true. A
+  new family also gets a tile in `standards/motif-gallery.html`, in its group and in the
+  catalogue's order, with a light and a dark style. The tests check all of it.
 - **Adding a skill** — a folder under `standards/skills/` is picked up by the plugin and by
   `install-skills.mjs` automatically. Also: the skills table in the README, the skill list in
   both plugin descriptions (`.claude-plugin/marketplace.json`,
-  `standards/.claude-plugin/plugin.json`), and — if the skill reads a new file from the
-  standard — that file in the `reference` list in `install-skills.mjs`. Keep the description
-  under 1,024 characters; Codex skips longer ones.
+  `standards/.claude-plugin/plugin.json`), and, if the skill reads a new file from the
+  standard, that file in `REFERENCE` in `standards/scripts/standard.mjs`. Decide whether
+  projects get a copy: `copy-skills-to-project.mjs` copies every skill except those in its
+  `SKIP_SKILLS` list (today `new-project` and `machine-inventory`, which a cloud session has
+  no use for). Keep the description within the budget under *Checks*.
 - **The startup check** — `standards/hooks/hooks.json` runs
   `standards/scripts/check-rules-version.mjs` when a session starts. It prints only when the
   project's rules are behind the plugin's copy and the owner has not declined that version;
@@ -39,15 +63,27 @@ versions of the same rules file at once.
   wording. `tests/run.mjs` holds the blocked and allowed cases; add one for every false
   positive or miss found in a project. This repository registers it for itself in
   `.claude/settings.json`.
+- **The relay-after-compact hook** — `standards/hooks/hooks.json` runs
+  `standards/scripts/after-compact.mjs` on `SessionStart` with the matcher `compact|resume`.
+  It tells the new session to run relay in full before any waiting request. Silent on any
+  other source, in a project with neither `docs/STATUS.md` nor `project-rules.md`, and on
+  every error. The plugin's copy also stays silent when the project's
+  `.claude/settings.json` registers the project's own copy, so the instruction arrives once.
 - **Skill copies** — `standards/scripts/copy-skills-to-project.mjs` copies the skills into a
   project for cloud sessions, rewriting `${CLAUDE_PLUGIN_ROOT}/` to `.claude/fleet/`. Keep
   every reference to a standard file in a skill in that `${CLAUDE_PLUGIN_ROOT}/<file>` form
   so the rewrite catches it. A bare `${CLAUDE_PLUGIN_ROOT}` with no slash is left alone; the
   skills use it to tell a plugin session from a project copy. It also copies the shell-write
-  hook and merges its registration into the project's `.claude/settings.json`, leaving every
-  other setting as it was and an unreadable file untouched.
+  and relay-after-compact hooks and merges their registration into the project's
+  `.claude/settings.json`, leaving every other setting as it was and an unreadable file
+  untouched. A file a project's agent must read (`process-x.md`) goes in `REFERENCE` in
+  `standards/scripts/standard.mjs`, which this script and `install-skills.mjs` both read.
 - Run `claude plugin validate .` before pushing. Its one expected warning is the missing
-  `version`.
+  `version`. **Also run `claude plugin validate standards`**: only that form parses each
+  skill's frontmatter, and a skill whose frontmatter fails to parse loads with no name or
+  description and never appears in a session (`checkpoint` and `relay`, until v4.0.0: a
+  colon followed by a space in the description). Its one expected warning is the missing
+  icon.
 
 ## What "release" means here
 
@@ -61,13 +97,15 @@ private drift survey (`fleet-drift.md` in the owner's plans repository).
 ## Checks
 
 - **`node tests/run.mjs`** — manifests parse; skill names match their folders and
-  descriptions stay within an 800-character budget (Codex skips one over 1,024, silently);
-  the version agrees in the rules file, the changelog and the README; relative links resolve
-  and HTML comments close; the credential hook passes every tracked file and blocks eight
-  fake key shapes; both scripts behave in every case. **CI runs it on every push and pull
+  descriptions stay within 800 characters, a margin under the 1,024 at which Codex skips a
+  skill silently; the version agrees in the rules file, the changelog and the README; relative links resolve
+  and HTML comments close; the credential hook passes every tracked file and blocks ten
+  fake key shapes; every script behaves in every case. **CI runs it on every push and pull
   request** (`.github/workflows/checks.yml`), with `claude plugin validate .`.
-- **Behaviour evals** — `standards/evals/`, six cases on the riskiest behaviour (relay's
-  trigger, the git step per *Deploys* value, skill proposals). They cost model usage, so they
+- **Behaviour evals** — `standards/evals/`, fifteen cases on the riskiest behaviour (relay's
+  trigger, the git step and `cpr` per *Deploys* value, skill proposals, the pause, the log
+  split, `sync-standards` asking first, `propose-standard` filing an issue, the motif's *Show
+  me*, a new game project). They cost model usage, so they
   are run by hand before releasing a change to a skill or to §GIT; the README there has the
   command. A failing case is a skill that reads ambiguously or a case asking the wrong
   question — never loosen a grader to get green.
@@ -84,10 +122,10 @@ node standards/scripts/sync-rules.mjs [projectsDir]
 ```
 
 Lists the rules version in every project folder under `projectsDir` (default
-`$PROJECTS_DIR`, then `E:\Projects`). `--apply` offers to copy the master over each
-out-of-date copy. It never commits, and never touches a project with no copy — adopting the
-standard is a migration, not a file copy. Per project, `sync-standards` does the same job with
-more care; this script is for the overview.
+`$PROJECTS_DIR`, then `E:\Projects`). It reads only: bringing a project up to date is
+`sync-standards`' job, run inside that project, which translates references, writes the
+imports and the skill copies, and asks first. (The `--apply` that copied files without any of
+that was dropped in v4.)
 
 ## Known drift
 

@@ -1,22 +1,19 @@
 ---
 name: new-project
-description: Use when starting a brand-new project on the fleet standard — e.g. "new project", "start a new project", "set up a new repo", "bootstrap this project", "scaffold a new Next.js app". Scaffolds Next.js with create-next-app, puts the standard's rules and templates in place, wires the fleet plugin and the other-agent pointers, then hands to design-motif to set the design before any interface work, and finishes with the new-project checklist. Never commits. For an existing codebase use adopting-the-standard instead.
+description: Use when starting a brand-new repository on the fleet standard — e.g. "new project", "start a new project", "set up a new repo", "bootstrap this project", "scaffold a new Next.js app", "new game", "new tool", "new repo for runbooks". Asks what kind of repository it is (web, Node tool, tool in another language, game, non-application) and how it ships, puts the core and that kind's rules files in place with the Rules line, asks each option once, wires the fleet plugin and the other-agent pointers, scaffolds Next.js for a web project, hands to design-motif where there is a visual surface, and finishes with a checklist. Never commits. For an existing codebase use adopting-the-standard instead.
 ---
 
 # New project
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
-Takes an empty folder to a project that is on the standard from its first file, with its
-design decided before any interface is built. The master copies used here:
+Takes an empty folder to a repository that is on the standard from its first file — any kind
+§SCOPE names, not only a web app — with its design decided before any interface is built.
+The master copies used here:
 
-- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md`
+- Rules: `${CLAUDE_PLUGIN_ROOT}/project-rules.md` and `${CLAUDE_PLUGIN_ROOT}/rules/`
 - Templates: `${CLAUDE_PLUGIN_ROOT}/templates/`
 - Adoption guide, for anything that is not new: `${CLAUDE_PLUGIN_ROOT}/adopting-the-standard.md`
 
@@ -28,7 +25,7 @@ Check the target folder. If it already holds application code, **stop**: that is
 adoption, not a new project. Point at `adopting-the-standard.md` — its first pass writes
 `conventions.md` and changes no code.
 
-## Step 1 — What is being built
+## Step 1 — What is being built, what kind, how it ships
 
 Establish the project's name (kebab-case for the folder and repo) and what it is.
 
@@ -38,36 +35,57 @@ Establish the project's name (kebab-case for the folder and repo) and what it is
 - **No spec** — ask in prose for a short description: what it is for, who uses it, what the
   first phase must do. Do not invent the rest.
 
-Confirm the stack choices that are the owner's (§ASK) where the spec does not settle them:
-Firebase or not, zustand and zod needed or not, a Trello board or none — and, if the
-project will have AI features, its AI tooling: Firebase AI Logic, the Vercel AI SDK, or both
-(§AI lays out the trade-offs). If the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
-line, ask the §CREDIT questions — does the project carry the studio credit, and, if the line
-names a showcase, will it be featured on the studio's site — and for a client project,
-whether the client has agreed. Local-only projects are asked too. Record both answers on the
-`Studio credit:` and `Studio showcase:` lines of `CLAUDE.md` and in `decisions.md`. **On a
-showcase yes**, file the feature request as an issue on the studio site's repository — what
-the project is, its status, stack and tools, links, nothing private — and record its link in
-`decisions.md`; if this session cannot reach that repository, write the request in full as an
-open item in `docs/STATUS.md` and say so (§CREDIT).
+Then, through the question tool, where the spec does not settle them (§ASK):
 
-## Step 2 — Scaffold
+1. **The kind of repository**, which decides the files it loads (§SCOPE's second table has
+   them) and its scaffold (Step 2): web project (Next.js), local Node tool, tool in another
+   language (bash, Python), game, or non-application. For the kinds whose files depend on
+   an interface or a visual surface, ask that too.
+2. **How it ships** — the *Deploys* line (§GIT): **single-branch**, **multi-branch** (a
+   live domain or real users means this: name the working branch and the release), or
+   **local only** (no remote, by decision). For a repository without application code, also
+   the production surface and whether it has live users.
+3. **The options, each asked once** (§SCOPE), and every answer recorded on the *Rules*
+   line's `Options:` part, a chosen one by name and a declined one as `no-<name>`, the credit
+   and Trello included:
+   - **Studio credit** — only if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
+     line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` (§CREDIT; read on demand,
+     never imported) and do what it says: its two questions, the client's agreement for a
+     client project, and a showcase yes filed as a request there. Local-only projects are
+     asked too.
+   - **A Trello board** — its URL, or none.
+   - **The backend: Firebase, SQLite or none** — for a kind with application code; a
+     non-application repository is asked only if it will hold Firebase configuration.
+     SQLite (§SQLITE) is for a local-first project: one device, its own data, nothing
+     hosted. Ask the driver with it, and record it in `decisions.md`.
+   - **AI features** — and, for a web project, the tooling: Firebase AI Logic, the Vercel AI
+     SDK, or both (§AI lays out the trade-offs). Step 4 hands to `ai-setup`.
+4. **For a web project only:** zustand and zod needed or not (§STATE).
 
-Check the current options first (`npx create-next-app@latest --help`) — flags change
-(§PACKAGES). As of this writing:
+Play the answers back in a few lines before Step 2.
+
+## Step 2 — Scaffold, by kind
+
+**Every kind:** with the owner's yes, `git init` in the project folder — Step 4's credential
+hook needs a repository, and nothing is committed until the owner's first checkpoint. A web
+project's folder is made by `create-next-app <name>`, run from the folder that will hold
+it, so there `git init` comes after the scaffold, inside `<name>`. A
+`.gitignore` that covers `.env*` and `.secrets/` (§SECURITY), with an `!.env.example`
+exception where the kind keeps one.
+
+**Web project.** Check the current options first (`pnpm dlx create-next-app@latest --help`)
+— flags change (§PACKAGES). As of this writing, with pnpm, the manager for a new project
+(§NPM):
 
 ```bash
-npx create-next-app@latest <name> --ts --tailwind --eslint --app --src-dir \
-  --import-alias "@/*" --use-npm --disable-git
+pnpm dlx create-next-app@latest <name> --ts --tailwind --eslint --app --src-dir \
+  --import-alias "@/*" --use-pnpm --disable-git
 ```
 
-`--disable-git` because git is the owner's call (§GIT). If the CLI writes its own
-`AGENTS.md` (current versions do, inside a generated block), keep it; Step 4 adds the
-pointer above the block.
+`--disable-git` so the scaffold makes no commit of its own (§GIT); `git init` follows, as
+above. If the CLI writes its own `AGENTS.md` (current versions do, inside a generated
+block), keep it; Step 4 adds the pointer above the block. Then, before anything else:
 
-Then, before anything else:
-
-- **`.gitignore`** covers `.env*` and `.secrets/` (§SECURITY). Add whichever is missing.
 - **Naming** (§NAMING): kebab-case files from the start. Offer a filename lint rule
   (`check-file` or `unicorn/filename-case`) to enforce it — the owner approves the dependency.
 - **`tsconfig.json`** has `"strict": true` and `"paths": { "@/*": ["./src/*"] }` (§TS,
@@ -76,23 +94,57 @@ Then, before anything else:
   confirm the choice with the owner, then set `engines.node` in `package.json` and `.nvmrc`
   to that major. If the local Node is a different major, say so and switch before building.
 - **Environment checking** (§RUNTIME): `src/lib/env.ts` with server and client zod schemas,
-  and a committed `.env.example` — with `!.env.example` added to `.gitignore`. Variables are
-  added to both as they appear.
+  and a committed `.env.example`. Variables are added to both as they appear.
+
+**Local Node tool.** No framework. `package.json` (`pnpm init`, then the name, `type`,
+`engines.node` and `.nvmrc` as §RUNTIME says), `tsconfig.json` strict (§TS), and the
+language: TypeScript, or JavaScript with type checking on, which §TS allows a local tool;
+ask, and record the answer in `decisions.md`. Then the scripts `rules/node.md` §BUILD names. Every dependency is the owner's yes (§AGENTS).
+
+**Game.** The engine makes its own project: the owner creates it in the engine, in this
+folder, and says which engine and version. Nothing here writes engine files, and
+engine-generated files stay as the engine writes them.
+
+**Python.** Ask its shape (`rules/python.md` §PYTHON): a **package**, or a **folder of
+scripts** run by path. A package: `uv init --package`, the minor pinned in `.python-version`
+and `requires-python` after checking which one every planned dependency ships wheels for,
+then pytest, ruff and pyright as dev dependencies on the owner's yes. A folder of scripts:
+no scaffold; record the shape in `conventions.md` and the interpreter's full path in
+`CLAUDE.md`.
+
+**Tool in another language, non-application.** No scaffold. The repository starts with the
+standard's files alone; the work's own files come with the work.
 
 ## Step 3 — The standard
 
-1. Copy `project-rules.md` to the project root.
+1. Copy `project-rules.md` to the project root, and into `rules/` exactly the files the kind
+   loads (Step 1's table, with `ui.md` where the answer was yes), and into `rules/options/`
+   each option the owner chose but AI (`ai-setup` copies that one, Step 4).
 2. From the templates, filling in what Steps 1–2 established and leaving the rest as `TODO`
    — never invented:
-   - `CLAUDE.template.md` → `CLAUDE.md` — project identity, deploy target if known, the
-     `Trello board:` line (a URL or `none`), commands, technology verified against
-     `package.json` today.
+   - `CLAUDE.template.md` → `CLAUDE.md`:
+     - **the imports**: one `@` line per file copied in step 1, the others deleted (the
+       template's comment lists them by kind); Trello and Firebase imported, AI and the
+       credit never — they are read on demand (§SCOPE);
+     - **the *Rules* line**: the same files and the options, e.g.
+       `app, node · Options: trello, no-credit, no-sqlite, no-ai` — the line the startup check and
+       `sync-standards` read (§SCOPE);
+     - **the *Deploys* line** from Step 1, the `Trello board:` line (a URL or `none`), the
+       `Studio credit:` and `Studio showcase:` lines, and the `Motif:` line (`not chosen yet`
+       where there is a visual surface, `none` where there is none);
+     - **Commands and Technology** for what the kind really has, verified today: a web
+       project's from `package.json`; a Node tool's scripts; a game's engine version and
+       headless test command; a tool's interpreter; a non-application repository says no
+       commands exist and describes the platform (`rules/non-application.md`).
    - `conventions.template.md` → `conventions.md` — `Audited against` the rules version just
-     copied; no divergences yet.
-   - `decisions.template.md` → `decisions.md` — a first entry recording the stack choices and
-     why, from the spec or Step 1.
-   - `STATUS.template.md` → `docs/STATUS.md` — `Start here` says the project was set up today
-     and the next action is the design.
+     copied; no divergences yet. **A game or a non-application repository** keeps its profile
+     block from the template and deletes the other.
+   - `decisions.template.md` → `decisions.md` — a first entry recording the kind, the
+     *Deploys* choice, each option's answer and the stack choices, and why, from the spec or
+     Step 1.
+   - `STATUS.template.md` → `docs/STATUS.md` and `log.template.md` → `docs/log.md` —
+     `Start here` says the project was set up today and names the next action (the design,
+     where there is one).
 3. Create no other document until it has content (§DOCS).
 
 ## Step 4 — Wire the agents
@@ -101,39 +153,122 @@ Then, before anything else:
   `fleet@tanveerfb` (the exact block is in `sync-standards`, Step 5).
 - **Skill copies for cloud sessions**, which install no plugins — run
   `node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"` once
-  `project-rules.md` is in place (`sync-standards`, Step 5, explains the copies).
+  `project-rules.md` is in place (`sync-standards`, Step 5, explains the copies). **Skip this
+  for a local-only project**: no cloud session can open it, and the plugin gives it both
+  hooks.
 - **`AGENTS.md` and `GEMINI.md`** — the pointer from `templates/AGENTS.template.md`; in an
   existing `AGENTS.md`, above any generated block, never inside it.
 - **The credential hook (§SECURITY)** — copy `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit` to
   `.githooks/pre-commit` with `cp`, then `git config core.hooksPath .githooks`. Mark it
-  executable when the owner's first commit adds it (`git add --chmod=+x`).
+  executable when the owner's first commit adds it (`git add --chmod=+x`). Copy
+  `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` to the project root with it, so the hook
+  and any shell script keep LF on a Windows checkout (§GIT).
+- **AI chosen in Step 1:** run `ai-setup` now, or record it as the first open item if the
+  owner wants the design first. It copies `rules/options/ai.md` and writes the two
+  read-on-demand lines.
 
-## Step 5 — Design first
+## Step 4.5 — The remote, unless the project is local only
 
-Hand to **`design-motif`** now, before any interface work — the motif decides the tokens, and
-the tokens decide everything visual after them. Pass it the spec or the Step 1 description
-as the brief. Continue here once the motif is locked and recorded, and fill in the
-`Motif:` line in `CLAUDE.md`.
+Each on its own yes from the owner (§GIT, *An approval does not generalise*):
+
+1. **The repository.** `gh repo create <owner>/<name> --private --source .` — private unless
+   the owner says public; no `--push`, since nothing is committed yet. A client project's
+   repository may belong to the client: ask whose account it goes in.
+2. **The working branch, on a multi-branch project.** It is created at the owner's first
+   checkpoint, from the first commit, and named on the *Deploys* line.
+3. **Branch protection (§SECURITY),** once the first push has made the default branch exist:
+   force pushes and deletion off, and on a multi-branch project pull requests required.
+   Through the repository's settings or `gh api`; where the plan does not allow it, record
+   the gap in `conventions.md`. This step outlives the session: if the first push has not
+   happened, put it in `Start here` as the first open item.
+
+## Step 5 — Design first, where there is a visual surface
+
+**Only if the project loads `rules/ui.md`.** Hand to **`design-motif`** now, before any
+interface work — the motif decides the tokens, and the tokens decide everything visual after
+them. Pass it the spec or the Step 1 description as the brief. Continue here once the motif
+is locked and recorded, and fill in the `Motif:` line in `CLAUDE.md`. A repository with no
+visual surface skips this step.
 
 ## Step 6 — The rest of the checklist
 
-Work through the remaining items of the checklist at the end of `project-rules.md` **with
-the owner**, one at a time — offer each, do not run them all silently:
-
-- tokens in `@theme` from the locked motif, then the **component round** (§SHADCN): the core
-  kit and signature component designed through mockups — custom, ambitious, every state —
-  before any feature work, then built on shadcn's behaviour primitives;
-- navigation style confirmed;
-- the data adapter interface, if the project has data (§DATA);
-- base components — navigation, footer, button;
-- Vitest wired to `npm test` (§TESTING);
-- `.env.local` and `environment.md` only once a credential actually exists (§DOCS);
-- **`npm run build` passes clean** — the last step, and it must actually run.
+Work through the items of the checklist below that Steps 1 to 5 did not already settle,
+**with the owner**, one at a time — offer each, do not run them all silently. A web
+project's **component round** (§SHADCN) comes before any feature work: the core kit and
+signature component designed through mockups — custom, ambitious, every state — then built on
+shadcn's behaviour primitives. **The kind's build or test run is the last item**, and it must
+actually run.
 
 ## Step 7 — Report
 
+- The kind, and the files it loads.
 - What was created, by path.
-- The motif, and where it is recorded.
+- The motif, and where it is recorded — or that the repository has no visual surface.
 - Checklist items done and still open.
 - **Nothing committed.** The first commit happens at the owner's `git checkpoint`, and
   `.gitignore` is already in place for it.
+
+## The checklist
+
+Used once, here, so it lives in this skill rather than in a rules file every session loads.
+
+**Every kind:**
+
+- [ ] `git init` done, with the owner's yes; `.gitignore` covers `.secrets/` and `.env*`,
+      in place before the first commit
+- [ ] **The rules set in place:** `project-rules.md` and the `rules/` files the kind loads,
+      each imported from `CLAUDE.md`, with the *Rules* line written (§SCOPE) — and
+      **committed** at the first checkpoint. An untracked copy is one `git clean` from gone.
+- [ ] The *Deploys* line written (§GIT)
+- [ ] Unless local only: the repository created, private unless said otherwise; branch
+      protection on after the first push, or the first open item until then (Step 4.5)
+- [ ] Each option asked once and the answer recorded: studio credit and showcase, Trello
+      board (`Trello board:` line, a URL or `none`), Firebase, AI (§SCOPE)
+- [ ] `fleet` plugin enabled in `.claude/settings.json`, the `AGENTS.md` and `GEMINI.md`
+      pointers and the credential hook in place; the skill copies made unless local only
+      (Step 4)
+- [ ] Document set created — only the files that have content (§DOCS)
+- [ ] Motif chosen and recorded in `design-system.md`, where the project loads `rules/ui.md`
+      (§DESIGN, Step 5)
+- [ ] `.env.local` and `environment.md` **only once a credential actually exists** (§DOCS);
+      from then, every variable recorded by name and owner (§FIREBASE for the Firebase set)
+
+**Web project, in addition:**
+
+- [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias (Step 2)
+- [ ] `tsconfig.json` strict confirmed
+- [ ] Node pinned to the deploy platform's major in `engines` and `.nvmrc` (§RUNTIME)
+- [ ] `src/lib/env.ts` validates env at startup; `.env.example` committed with an
+      `!.env.example` exception in `.gitignore` (§RUNTIME)
+- [ ] `design-system.md` written and tokens in `@theme` before any UI work
+- [ ] Component round done: the core kit and signature component designed in the motif,
+      approved through mockups, built on shadcn behaviour (§SHADCN)
+- [ ] Navigation style confirmed with the owner
+- [ ] Zustand and zod confirmed as needed or not needed (§STATE)
+- [ ] Data adapter interface defined, if the project has data (§DATA)
+- [ ] Base components built: navigation, footer, button
+- [ ] Structure matches §STRUCTURE; files named per §NAMING, with the filename lint rule
+      offered
+- [ ] MCP servers active: Context7, Next.js DevTools, shadcn, Firebase and Vercel where
+      applicable, web search
+- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, every
+      model call protected before any AI feature ships (§AI)
+- [ ] pnpm pinned in `packageManager`, one lockfile (§NPM)
+- [ ] Vitest installed and `pnpm test` wired (§TESTING)
+- [ ] First `pnpm build` passes clean — last
+
+**Local Node tool, in addition:** `tsconfig.json` strict; Node pinned in `engines` and
+`.nvmrc`; pnpm pinned in `packageManager`; Vitest and `pnpm test` once there is logic to test (`rules/node.md`); the typecheck
+passes — last.
+
+**Game, in addition:** the profile block in `conventions.md`; the engine's test add-on
+offered (GUT in Godot); the engine's headless run passes — last (`rules/game.md`).
+
+**Tool in another language, in addition:** the interpreter and its version recorded in
+*Technology*; the tool runs once on a real input — last. **A Python package:** `uv.lock`
+committed; `uv run pytest`, `ruff check`, `ruff format --check` and `pyright` pass before
+that last run (§PYTHON).
+
+**Non-application, in addition:** the profile block in `conventions.md`; *Commands* says
+none exist; the production surface named on the *Deploys* line
+(`rules/non-application.md`).

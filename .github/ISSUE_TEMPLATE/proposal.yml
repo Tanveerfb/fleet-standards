@@ -11,7 +11,7 @@ body:
     id: target
     attributes:
       label: Target
-      description: The file, and the section by name — e.g. `project-rules.md` §FORMS, `checkpoint` Step 3.5.
+      description: The file, and the section by name — e.g. `rules/web.md` §FORMS, `checkpoint` Step 3.5.
     validations:
       required: true
   - type: dropdown

@@ -18,6 +18,10 @@ pattern="$pattern|stream[_ ]?key${q}[:=] *[\"']?[A-Za-z0-9_-]{12,}"
 pattern="$pattern|api[_-]?key${q}[:=] *[\"']?[A-Za-z0-9_-]{16,}"
 pattern="$pattern|sk-[A-Za-z0-9_-]{20,}"
 pattern="$pattern|AIza[0-9A-Za-z_-]{35}"
+# A Discord webhook URL: anyone holding it can post to the channel.
+pattern="$pattern|discord(app)?\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]{20,}"
+# A Google OAuth client secret (a desktop sign-in client keeps one beside the client id).
+pattern="$pattern|GOCSPX-[A-Za-z0-9_-]{20,}"
 
 hits=$(git diff --cached -U0 --no-color | grep '^+' | grep -v '^+++' | grep -E -i -- "$pattern")
 if [ -n "$hits" ]; then
