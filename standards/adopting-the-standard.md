@@ -123,6 +123,12 @@ Each cost a real session somewhere in this fleet.
   Capture the exit code directly.
 - **A folder prefixed with `_` inside `app/` is a private folder** and never routes.
 - **`npm run lint` is not a build check.** Use `npm run build`.
+- **A Node installed from the website pins every project to one version** (`rules/node.md`
+  §RUNTIME). Setting up a version manager on Windows: list the global npm packages first
+  (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),
+  uninstall the website Node, `winget install Schniz.fnm`, add `fnm env --use-on-cd --shell
+  powershell | Out-String | Invoke-Expression` to the PowerShell `$PROFILE`, then
+  `fnm install --lts` and reinstall the global packages.
 
 **Deployment**
 

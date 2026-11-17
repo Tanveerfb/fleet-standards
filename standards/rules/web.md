@@ -40,6 +40,23 @@ dependency-cruiser or madge.
 
 ---
 
+## §RUNTIME — Node version and environment
+
+- **`src/lib/env.ts` parses the environment** (§RUNTIME in `rules/node.md`): one schema for
+  server variables, one for client (`NEXT_PUBLIC_`) variables
+- **Server variables never reach the client.** The server half is imported only from server
+  code (`import "server-only"`); components read the client half
+- **Client variables are referenced one by one** — `process.env.NEXT_PUBLIC_X`, written out in
+  full. Next.js inlines them at build time and cannot see a dynamic lookup such as
+  `process.env[name]`
+- A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
+- **Before pushing server-rendered changes, deploy a preview.** A green local build does not
+  prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+
+*§RUNTIME's version pinning and the startup check are in `rules/node.md`.*
+
+---
+
 ## §STATE — State and validation
 
 **Zustand** where the project needs shared client state. A project with little

@@ -131,7 +131,18 @@
     "where it must run in the browser (Firebase Auth sign-in, for example). `useActionState` holds",
     "Live data uses Firestore `onSnapshot` listeners, exposed by the data adapter as",
     "a subscription method (§DATA), wrapped in a hook, and unsubscribed on unmount.",
-    "Loading, error and empty states handled every time."
+    "Loading, error and empty states handled every time.",
+
+    "  `package.json` — which Vercel reads to choose its runtime — and the major in `.nvmrc` at the",
+    "  walk the owner through setting one up — on Windows: list global npm packages first",
+    "  (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),",
+    "  uninstall the website Node, `winget install Schniz.fnm`, add `fnm env --use-on-cd --shell",
+    "  powershell | Out-String | Invoke-Expression` to the PowerShell `$PROFILE`, then",
+    "  `fnm install --lts` and reinstall the global packages",
+    "**Environment variables are checked when the app starts, not when a page first breaks.**",
+    "- **`src/lib/env.ts` parses them with zod** (§STATE): one schema for server variables, one for",
+    "  client (`NEXT_PUBLIC_`) variables. A missing or malformed variable stops the app at startup",
+    "  with a message naming it"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -329,6 +340,20 @@
     "  Sign-in with Firebase Auth runs in the browser, through the client SDK.",
     "where it must run in the browser (a client SDK's sign-in, for example). `useActionState` holds",
     "Live data is a subscription method on the data adapter (§DATA), wrapped in a hook, and",
-    "unsubscribed on unmount. Loading, error and empty states handled every time."
+    "unsubscribed on unmount. Loading, error and empty states handled every time.",
+
+    "## §RUNTIME — Node version and environment",
+    "  `package.json` — which a deploy platform reads to choose its runtime — and the major in `.nvmrc` at the",
+    "  walk the owner through setting one up (`adopting-the-standard.md`, section 5, has the",
+    "  Windows steps)",
+    "**Environment variables are checked when the program starts, not when something first",
+    "breaks.**",
+    "- **One module parses them with zod** (§STATE). A missing or malformed variable stops the",
+    "  program at startup with a message naming it",
+    "*§RUNTIME continues in `rules/web.md`: environment variables in Next.js, and the preview",
+    "deploy.*",
+    "- **`src/lib/env.ts` parses the environment** (§RUNTIME in `rules/node.md`): one schema for",
+    "  server variables, one for client (`NEXT_PUBLIC_`) variables",
+    "*§RUNTIME's version pinning and the startup check are in `rules/node.md`.*"
   ]
 }

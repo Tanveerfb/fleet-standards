@@ -91,7 +91,7 @@ on the next does not show up until the deploy.
   Node majors the deploy target supports today and pick its current LTS. Record it in
   `decisions.md`; revisit when the platform retires it
 - **Declare it twice, the same major in both:** `"engines": { "node": "<major>.x" }` in
-  `package.json` — which Vercel reads to choose its runtime — and the major in `.nvmrc` at the
+  `package.json` — which a deploy platform reads to choose its runtime — and the major in `.nvmrc` at the
   root, which local version managers read. Use a version manager that switches automatically
   from `.nvmrc` (fnm, or nvm-windows on Windows); Volta, pinning through `package.json`, is the
   alternative
@@ -99,29 +99,21 @@ on the next does not show up until the deploy.
   pinned major, switch before building, and say so in the report rather than building anyway
 - **No version manager is a gap to fix, not to work around.** A single Node installed from
   the website serves every project at one version. When an agent finds that, it offers to
-  walk the owner through setting one up — on Windows: list global npm packages first
-  (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),
-  uninstall the website Node, `winget install Schniz.fnm`, add `fnm env --use-on-cd --shell
-  powershell | Out-String | Invoke-Expression` to the PowerShell `$PROFILE`, then
-  `fnm install --lts` and reinstall the global packages
-- **Before pushing server-rendered changes, deploy a preview.** A green local build does not
-  prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+  walk the owner through setting one up (`adopting-the-standard.md`, section 5, has the
+  Windows steps)
 
-**Environment variables are checked when the app starts, not when a page first breaks.**
+**Environment variables are checked when the program starts, not when something first
+breaks.**
 
-- **`src/lib/env.ts` parses them with zod** (§STATE): one schema for server variables, one for
-  client (`NEXT_PUBLIC_`) variables. A missing or malformed variable stops the app at startup
-  with a message naming it
-- **Server variables never reach the client.** The server half is imported only from server
-  code (`import "server-only"`); components read the client half
-- **Client variables are referenced one by one** — `process.env.NEXT_PUBLIC_X`, written out in
-  full. Next.js inlines them at build time and cannot see a dynamic lookup such as
-  `process.env[name]`
+- **One module parses them with zod** (§STATE). A missing or malformed variable stops the
+  program at startup with a message naming it
 - **`.env.example` is committed:** every variable name with a one-line comment, never a value.
   `.gitignore` covers `.env*`, so it needs an `!.env.example` exception. `environment.md`
   (§DOCS) stays the record of what each variable is for and who owns the account; the example
   file is the starting point for a fresh clone
-- A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
+
+*§RUNTIME continues in `rules/web.md`: environment variables in Next.js, and the preview
+deploy.*
 
 ---
 
