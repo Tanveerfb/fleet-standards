@@ -79,7 +79,9 @@
     "- [ ] `fleet` plugin enabled in `.claude/settings.json` (`sync-standards` writes it)",
     "- [ ] `AGENTS.md` and `GEMINI.md` pointers at the root, if anyone works on the project with another agent (§TOOLS)",
     "- [ ] **`project-rules.md` copied into the project root and `@project-rules.md` imported",
-    "      from `CLAUDE.md`** — and **committed**. An untracked copy is one `git clean` from gone."
+    "      from `CLAUDE.md`** — and **committed**. An untracked copy is one `git clean` from gone.",
+
+    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`. No line, no Trello —"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -210,6 +212,8 @@
 
     "push approved is not pushing approved. **One exception:** a checkpoint's own follow-up",
     "commit, holding what its closing question approved, is covered by the answer that",
-    "checkpoint's git step had — pushed only if that step pushed, and never a release."
+    "checkpoint's git step had — pushed only if that step pushed, and never a release.",
+
+    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`, bold or not. No line, no Trello —"
   ]
 }

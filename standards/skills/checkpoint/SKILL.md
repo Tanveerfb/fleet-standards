@@ -309,8 +309,8 @@ output, and writing there instead of into the deep doc loses the handoff.
 
 ## Step 3.5 — Mirror to the Trello board, if the project has one
 
-**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line** (`rules/options/trello.md`
-§TRELLO). No line, or `none`: skip this step silently. Never search Trello for a board that
+**Only if the project's `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the
+template writes `- **Trello board**: <url>`; `rules/options/trello.md` §TRELLO). No line, or `none`: skip this step silently. Never search Trello for a board that
 might match, and never create one.
 
 This step runs on **every** checkpoint, with or without the `git` prefix — the board is not

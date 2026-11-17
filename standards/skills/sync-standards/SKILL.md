@@ -64,10 +64,12 @@ changed anything, tell the owner to restart the agent and invoke this skill agai
 
 - The master's version: the `**Version:**` line of `${CLAUDE_PLUGIN_ROOT}/project-rules.md`.
 - The project's: the same line of `project-rules.md` at the project root.
-- The files the project loads: the `Rules:` line in its `CLAUDE.md`
+- The files the project loads: the *Rules* line in its `CLAUDE.md`
   (`Rules: app, ui, node, web · Options: firebase, trello`) names them, as `rules/<name>.md`
-  and `rules/options/<name>.md`. "Content" below means the core and each of those files,
-  compared with the master's. No `Rules:` line means the project is still on the single
+  and `rules/options/<name>.md`. **Every `CLAUDE.md` line this skill reads is found bold or
+  not:** the template writes `- **Rules**: …`, `- **Trello board**: …`, `- **Deploys**: …`,
+  and a hand-written file may not. "Content" below means the core and each of those files,
+  compared with the master's. No *Rules* line means the project is still on the single
   file from before v4: Step 4 moves it onto the set.
 
 Then branch:
@@ -100,8 +102,8 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
 ## Step 4 — Apply
 
 1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy, and each file the
-   `Rules:` line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
-   Copy only what is declared. **A project with no `Rules:` line** is coming from the single
+   *Rules* line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
+   Copy only what is declared. **A project with no *Rules* line** is coming from the single
    file: do check (a) in item 4 first, so nothing that moved out of the core is lost.
 2. Translate numeric section references with the map in `CHANGELOG.md`, in `CLAUDE.md` and
    `conventions.md`. **Never edit `decisions.md`** — it is append-only, and an old entry's
@@ -254,7 +256,7 @@ git config core.hooksPath .githooks
 If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky and add
 `.githooks/pre-commit || exit 1` to `.husky/pre-commit` instead.
 
-**Imports match the `Rules:` line (§SCOPE).** Check `CLAUDE.md` has one import line for the
+**Imports match the *Rules* line (§SCOPE).** Check `CLAUDE.md` has one import line for the
 core and one for each declared file (`ai` excepted: it is read on demand), that each
 imported file exists in the project, and that nothing is imported that the line does not
 declare. Say what differs and fix it on a yes.

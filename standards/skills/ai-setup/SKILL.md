@@ -126,7 +126,8 @@ Build one feature from the brief end to end, through the adapter:
 - **`CLAUDE.md`** — the technology table and any AI-specific traps found.
 - **The AI option (§SCOPE).** If the project has not chosen it yet: copy
   `${CLAUDE_PLUGIN_ROOT}/rules/options/ai.md` to `rules/options/ai.md`, and add `ai` to the
-  `Options:` part of the `Rules:` line in `CLAUDE.md`. The file is read on demand, never
+  `Options:` part of the *Rules* line in `CLAUDE.md` (`- **Rules**: …` in the template;
+  bold or not), changing `none` to `ai`. The file is read on demand, never
   imported, so write the line that makes a session read it, in two places:
   - the root `CLAUDE.md`, under the import lines: **Read `rules/options/ai.md` before any
     work on an AI feature** — never act on memory of it.

@@ -9,7 +9,7 @@ the set and who loads it, and its header carries the one version they share.
 ## §TRELLO — Trello boards
 
 Some projects mirror their progress on a Trello board. **A project has one only if its
-`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`. No line, no Trello —
+`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`, bold or not. No line, no Trello —
 never search for a board or create one unasked.
 
 - **`docs/STATUS.md` is the record; the board mirrors it.** Where they disagree, the repo

@@ -169,7 +169,8 @@ Establish:
 
 ## Step 4.5 — Read the Trello board, if the project has one
 
-**Only if `CLAUDE.md` has a `Trello board: <url>` line** (`rules/options/trello.md`
+**Only if `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the template writes
+`- **Trello board**: <url>`; `rules/options/trello.md`
 §TRELLO); otherwise skip silently. **Read only — relay never writes to the
 board.** Corrections are the next checkpoint's job.
 
