@@ -241,7 +241,10 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    at the top, built from the entries that record something the owner ruled out. The entries
    are not edited.
 
-   **j. One package manager (§NPM).** *If the project has two lockfiles,* say which, and
+   **j. One package manager (§NPM).** *If the project has two lockfiles of one ecosystem*
+   (for JavaScript, two of `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, `bun.lock`;
+   a `uv.lock` or `poetry.lock` beside one of them is a second language, not a second
+   manager), say which, and
    remove one on the owner's word about which goes. *If `CLAUDE.md`'s *Commands* do not name
    the manager the lockfile shows,* correct them. Never switch the manager unasked.
 
@@ -255,13 +258,17 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    without the owner's yes for that item; each is a setting or a workflow, never a guess.
    - *Branch protection.* *If the project has a GitHub remote and `conventions.md` records
      no protection gap,* read the default branch's protection (`gh api
-     repos/<owner>/<repo>/branches/<branch>/protection`; a 404 means none). If force pushes
+     repos/<owner>/<repo>/branches/<branch>/protection`). A 404 means none: if force pushes
      or deletion are allowed, or a multi-branch project does not require pull requests, say
      so and offer to turn it on (the owner's yes; the same call `new-project` Step 4.5 makes).
-     If the plan does not allow it, record the gap in `conventions.md`, so no later sync asks.
-   - *Tokens.* *If `environment.md` names a token without its scope and expiry,* ask the
-     owner for them and write them in. Names, scopes and dates only; never open a credential
-     file or ask for a value.
+     **A 403 saying the feature needs another plan** (a private repository on a free plan)
+     means it cannot be had: record the gap in `conventions.md`, so no later sync asks. A 403
+     for missing permission is the token's, not the plan's: say so and ask nothing more.
+   - *Tokens.* A token here is a credential that grants access to an account or a service:
+     a personal access token, an API key, a deploy or service-account key. *If
+     `environment.md` names one without its scope and expiry,* ask the owner for them and
+     write them in. A public configuration value (a Firebase web key) is not one. Names,
+     scopes and dates only; never open a credential file or ask for a value.
    - *Workflows.* *If a file under `.github/workflows/` has no `permissions:` block,* say
      which, and offer the least it needs; changing a workflow is the owner's yes, every time.
      *If the repository has Actions secrets* (`gh secret list`, names only) *and no workflow
