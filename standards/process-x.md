@@ -30,6 +30,14 @@ and waits.
    one voice in the copy, no free information. Delivered
    as a **ranked list** the owner can read on its own (an HTML page works well), findings
    grouped, each with what is wrong, where, and what fixing it would take.
+   **An independent auditor where the owner has one.** An audit by the session that will
+   build the fixes reads with its own assumptions. Where the owner has an auditor of their
+   own (on their PC, the `fable-audit` skill, which runs a model through the API on the
+   files it is given), offer it: say what it would read, estimate the cost, and run it only
+   on the owner's go. Give it the files and what they are for, never an earlier audit. Its
+   findings are checked against the code before they go on the list, and merged with the
+   session's own. Where there is none (a cloud session, another machine), the session
+   audits alone, as before.
 2. **The owner picks.** All, some or none. What is not picked is recorded as declined in
    `decisions.md`, so the next audit does not raise it as new.
 3. **Drafts, then build.** Each visual pick is drafted side by side with what exists and
