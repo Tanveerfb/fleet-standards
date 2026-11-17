@@ -176,9 +176,13 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` — to the project's own `.gitattributes`
    if it has one, never over it.
 
-   **g. The profile block in `conventions.md`.** *If a game in an engine still carries its
-   own block,* offer to replace it with the game-engine profile block from the conventions
-   template (§SCOPE), keeping anything the project's block says that the profile does not.
+   **g. The profile block in `conventions.md`.** *If a game or a repository without
+   application code carries a block of its own, or one that still speaks of "Part A",
+   "Parts B to E" or the rules being "referenced, not imported"* (the words before v4), offer
+   to replace it with the block for its kind from the conventions template (§SCOPE), keeping
+   anything the project's block says that the profile does not. "Part" wording elsewhere in
+   `CLAUDE.md` or `conventions.md` is corrected to the section names it meant; never in
+   `decisions.md`.
 
    **h. History out of the files agents read (§DOCS).** *If `docs/STATUS.md` still holds the
    session log,* do not move it here: say the next checkpoint moves it to `docs/log.md`. *If
