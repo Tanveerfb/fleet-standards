@@ -280,6 +280,11 @@ Add what is missing, merging with whatever the file already holds:
 if `CLAUDE.md`'s *Deploys* line says local only** — with no remote, no cloud session can
 open the repository, and the copies would be dead weight — **or if `decisions.md` records
 the owner declining the copies**: ask as Step 4 (a) says, and never copy them unasked.
+**Declining the skill copies is not declining the hooks.** A project that declined them,
+and is not local only, is still offered the two hooks on their own: the same commands with
+`--hooks-only` added, which copies and registers the hooks and nothing else (a hand copy of
+the shell-write guard from an older sync is brought up to date the same way). A no is
+recorded in `decisions.md` like any refusal.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check

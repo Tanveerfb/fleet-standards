@@ -674,6 +674,18 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
     copy();
   }
 
+  // The hooks without the skill copies (the pilots, P4).
+  {
+    const declined = join(scratch, "hooks-only");
+    mkdirSync(declined);
+    writeFileSync(join(declined, "project-rules.md"), `**Version:** ${rulesVersion}\n`);
+    const out = run("node", [script, declined, "--hooks-only"]);
+    check("--hooks-only: exit 0", out.status === 0, out.stderr);
+    check("copies both hooks and registers them", existsSync(join(declined, ".claude", "fleet", "scripts", "block-shell-writes.mjs")) && hookEntries(declined).length === 1 && compactEntries(declined).length === 1);
+    check("and no skill", !existsSync(join(declined, ".claude", "skills")));
+    check("--hooks-only --check afterwards is clean", run("node", [script, declined, "--hooks-only", "--check"]).status === 0);
+  }
+
   const existing = join(scratch, "existing");
   mkdirSync(join(existing, ".claude"), { recursive: true });
   writeFileSync(join(existing, "project-rules.md"), `**Version:** ${rulesVersion}\n`);

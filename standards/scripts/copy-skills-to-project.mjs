@@ -15,10 +15,12 @@
 // `${CLAUDE_PLUGIN_ROOT}` with no slash after it is left alone on purpose: the skills use it
 // to tell a plugin session from a project copy.
 //
-// Usage: node copy-skills-to-project.mjs <projectDir> [--check | --remove-stale]
+// Usage: node copy-skills-to-project.mjs <projectDir> [--check | --remove-stale] [--hooks-only]
 //   --check         writes nothing; lists what would change and exits 1 if anything would,
 //                   a stale copy included.
 //   --remove-stale  also deletes the stale copies. sync-standards runs it on the owner's yes.
+//   --hooks-only    the two hooks and their registration only, for a project that declined
+//                   the skill copies but keeps the hooks current. Nothing is listed as stale.
 //
 // A stale copy is one the standard no longer has: a file under .claude/fleet/ (the folder is
 // wholly the sync's), or a file .claude/fleet/copied.json says an earlier sync wrote. That
@@ -40,10 +42,11 @@ import { REFERENCE, versionIn } from "./standard.mjs";
 const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 const check = args.includes("--check");
-const removeStale = args.includes("--remove-stale") && !check;
+const hooksOnly = args.includes("--hooks-only");
+const removeStale = args.includes("--remove-stale") && !check && !hooksOnly;
 const projectArg = args.find((a) => !a.startsWith("--"));
 if (!projectArg) {
-  console.error("usage: copy-skills-to-project.mjs <projectDir> [--check | --remove-stale]");
+  console.error("usage: copy-skills-to-project.mjs <projectDir> [--check | --remove-stale] [--hooks-only]");
   process.exit(2);
 }
 const project = resolve(projectArg);
@@ -90,7 +93,7 @@ function isOwnSkill(name) {
 }
 
 const planned = []; // [target, content]
-for (const name of readdirSync(join(standards, "skills"))) {
+for (const name of hooksOnly ? [] : readdirSync(join(standards, "skills"))) {
   // Folders only: a stray file in skills/ is not a skill.
   if (SKIP_SKILLS.has(name) || !statSync(join(standards, "skills", name)).isDirectory()) continue;
   if (isOwnSkill(name)) {
@@ -103,12 +106,12 @@ for (const name of readdirSync(join(standards, "skills"))) {
     planned.push([join(project, ".claude", "skills", name, f), f.endsWith(".md") ? rewrite(text) : text]);
   }
 }
-for (const item of REFERENCE) {
+for (const item of hooksOnly ? [] : REFERENCE) {
   const from = join(standards, item);
   const list = statSync(from).isDirectory() ? files(from).map((f) => join(item, f)) : [item];
   for (const f of list) planned.push([join(project, ".claude", "fleet", f), readFileSync(join(standards, f), "utf8")]);
 }
-planned.push([
+if (!hooksOnly) planned.push([
   join(project, ".claude", "fleet", "README.md"),
   `# Fleet standard — project copy\n\nCopied from the fleet standard v${version} by \`sync-standards\`, together with the\nskills in \`.claude/skills/\`, so they load in cloud sessions, which install no plugins.\n\`scripts/block-shell-writes.mjs\` is the §AGENTS shell-write hook and\n\`scripts/after-compact.mjs\` asks for relay after a compact or a resume; both are registered\nin \`.claude/settings.json\`.\n\n**Do not edit these files.** The next sync overwrites them. A fix goes back to\n\`Tanveerfb/fleet-standards\` through \`propose-standard\`.\n\nThis folder is what the last sync copied, **not the master**: never compare the project's\nrules against \`.claude/fleet/project-rules.md\` to decide whether it is current.\n`,
 ]);
@@ -185,15 +188,16 @@ plannedRel.add(slash(relative(project, manifestPath)));
 const hash = (text) => createHash("sha256").update(text).digest("hex");
 const fleetDir = join(project, ".claude", "fleet");
 const onDisk = existsSync(fleetDir) ? files(fleetDir).map((f) => slash(join(".claude", "fleet", f))) : [];
-const stale = [...new Set([...onDisk, ...previous])]
+const stale = hooksOnly ? [] : [...new Set([...onDisk, ...previous])]
   // Only inside .claude/: the manifest is a file in the repository, so never trust a path in it.
   .filter((rel) => rel.startsWith(".claude/") && !rel.split("/").includes("..") && !plannedRel.has(rel) && existsSync(join(project, rel)))
   .sort();
 const settingsRel = slash(relative(project, settingsPath));
 // A stale copy left in place stays on the list, so the next run still finds it.
-const recorded = [...plannedRel, ...(removeStale ? [] : stale)].filter((f) => f !== settingsRel);
+// --hooks-only adds to what earlier syncs recorded instead of replacing it.
+const recorded = [...(hooksOnly ? previous : []), ...plannedRel, ...(removeStale ? [] : stale)].filter((f) => f !== settingsRel);
 // Hashes of the copies as this run writes them; settings.json is merged, so it has none.
-const hashes = {};
+const hashes = hooksOnly ? { ...previousHashes } : {};
 for (const [target, content] of planned) {
   const rel = slash(relative(project, target));
   if (rel !== settingsRel) hashes[rel] = hash(content);
