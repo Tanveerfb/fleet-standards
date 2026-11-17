@@ -78,10 +78,16 @@ for (const name of readdirSync(join(S, "skills"))) {
 // ---------------------------------------------------------------------------------------------
 section("Version agrees everywhere");
 const rulesVersion = /^\*\*Version:\*\*\s*(\S+)/m.exec(read("standards/project-rules.md"))?.[1];
-const [, logVersion, logDate] = /^## (\d+\.\d+\.\d+) — (\d{4}-\d{2}-\d{2})/m.exec(read("standards/CHANGELOG.md")) ?? [];
+// A heading may carry the release's name ("## 4.0.0 · Satluj — 2026-12-01"). A top entry dated
+// "unreleased" is a release being built: the version checks wait until it is dated.
+const [, logVersion, logDate] = /^## (\d+\.\d+\.\d+)(?: · [^—\n]+)? — (\d{4}-\d{2}-\d{2}|unreleased)$/m.exec(read("standards/CHANGELOG.md")) ?? [];
 const [, readmeVersion, readmeDate] = /Current: \*\*v(\d+\.\d+\.\d+)\*\* \((\d{4}-\d{2}-\d{2})\)/.exec(read("README.md")) ?? [];
-check(`rules ${rulesVersion} = changelog ${logVersion}`, rulesVersion && rulesVersion === logVersion);
-check(`README ${readmeVersion} (${readmeDate}) = changelog ${logVersion} (${logDate})`, readmeVersion === logVersion && readmeDate === logDate);
+if (logDate === "unreleased") {
+  check(`changelog ${logVersion} is unreleased: the version checks run once it is dated`, Boolean(logVersion));
+} else {
+  check(`rules ${rulesVersion} = changelog ${logVersion}`, rulesVersion && rulesVersion === logVersion);
+  check(`README ${readmeVersion} (${readmeDate}) = changelog ${logVersion} (${logDate})`, readmeVersion === logVersion && readmeDate === logDate);
+}
 
 // ---------------------------------------------------------------------------------------------
 section("The rules set (standards/project-rules.md and standards/rules/)");

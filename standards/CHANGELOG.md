@@ -33,10 +33,131 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
-## 3.9.0 — 2026-11-12
+## 4.0.0 · Satluj — unreleased
 
-Fourteen proposals in one release, most from `godot-toll`'s Process X and the `toll-*`
-projects.
+The first named release: the five rivers of Punjab, v4 Satluj, then Beas, Ravi, Chenab and
+Jhelum. The name is on the surface only (README, this heading, the release notes); the rules
+and skills stay plain, and the version line reads `4.0.0`.
+
+**The standard is no longer one file.** v3's `project-rules.md` was 76 KB, loaded in full
+every turn by every project, most of it about Next.js. v4 keeps a **core** every repository
+loads (`project-rules.md`, about 32 KB) and moves the rest into **files a project loads by
+its kind** (`rules/`) and **options it chose** (`rules/options/`). A `Rules:` line in
+`CLAUDE.md` declares the set (`Rules: app, ui, node, web · Options: firebase, trello`);
+`sync-standards` copies only what it declares. Measured at the end: a web project loads 62
+KB, a Node tool 46, a Python tool 42, a game 48, a repository without application code 35.
+**No section was renamed:** `§GIT` still means `§GIT`; only the file it lives in changed.
+The move was word for word, proved by a line check against the file as built, and every
+rewording came after it in its own commit.
+
+v4 also carries the fourteen proposals first built as 3.9.0, which was never released (the
+section below, kept as written), the rules from the 11–12 November token attack, an audit of
+the whole standard (about 90 findings, the owner's picks all built), and an independent
+review by Fable 5.2 (7 out of 10; its fifteen findings all built).
+
+### Where each section lives
+
+| File | Sections | Loaded by |
+| --- | --- | --- |
+| `project-rules.md` (the core) | §SCOPE §DOCS §ASK §AGENTS §GIT §OWNER §SPECS §TOOLS §SCALE §SECURITY §TESTING | every repository |
+| `rules/app.md` | §GROWTH §MODULES §NAMING §DATA §LIFECYCLE §SHORTCUTS §PACKAGES §BUILD | anything with application code |
+| `rules/ui.md` | §DESIGN §COMPONENTS §QOL §PATTERNS §MOTION | anything with a visual surface |
+| `rules/node.md` | §NAMING §TS §STATE §PACKAGES §NPM §RUNTIME §BUILD §TESTING | web projects and Node tools |
+| `rules/web.md` | §STRUCTURE §RUNTIME §STATE §FORMS §HOOKS §STYLING §SHADCN §MOTION §TESTING | Next.js projects |
+| `rules/python.md` (new) | §PYTHON | Python tools |
+| `rules/game.md` | §GAME (v3's game-engine block in §SCOPE) | games in an engine |
+| `rules/non-application.md` | §NONAPP (v3's non-application block in §SCOPE) | repositories without application code |
+| `rules/options/firebase.md` | §FIREBASE | projects that chose Firebase |
+| `rules/options/sqlite.md` (new) | §SQLITE | projects that chose SQLite |
+| `rules/options/trello.md` | §TRELLO | projects with a board |
+| `rules/options/ai.md` | §AI | read before AI work, through a line in `CLAUDE.md` and `src/lib/ai/CLAUDE.md`; not imported |
+| `rules/options/credit.md` | §CREDIT | read by the skills at the credit step; not imported |
+
+A section that appears in two files (§NAMING, §PACKAGES, §BUILD, §STATE, §RUNTIME, §MOTION,
+§TESTING) is divided: each file holds the part true for its kind, under the same name.
+
+### What changed
+
+- **Kinds and options.** `rules/python.md`, two shapes (a package with uv, pyright strict,
+  pydantic, ruff and pytest; a folder of scripts), with snake_case, UTF-8 on every open and
+  never `python -c` in both. `rules/options/sqlite.md` for local-first projects, asked beside
+  Firebase. **New projects use pnpm** (§NPM: `packageManager`, approved build scripts, one
+  lockfile); existing projects keep their manager. JavaScript is a named choice for a local
+  tool, with `checkJs` and strict (§TS). `rules/app.md` says each rule in any language.
+- **§SECURITY, from the token attack.** No token in code a browser receives; a token as
+  small as its job, recorded in `environment.md`; **the default branch protected** where the
+  plan allows, the gap recorded where it does not; a workflow declares the least
+  `permissions`; an unexplained change under `.github/workflows/` is an incident. `relay`
+  lists commits since the last checkpoint that touch workflows, settings, hook scripts or
+  git hooks, and raises any the log does not explain.
+- **§GIT, production outside git.** A deploy, a change to security rules or a hosted
+  database, `rm -rf`, dropping data: each needs the owner's go, every time. The Firebase
+  option's deploy follows it.
+- **`checkpoint`** runs the kind's build and tests before its git step, so a failing build
+  never reaches a push that deploys; checks the branch before a push it was not asked for;
+  stages by path; names its own commit in the log entry; proposes splitting a root
+  `CLAUDE.md` past 50 KB. Its steps are numbered 1 to 9. A cloud session names the branch its
+  work is on; a squash release merges production back into the working branch.
+- **`relay`** runs first after a compact, and in a short form after a resume. It lists
+  remote branches not yet merged, so cloud work is not stranded on a harness branch.
+- **§ASK:** a session with nobody to answer (an Action, a scheduled run) stops and leaves
+  the question instead of guessing.
+- **`sync-standards` is the upgrade path.** It audits the transition into one upgrade
+  report, applies on one yes, then re-runs its checks. Its per-version steps became state
+  checks, a to l (below), so a project several versions behind takes the same path. A
+  declined option is recorded as `no-<name>` on the *Rules* line and a declined sync in
+  `decisions.md`, so neither is asked again. `copied.json` keeps a hash per copied skill, so
+  a local edit (`! edited`) shows apart from a master change (`~ changed`). Hook scripts are
+  shown as a diff before they are copied. A project's own `rules/` folder stops the sync.
+- **`new-project` sets up every kind**, asks the backend (Firebase, SQLite or none) and, on
+  a yes for each, creates the GitHub repository, the working branch and branch protection.
+- **`design-motif` gains "Show me"**: sample tiles of three or four candidates, and
+  `motif-gallery.html`, a tile for each of the 35 families.
+- **A new skill, `machine-inventory`**, records what the machine has installed in
+  `~/.claude/machine.md`, so projects prefer it before proposing a tool.
+- **Process X** may use an independent auditor where the owner has one (`process-x.md`).
+- **Other agents** read the whole set, and the installer puts the scripts beside the skills
+  with an absolute path; it no longer waits on a prompt without a terminal.
+- **The shell-write guard** reads through runners (`uv run`, `pnpm exec`, `timeout`) and
+  quoted interpreter paths, covers PowerShell, and its refusal says to ask first.
+- **Less text every turn.** Procedure moved out of the core into the skills that run it; the
+  core keeps the rules. Fifteen behaviour eval cases, up from eight.
+
+### What a project must change
+
+`sync-standards` does each of these: Step 4's checks, by letter, in its upgrade report.
+
+1. **Step 0:** a `rules/` folder of the project's own (a game's, Firestore's) moves to a
+   folder named for what it is, on the owner's word, before anything is copied.
+2. **(a) The rules set.** Write the *Rules* line, copy the core and the kind's files, and
+   import them in `CLAUDE.md`. A game or non-application project that referenced the rules
+   file now imports its set like any other. `project-rules.md §FIREBASE`-style references
+   for moved sections become the section name alone.
+3. **(b) The *Deploys* line** says single-branch, multi-branch or local only, and names the
+   working branch on a multi-branch project.
+4. **(c) The options,** each asked once and recorded on the *Rules* line, a declined one as
+   `no-<name>`. SQLite is new: a project on SQLite with a §FIREBASE exception takes the
+   option instead, and the exception is offered for removal.
+5. **(d) A `Motif:` line** where the project loads `ui`.
+6. **(e)** Bullets in `CLAUDE.md`'s working agreement that §OWNER now holds come out.
+7. **(f) `.gitattributes`** pins `.sh` files and `.githooks/` to LF.
+8. **(g) The profile block in `conventions.md`** that speaks of "Part A", "Parts B to E" or
+   "referenced, not imported" becomes the block for its kind.
+9. **(h) History out of the files agents read:** the next checkpoint moves the session log
+   from `docs/STATUS.md` into `docs/log.md`; briefs carrying history are offered a split.
+10. **(i) `decisions.md`** gains its "declined, never again" index.
+11. **(j) One package manager,** one lockfile, and the *Commands* naming it.
+12. **(k) Python's shape,** package or folder of scripts, in `conventions.md`.
+13. **(l) Moot exceptions** the owner approves are removed from `conventions.md`.
+14. **Step 5:** the relay-after-compact and shell-write hooks in `.claude/settings.json`
+    (cloud sessions load no plugin hooks), and the skill copies with their hashes.
+
+### Built as 3.9.0, never released (issues #20 to #33)
+
+Fourteen proposals, most from `godot-toll`'s Process X and the `toll-*` projects, built on
+2026-11-12 as 3.9.0 and folded into 4.0.0 (`decisions.md`, 2026-11-13). Written before the
+split: where an item names `project-rules.md` or §SCOPE's profile blocks, read it through
+the table above.
 
 - **§DOCS — current truth and history live apart.** A file an agent reads by default
   (`CLAUDE.md`, its area files, `docs/STATUS.md`) holds only what is true now. Every "was",

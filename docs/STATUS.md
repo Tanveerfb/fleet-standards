@@ -128,10 +128,11 @@ plain text in `E:\Installed`. It was not opened.
    and wrote nothing; the runner in `~/.claude/skills/fable-audit/` was fixed). The owner
    picked all fifteen findings offered, R1 to R15, and all are built. Not done by them: a
    second review to see the score move (about $1.50 to $3 with the cache cold).
-5. **Phase 7** — the themed README (Satluj: river blues, a Phulkari-style pattern, original
-   art), the changelog's 4.0.0 entry with a
-   section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
-   one project of each kind, all fifteen evals run once, then the release.
+5. **Phase 7** — done: the README banner (layout A, `docs/assets/`) and the changelog's
+   4.0.0 entry, headed `4.0.0 · Satluj — unreleased` (the version tests wait while it says
+   unreleased; **the release dates it**). Left: `adopting-the-standard.md`,
+   `docs/maintainer.md` and the README body (group G), pilot syncs of one project of each
+   kind, all fifteen evals run once, the version bump and I4, then the release.
 6. **The machine file's local-models section is empty**: Ollama was not running when
    `machine-inventory` ran. Start Ollama and run the skill again.
 7. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
