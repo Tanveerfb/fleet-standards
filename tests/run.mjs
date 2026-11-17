@@ -391,6 +391,16 @@ section("The Rules line reader (standards/scripts/rules-line.mjs)");
     JSON.stringify(declined?.files) === JSON.stringify(["rules/app.md", "rules/node.md", "rules/options/trello.md"]) && JSON.stringify(declined?.declined) === JSON.stringify(["firebase", "ai"]),
     JSON.stringify(declined),
   );
+  {
+    // A project that declined the import still declares its set (the pilots, P12).
+    const { rulesProblems } = await import(pathToFileURL(join(S, "scripts", "rules-line.mjs")).href);
+    const text = "- **Rules**: app, ui, game · Options: no-trello · read, not imported\n@project-rules.md\n";
+    const parsed = parseRulesLine(text);
+    check("`· read, not imported` is read, and the set still declared", parsed?.notImported === true && JSON.stringify(parsed.files) === JSON.stringify(["rules/app.md", "rules/ui.md", "rules/game.md"]) && parsed.unknown.length === 0, JSON.stringify(parsed));
+    check("so a declared file left unimported is not a problem", rulesProblems(text, () => true).length === 0, rulesProblems(text, () => true).join("; "));
+    check("but a missing one still is", rulesProblems(text, (f) => f !== "rules/game.md").length === 1);
+    check("without the marker, an unimported file is reported", rulesProblems("Rules: app\n", () => true).length === 1);
+  }
   check("imports read one per line", JSON.stringify(rulesImports("@project-rules.md\n@rules/app.md\n@./rules/ui.md\ntext @rules/no.md\n")) === JSON.stringify(["rules/app.md", "rules/ui.md"]));
 }
 

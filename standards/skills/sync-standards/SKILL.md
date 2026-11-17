@@ -153,11 +153,13 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      back", 70 KB of Next.js rules that did not apply. **Never restore any of them unasked**;
      Step 5 checks the same list before each of its items. Quote the entry, say what changed (the
      core is about 31 KB, all of it applies to every kind, and the kind's files are the only
-     others loaded), and ask. A no stands: leave the import and the *Rules* line out (the
-     startup check would report a declared file not imported every session), record the
-     answer in `decisions.md`, and say in the report that the project reads its rules by
-     reference. A later sync that finds that answer recorded asks nothing. The same holds
-     for the skill copies in Step 5.
+     others loaded), and ask. A no stands: leave the imports out, but **still write the
+     *Rules* line, ending `· read, not imported`** (`Rules: app, ui, game · Options:
+     no-trello · read, not imported`), so this sync and the next know which files to copy
+     and the startup check knows they are read, not imported. Record the answer in
+     `decisions.md`, and say in the report that the project reads its rules by reference. A
+     later sync that finds that answer recorded asks nothing. The same holds for the skill
+     copies in Step 5.
    - **Which files the project loads.** Work out its kind from the repository (a Next.js
      app, a Node tool, a tool in another language — `python` for Python, and its shape,
      package or folder of scripts, from `conventions.md` or asked in the same question and
@@ -376,7 +378,8 @@ If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky 
 **Imports match the *Rules* line (§SCOPE).** Check `CLAUDE.md` has one import line for the
 core and one for each declared file (`ai` excepted: it is read on demand), that each
 imported file exists in the project, and that nothing is imported that the line does not
-declare. Say what differs and fix it on a yes.
+declare. Say what differs and fix it on a yes. A line ending `· read, not imported` has no
+import lines by the owner's decision: check only that each declared file exists.
 
 ## Adding an option to a project already on the set
 

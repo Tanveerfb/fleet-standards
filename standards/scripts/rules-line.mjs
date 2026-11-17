@@ -3,7 +3,10 @@
 // `@rules/...` import lines beside it. Used by check-rules-version.mjs and sync-rules.mjs;
 // tested in tests/run.mjs. Reads text only: the callers read the files.
 
-const LINE = /^[-*\s]*\**Rules\**:\**\s*([^\n·]*)(?:·\s*\**Options\**:\**\s*([^\n]*))?/m;
+const LINE = /^[-*\s]*\**Rules\**:\**\s*([^\n·]*)(?:·\s*\**Options\**:\**\s*([^\n·]*))?([^\n]*)/m;
+// A project that declined the import (sync-standards Step 4 (a)) still declares its set, so
+// the sync knows what to copy, and ends the line `· read, not imported`.
+const NOT_IMPORTED = /·\s*\**read,?\s+not\s+imported\**/i;
 
 // Options read on demand, never imported (§SCOPE). AI is read through a line in CLAUDE.md,
 // which must name the file; the credit is read by the skills, so CLAUDE.md need not.
@@ -40,7 +43,7 @@ export function parseRulesLine(text) {
     ...names(line[1]).map((n) => `rules/${n}.md`),
     ...names(line[2]).map((n) => `rules/options/${n}.md`),
   ];
-  return { files, unknown, declined };
+  return { files, unknown, declined, notImported: NOT_IMPORTED.test(line[3] ?? "") };
 }
 
 /** The `@rules/...` files a CLAUDE.md imports, one per line. */
@@ -65,7 +68,7 @@ export function rulesProblems(text, exists, known = () => true) {
     else if (!exists(file)) problems.push(`${file} is declared but missing from the project`);
     else if (READ_ON_DEMAND.includes(file)) {
       if (NAMED_IN_CLAUDE_MD.has(file) && !text.includes(file)) problems.push(`${file} is declared but CLAUDE.md never says to read it`);
-    } else if (!imports.includes(file)) problems.push(`${file} is declared but not imported in CLAUDE.md`);
+    } else if (!imports.includes(file) && !declared.notImported) problems.push(`${file} is declared but not imported in CLAUDE.md`);
   }
   for (const file of imports) {
     if (!declared.files.includes(file)) problems.push(`CLAUDE.md imports ${file}, which the Rules line does not declare`);
