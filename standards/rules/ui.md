@@ -131,7 +131,7 @@ focus to the control that opened it.
 
 ## §MOTION — Motion
 
-**Animation is decided by the owner at the mockup stage, not by this file.** Nothing is
+**Animation is decided by the owner at the mockup stage, not by the standard.** Nothing is
 banned on style. A mockup may be as animation-heavy as the idea calls for; the owner keeps
 what works and cuts what does not (§OWNER).
 

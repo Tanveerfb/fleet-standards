@@ -142,7 +142,21 @@
     "**Environment variables are checked when the app starts, not when a page first breaks.**",
     "- **`src/lib/env.ts` parses them with zod** (§STATE): one schema for server variables, one for",
     "  client (`NEXT_PUBLIC_`) variables. A missing or malformed variable stops the app at startup",
-    "  with a message naming it"
+    "  with a message naming it",
+
+    "**Where this file and a project's `conventions.md` disagree, stop and ask.**",
+    "outcome in `decisions.md`, and update this file if it should apply everywhere.",
+    "| `components.md` | What already exists (or a table in `design-system.md`: §COMPONENTS) | A component is added, moved or removed |",
+    "- **Ask when this file and `conventions.md` conflict** (§SCOPE)",
+    "**Every commit must build standalone** (§BUILD). When splitting a session's work, check",
+    "  wrong. Where the project has a motif (§DESIGN), it is held to the same standard: every",
+    "  obvious still gets said — an empty state still says what to do next (§QOL)",
+    "- **The existing code is not the benchmark.** Check a pattern against this file before",
+    "- **The studio is configured by the owner, not by this file.** The owner's own",
+    "**Status and Trello.** On a project with a board (§TRELLO), the status line links the spec's",
+    "- **Where this file names a Claude Code tool, use the equivalent:**",
+    "  `.env.example`, which holds names only (§RUNTIME)",
+    "**Animation is decided by the owner at the mockup stage, not by this file.** Nothing is"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -363,6 +377,22 @@
     "Packages, libraries, and an engine's add-ons and plugins alike:",
     "*§PACKAGES continues in `rules/node.md`: npm.*",
     "  - Add-ons and plugins follow §PACKAGES (`rules/app.md`), \"the framework\" read as the engine",
-    "*§PACKAGES' rules for every language are in `rules/app.md`.*"
+    "*§PACKAGES' rules for every language are in `rules/app.md`.*",
+
+    "**Where the standard and a project's `conventions.md` disagree, stop and ask.**",
+    "outcome in `decisions.md`, and update the standard if it should apply everywhere.",
+    "**A section is cited by name; one outside the core names its file once**",
+    "(`rules/ui.md` §MOTION), so a reader knows where to look and whether the project loads it.",
+    "| `components.md` | What already exists (or a table in `design-system.md`: `rules/ui.md` §COMPONENTS) | A component is added, moved or removed |",
+    "- **Ask when the standard and `conventions.md` conflict** (§SCOPE)",
+    "**Every commit must build standalone** (`rules/app.md` §BUILD). When splitting a session's work, check",
+    "  wrong. Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard: every",
+    "  obvious still gets said — an empty state still says what to do next (`rules/ui.md` §QOL)",
+    "- **The existing code is not the benchmark.** Check a pattern against the standard before",
+    "**Status and Trello.** On a project with a board (`rules/options/trello.md`), the status line links the spec's",
+    "- **Where the standard names a Claude Code tool, use the equivalent:**",
+    "  `.env.example`, which holds names only (`rules/node.md` §RUNTIME)",
+    "- **The studio is configured by the owner, not by the standard.** The owner's own",
+    "**Animation is decided by the owner at the mockup stage, not by the standard.** Nothing is"
   ]
 }

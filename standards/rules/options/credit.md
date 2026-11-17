@@ -11,7 +11,7 @@ the set and who loads it, and its header carries the one version they share.
 An owner who runs a studio can sign the projects it builds — a credit (*Built by …*), with
 the studio's logo and a link to its site — and feature them on the studio's own site.
 
-- **The studio is configured by the owner, not by this file.** The owner's own
+- **The studio is configured by the owner, not by the standard.** The owner's own
   `~/.claude/CLAUDE.md` holds one `Studio credit:` line naming the studio, its credit
   wording, its link and its logo kit — and, where the studio's site lists its work, the
   **showcase**: the studio site's repository and the file projects are listed in. No line, no

@@ -25,10 +25,13 @@ v2 — the v2 → v3 map is in `CHANGELOG.md`.
 These rules are the default for every project. A project may hold its own
 `conventions.md` covering choices specific to it.
 
-**Where this file and a project's `conventions.md` disagree, stop and ask.**
+**Where the standard and a project's `conventions.md` disagree, stop and ask.**
 Neither wins by default — a conflict usually means one of the two is out of
 date, and resolving it is the owner's decision, not an inference. Record the
-outcome in `decisions.md`, and update this file if it should apply everywhere.
+outcome in `decisions.md`, and update the standard if it should apply everywhere.
+
+**A section is cited by name; one outside the core names its file once**
+(`rules/ui.md` §MOTION), so a reader knows where to look and whether the project loads it.
 
 **The standard is a set of files, split by concern.** Every repository loads this file, the
 core. The rest are loaded only where they apply:
@@ -85,7 +88,7 @@ when it is updated.
 | `conventions.md` | Choices specific to this project | A decision changes |
 | `decisions.md` | Why each non-obvious choice was made. Append only | A choice is made |
 | `design-system.md` | Tokens, typography, density, motion, exclusions | A token or rule changes |
-| `components.md` | What already exists (or a table in `design-system.md`: §COMPONENTS) | A component is added, moved or removed |
+| `components.md` | What already exists (or a table in `design-system.md`: `rules/ui.md` §COMPONENTS) | A component is added, moved or removed |
 | `data-model.md` | Entities, relationships, invariants | An entity or invariant changes |
 | `environment.md` | Environment variables and external accounts, with owners | A credential or account appears |
 | `docs/STATUS.md` | Where the work is right now: the snapshot only | Every checkpoint (§GIT) |
@@ -142,7 +145,7 @@ issues is the churn, status is the current position.
 - **Ask once per technical decision.** Once confirmed, apply consistently
 - **Ask before structural decisions** — navigation, auth strategy, folder
   conventions
-- **Ask when this file and `conventions.md` conflict** (§SCOPE)
+- **Ask when the standard and `conventions.md` conflict** (§SCOPE)
 
 ---
 
@@ -292,7 +295,7 @@ working-branch push made on the agent's own. A routine push needs no such senten
 `.gitattributes` (`templates/.gitattributes`) pinning them to `eol=lf`, so a Windows
 checkout cannot break them under bash — in an unattended chain nobody is there to see it.
 
-**Every commit must build standalone** (§BUILD). When splitting a session's work, check
+**Every commit must build standalone** (`rules/app.md` §BUILD). When splitting a session's work, check
 file-level imports at each boundary — a green typecheck on the final tree proves nothing
 about the commits before it.
 
@@ -324,7 +327,7 @@ does not restate them.
 - **Mobile is first-class** — it must work properly on a phone, not merely not break
 - **Consistency, modularisation, QoL — on everything touched**, not only on work with a
   spec. If a change introduces a second version of something the repo already has, it is
-  wrong. Where the project has a motif (§DESIGN), it is held to the same standard: every
+  wrong. Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard: every
   visual change fits it
 - **Don't state the obvious.** Interface text that repeats what a component already makes
   clear is noise. A light/dark toggle is a switch with a sun and a moon — no "Light mode"
@@ -332,8 +335,8 @@ does not restate them.
   heading, no "Click here to…". Two limits: an icon-only control still has an accessible
   name (`aria-label`, usually a tooltip), which screen readers need and which is not visible
   text; and an icon that is not universally understood gets its label. What is *not*
-  obvious still gets said — an empty state still says what to do next (§QOL)
-- **The existing code is not the benchmark.** Check a pattern against this file before
+  obvious still gets said — an empty state still says what to do next (`rules/ui.md` §QOL)
+- **The existing code is not the benchmark.** Check a pattern against the standard before
   copying it
 - **Shared primitives are never restyled to suit one page.** That is a repo-wide visual
   change and needs its own approval
@@ -379,7 +382,7 @@ Skip a spec when the work does not need one.
 that project's repo, where the session that builds it will look. A whole new project: the
 owner's plans repo.
 
-**Status and Trello.** On a project with a board (§TRELLO), the status line links the spec's
+**Status and Trello.** On a project with a board (`rules/options/trello.md`), the status line links the spec's
 card, and the card links back to the spec. Progress, discussion and comments from other
 people happen on the card; the spec holds only what to build. On a project without a board,
 the status line is a plain word — planned, in progress, built — and the spec stays in the
@@ -403,7 +406,7 @@ Copilot, Cursor, Gemini CLI or any other.
 - **The skills run everywhere.** They follow the open Agent Skills format. Claude Code gets
   them from the `fleet` plugin; other agents from `standards/scripts/install-skills.mjs`,
   which installs them to `~/.agents/skills/` and `~/.codex/skills/`
-- **Where this file names a Claude Code tool, use the equivalent:**
+- **Where the standard names a Claude Code tool, use the equivalent:**
 
 | Named here | Elsewhere |
 | --- | --- |
@@ -454,7 +457,7 @@ first time an agent duplicates something or works in the wrong place.
 
 - **`.gitignore` covers `.env*`, `.secrets/` and credential files from the first
   commit**, before any code exists — not after the file lands. The one exception is
-  `.env.example`, which holds names only (§RUNTIME)
+  `.env.example`, which holds names only (`rules/node.md` §RUNTIME)
 - **Credential files live outside the repository by preference**, referenced by
   path through an environment variable, or pasted into a deployment environment
   variable. Where the platform supports application default credentials, prefer
