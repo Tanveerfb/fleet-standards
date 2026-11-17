@@ -355,9 +355,8 @@ git diff --stat --cached
 ```
 
 Show the user what's uncommitted (working tree + staged) and, if there's an upstream, what's
-ahead/behind. **A config file its own tool rewrote** (an engine, an IDE, a build tool) can
-carry noise and a real change in the same diff: read the diff, compare the settings, and
-restore only the noise. Never a blind `git checkout -- <file>`. Draft the commit message from the session's actual changes in the repo's own
+ahead/behind. A config file its own tool rewrote is read before it is reverted (§AGENTS).
+Draft the commit message from the session's actual changes in the repo's own
 conventions — read `git log` for the house style first, and match its length and voice rather
 than defaulting to a one-liner.
 

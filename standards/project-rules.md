@@ -174,6 +174,9 @@ issues is the churn, status is the current position.
 - Where documentation and code disagree, the documentation is the intent and the
   code is the bug, unless told otherwise
 - Git follows §GIT, without exception
+- **Read a rewritten config's diff before reverting it.** A file its own tool rewrote (an
+  engine, an IDE, a build tool) can carry noise and a real change in the same diff: compare
+  the settings and restore only the noise. Never a blind `git checkout -- <file>`
 - **Files change through the editor tools, never the shell.** Edit for a change to an
   existing file, Write for a new file or a deliberate full rewrite of one already read. Never
   create or modify a file with a heredoc (`cat <<EOF > file`), `echo` or `printf`

@@ -532,6 +532,9 @@
     "first**, before any waiting request, hook or no hook: where the compact's summary and the repo",
     "disagree, the repo wins.",
     "or request back as an issue on `fleet-standards`. **Never edit the standard's files in place",
-    "inside a project** — this file, `rules/`, the skill copies, or anything under `.claude/fleet/`:"
+    "inside a project** — this file, `rules/`, the skill copies, or anything under `.claude/fleet/`:",
+    "- **Read a rewritten config's diff before reverting it.** A file its own tool rewrote (an",
+    "  engine, an IDE, a build tool) can carry noise and a real change in the same diff: compare",
+    "  the settings and restore only the noise. Never a blind `git checkout -- <file>`"
   ]
 }
