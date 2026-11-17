@@ -166,6 +166,21 @@ standard's files alone; the work's own files come with the work.
   owner wants the design first. It copies `rules/options/ai.md` and writes the two
   read-on-demand lines.
 
+## Step 4.5 — The remote, unless the project is local only
+
+Each on its own yes from the owner (§GIT, *An approval does not generalise*):
+
+1. **The repository.** `gh repo create <owner>/<name> --private --source .` — private unless
+   the owner says public; no `--push`, since nothing is committed yet. A client project's
+   repository may belong to the client: ask whose account it goes in.
+2. **The working branch, on a multi-branch project.** It is created at the owner's first
+   checkpoint, from the first commit, and named on the *Deploys* line.
+3. **Branch protection (§SECURITY),** once the first push has made the default branch exist:
+   force pushes and deletion off, and on a multi-branch project pull requests required.
+   Through the repository's settings or `gh api`; where the plan does not allow it, record
+   the gap in `conventions.md`. This step outlives the session: if the first push has not
+   happened, put it in `Start here` as the first open item.
+
 ## Step 5 — Design first, where there is a visual surface
 
 **Only if the project loads `rules/ui.md`.** Hand to **`design-motif`** now, before any
@@ -204,6 +219,8 @@ Used once, here, so it lives in this skill rather than in a rules file every ses
       each imported from `CLAUDE.md`, with the *Rules* line written (§SCOPE) — and
       **committed** at the first checkpoint. An untracked copy is one `git clean` from gone.
 - [ ] The *Deploys* line written (§GIT)
+- [ ] Unless local only: the repository created, private unless said otherwise; branch
+      protection on after the first push, or the first open item until then (Step 4.5)
 - [ ] Each option asked once and the answer recorded: studio credit and showcase, Trello
       board (`Trello board:` line, a URL or `none`), Firebase, AI (§SCOPE)
 - [ ] `fleet` plugin enabled in `.claude/settings.json`, the `AGENTS.md` and `GEMINI.md`

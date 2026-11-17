@@ -90,7 +90,7 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 | R10 | A declined option recorded, so no sync asks again | 12 | **built 2026-11-18:** `no-<name>` on the *Rules* line, read by `rules-line.mjs` (tested); a declined sync goes in `decisions.md`, and relay reads it |
 | R11 | Trim the always-loaded text: plumbing to the skills, one kind table, a short relay for a same-day resume. Not the 50 KB line (K4) | 14 | **built 2026-11-18:** the §AGENTS shell-write bullet 286 → about 110 words, §SCOPE's skill notes cut, the kind table only in §SCOPE, relay's short form after a resume (the hook asks for it; tested). The core is 31,760 bytes after R1 to R11 |
 | R12 | Nobody to answer: an unattended session stops and leaves the question instead of guessing | missing | **built 2026-11-18:** a §ASK bullet |
-| R13 | First remote in `new-project`: the repository, the working branch, branch protection, each on a yes | missing | to build |
+| R13 | First remote in `new-project`: the repository, the working branch, branch protection, each on a yes | missing | **built 2026-11-18:** `new-project` Step 4.5 and a checklist line |
 | R14 | Hook scripts diffed before the sync copies them | missing | to build |
 | R15 | After a squash release: `dev` brought back in line without a force push | missing | to build |
 
