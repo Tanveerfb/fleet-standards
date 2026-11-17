@@ -1,8 +1,19 @@
-# Fleet standards — a project standard for AI-assisted development
+<p align="center">
+  <img src="docs/assets/satluj-banner.svg" width="880" alt="fleet-standards v4.0.0 · Satluj">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/standard-v4.0.0%20Satluj-1d5f86" alt="standard v4.0.0 Satluj">
+  <img src="https://img.shields.io/badge/skills-8-c3245e" alt="8 skills">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9772b" alt="MIT license"></a>
+</p>
 
 A shared rulebook, project templates, and agent skills for building **Next.js** projects with
 an AI coding agent. It is written for Claude Code and works with **OpenAI Codex, GitHub
 Copilot, Cursor and Gemini CLI** too.
+
+<sub>Releases are named for the five rivers of Punjab: **v4 Satluj** · v5 Beas · v6 Ravi · v7
+Chenab · v8 Jhelum</sub>
 
 It answers the questions an agent otherwise guesses at: how code is structured, when to ask
 instead of assuming, how visual changes get approved, when git is allowed, and how a
