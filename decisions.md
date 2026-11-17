@@ -540,3 +540,50 @@ title "fleet-standards", then "v4.0.0 · Satluj" with ਸਤਲੁਜ beside it.
 badges (standard, skills, license) and a line naming the five releases. The banner's text is
 outlined to paths, since GitHub shows an SVG as an image and loads no fonts. Turned down: B,
 a whole Phulkari field with the river cut through it; C, a small mark beside a plain heading.
+
+## 2026-11-18 — Check m: the repository's security settings get a sync check
+
+Writing the 4.0.0 changelog showed three §SECURITY rules from the token attack (branch
+protection, token scopes in `environment.md`, workflow `permissions`) that no `sync-standards`
+check covered, against `docs/maintainer.md`'s rule that every must-change item has one. The
+owner: "Yes, add check m". It reads first and changes each item only on the owner's yes;
+unused Actions secrets are named, never removed. Turned down: leaving them as rules a
+session follows, with the changelog saying no check covers them.
+
+## 2026-11-18 — The pilots: a dry run, its fixes, and real syncs after the release
+
+The phase 7 pilot syncs ran read-only first: one project per kind (`tinker-together`,
+`toll-kits`, `cutscene`, `godot-toll`, `nca-automations`), each given the upgrade report the
+sync would show. It found seventeen problems with the skill
+(`docs/audits/2026-11-18-pilot-dry-run.md`); the owner picked every one but 14 (the
+`AGENTS.md` pointer), and all are built. Asked whether to apply real syncs before the
+release: **"After release"**. Each project syncs from the released plugin when its owner next
+works in it. Turned down: one real pilot first (`tinker-together`, against the branch); all
+five before the release. The behaviour evals ran first instead, all fifteen, on the owner's
+"Yes, run all 15".
+
+## 2026-11-18 — I4 at the release, including the workflow edit
+
+The split check, its intended list and its call in `tests/run.mjs` were removed at the
+release, as planned in the audit (I4). Removing `fetch-depth: 0` changes
+`.github/workflows/checks.yml`, which takes the owner's yes each time; asked separately, the
+owner: "Yes, edit it". Only the checkout's `with:` block went.
+
+## 2026-11-18 — The release ran overnight on the agent's calls
+
+The owner, going to sleep: "whatever, if there's an issue, just go with your best call ...
+and then I have my go to run git CPR max afterwards and finish up". So the evals, their
+follow-up, the version bump, I4, the MAX checkpoint and the release ran without a question
+in between. The calls made under it:
+
+- **`sync-asks-first` failed (0.33)**: the reply did what the skill now says, but the grader
+  predated R10 (a declined sync recorded in `decisions.md`) and P13 (the report's questions
+  asked with the go-ahead; a git preflight first). The case was out of date, so the grader was
+  brought in line with those picks and nothing else, per the evals README ("fix the case").
+  Rerun: 1.00, three of three judges.
+- **`relay-after-compact` failed (0.33)** with a reply that ran relay first and reported
+  before the request; the judges marked it down for not naming what relay reads in an empty
+  test folder. Rerun unchanged: 1.00. Recorded as judge variance, nothing changed.
+- **The release is a merge pull request into `main`**, as v3.8.0 was (pull request #19), not a
+  squash; this repository has no `CLAUDE.md` *Deploys* line to say otherwise. Issues #20 to
+  #33 close with it (`decisions.md`, 2026-11-13).

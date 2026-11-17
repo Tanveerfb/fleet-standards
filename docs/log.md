@@ -13,6 +13,53 @@ relocation, never summarising.***
 
 ---
 
+### 2026-11-18 — phase 7: Satluj's look, the changelog, the pilots, the evals, and the release
+
+Commits `777e5c4` to `dde8008`, 28 of them, and this one; pushed to
+`claude/new-project-mockup-zp2h2z`, CI green at each push checked. Then `git CPR max`: this
+checkpoint, and the release as a merge pull request into `main`. The same session, continued
+after a compact ("lets continue"); the second half ran overnight on the agent's calls, with
+the owner's go to finish with `git CPR max`.
+
+- **The theme's surface.** The README leads "v4.0.0 · Satluj" (the owner's pick), and the
+  name is spelled **Satluj**, not Sutlej (the owner asked; closest to ਸਤਲੁਜ). Three README
+  mockups as a private page; the owner locked **A, river bands** on the first round. Built as
+  `docs/assets/satluj-banner.svg`, every text outlined to paths with Sora and Noto Sans
+  Gurmukhi (both open licence, downloaded to the scratchpad on the owner's yes), generator
+  beside it.
+- **The 4.0.0 changelog entry**: the split, a table of where each section lives, what
+  changed, and *What a project must change*, with 3.9.0 folded under it. Writing it showed
+  three §SECURITY rules no sync check covered: **check m** added on the owner's yes.
+  `tests/run.mjs` learned the named heading and an `unreleased` top entry.
+- **Group G's documents**: the README (by the agent), `adopting-the-standard.md` and
+  `docs/maintainer.md` plus G9's references (two subagents, their diffs read before commit).
+- **The pilot dry run**: a read-only agent wrote the upgrade report for five real projects,
+  one per kind, and found seventeen problems with `sync-standards`
+  (`docs/audits/2026-11-18-pilot-dry-run.md`). The owner picked all but 14; built as P1 to
+  P17, among them: a project's own skill never overwritten (`= own`), `--hooks-only`, every
+  option on the `Options:` part, two kinds in one project (a §SCOPE sentence), a *Rules* line
+  ending `· read, not imported`, a git preflight, a master folder for pilots. Real syncs wait
+  for the release (the owner).
+- **All fifteen evals**, on the owner's go: 1.00 each with the plugin, two after a call each
+  (`decisions.md`, "The release ran overnight"). About $4.60.
+- **The release**: version 4.0.0, the changelog dated, the README's version; I4 removed the
+  split check, its list and `fetch-depth: 0` (the workflow edit on the owner's yes).
+  Checked at this checkpoint: tests pass, both plugin validations pass, the sizes measured;
+  `main` found unprotected (404), left for the owner.
+
+**The mistakes worth keeping.**
+- P7 and P9 went into one commit, against one commit per pick.
+- P1's edit left a broken sentence in Step 2 ("yes, and add each"); P16 mended it.
+- I first changed the README's "for his own projects" to "their"; it is the owner's own
+  description of themselves, so it went back.
+- My inline `node -e` to read an eval result was refused by the guard, rightly.
+- The `sync-asks-first` grader still encoded behaviour two picks had changed: a pick that
+  changes a skill's behaviour should update the eval case that grades it in the same commit.
+
+**Process X:** not run this session.
+
+---
+
 ### 2026-11-18 — the audit finished, group K, two new ideas, the theme, and a Fable review
 
 Commits `877153e` to `ea2069a`, 47 of them, and this one; all pushed to
