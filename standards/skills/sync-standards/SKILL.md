@@ -115,6 +115,14 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    already has a thing is not asked about it again. Ask where a value is the owner's.
 
    **a. The rules set (v4; §SCOPE has the tables).** *If `CLAUDE.md` has no *Rules* line:*
+   - **First, a decision against it.** Search `decisions.md` (and its declined index) for an
+     entry declining the rules import or the skill copies — some projects did, for a reason
+     of their own: "a fleet sync must not put the import back", 70 KB of Next.js rules that
+     did not apply. **Never restore either unasked.** Quote the entry, say what changed (the
+     core is about 31 KB, all of it applies to every kind, and the kind's files are the only
+     others loaded), and ask. A no stands: leave the import out, record the answer in
+     `decisions.md`, and say in the report that the project reads its rules by reference.
+     The same holds for the skill copies in Step 5.
    - **Which files the project loads.** Work out its kind from the repository (a Next.js
      app, a Node tool, a tool in another language, a game in an engine, no application code)
      and whether it has a visual surface, then **confirm it with the owner in one question**
@@ -196,7 +204,8 @@ Add what is missing, merging with whatever the file already holds:
 
 **Cloud sessions.** They install no plugins, so copy the skills into the project. **Skip this
 if `CLAUDE.md`'s *Deploys* line says local only** — with no remote, no cloud session can
-open the repository, and the copies would be dead weight:
+open the repository, and the copies would be dead weight — **or if `decisions.md` records
+the owner declining the copies**: ask as Step 4 (a) says, and never copy them unasked.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check
