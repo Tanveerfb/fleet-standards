@@ -14,7 +14,7 @@ are done and phase 6, the audit of the standard, is picked and partly built. `ma
 untouched; nothing is released.
 **Next:** **build the rest of the audit's picks.** Open `docs/specs/v4-audit.md`, go to
 *Picks and outcomes*, and take the next unbuilt finding: one commit per finding, named
-`audit <id>`. Groups A, B and C are built; start with D1.
+`audit <id>`. Groups A to D are built; start with E2.
 **Blocked on:** nothing. Group K in the audit is seven questions only the owner can answer.
 **Don't trust:** the PowerShell half of the shell-write guard is tested by `tests/run.mjs`
 only, never seen refusing in a live session. Each behaviour eval ran once; the eight older
@@ -75,13 +75,15 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A, B and C, E1, E4, I3. Left: about 33 |
+| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A to D, E1, E4, I3. Left: about 21 |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
-only referenced the file), measured 2026-11-13: web 62 KB plus its options; Node tool 44;
-game 47; non-application 34, or 42 with a visual surface. Options: credit 4.2, Firebase 3.0, Trello
-1.5; AI 6.6, read on demand. The audit's groups D and E will move these.
+only referenced the file), measured 2026-11-18 after group D: web 62.8 KB plus its options;
+Node tool 46.0; game 48.9; non-application 35.7, or 43.3 with a visual surface. Options
+imported: Firebase 3.2, Trello 1.5. Read on demand: AI 6.6, credit 4.3 (D11). The core grew
+from 31.0 to 32.8 KB across groups A to D (rules made true for every kind, and citations
+naming their files); E2, trimming §GIT, is the next cut.
 
 ---
 
@@ -104,9 +106,9 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — about 33 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
-   The large ones: D1 (`rules/app.md` made language-neutral), E2 (§GIT trimmed to its
-   rules).
+1. **The audit's picks** — about 21 left (`docs/specs/v4-audit.md`, *Picks and outcomes*):
+   E2, E3, E5 to E11, F1 to F6, H1 to H4, I1, I2, I5. The large ones: E2 (§GIT trimmed to
+   its rules), E7 (the "Outside Claude Code" block shrunk in six skills).
 2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
    a named choice, the cases where agents missed interface rules, when to split a
    `CLAUDE.md`, and three smaller ones.
