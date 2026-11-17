@@ -24,6 +24,13 @@
 // `find -exec` or a variable; a script file that itself writes files; `awk … > file`; tools
 // this list does not name. It is a guard against the habit, not a sandbox.
 //
+// Runners are read through: `uv run`, `poetry run`, `pipx run`, `pnpm exec`/`dlx`, `npm exec`,
+// `yarn exec`/`dlx` and `timeout <n>` before an interpreter. A quoted first word is read as
+// the command (`"C:/Python314/python.exe" -c`), and `sc.exe` is not the `sc` alias.
+//
+// Wrongly refused, known: a commit message written as `-m "$(cat <<'EOF' … EOF)"` whose text
+// quotes a forbidden command with a `;` or a redirect in it. Use `git commit -F - <<'EOF'`.
+//
 // Registered by the plugin (hooks/hooks.json) and, for cloud sessions, which install no
 // plugins, copied into each project by copy-skills-to-project.mjs. Fails open: anything it
 // cannot read exits 0, because a broken guard must never stop a session.
@@ -39,6 +46,10 @@ const CMD_WRAPPER = /(?:^|[\s;|({&])(?:\S*[\\/])?cmd(?:\.exe)?\s+\/c\s+$/i;
 const FED_SHELL = /(?:^|\s)(?:\S*[\\/])?(?:ba|z|da|k)?sh(?:\.exe)?(?:\s+-[A-Za-z-]+)*\s*$/;
 // Words that come before the command they run.
 const PREFIX = new Set(["sudo", "env", "time", "command", "exec", "nohup", "winpty", "npx", "bunx", "then", "do", "else", "elif", "if", "while", "until", "!", "&", "."]);
+// Runners whose sub-command runs the command after it (`uv run python -c`, `pnpm exec node -e`).
+const RUNNERS = { uv: ["run"], poetry: ["run"], pipx: ["run"], pdm: ["run"], hatch: ["run"], rye: ["run"], pnpm: ["exec", "dlx"], npm: ["exec"], yarn: ["exec", "dlx"] };
+// A runner's options that take the next word as their value (`uv run --with rich python …`).
+const RUNNER_VALUED = /^(?:--(?:with|with-requirements|with-editable|python|project|directory|env-file|extra|group|package|index|spec|package-import-method|filter|dir|config|workspace)|-[pCw])$/;
 
 /** What kind of command string, if any, the text before a quote says the quote holds. */
 function wrapperKind(before) {
@@ -112,7 +123,7 @@ function scanSh(src) {
       const text = end === -1 ? src.slice(i + 1) : src.slice(i + 1, end);
       const kind = wrapperKind(before);
       if (kind) inner.push([kind, text]);
-      push("''");
+      push(!kind && words(before).name === "" ? asWord(text) : "''");
       i = end === -1 ? src.length : end + 1;
     } else if (c === '"') {
       let j = i + 1;
@@ -124,7 +135,7 @@ function scanSh(src) {
       const kind = wrapperKind(before);
       if (kind) inner.push([kind, text.replace(/\\(["$`\\])/g, "$1")]);
       else for (const s of substitutions(text)) inner.push(["sh", s]);
-      push('""');
+      push(!kind && words(before).name === "" ? asWord(text) : '""');
       i = j + 1;
     } else if (src.startsWith("$((", i)) {
       const end = src.indexOf("))", i);
@@ -192,7 +203,8 @@ function scanPs(src) {
       const kind = wrapperKind(before);
       if (kind) inner.push([kind, body]);
       else if (c === '"') for (const s of substitutions(body)) inner.push(["ps", s]);
-      push(c + c);
+      // A quoted first word after `&` is the command PowerShell runs; any other is a string.
+      push(!kind && /^\s*&\s*$/.test(before) ? asWord(body) : c + c);
       i = j + 1;
     } else if (c === "#" && (i === 0 || /\s/.test(text[i - 1]))) {
       const end = text.indexOf("\n", i);
@@ -209,13 +221,33 @@ function scanPs(src) {
   return { code, inner };
 }
 
-/** The words of one simple command, with assignments and prefix words removed. */
+/**
+ * The words of one simple command, with assignments, prefix words and runners removed.
+ * `exe` is true when the command was named with `.exe`, which no PowerShell alias is.
+ */
 function words(command) {
   const all = command.trim().split(/\s+/).filter(Boolean);
-  while (all.length && (/^[A-Za-z_]\w*=/.test(all[0]) || PREFIX.has(all[0].toLowerCase()) || all[0] === "{" || all[0] === "}")) all.shift();
-  const name = (all[0] ?? "").replace(/^.*[\\/]/, "").replace(/\.exe$/i, "").toLowerCase();
-  return { name, args: all.slice(1) };
+  for (;;) {
+    const first = (all[0] ?? "").toLowerCase();
+    if (/^[A-Za-z_]\w*=/.test(all[0] ?? "") || PREFIX.has(first) || first === "{" || first === "}") all.shift();
+    else if (first === "timeout") {
+      all.shift();
+      while (all.length && all[0].startsWith("-")) all.shift();
+      if (/^\d/.test(all[0] ?? "")) all.shift();
+    } else if (RUNNERS[first]?.includes((all[1] ?? "").toLowerCase())) {
+      all.splice(0, 2);
+      while (all.length && all[0].startsWith("-")) {
+        const option = all.shift();
+        if (RUNNER_VALUED.test(option)) all.shift();
+      }
+    } else break;
+  }
+  const raw = (all[0] ?? "").replace(/^.*[\\/]/, "");
+  return { name: raw.replace(/\.exe$/i, "").toLowerCase(), args: all.slice(1), exe: /\.exe$/i.test(raw) };
 }
+
+/** A quoted first word (`"C:/Python314/python.exe" -c`) kept as a word the checks can read. */
+const asWord = (text) => text.replace(/[\s<>|;&()]/g, "_");
 
 // For each interpreter: the options that run inline code, the options that take a value, and
 // the option after which the rest is not ours to read (`python -m module …`).
@@ -223,7 +255,8 @@ const INTERPRETERS = [
   { is: /^(?:python(?:\d+(?:\.\d+)?)?|py|pypy3?)$/, label: "Python (`python -c`)", inline: /^-[A-Za-z0-9]*c$/, valued: /^-[WX]$/, stop: /^-m$/ },
   { is: /^node(?:js)?$/, label: "Node (`node -e`, `--eval`, `-p`, `--print`)", inline: /^(?:-e|-p|-pe|-ep|--eval|--print)(?:=|$)/, valued: /^(?:-r|--require|--import|--loader|--experimental-loader|-C|--conditions)$/ },
   { is: /^(?:bun|tsx|ts-node)$/, label: "JavaScript (`-e`, `--eval`, `-p`)", inline: /^(?:-e|-p|--eval|--print)(?:=|$)/ },
-  { is: /^(?:perl|ruby)$/, label: "Perl or Ruby (`-e`)", inline: /^-[A-Za-z0-9]*[eE]$/ },
+  // `-Ilib`, `-rbundle`, `-MData::Dumper` carry a value, which may end in e.
+  { is: /^(?:perl|ruby)$/, label: "Perl or Ruby (`-e`)", inline: /^-(?![IrMmxC])[A-Za-z0-9]*[eE]$/ },
   { is: /^php$/, label: "PHP (`-r`)", inline: /^-r$/ },
   { is: /^deno$/, label: "Deno (`deno eval`)", subcommand: "eval" },
 ];
@@ -273,7 +306,7 @@ function refusalSh(src, depth = 0) {
       const inline = inlineCode(name, args, { fed });
       if (inline) return inline;
       if (/^g?sed$/.test(name) && args.some((a) => /^-[A-Za-z]*i/.test(a) || a.startsWith("--in-place"))) return "a file edited in place (`sed -i`)";
-      if (name === "perl" && args.some((a) => /^-[A-Za-z0-9]*i/.test(a))) return "a file edited in place (`perl -i`)";
+      if (name === "perl" && args.some((a) => /^-[a-hj-z]*i/.test(a))) return "a file edited in place (`perl -i`)";
       if (/^g?awk$/.test(name) && args.some((a, i) => a === "-i" && args[i + 1] === "inplace")) return "a file edited in place (`awk -i inplace`)";
       const targets = redirectsTo(command);
       if ((name === "echo" || name === "printf") && targets.length) return "text written to a file with `echo` or `printf` and a redirect";
@@ -298,6 +331,13 @@ function refusalPs(src, depth = 0) {
     if (why) return why;
   }
   if (/\[(?:System\.)?IO\.File\]::(?:WriteAll|AppendAll)/i.test(code)) return "a file written from PowerShell (`[IO.File]::WriteAll…`)";
+  // `-replace` inside a script block (`% { $_ -replace … }`) still edits in place when the
+  // pipeline ends in a writer: read the statement whole, braces and all.
+  for (const statement of code.split(/&&|\|\||;|\n/)) {
+    if (/(?:^|\s)-c?replace\b/i.test(statement) && /\|\s*(?:set-content|add-content|out-file|sc|ac)(?:\s|$)/i.test(statement)) {
+      return "a file edited in place (`-replace` sent to `Set-Content` or `Out-File`)";
+    }
+  }
   for (const pipeline of code.split(/&&|\|\||;|\n|[(){}]/)) {
     const commands = pipeline.split("|");
     const first = commands[0].trim();
@@ -305,12 +345,13 @@ function refusalPs(src, depth = 0) {
     let writes = false;
     const replaces = /(?:^|\s)-c?replace\b/i.test(pipeline);
     for (const [index, command] of commands.entries()) {
-      const { name, args } = words(command);
+      const { name, args, exe } = words(command);
       if (!name) continue;
       const inline = inlineCode(name, args, { fed: index > 0 || command.includes("@HERE") });
       if (inline) return inline;
       const lower = args.map((a) => a.toLowerCase());
-      const writer = /^(?:set-content|add-content|out-file|sc|ac)$/.test(name);
+      // `sc.exe` is the service controller, not the `sc` alias for Set-Content.
+      const writer = !exe && /^(?:set-content|add-content|out-file|sc|ac)$/.test(name);
       if (writer && (index === 0 || lower.some((a) => /^-(?:value|inputobject)$/.test(a)))) return "text written to a file from PowerShell (`Set-Content`, `Add-Content`, `Out-File`)";
       if (/^(?:new-item|ni)$/.test(name) && lower.includes("-value")) return "a file written from PowerShell (`New-Item -Value`)";
       if (writer || (/^(?:tee-object|tee)$/.test(name) && args.length) || redirectsTo(command).length) writes = true;
@@ -324,8 +365,10 @@ function refusalPs(src, depth = 0) {
 const MESSAGE = (why) =>
   `Refused by the fleet standard (§AGENTS): ${why}. Files change through ` +
   "the editor tools — Edit for an existing file, Write for a new one. A script that is " +
-  "genuinely needed goes in a file (the scratchpad, or the project's tools folder) and runs " +
-  "as `python path/to/script.py` or `node path/to/script.mjs`. A heredoc may still feed a " +
+  "genuinely needed goes in a file (a temporary folder outside the repository, or the " +
+  "project's tools folder) and runs as `python path/to/script.py` or " +
+  "`node path/to/script.mjs`; a script that changes files is shown to the owner and asked " +
+  "about first. A heredoc may still feed a " +
   "command's input, such as `git commit -F - <<'EOF'`, and a command's own output may still " +
   "go to a file; text that only mentions these commands belongs in quotes or in a file " +
   "(`git commit -F <file>`, the Grep tool).";

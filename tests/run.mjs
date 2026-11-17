@@ -430,6 +430,12 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "echo appended to a file": "echo hello >> notes.md",
     "echo through tee": "echo hello | tee notes.md",
     "PowerShell run from Bash": `pwsh -Command "node -e 1"`,
+    // Found by the Fable review (2026-11-18): each of these passed the guard.
+    "python -c through uv run": "uv run python -c 1",
+    "python -c through uv run with an option": "uv run --with rich python -c 1",
+    "python -c through timeout": "timeout 15 python -c 1",
+    "node -e through pnpm exec": "pnpm exec node -e 1",
+    "a quoted interpreter path": `"C:/Program Files/Python314/python.exe" -c 1`,
   };
   for (const [label, command] of Object.entries(blocked)) {
     const r = hook(command);
@@ -460,6 +466,11 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "sed without -i": "sed -n 1,5p file.txt",
     "a function and a loop": `t(){ printf '%s' "$1" | node tools/x.mjs >/dev/null 2>&1; }; for f in a b; do t "$f"; done`,
     "a comment that mentions it": "ls # then never node -e",
+    // Found by the Fable review (2026-11-18): each of these was wrongly refused.
+    "perl with an include path": "perl -Ilib script.pl",
+    "ruby with a required library ending in e": "ruby -rbundle x.rb",
+    "a runner running a script": "uv run python tools/x.py && pnpm exec vitest run",
+    "a quoted script path": `"C:/Program Files/nodejs/node.exe" tools/x.mjs`,
   };
   for (const [label, command] of Object.entries(allowed)) {
     const r = hook(command);
@@ -485,6 +496,10 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "New-Item with a value": `New-Item notes.md -Value "hello"`,
     "an in-place replace": `(Get-Content a.txt) -replace 'a','b' | Set-Content a.txt`,
     "the .NET file API": `[System.IO.File]::WriteAllText("a.txt", "x")`,
+    // Found by the Fable review (2026-11-18): each of these passed the guard.
+    "a replace inside a script block": `Get-Content a.txt | % { $_ -replace 'a','b' } | Set-Content a.txt`,
+    "a quoted interpreter after the call operator": `& "C:\\Program Files\\Python314\\python.exe" -c 1`,
+    "python -c through uv run": "uv run python -c 1",
   };
   for (const [label, command] of Object.entries(blockedPs)) {
     const r = hook(command, "PowerShell");
@@ -502,6 +517,8 @@ section("Shell-write hook (standards/scripts/block-shell-writes.mjs)");
     "a script file": "python tools/x.py; node scripts/sync.mjs --check",
     "version checks": "node --version; python --version",
     "a replace that is only shown": `(Get-Content a.txt) -replace 'a','b' | Select-Object -First 3`,
+    // Found by the Fable review (2026-11-18): wrongly refused as Set-Content's alias.
+    "the service controller": "sc.exe query wuauserv",
   };
   for (const [label, command] of Object.entries(allowedPs)) {
     const r = hook(command, "PowerShell");

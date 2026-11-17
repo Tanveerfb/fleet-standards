@@ -82,7 +82,7 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 | R2 | Build before push: checkpoint runs the kind's build and tests before its git step; a failure stops a push that deploys | 4 | **built 2026-11-18:** Step 7 opens with the kind's checks |
 | R3 | Cloud branches: relay lists remote branches not in the production branch; a cloud checkpoint names its branch as not in main; the cloud multi-branch release defined; the credential hook on in a cloud clone | 2, 3 | **built 2026-11-18:** §GIT and checkpoint define the cloud multi-branch `git CPR`; checkpoint names the harness branch; relay lists unmerged remote branches and sets the hook in a cloud session |
 | R4 | No `git add` in sync on a single-branch project | 5 | **built 2026-11-18:** the executable bit waits for the commit |
-| R5 | Guard fixes, with tests | 10 | to build |
+| R5 | Guard fixes, with tests | 10 | **built 2026-11-18:** runners and `timeout` read through, quoted interpreter paths, the `-replace` script block, `sc.exe`, `perl -I`, `ruby -r`, the ask-first message; 12 new tests. 10d stays, documented in the header |
 | R6 | Other agents' scripts: the scripts folder installed, the path, no prompt without a terminal, three crashes, the usage line | 8, 16d-f | to build |
 | R7 | A hash per file in `copied.json` | 9 | to build |
 | R8 | Two core sentences: "documentation is the intent" scoped; a granted divergence is settled | 6, 7 | to build |
