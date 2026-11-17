@@ -87,6 +87,8 @@ Loading, error and empty states handled every time.
 - One hook per file, the file kebab-case and the hook camelCase: `use-cart.ts` exports
   `useCart` (§NAMING)
 - Return typed objects, not arrays, except for simple pairs
+- Business logic taken out of a component (§MODULES) goes to a hook or a pure function;
+  pure logic imports nothing from React, Next or any store
 
 ---
 

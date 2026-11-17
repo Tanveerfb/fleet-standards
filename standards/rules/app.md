@@ -37,17 +37,17 @@ There is no line limit. A file is the right size when it does one job.
 
 - You cannot describe the file's job in one sentence without using "and"
 - It exports more than one concern
-- A component both fetches or computes data and renders it
-- A store holds both UI state and domain data
+- A piece of interface (a component, a scene, a view) both fetches or computes data and
+  renders it
+- One piece of state holds both interface state and domain data
 - You scroll to navigate it rather than to read it
 - Its name contains `utils`, `helpers`, `misc` or `common`
 
 **Regardless of size:**
 
 - One responsibility per file
-- Business logic never lives in a component. Extract to a hook or a pure
-  function
-- Pure logic imports nothing from React, Next or any store
+- Business logic never lives in interface code. Extract it to a pure function
+- Pure logic imports nothing from the interface framework, the engine or any store
 - Shared things live where their consumers can find them
 
 Splitting a cohesive file into three fragments is worse than leaving it long.
@@ -77,16 +77,16 @@ Where a project has a backend, a mock backend, or any prospect of changing
 either, **all reads and writes go through an adapter**.
 
 ```
-lib/data/
-  index.ts      the active adapter
-  types.ts      the interface every adapter implements
-  <impl>.ts     one file per implementation
+lib/data/       (or the language's own place for it)
+  index         the active adapter
+  types         the interface every adapter implements
+  <impl>        one file per implementation
 ```
 
 - The interface is defined in **domain terms** — `listOffersForEngineer`,
   `submitRequest`. If a method name mentions a collection, a document or a
   query, it belongs one layer down
-- No component reads storage directly
+- No interface code reads storage directly
 - A prototype's mock implementation and the eventual real one satisfy the same
   interface. That is what makes a prototype extensible rather than disposable
 
@@ -99,8 +99,8 @@ again".
 
 Where a record moves through states — orders, requests, applications, jobs:
 
-- **Allowed transitions are declared once**, as an explicit map, in
-  `lib/domain/`
+- **Allowed transitions are declared once**, as an explicit map, in the domain
+  layer (`lib/domain/`, or the language's own place for it)
 - Nothing writes a status directly. Every change goes through a transition
   function that rejects illegal moves
 - The state diagram lives in the project's documentation and is the
@@ -115,11 +115,12 @@ in progress, and the bug surfaces in production rather than in review.
 ## §SHORTCUTS — Prototypes and shortcuts
 
 Where a build is deliberately incomplete — a demo, a phased delivery, a spike —
-every shortcut is marked in code and registered in `demo-shortcuts.md`:
+every shortcut is marked in code, with a `DEMO:` comment in the language's own comment
+syntax, and registered in `demo-shortcuts.md`:
 
-```ts
-// DEMO: fee calculated client-side. Production computes server-side.
-// See demo-shortcuts.md #4
+```
+DEMO: fee calculated client-side. Production computes server-side.
+See demo-shortcuts.md #4
 ```
 
 The register lists what is fake, what replaces it, and the risk if it ships.
@@ -136,10 +137,11 @@ server-side rule is in the second group without exception.
 ## §BUILD — Comments, cleanliness and build discipline
 
 - Comment non-obvious decisions and complex logic. Not obvious code
-- JSDoc on exported functions and hooks
-- No `console.log` left behind. No commented-out code
+- The language's doc comments on exported functions (JSDoc in TypeScript, docstrings in
+  Python)
+- No debug output left behind (`console.log`, `print`). No commented-out code
 - No TODO surviving more than one session unless explicitly deferred in writing
-- TypeScript and ESLint errors are blockers, not warnings. Warnings cleared
+- Type-checker and linter errors are blockers, not warnings. Warnings cleared
   before a task is done
 - Nothing ships with a failing build
 

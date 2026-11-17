@@ -144,11 +144,15 @@ const after = count([...linesOf.values()].flat());
 const where = (line) => [...linesOf].filter(([, lines]) => lines.includes(line)).map(([file]) => file).join(", ") || "nowhere";
 
 const failures = [];
+// --json: print the unlisted differences as JSON, to paste into split-intended.json by hand.
+const unlisted = { removed: [], added: [] };
 for (const line of new Set([...before.keys(), ...after.keys()])) {
   const was = before.get(line) ?? 0;
   const is = after.get(line) ?? 0;
   const expected = was + (added.get(line) ?? 0) - (removed.get(line) ?? 0);
   if (is === expected) continue;
+  for (let n = is; n < expected; n++) unlisted.removed.push(line);
+  for (let n = expected; n < is; n++) unlisted.added.push(line);
   const what =
     is < expected
       ? was === 0
@@ -167,6 +171,13 @@ for (const [text, file] of PLACEMENT) {
 }
 
 const total = (counts) => [...counts.values()].reduce((sum, n) => sum + n, 0);
+if (process.argv.includes("--json")) {
+  for (const key of ["removed", "added"]) {
+    console.log(`${key}:`);
+    for (const line of unlisted[key]) console.log(`    ${JSON.stringify(line)},`);
+  }
+  process.exit(failures.length ? 1 : 0);
+}
 if (failures.length) {
   console.log(`split-check: FAILED, ${failures.length} problem(s).\n`);
   for (const failure of failures) console.log(`  - ${failure}`);

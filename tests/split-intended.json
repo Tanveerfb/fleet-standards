@@ -81,7 +81,27 @@
     "- [ ] **`project-rules.md` copied into the project root and `@project-rules.md` imported",
     "      from `CLAUDE.md`** — and **committed**. An untracked copy is one `git clean` from gone.",
 
-    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`. No line, no Trello —"
+    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`. No line, no Trello —",
+
+    "- A component both fetches or computes data and renders it",
+    "- A store holds both UI state and domain data",
+    "- Business logic never lives in a component. Extract to a hook or a pure",
+    "  function",
+    "- Pure logic imports nothing from React, Next or any store",
+    "```ts",
+    "lib/data/",
+    "  index.ts      the active adapter",
+    "  types.ts      the interface every adapter implements",
+    "  <impl>.ts     one file per implementation",
+    "- No component reads storage directly",
+    "- **Allowed transitions are declared once**, as an explicit map, in",
+    "  `lib/domain/`",
+    "every shortcut is marked in code and registered in `demo-shortcuts.md`:",
+    "// DEMO: fee calculated client-side. Production computes server-side.",
+    "// See demo-shortcuts.md #4",
+    "- JSDoc on exported functions and hooks",
+    "- No `console.log` left behind. No commented-out code",
+    "- TypeScript and ESLint errors are blockers, not warnings. Warnings cleared"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -214,6 +234,30 @@
     "commit, holding what its closing question approved, is covered by the answer that",
     "checkpoint's git step had — pushed only if that step pushed, and never a release.",
 
-    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`, bold or not. No line, no Trello —"
+    "`CLAUDE.md` says so**, in its project identity: `Trello board: <url>`, bold or not. No line, no Trello —",
+
+    "```",
+    "- A piece of interface (a component, a scene, a view) both fetches or computes data and",
+    "  renders it",
+    "- One piece of state holds both interface state and domain data",
+    "- Business logic never lives in interface code. Extract it to a pure function",
+    "- Pure logic imports nothing from the interface framework, the engine or any store",
+    "lib/data/       (or the language's own place for it)",
+    "  index         the active adapter",
+    "  types         the interface every adapter implements",
+    "  <impl>        one file per implementation",
+    "- No interface code reads storage directly",
+    "- **Allowed transitions are declared once**, as an explicit map, in the domain",
+    "  layer (`lib/domain/`, or the language's own place for it)",
+    "every shortcut is marked in code, with a `DEMO:` comment in the language's own comment",
+    "syntax, and registered in `demo-shortcuts.md`:",
+    "DEMO: fee calculated client-side. Production computes server-side.",
+    "See demo-shortcuts.md #4",
+    "- The language's doc comments on exported functions (JSDoc in TypeScript, docstrings in",
+    "  Python)",
+    "- No debug output left behind (`console.log`, `print`). No commented-out code",
+    "- Type-checker and linter errors are blockers, not warnings. Warnings cleared",
+    "- Business logic taken out of a component (§MODULES) goes to a hook or a pure function;",
+    "  pure logic imports nothing from React, Next or any store"
   ]
 }
