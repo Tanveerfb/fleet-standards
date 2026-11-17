@@ -440,3 +440,29 @@ is recorded here so a later session does not re-decide it.
   never imported; the startup check reports an import of it.
 - **`checkpoint`'s steps are numbered 1 to 9** (E11). The audit said 1 to 8; there are nine.
   The CHANGELOG keeps the old numbers as history.
+
+## 2026-11-18 — Group K: the owner's answers to the audit's seven questions
+
+Asked through the question tool, two rounds; each answer is the option the owner picked.
+
+- **K1, package manager:** "pnpm new, npm stays". New projects use pnpm; existing projects
+  stay on their manager. Checked against current Vercel and Firebase documentation before it
+  is written. Turned down: npm only (the pnpm project takes an exception), pnpm everywhere
+  (every project migrates at its next sync).
+- **K2, JavaScript:** "Yes, local tools only". JavaScript with type checking on is a named
+  choice for a local tool, made at setup; never for a client or deployed project. Turned
+  down: TypeScript always.
+- **K3, interface rules missed:** "Core pointer to ui.md". One line in the core: before
+  touching an interface file, read `rules/ui.md`. Turned down: the owner naming the cases
+  first; no change.
+- **K4, splitting a `CLAUDE.md`:** "Yes, past 50 KB". The checkpoint measures the root
+  `CLAUDE.md` and proposes a split past 50 KB, done on a yes. The recommendation was 30 KB;
+  the owner chose the looser line. Turned down: no automatic check.
+- **K5, §MOTION exceptions:** "Drop at next sync". Moot since §MOTION left animation to the
+  mockup stage; `sync-standards` says so and removes them on a yes. Nothing in the standard.
+- **K6, other backends:** "Add a SQLite option". A new `rules/options/sqlite.md` in v4, for
+  `roleodex` and `cutscene`, whose §FIREBASE exceptions go. The recommendation was to wait for
+  a third project; the owner chose to write it now.
+- **K7, Python:** "Yes, in v4". A new `rules/python.md`, from what `toll-pipeline` and
+  `cutscene` already do, loaded by the "tool in another language" kind when it is Python.
+  Turned down: after v4; never.

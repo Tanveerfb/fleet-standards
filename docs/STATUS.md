@@ -12,11 +12,13 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** **the owner's answers to group K** (seven questions, `docs/specs/v4-audit.md`),
-then **phase 7**: the theme name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
+**Next:** **build group K** as the owner answered it 2026-11-18 (`decisions.md`): K1 to K5
+are small; K6 (`rules/options/sqlite.md`) and K7 (`rules/python.md`) are new files, written
+from what `roleodex`, `cutscene` and `toll-pipeline` already do. Then **phase 7**: the theme
+name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
 5 → 8, 6 → 9).
-**Blocked on:** the owner: group K, and the theme name for phase 7.
+**Blocked on:** nothing for group K; phase 7 waits on the owner's theme name.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
 `relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
 run; the skills' new paths (every kind in
@@ -117,9 +119,9 @@ plain text in `E:\Installed`. It was not opened.
 2. **GitHub's private vulnerability reporting is off** on the repository (checked
    2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
    setting; then that line can point at it.
-3. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
-   a named choice, the cases where agents missed interface rules, when to split a
-   `CLAUDE.md`, and three smaller ones.
+3. **Group K, answered, to build** — pnpm for new projects; JavaScript for local tools; a
+   core pointer to `ui.md`; a split proposed past 50 KB; §MOTION exceptions dropped at sync;
+   a SQLite option; a Python rules file. The answers are in `decisions.md`, 2026-11-18.
 4. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all fifteen evals run once, then the release.
