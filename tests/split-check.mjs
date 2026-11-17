@@ -120,7 +120,12 @@ try {
     maxBuffer: 16 * 1024 * 1024,
   });
 } catch {
-  // A shallow clone (CI's default checkout) does not hold the baseline commit.
+  // A shallow clone does not hold the baseline commit. Locally that is a skip; in CI it is a
+  // failure, so a checkout that lost the history cannot pass by skipping (audit B8).
+  if (process.env.CI) {
+    console.log(`split-check: FAILED. Commit ${BASELINE} is not in this clone; CI needs fetch-depth: 0.`);
+    process.exit(1);
+  }
   console.log(`split-check: SKIPPED. Commit ${BASELINE} is not in this clone; run it in a full clone.`);
   process.exit(0);
 }
