@@ -10,9 +10,10 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 
 **State:** **v4.0.0 · Satluj is released to `main`** by the 2026-11-18 checkpoint's
 `git CPR max`, as a merge pull request from the working branch
-`claude/new-project-mockup-zp2h2z` (local branch `v4.0.0`). The newest entry of
-`docs/log.md` names the pull request; if `main` does not hold `standards/rules/`, the release
-did not land and that entry says why. All seven phases of v4 are done.
+`claude/new-project-mockup-zp2h2z` (local branch `v4.0.0`): pull request #34, merged as
+`8a9b8ae`, CI green on `main`, issues #20 to #33 closed. All seven phases of v4 are done.
+This line and the log's *Released* item came in the checkpoint's follow-up commit, so they
+are on the working branch, not yet on `main`.
 **Next:** nothing is in flight. Projects sync to v4 when their owner next works in them
 (`decisions.md`, 2026-11-18: real pilot syncs after the release); the dry run's reports for
 five of them are in `docs/audits/2026-11-18-pilot-dry-run.md`, a head start for those syncs.

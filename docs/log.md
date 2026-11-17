@@ -46,6 +46,10 @@ the owner's go to finish with `git CPR max`.
   split check, its list and `fetch-depth: 0` (the workflow edit on the owner's yes).
   Checked at this checkpoint: tests pass, both plugin validations pass, the sizes measured;
   `main` found unprotected (404), left for the owner.
+- **Released**, checked after the merge: pull request #34 merged into `main` as `8a9b8ae`
+  (a merge commit, after its checks passed); `main` reads `**Version:** 4.0.0` and holds
+  `standards/rules/`; CI on `main` succeeded; issues #20 to #33 closed with it. No tag, as no
+  earlier release had one.
 
 **The mistakes worth keeping.**
 - P7 and P9 went into one commit, against one commit per pick.
