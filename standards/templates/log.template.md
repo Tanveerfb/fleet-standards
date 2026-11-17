@@ -17,7 +17,8 @@ on the way out destroys the evidence.*
 
 ### <DATE> (<n>th session) — <subject>
 
-Commits `<hashes>`. <Pushed / not pushed>, <and whether that branch auto-deploys>.
+Commits `<this session's earlier hashes>` and this one. <Pushed / not pushed>, <and whether
+that branch auto-deploys>.
 
 <What happened, concretely: file paths, commands, config keys, with the measurements. The
 decisions and why, what was tried and did not work, and any deviation from the spec or plan

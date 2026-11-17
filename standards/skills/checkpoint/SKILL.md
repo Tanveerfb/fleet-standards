@@ -530,8 +530,11 @@ assumed and untested item named, and what you would check first coming back cold
 session goes to `CLAUDE.md`, `conventions.md` or `decisions.md`, never only into `Start here`
 (Step 5).
 
-**M8. Cross-link doc and commit.** The deep doc names the commit hash; the commit message
-reflects what the doc says. A session landing on either can reach the other.
+**M8. Cross-link doc and commit.** The log entry names the commits; the commit message
+reflects what the doc says. A session landing on either can reach the other. The entry is
+written before its own commit exists, so it names the session's earlier commits by hash and
+this checkpoint's as "and this one" (the log template's *Commits* line). Never amend to add
+the hash, and never make a commit only to record it.
 
 **M9. Verify the fold, don't just do it.** After folding, confirm the archive file contains the
 moved entries verbatim and the log's stubs point at paths that exist. The same check covers a
