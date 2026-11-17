@@ -81,6 +81,17 @@ Then branch:
 | **Older** | Behind | Steps 2–6. |
 | **Newer than the master** | The master is behind, or the plugin copy is stale | Stop and say which. Never downgrade. |
 
+**Then the project's git, read-only, before anything else is read.** `git status -sb`, and
+`git fetch` then the count behind the remote. Say each of these first, and stop for the
+owner's word on it:
+
+- **Uncommitted changes** a sync would land on top of: the owner commits or sets them aside
+  first, or says to go on knowing the sync's changes will be mixed in.
+- **Behind the remote:** pull first, on the owner's yes, so the sync does not start from an
+  old tree.
+- **A branch other than the one the *Deploys* line works on** (a multi-branch project on
+  `main`, or on a feature branch): say which, and ask where the sync belongs.
+
 ## Step 2 — Explain what changes
 
 Read the `CHANGELOG.md` entries between the two versions and tell the owner, briefly:
@@ -109,8 +120,11 @@ answer and says so.
 
 ## Step 3 — Ask once
 
-Put the plan to the owner with the question tool: apply the sync, or not. One question,
-with the summary and the upgrade report from Step 2 as context. On a no, stop and leave
+Put the plan to the owner with the question tool: apply the sync, or not, with the summary
+and the upgrade report from Step 2 as context. **Gather the report's questions into this
+round**: the kind, each option, the Python shape, each moot exception, branch protection.
+Ask them with the go-ahead in one call (four questions to a call; a second call for the
+rest), so Step 4 applies answers it already has instead of stopping for each. On a no, stop and leave
 everything untouched but one line appended to `decisions.md`: the sync to `<master version>`
 declined, and why if the owner said. Relay reads it and stops offering that version.
 
