@@ -10,15 +10,16 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 
 **State:** v3.8.0 is on `main`. **v4.0.0 is in progress on the working branch
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
-are done and phase 6, the audit of the standard, is built through groups A to E; 14 small
-picks remain. `main` is untouched; nothing is released.
-**Next:** **build the last picks:** F1 to F6, then H1 to H4, then I1, I2, I5, from
-`docs/specs/v4-audit.md` → *Picks and outcomes*, one commit each named `audit <id>`.
-`checkpoint`'s steps are numbered 1 to 9 since E11; the audit's rows cite the old numbers
-(old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7, 5 → 8, 6 → 9).
-**Blocked on:** nothing. Group K in the audit is seven questions only the owner can answer.
+are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
+goes at the release. `main` is untouched; nothing is released.
+**Next:** **the owner's answers to group K** (seven questions, `docs/specs/v4-audit.md`),
+then **phase 7**: the theme name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
+the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
+5 → 8, 6 → 9).
+**Blocked on:** the owner: group K, and the theme name for phase 7.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
-`relay`, `sync-standards` and `new-project`; the skills' new paths (every kind in
+`relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
+run; the skills' new paths (every kind in
 `new-project`, sync checks a to i, *Adding an option*, `--remove-stale`) have never met a
 real project. The PowerShell half of the shell-write guard is tested, never seen live.
 **Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
@@ -79,7 +80,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, mostly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: groups A to E, I3. Left: 14 small ones (F1 to F6, H1 to H4, I1, I2, I5); I4 at the release |
+| 6. Process X on the standard | **Built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I) but I4, at the release. Group K is the owner's questions |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -110,18 +111,21 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — 14 left (`docs/specs/v4-audit.md`, *Picks and outcomes*): F1 to
-   F6, H1 to H4, I1, I2, I5; I4 at the release. All small; H1 and H2 add eval cases, which
-   cost about $0.30 a run when they are run, by hand and with the owner's go.
-2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
+1. **The audit's picks** — all built but I4 (the split check and `fetch-depth: 0` go at the
+   release). There are fifteen eval cases now, five never run; about $0.30 each, by hand and
+   with the owner's go. `ai-setup` and `machine-inventory` still have no case.
+2. **GitHub's private vulnerability reporting is off** on the repository (checked
+   2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
+   setting; then that line can point at it.
+3. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
    a named choice, the cases where agents missed interface rules, when to split a
    `CLAUDE.md`, and three smaller ones.
-3. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
+4. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
-   one project of each kind, all eleven evals run once, then the release.
-4. **The machine file's local-models section is empty**: Ollama was not running when
+   one project of each kind, all fifteen evals run once, then the release.
+5. **The machine file's local-models section is empty**: Ollama was not running when
    `machine-inventory` ran. Start Ollama and run the skill again.
-5. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
+6. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
    checking at their next sync whether the stricter block is still wanted.
 
 ---
