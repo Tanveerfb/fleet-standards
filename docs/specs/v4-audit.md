@@ -208,11 +208,11 @@ the owner wants any done now.
 
 | Group | Picked | Outcome |
 | --- | --- | --- |
-| A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **To build:** A2 and A4 (with E1), A3, A10, A11, A14 (with E4) |
+| A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **Built 2026-11-17:** A2 and A4 (with E1; bare `CPR` kept and given a row in §GIT). **To build:** A3, A10, A11, A14 (with E4) |
 | B1 to B12 | all | B1 to B4 built 2026-11-13; B5 to B12 to build. B7 changes the workflow file and needs the owner's yes when it is reached |
 | C1 to C9 | all | to build |
 | D1 to D12 | all | to build |
-| E1 to E11 | all | to build |
+| E1 to E11 | all | **built 2026-11-17:** E1. To build: E2 to E11 |
 | F1 to F6 | picked | to build |
 | F7, F8, F9 | not picked | declined for v4; F8 is also a question for the owner |
 | G1 to G10 | phase 7 | not a pick |

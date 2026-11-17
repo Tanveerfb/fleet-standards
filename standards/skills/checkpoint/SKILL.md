@@ -15,73 +15,19 @@ description: Use when wrapping up a work session — e.g. "checkpoint", "let's c
 
 ## Invocation modes
 
-Two independent dials. Read the user's exact words and set both before starting.
+Three dials, read from the owner's exact words before starting. What each combination does
+in git is **one table, in Step 4**; nowhere else in this skill restates it.
 
-**The `git` prefix — commit and push authorization.**
+- **`git`** — the commit, and the push where there is one, are already authorised. Saying
+  "git checkpoint" *is* the owner calling the commit; asking again is the failure mode.
+- **`MAX`** — depth. `checkpoint max` and `git checkpoint max` run Steps 1 to 5 *plus* the
+  MAX protocol below, which is mandatory, not a suggestion.
+- **`CPR`** — CheckPoint and Release: the checkpoint, then the project's release to
+  production. `git CPR` authorises both; `CPR` alone asks before the release.
 
-| Phrase | Git behaviour |
-| --- | --- |
-| `checkpoint`, `let's checkpoint`, `wrap up`, `end of session` | Do Steps 1–3, then **ask** whether to commit, and ask separately whether to push. |
-| **`git checkpoint`** | **Commit and push. Both already authorized — do not ask for either.** |
-
-Saying "git checkpoint" IS the user calling the commit. Draft the message in the repo's house
-style, commit, push, and report the hash and the ref range. Do not stop midway to confirm. You
-still stop for the real safety cases: a secret in the staged diff, an unexpectedly dirty tree
-containing work that isn't yours, a detached HEAD, or a push that would need a force. Those are
-worth a sentence; a routine push is not.
-
-If the repo auto-deploys from the pushed branch, say so in the confirmation — the user should
-never learn from somewhere else that a checkpoint shipped to production.
-
-**On a multi-branch project** (`project-rules.md` §GIT, declared on the *Deploys* line of
-`CLAUDE.md`), the working branch is already authorised: `checkpoint` and `git checkpoint`
-both commit and push it, without asking. The production branch still changes only on
-`git CPR`. If the *Deploys* line does not say single-branch or multi-branch, treat the
-project as single-branch, ask once, and write the answer into that line.
-
-**The `MAX` suffix — depth.**
-
-| Phrase | Depth |
-| --- | --- |
-| `checkpoint`, `git checkpoint` | Standard. Steps 1–5 as written. |
-| **`checkpoint MAX`**, **`git checkpoint max`** | **Exhaustive.** Steps 1–5 *plus* the MAX protocol below, which is mandatory, not a suggestion. |
-
-The dials combine. `checkpoint max` = exhaustive, then ask about git. `git checkpoint max` =
-exhaustive, then commit and push.
-
-**`CPR` — CheckPoint and Release. Multi-branch projects, and single-branch projects in a
-cloud session.**
-
-| Phrase | Behaviour |
-| --- | --- |
-| **`git CPR`** | `git checkpoint` to the working branch, **then the project's release** — both pre-authorized. |
-| **`git CPR max`** | `git checkpoint max`, then the release. |
-| `CPR` (no `git`) | Checkpoint, then **ask** before commit, push and release — each separately. |
-
-Applies **only where the project works on a branch that is released to a production branch**
-(e.g. work on a `dev` branch, release = squash PR into `master`). The project's own
-`CLAUDE.md` defines what "release" means there — follow it exactly, don't improvise one. On a
-single-branch project there is nothing to release: **say so and stop after the checkpoint**,
-rather than inventing a release step.
-
-**Except in a cloud session** (§GIT, *Cloud sessions*). There the checkpoint lands on the
-harness branch, so the release is a **fast-forward of the main branch to it**:
-`git push origin HEAD:<main branch>`, with the branch named from the *Deploys* line, never
-computed. Fetch it (`git fetch origin <main branch>`), then check
-`git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails,
-the main branch has moved on — stop and ask (merge, or a pull request), and never force. If
-the push itself is refused (branch protection, or the harness blocks it), say so and offer a
-pull request. The confirmation says the main branch moved, and whether anything deploys from
-it.
-
-**Name the release target explicitly** — `git push origin HEAD:main`, a pull request into
-the named branch, or the release command in `CLAUDE.md`. Never compute it from `origin/HEAD`
-or any other ref a shallow or fresh clone may lack: a computed target once created a stray
-remote branch literally named `HEAD`.
-
-Order is fixed: the checkpoint's commit and push land first, then the release ships them.
-If the checkpoint stops for a safety case, the release does not happen. The confirmation says
-plainly that **production is updating** — a CPR is a production deploy.
+The dials combine: `git CPR max` is an exhaustive checkpoint, committed and pushed, then the
+release. Which column of Step 4's table applies comes from the *Deploys* line of `CLAUDE.md`
+(`project-rules.md` §GIT), and from whether this is a cloud session.
 
 ## Overview
 
@@ -398,20 +344,49 @@ restore only the noise. Never a blind `git checkout -- <file>`. Draft the commit
 conventions — read `git log` for the house style first, and match its length and voice rather
 than defaulting to a one-liner.
 
-Then branch on the invocation mode:
+Then do what the table says. It is §GIT's table with the cloud column added; where the two
+ever disagree, §GIT wins and this table is the fault. `max` changes the depth, never the git.
 
-- **Plain `checkpoint`:** **ask** whether to commit. If yes, ask separately whether to push.
-  Never push without an explicit yes. If the user says no to committing, that's a valid answer —
-  note in your summary that changes are left uncommitted, and don't push back.
-- **`git checkpoint`:** commit and push. Both are already authorized by the phrasing; asking
-  again is the failure mode here, not a courtesy.
-- **Multi-branch project, either phrase:** commit and push the working branch without asking
-  (§GIT). Nothing reaches the production branch except through `git CPR`.
-- **Local only** (the *Deploys* line says so; the repo has no remote by decision): commit as
-  above, then stop. There is no push to ask about or attempt, and never add a remote unasked.
+| The owner says | Single-branch | Multi-branch | Local only | Cloud session (any *Deploys*) |
+| --- | --- | --- | --- | --- |
+| `checkpoint` | **Ask** whether to commit; if yes, ask separately whether to push. | Commit and push the working branch. | **Ask** whether to commit. No push. | Commit and push the harness branch. |
+| **`git checkpoint`** | Commit and push. | The same as `checkpoint`. | Commit. No push. | Commit and push the harness branch. |
+| `CPR` | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. |
+| **`git CPR`** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release.** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release**: on a single-branch project, the fast-forward below. |
 
-Either way, follow the standard git safety rules: a new commit (don't amend unless asked), no
-`--no-verify`, and review the staged diff for anything resembling a credential before committing.
+- **A *Deploys* line that is missing or unclear:** treat the project as single-branch, ask
+  the owner once which it is, and write the answer into that line.
+- **A no** to the commit is a valid answer: say in Step 5 that the changes are left
+  uncommitted, and do not push back. Never push without a yes or a phrase that gives one.
+- **Local only:** never add a remote unasked.
+- **Cloud session:** the harness branch is a working branch (§GIT, *Cloud sessions*): it is
+  pushed without asking because the container is discarded and unpushed work is lost. Never
+  push to a branch the harness did not name, except the release below.
+
+**The release.** The project's own `CLAUDE.md` says what "release" means on a multi-branch
+project (e.g. a squash pull request from `dev` into `master`): follow it exactly, never
+improvise one. **Name the target explicitly** — `git push origin HEAD:main`, a pull request
+into the named branch, or the release command in `CLAUDE.md`. Never compute it from
+`origin/HEAD` or any other ref a shallow or fresh clone may lack: a computed target once
+created a stray remote branch literally named `HEAD`.
+
+**A single-branch project in a cloud session** releases by **fast-forwarding the main branch
+to the harness branch**: `git fetch origin <main branch>`, then
+`git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails, the main branch has
+moved on — stop and ask (merge, or a pull request), and never force. Then
+`git push origin HEAD:<main branch>`, the branch named from the *Deploys* line. If the push is
+refused (branch protection, or the harness blocks it), say so and offer a pull request.
+
+Order is fixed: the checkpoint's commit and push land first, then the release ships them. If
+the checkpoint stops for a safety case, the release does not happen. The confirmation says
+plainly that **production is updating** — a release is a production deploy.
+
+**Safety cases stop any commit or push, authorised or not**, and are worth a sentence: a
+secret in the staged diff, a dirty tree containing work that is not yours, a detached HEAD,
+or a push that would need a force. A routine push is not. Otherwise: a new commit (never
+amend unless asked), no `--no-verify`, and the staged diff read for anything resembling a
+credential before committing. **Where the pushed branch auto-deploys**, say so in the
+confirmation: the owner should never learn from somewhere else that a checkpoint shipped.
 
 ## Step 5 — Confirm
 

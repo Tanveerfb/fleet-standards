@@ -224,6 +224,7 @@ depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` de
 | `checkpoint` | Documentation pass, then **ask** about commit and push, separately. | Documentation pass, then commit and push the working branch. | Documentation pass, then **ask** about the commit. |
 | **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. | The same as `checkpoint`. | Documentation pass, then **commit.** No push. |
 | **`git checkpoint max`** | The same, exhaustively verified claim by claim. | The same, exhaustively verified. | The same, exhaustively verified. |
+| `CPR` | As `checkpoint`; nothing to release, so say so. **In a cloud session:** as `git CPR`, but **ask** before the fast-forward. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; nothing to release, so say so. |
 | **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. **In a cloud session:** the checkpoint to the harness branch, then fast-forward the main branch to it (*Cloud sessions*, below). | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. | Nothing to release: the checkpoint, then say so and stop. |
 
 The `checkpoint` skill and `relay`, its inverse, ship in the `fleet` plugin (§SCOPE) and

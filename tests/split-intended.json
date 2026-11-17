@@ -167,6 +167,8 @@
     "*§BUILD's rules on comments, leftovers and failing builds are in `rules/app.md`.*",
     "*§TESTING continues in `rules/node.md` (unit tests) and `rules/web.md` (the browser check).*",
     "*§TESTING's universal rules are in the core, `project-rules.md`; the browser check is in `rules/web.md`.*",
-    "*§TESTING's universal rules are in the core, `project-rules.md`; unit tests are in `rules/node.md`.*"
+    "*§TESTING's universal rules are in the core, `project-rules.md`; unit tests are in `rules/node.md`.*",
+
+    "| `CPR` | As `checkpoint`; nothing to release, so say so. **In a cloud session:** as `git CPR`, but **ask** before the fast-forward. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; nothing to release, so say so. |"
   ]
 }
