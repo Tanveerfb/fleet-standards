@@ -12,15 +12,16 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** the Fable review of v4, then **phase 7**. The theme is chosen: **v4 Sutlej**, the
+**Next:** **build the Fable review's picks, R1 to R15**
+(`docs/audits/2026-11-18-fable-v4-review-checked.md`, *Picks and outcomes*; the review scored
+v4 7 out of 10), one commit each named `review R<n>`. Then **phase 7**. The theme is chosen: **v4 Sutlej**, the
 five rivers of Punjab (`decisions.md`, 2026-11-18). Its README look starts as mockups, no
 sample gallery, locked before it is built. Open: whether the README leads with "Sutlej" or
-the number. Offered and not yet run: a Fable review of v4
-through `fable-audit` (open item 4), priced before the owner's go. The 4.0.0 changelog entry
+the number. The 4.0.0 changelog entry
 must end with its *What a project must change* list (`docs/maintainer.md`). `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
 5 → 8, 6 → 9).
-**Blocked on:** the owner's go for the Fable review, after its price.
+**Blocked on:** nothing.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
 `relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
 run; the skills' new paths (every kind in
@@ -124,8 +125,10 @@ plain text in `E:\Installed`. It was not opened.
 3. **The upgrade path is built, never run:** `sync-standards` audits the transition into
    one report, applies on one yes, re-checks (Step 4 now runs a to l). The pilot syncs in
    phase 7 are its first use; the 4.0.0 changelog entry has to carry its list.
-4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). A Fable review
-   of v4 itself is offered, not run: dry run for the price first, then the owner's go.
+4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). Its review of
+   v4 ran 2026-11-18: 7 out of 10, about $3.20 over two runs (the first hit its output cap
+   and wrote nothing; the runner in `~/.claude/skills/fable-audit/` was fixed). The owner
+   picked all fifteen of its findings offered, R1 to R15.
 5. **Phase 7** — the themed README (Sutlej: river blues, a Phulkari-style pattern, original
    art), the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of

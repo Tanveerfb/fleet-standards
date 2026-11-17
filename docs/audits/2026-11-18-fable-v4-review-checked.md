@@ -70,3 +70,28 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 ## Wrong
 
 - **13**'s §TESTING claim: §TESTING is in the core, which every project loads.
+
+## Picks and outcomes
+
+**The owner, 2026-11-18: every option offered, in four questions.** One commit each, named
+`review R<n>`.
+
+| id | Pick | From | Outcome |
+| --- | --- | --- | --- |
+| R1 | Production gate: any change to a live system outside git, and any destructive command outside git, needs the owner's go each time; the Firebase deploy wording follows | 1, missing | to build |
+| R2 | Build before push: checkpoint runs the kind's build and tests before its git step; a failure stops a push that deploys | 4 | to build |
+| R3 | Cloud branches: relay lists remote branches not in the production branch; a cloud checkpoint names its branch as not in main; the cloud multi-branch release defined; the credential hook on in a cloud clone | 2, 3 | to build |
+| R4 | No `git add` in sync on a single-branch project | 5 | to build |
+| R5 | Guard fixes, with tests | 10 | to build |
+| R6 | Other agents' scripts: the scripts folder installed, the path, no prompt without a terminal, three crashes, the usage line | 8, 16d-f | to build |
+| R7 | A hash per file in `copied.json` | 9 | to build |
+| R8 | Two core sentences: "documentation is the intent" scoped; a granted divergence is settled | 6, 7 | to build |
+| R9 | Reference pass; no private material in a proposal; the `CLAUDE.md` template by kind; `git init` order; a project's own `rules/` | 13, 11, 16a-c | to build |
+| R10 | A declined option recorded, so no sync asks again | 12 | to build |
+| R11 | Trim the always-loaded text: plumbing to the skills, one kind table, a short relay for a same-day resume. Not the 50 KB line (K4) | 14 | to build |
+| R12 | Nobody to answer: an unattended session stops and leaves the question instead of guessing | missing | to build |
+| R13 | First remote in `new-project`: the repository, the working branch, branch protection, each on a yes | missing | to build |
+| R14 | Hook scripts diffed before the sync copies them | missing | to build |
+| R15 | After a squash release: `dev` brought back in line without a force push | missing | to build |
+
+Not offered: 15 (the board), already surfaced to the owner; the drafts in a cloud container.
