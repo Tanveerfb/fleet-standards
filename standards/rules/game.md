@@ -18,10 +18,7 @@ has the block). The project loads the core, `rules/app.md`, `rules/ui.md` and th
     guide (GDScript: `snake_case` files and functions, `PascalCase` classes)
   - §DESIGN, §COMPONENTS, §QOL, §PATTERNS, §MOTION: wherever the game has the thing. The
     motif and tokens live in a code file, and `design-system.md` records them
-  - Add-ons and plugins stand where npm packages do elsewhere (§PACKAGES, in `rules/node.md`,
-    which a game does not load): the latest version compatible with the engine, its current
-    documentation read before use, none that duplicates what the project has, each recorded
-    in `decisions.md`
+  - Add-ons and plugins follow §PACKAGES (`rules/app.md`), "the framework" read as the engine
   - §BUILD: the engine's headless test run replaces `tsc`, lint and `npm run build`
   - §TESTING: the engine's test add-on (GUT in Godot) replaces Vitest; screenshots, and film
     for motion, replace the browser

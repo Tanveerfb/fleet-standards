@@ -105,7 +105,7 @@ section("The rules set (standards/project-rules.md and standards/rules/)");
   check("every file in §SCOPE's table exists", absent.length === 0, absent.join(", "));
 
   // Each section heading is in the set, and only a section that divides appears twice.
-  const DIVIDED = new Set(["§NAMING", "§MOTION", "§BUILD", "§TESTING", "§RUNTIME", "§STATE"]);
+  const DIVIDED = new Set(["§NAMING", "§MOTION", "§BUILD", "§TESTING", "§RUNTIME", "§STATE", "§PACKAGES"]);
   const headings = ["standards/project-rules.md", ...ruleFiles].flatMap((f) => [...read(f).matchAll(/^## (§[A-Z]+) /gm)].map((m) => m[1]));
   const repeated = [...new Set(headings.filter((h, i) => headings.indexOf(h) !== i))].filter((h) => !DIVIDED.has(h));
   check(`${new Set(headings).size} sections, none repeated but the ${DIVIDED.size} that divide`, repeated.length === 0, repeated.join(", "));

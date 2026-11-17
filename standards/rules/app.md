@@ -134,6 +134,22 @@ server-side rule is in the second group without exception.
 
 ---
 
+## §PACKAGES — Packages and APIs
+
+Packages, libraries, and an engine's add-ons and plugins alike:
+
+- Use the **latest version compatible with the framework and the rest of the
+  dependency tree** — not simply the newest published. Check peer requirements
+- Use **Context7 MCP** for version-specific documentation before implementing
+  anything library-related
+- If an API may have changed since training, fetch current docs. Do not assume
+- Do not add a dependency duplicating something already in the stack. Record
+  every new dependency in `decisions.md`
+
+*§PACKAGES continues in `rules/node.md`: npm.*
+
+---
+
 ## §BUILD — Comments, cleanliness and build discipline
 
 - Comment non-obvious decisions and complex logic. Not obvious code

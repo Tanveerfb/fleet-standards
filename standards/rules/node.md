@@ -79,14 +79,9 @@ and the data adapter, where there is one, in `lib/data/` (`rules/app.md` §DATA,
 
 ## §PACKAGES — Packages and APIs
 
-- Use the **latest version compatible with the framework and the rest of the
-  dependency tree** — not simply the newest published. Check peer requirements
 - Verify current versions on npm before installing
-- Use **Context7 MCP** for version-specific documentation before implementing
-  anything library-related
-- If an API may have changed since training, fetch current docs. Do not assume
-- Do not add a dependency duplicating something already in the stack. Record
-  every new dependency in `decisions.md`
+
+*§PACKAGES' rules for every language are in `rules/app.md`.*
 
 ---
 
