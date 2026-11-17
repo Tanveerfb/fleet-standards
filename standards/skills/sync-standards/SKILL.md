@@ -187,8 +187,11 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
 
 `--check` writes nothing and lists what would change. **A copy that changed although the
 master did not was edited in place** — treat it like an edited rules file (Step 1): show the
-diff, offer `propose-standard`, never overwrite it silently. Otherwise run the same command
-without `--check`. It writes every skill but `new-project` and `machine-inventory` to `.claude/skills/` and the files
+diff, offer `propose-standard`, never overwrite it silently. **A `- stale` line** is a copy
+the standard has since dropped — a retired skill, a reference file that went: name each to
+the owner, and on their yes run the command once more with `--remove-stale`. A project's own
+skills are never on that list (`.claude/fleet/copied.json` records what the sync wrote).
+Otherwise run the same command without `--check`. It writes every skill but `new-project` and `machine-inventory` to `.claude/skills/` and the files
 they read to `.claude/fleet/`, and adds two hooks to `.claude/settings.json`, merged with
 whatever the file already holds: the §AGENTS shell-write hook
 (`.claude/fleet/scripts/block-shell-writes.mjs`) and the relay-after-compact hook

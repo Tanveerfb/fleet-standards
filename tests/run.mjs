@@ -526,6 +526,38 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   copy();
   check("a second run does not register either twice", hookEntries(project).length === 1 && compactEntries(project).length === 1);
 
+  // Copies the standard has since dropped (audit B10).
+  {
+    const manifest = join(project, ".claude", "fleet", "copied.json");
+    const listed = JSON.parse(readFileSync(manifest, "utf8")).files;
+    check("copied.json lists what the sync wrote, settings.json excluded", listed.includes(".claude/skills/relay/SKILL.md") && !listed.includes(".claude/settings.json"));
+    const gone = join(project, ".claude", "skills", "retired-skill");
+    mkdirSync(gone, { recursive: true });
+    writeFileSync(join(gone, "SKILL.md"), "old\n");
+    const own = join(project, ".claude", "skills", "projects-own");
+    mkdirSync(own, { recursive: true });
+    writeFileSync(join(own, "SKILL.md"), "mine\n");
+    writeFileSync(join(project, ".claude", "fleet", "old-reference.md"), "old\n");
+    writeFileSync(join(project, "outside.md"), "keep\n");
+    const m = JSON.parse(readFileSync(manifest, "utf8"));
+    m.files.push(".claude/skills/retired-skill/SKILL.md", "outside.md", ".claude/../outside.md");
+    writeFileSync(manifest, JSON.stringify(m));
+    const report = copy("--check");
+    check(
+      "--check names a dropped skill and a dropped fleet file, exit 1",
+      report.status === 1 && report.stdout.includes("stale   .claude/skills/retired-skill/SKILL.md") && report.stdout.includes("stale   .claude/fleet/old-reference.md"),
+      report.stdout,
+    );
+    check("a skill of the project's own is never stale", !report.stdout.includes("projects-own"));
+    check("a manifest path outside .claude/ is ignored", !report.stdout.includes("outside.md"));
+    const plain = copy();
+    check("a plain run reports them and removes nothing", plain.stdout.includes("--remove-stale") && existsSync(join(gone, "SKILL.md")));
+    copy("--remove-stale");
+    check("--remove-stale removes them and the folders they emptied", !existsSync(gone) && !existsSync(join(project, ".claude", "fleet", "old-reference.md")));
+    check("and leaves the project's own files", existsSync(join(own, "SKILL.md")) && existsSync(join(project, "outside.md")));
+    check("--check is clean afterwards", copy("--check").status === 0);
+  }
+
   const existing = join(scratch, "existing");
   mkdirSync(join(existing, ".claude"), { recursive: true });
   writeFileSync(join(existing, "project-rules.md"), `**Version:** ${rulesVersion}\n`);

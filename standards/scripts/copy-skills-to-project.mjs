@@ -15,16 +15,23 @@
 // `${CLAUDE_PLUGIN_ROOT}` with no slash after it is left alone on purpose: the skills use it
 // to tell a plugin session from a project copy.
 //
-// Usage: node copy-skills-to-project.mjs <projectDir> [--check]
-//   --check  writes nothing; lists what would change and exits 1 if anything would.
+// Usage: node copy-skills-to-project.mjs <projectDir> [--check | --remove-stale]
+//   --check         writes nothing; lists what would change and exits 1 if anything would,
+//                   a stale copy included.
+//   --remove-stale  also deletes the stale copies. sync-standards runs it on the owner's yes.
+//
+// A stale copy is one the standard no longer has: a file under .claude/fleet/ (the folder is
+// wholly the sync's), or a file .claude/fleet/copied.json says an earlier sync wrote. That
+// manifest is how a removed skill is told from the project's own skills beside it.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 const check = args.includes("--check");
+const removeStale = args.includes("--remove-stale") && !check;
 const projectArg = args.find((a) => !a.startsWith("--"));
 if (!projectArg) {
   console.error("usage: copy-skills-to-project.mjs <projectDir> [--check]");
@@ -115,6 +122,27 @@ if (settingsReadable) {
   if (added) planned.push([settingsPath, JSON.stringify(settings, null, 2) + "\n"]);
 }
 
+// What this sync writes, recorded so the next one can tell what the standard has since dropped.
+const manifestPath = join(project, ".claude", "fleet", "copied.json");
+const slash = (p) => p.replace(/\\/g, "/");
+const plannedRel = new Set(planned.map(([target]) => slash(relative(project, target))));
+plannedRel.add(slash(relative(project, manifestPath)));
+let previous = [];
+try {
+  const parsed = JSON.parse(readFileSync(manifestPath, "utf8"));
+  if (Array.isArray(parsed?.files)) previous = parsed.files.filter((f) => typeof f === "string");
+} catch {}
+const fleetDir = join(project, ".claude", "fleet");
+const onDisk = existsSync(fleetDir) ? files(fleetDir).map((f) => slash(join(".claude", "fleet", f))) : [];
+const stale = [...new Set([...onDisk, ...previous])]
+  // Only inside .claude/: the manifest is a file in the repository, so never trust a path in it.
+  .filter((rel) => rel.startsWith(".claude/") && !rel.split("/").includes("..") && !plannedRel.has(rel) && existsSync(join(project, rel)))
+  .sort();
+const settingsRel = slash(relative(project, settingsPath));
+// A stale copy left in place stays on the list, so the next run still finds it.
+const recorded = [...plannedRel, ...(removeStale ? [] : stale)].filter((f) => f !== settingsRel);
+planned.push([manifestPath, JSON.stringify({ version, files: [...new Set(recorded)].sort() }, null, 2) + "\n"]);
+
 let changed = 0;
 for (const [target, content] of planned) {
   const rel = relative(project, target);
@@ -127,5 +155,19 @@ for (const [target, content] of planned) {
     writeFileSync(target, content);
   }
 }
+for (const rel of stale) {
+  console.log(`- stale   ${rel}${removeStale ? " (removed)" : ""}`);
+  if (removeStale) {
+    rmSync(join(project, rel), { force: true });
+    // Drop the folders the removal emptied, up to .claude/.
+    for (let dir = dirname(join(project, rel)); relative(join(project, ".claude"), dir) && !relative(join(project, ".claude"), dir).startsWith(".."); dir = dirname(dir)) {
+      if (readdirSync(dir).length) break;
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }
+}
+if (stale.length && !removeStale) {
+  console.log(`${stale.length} stale cop${stale.length === 1 ? "y" : "ies"}: the standard no longer has ${stale.length === 1 ? "it" : "them"}. Ask the owner, then run again with --remove-stale.`);
+}
 console.log(changed ? `${changed} file(s) ${check ? "would change" : "written"} (fleet v${version}).` : `All copies current (fleet v${version}).`);
-process.exit(check && changed ? 1 : 0);
+process.exit(check && (changed || stale.length) ? 1 : 0);
