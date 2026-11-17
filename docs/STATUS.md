@@ -14,7 +14,7 @@ are done and phase 6, the audit of the standard, is picked and partly built. `ma
 untouched; nothing is released.
 **Next:** **build the rest of the audit's picks.** Open `docs/specs/v4-audit.md`, go to
 *Picks and outcomes*, and take the next unbuilt finding: one commit per finding, named
-`audit <id>`. Start with the rest of group A (A2 and A4 with E1, A3, A10, A11, A14 with E4).
+`audit <id>`. Group A is built; start with B5.
 **Blocked on:** nothing. B7 changes the workflow file and needs the owner's yes when it is
 reached. Group K in the audit is seven questions only the owner can answer.
 **Don't trust:** the PowerShell half of the shell-write guard is tested by `tests/run.mjs`
@@ -76,7 +76,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: B1 to B4, and A1, A5, A6, A7, A8, A9, A12, A13, A15. Left: about 55 |
+| 6. Process X on the standard | **Picked, partly built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set. Built: all of group A, B1 to B4, E1, E4. Left: about 50 |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -105,9 +105,9 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — about 55 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
-   The large ones: C1 (`new-project` for every kind of repository), E1 and E2 (one git table
-   in `checkpoint`, §GIT trimmed to its rules), D1 (`rules/app.md` made language-neutral).
+1. **The audit's picks** — about 50 left (`docs/specs/v4-audit.md`, *Picks and outcomes*).
+   The large ones: C1 (`new-project` for every kind of repository), E2 (§GIT trimmed to its
+   rules), D1 (`rules/app.md` made language-neutral).
 2. **Group K, seven questions for the owner** — a package manager beyond npm, JavaScript as
    a named choice, the cases where agents missed interface rules, when to split a
    `CLAUDE.md`, and three smaller ones.
