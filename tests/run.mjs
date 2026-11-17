@@ -600,7 +600,9 @@ section("Fleet-wide report (standards/scripts/sync-rules.mjs)");
     if (claude) writeFileSync(join(dir, "CLAUDE.md"), claude);
     return dir;
   };
-  const declared = make("a-declared", "3.0.0", "- **Rules**: app, node · Options: none\n");
+  const declared = make("a-declared", "3.0.0", "@rules/app.md\n@rules/ui.md\n- **Rules**: app, UI, ga me · Options: none\n");
+  mkdirSync(join(declared, "rules"));
+  writeFileSync(join(declared, "rules", "app.md"), "x\n");
   const undeclared = make("b-undeclared", "3.0.0", "# no rules line\n");
   make("c-current", rulesVersion);
   make("d-none");
@@ -609,8 +611,10 @@ section("Fleet-wide report (standards/scripts/sync-rules.mjs)");
   check("report: exit 0", report.status === 0, report.stderr);
   check("report: behind, current and none told apart", row("a-declared").includes("behind") && row("c-current").includes("current") && row("d-none").includes("none"));
   check("report: copies nothing", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(undeclared, "rules")));
+  check("report: an upper-case name is read as the file (UI is rules/ui.md, missing here)", report.stdout.includes("rules/ui.md is declared but missing"), report.stdout);
+  check("report: a name it cannot match is printed, not dropped", report.stdout.includes('names "ga me"'));
   run("node", [script, projects, "--apply"], { input: "y\ny\n" });
-  check("--apply is gone: it copies nothing either", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(declared, "rules")));
+  check("--apply is gone: it copies nothing either", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(declared, "rules", "ui.md")));
   check("a missing projects folder: exit 1", run("node", [script, join(scratch, "no-such-folder")]).status === 1);
 }
 

@@ -9,6 +9,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { rulesProblems } from "./rules-line.mjs";
 
 const standards = join(dirname(fileURLToPath(import.meta.url)), "..");
 const master = join(standards, "project-rules.md");
@@ -52,5 +53,16 @@ for (const name of readdirSync(root)) {
     : compare(version, current) > 0 ? "AHEAD of master — copy it back"
     : "current";
   console.log(`${name.padEnd(32)} ${(version ?? "-").padEnd(8)} ${state}`);
+  // The declared set (rules-line.mjs): a name it cannot match, a declared file missing or
+  // not imported, an import not declared. Each is printed, never dropped.
+  const claude = join(dir, "CLAUDE.md");
+  if (version && existsSync(claude)) {
+    const problems = rulesProblems(
+      readFileSync(claude, "utf8"),
+      (f) => existsSync(join(dir, f)),
+      (f) => existsSync(join(standards, f)),
+    );
+    for (const p of problems) console.log(`${"".padEnd(42)}! ${p}`);
+  }
 }
 console.log("\nTo bring a project up to date, run sync-standards inside it.");
