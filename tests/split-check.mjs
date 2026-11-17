@@ -146,7 +146,9 @@ const where = (line) => [...linesOf].filter(([, lines]) => lines.includes(line))
 const failures = [];
 // --json: print the unlisted differences as JSON, to paste into split-intended.json by hand.
 const unlisted = { removed: [], added: [] };
-for (const line of new Set([...before.keys(), ...after.keys()])) {
+// The intended lists' own lines too: an entry for a line that is in neither file would
+// otherwise never be visited, and a stale entry would pass unseen.
+for (const line of new Set([...before.keys(), ...after.keys(), ...added.keys(), ...removed.keys()])) {
   const was = before.get(line) ?? 0;
   const is = after.get(line) ?? 0;
   const expected = was + (added.get(line) ?? 0) - (removed.get(line) ?? 0);
