@@ -1,6 +1,6 @@
 ---
 name: ai-setup
-description: Use when a project needs AI or LLM features set up or added — e.g. "set up AI", "add AI to this project", "integrate an LLM", "add a chatbot", "add an AI feature", "connect Ollama", "use a local model", "add Firebase AI Logic", "add the AI SDK". Follows project-rules §AI end to end — inventories any AI already in the code, gathers the brief, puts the tooling choice (Firebase AI Logic, Vercel AI SDK, or both) to the owner, scaffolds the lib/ai adapter, protects every model call, optionally wires local models, builds the first feature through the adapter, and records it. Never commits.
+description: Use when a project needs AI or LLM features set up or added — e.g. "set up AI", "add AI to this project", "integrate an LLM", "add a chatbot", "add an AI feature", "connect Ollama", "use a local model", "add Firebase AI Logic", "add the AI SDK". Follows §AI end to end — inventories any AI already in the code, gathers the brief, puts the tooling choice (Firebase AI Logic, Vercel AI SDK, or both) to the owner, scaffolds the lib/ai adapter, protects every model call, optionally wires local models, builds the first feature through the adapter, and records it. Never commits.
 ---
 
 # AI setup

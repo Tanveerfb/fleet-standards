@@ -108,7 +108,7 @@ content**. Map what already covers each job rather than creating empty files.*
 | `components.md` | <> — or the table in `design-system.md` (§COMPONENTS) |
 | `data-model.md` | <> |
 | `environment.md` | <> — names, purposes and owners only, **never values** |
-| `status.md` | [`docs/STATUS.md`](./docs/STATUS.md) — the snapshot only |
+| `docs/STATUS.md` | [`docs/STATUS.md`](./docs/STATUS.md) — the snapshot only |
 | `docs/log.md` | [`docs/log.md`](./docs/log.md) — the session log; `docs/record/` for the briefs' history |
 | `issues.md` | <> |
 | `roadmap.md` | <> |

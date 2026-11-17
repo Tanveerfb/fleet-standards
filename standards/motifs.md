@@ -428,8 +428,8 @@ itself is worth proposing back into this catalogue (`propose-standard`).
 ## Motif
 
 **<Motif family> — <variant>** — <named, suggested, custom; or a universe-inspired brief, or
-a named blend>. Chosen <date> via <browse / recommend / surprise me / bring your own>; see
-decisions.md.
+a named blend>. Chosen <date> via <show me / browse / decide for me / surprise me / bring my
+own>; see decisions.md.
 
 - **Signature elements:** <what carries the motif, and where it appears>
 - **Off-limits:** <what the motif must not do here — including the entry's watch-outs>

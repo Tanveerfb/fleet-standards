@@ -12,5 +12,5 @@ if you want them.*
   /plugin install marketing-skills
 
 Dropped 2026-10-08: **gstack** (≈35 skills plus a ban on Claude in Chrome, which the fleet now
-uses for UI checks — `project-rules.md` §TESTING) and **superpowers** (listed twice, and its
+uses for UI checks — `rules/web.md` §TESTING) and **superpowers** (listed twice, and its
 plans commit after every task, which contradicts §GIT batching).
