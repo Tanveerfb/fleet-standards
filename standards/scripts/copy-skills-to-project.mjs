@@ -23,7 +23,12 @@
 // A stale copy is one the standard no longer has: a file under .claude/fleet/ (the folder is
 // wholly the sync's), or a file .claude/fleet/copied.json says an earlier sync wrote. That
 // manifest is how a removed skill is told from the project's own skills beside it.
+//
+// The manifest also keeps a hash of each file as written. A copy that no longer matches its
+// hash was edited in this project since the last sync, and is listed as `! edited` rather
+// than `~ changed`, so a local edit is never mistaken for an update from the master.
 
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -149,10 +154,13 @@ const slash = (p) => p.replace(/\\/g, "/");
 const plannedRel = new Set(planned.map(([target]) => slash(relative(project, target))));
 plannedRel.add(slash(relative(project, manifestPath)));
 let previous = [];
+let previousHashes = {};
 try {
   const parsed = JSON.parse(readFileSync(manifestPath, "utf8"));
   if (Array.isArray(parsed?.files)) previous = parsed.files.filter((f) => typeof f === "string");
+  if (parsed?.hashes && typeof parsed.hashes === "object" && !Array.isArray(parsed.hashes)) previousHashes = parsed.hashes;
 } catch {}
+const hash = (text) => createHash("sha256").update(text).digest("hex");
 const fleetDir = join(project, ".claude", "fleet");
 const onDisk = existsSync(fleetDir) ? files(fleetDir).map((f) => slash(join(".claude", "fleet", f))) : [];
 const stale = [...new Set([...onDisk, ...previous])]
@@ -162,7 +170,14 @@ const stale = [...new Set([...onDisk, ...previous])]
 const settingsRel = slash(relative(project, settingsPath));
 // A stale copy left in place stays on the list, so the next run still finds it.
 const recorded = [...plannedRel, ...(removeStale ? [] : stale)].filter((f) => f !== settingsRel);
-planned.push([manifestPath, JSON.stringify({ version, files: [...new Set(recorded)].sort() }, null, 2) + "\n"]);
+// Hashes of the copies as this run writes them; settings.json is merged, so it has none.
+const hashes = {};
+for (const [target, content] of planned) {
+  const rel = slash(relative(project, target));
+  if (rel !== settingsRel) hashes[rel] = hash(content);
+}
+planned.push([manifestPath, JSON.stringify({ version, files: [...new Set(recorded)].sort(), hashes }, null, 2) + "\n"]);
+const manifestRel = slash(relative(project, manifestPath));
 
 let changed = 0;
 for (const [target, content] of planned) {
@@ -170,7 +185,9 @@ for (const [target, content] of planned) {
   const before = existsSync(target) ? readFileSync(target, "utf8") : null;
   if (before === content) continue;
   changed++;
-  console.log(`${before === null ? "+ new    " : "~ changed"} ${rel}`);
+  const known = previousHashes[slash(rel)];
+  const edited = before !== null && typeof known === "string" && hash(before) !== known && slash(rel) !== manifestRel;
+  console.log(`${before === null ? "+ new    " : edited ? "! edited " : "~ changed"} ${rel}${edited ? " (edited in this project since the last sync)" : ""}`);
   if (!check) {
     mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, content);

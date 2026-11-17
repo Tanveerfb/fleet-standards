@@ -9,6 +9,7 @@
 // separate, paid suite: standards/evals/README.md.
 
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, appendFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
@@ -585,6 +586,25 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   check("process-x.md is copied for the rules to point at", existsSync(join(project, ".claude", "fleet", "process-x.md")));
   copy();
   check("a second run does not register either twice", hookEntries(project).length === 1 && compactEntries(project).length === 1);
+
+  // A local edit told from a master update (Fable's review, R7).
+  {
+    const manifest = join(project, ".claude", "fleet", "copied.json");
+    const relay = join(project, ".claude", "skills", "relay", "SKILL.md");
+    const original = readFileSync(relay, "utf8");
+    check("copied.json keeps a hash per copy", typeof JSON.parse(readFileSync(manifest, "utf8")).hashes?.[".claude/skills/relay/SKILL.md"] === "string");
+    writeFileSync(relay, original + "\nA local edit.\n");
+    const edited = copy("--check");
+    check("a copy edited in the project: listed as edited", edited.stdout.replaceAll("\\", "/").includes("! edited  .claude/skills/relay/SKILL.md"), edited.stdout);
+    // As if the last sync had written this text: then the master moved, not the project.
+    const m = JSON.parse(readFileSync(manifest, "utf8"));
+    m.hashes[".claude/skills/relay/SKILL.md"] = createHash("sha256").update(readFileSync(relay, "utf8")).digest("hex");
+    writeFileSync(manifest, JSON.stringify(m));
+    const updated = copy("--check");
+    check("a copy the master changed: listed as changed", updated.stdout.replaceAll("\\", "/").includes("~ changed .claude/skills/relay/SKILL.md"), updated.stdout);
+    writeFileSync(relay, original);
+    copy();
+  }
 
   // Copies the standard has since dropped (audit B10).
   {

@@ -255,9 +255,11 @@ the owner declining the copies**: ask as Step 4 (a) says, and never copy them un
 node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check
 ```
 
-`--check` writes nothing and lists what would change. **A copy that changed although the
-master did not was edited in place** — treat it like an edited rules file (Step 1): show the
-diff, offer `propose-standard`, never overwrite it silently. **A `- stale` line** is a copy
+`--check` writes nothing and lists what would change: `~ changed` is the master's update,
+**`! edited` is a copy edited in this project since the last sync** (its hash in
+`copied.json` no longer matches). Treat an edited one like an edited rules file (Step 1): show
+the diff, offer `propose-standard`, never overwrite it silently. A sync from before the
+hashes cannot tell the two apart once: read the diff. **A `- stale` line** is a copy
 the standard has since dropped — a retired skill, a reference file that went: name each to
 the owner, and on their yes run the command once more with `--remove-stale`. A project's own
 skills are never on that list (`.claude/fleet/copied.json` records what the sync wrote).

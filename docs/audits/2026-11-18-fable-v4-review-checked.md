@@ -84,7 +84,7 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 | R4 | No `git add` in sync on a single-branch project | 5 | **built 2026-11-18:** the executable bit waits for the commit |
 | R5 | Guard fixes, with tests | 10 | **built 2026-11-18:** runners and `timeout` read through, quoted interpreter paths, the `-replace` script block, `sc.exe`, `perl -I`, `ruby -r`, the ask-first message; 12 new tests. 10d stays, documented in the header |
 | R6 | Other agents' scripts: the scripts folder installed, the path, no prompt without a terminal, three crashes, the usage line | 8, 16d-f | **built 2026-11-18:** the absolute path, `scripts` and the master `skills` installed, a skip with no terminal, folders only in `skills/`, a master with no version line stops cleanly, "AHEAD" no longer says to copy back, the usage line; two installer tests. The crash fixes are read, not tested |
-| R7 | A hash per file in `copied.json` | 9 | to build |
+| R7 | A hash per file in `copied.json` | 9 | **built 2026-11-18:** `! edited` against `~ changed`; three tests |
 | R8 | Two core sentences: "documentation is the intent" scoped; a granted divergence is settled | 6, 7 | to build |
 | R9 | Reference pass; no private material in a proposal; the `CLAUDE.md` template by kind; `git init` order; a project's own `rules/` | 13, 11, 16a-c | to build |
 | R10 | A declined option recorded, so no sync asks again | 12 | to build |
