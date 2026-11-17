@@ -78,7 +78,8 @@ the answers between.
 **Keeping in step with the master.** The `fleet` plugin (marketplace `tanveerfb`, from
 `Tanveerfb/fleet-standards`) carries this file, its templates and the fleet skills. Its
 `sync-standards` skill brings a project's copy up to date; `propose-standard` sends a change
-or request back as an issue on `fleet-standards`. **Never edit this file in place inside a project** —
+or request back as an issue on `fleet-standards`. **Never edit the standard's files in place
+inside a project** — this file, `rules/`, the skill copies, or anything under `.claude/fleet/`:
 a fix made here and not proposed is lost at the next sync, and every other project misses it.
 
 ---
