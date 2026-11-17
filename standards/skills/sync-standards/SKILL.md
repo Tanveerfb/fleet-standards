@@ -97,8 +97,10 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
   project that does not load the Firebase option is moot the same way.
 
-**Then audit the transition, read-only.** Run every check in Step 4 (item 4, a to m) against
-the project without changing anything, and add each *What a project must change* item from
+**Then audit the transition, read-only.** Run Step 4's item 0 (a `rules/` folder that is not
+the standard's) and every check in item 4, a to m, against the project without changing
+anything. A `rules/` stop goes at the top of the report, so the owner sees it before saying
+yes, and add each *What a project must change* item from
 the changelog entries it is behind. The result is **one upgrade report**, a line per item:
 what is there now, what the sync will do, or what is left for later and to whom (history in
 `docs/STATUS.md` goes at the next checkpoint: say how many entries). Items that need the
@@ -118,10 +120,15 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    the standard's only if every file in it is one the master has, opening with
    `# Fleet rules —`. A folder that holds anything else — a game's rules, Firestore or
    storage rules, lint rules — **stops the sync**: say what is there and ask the owner how to
-   proceed. Never write into it, move it or rename it unasked. The way forward to offer: move
-   the project's own files to a folder named for what they are (`game-rules/`,
-   `firestore/`), with `git mv`, and update every path that points at them (configs, imports,
-   `CLAUDE.md`), then build or run what reads them before the sync goes on.
+   proceed. Never write into it, move it or rename it unasked. **Find what writes the folder,
+   not only what reads it:** search the repository's scripts, `package.json` scripts, the
+   hooks in `.claude/settings.json` and `.githooks/`, and CI for the path `rules/`. A file
+   regenerated each session (a mirror from another project) comes back after a move unless
+   its writer changes too. The way forward to offer: move the project's own files to a
+   folder named for what they are (`game-rules/`, `firestore/`), with `git mv`; change each
+   writer and every path that points at them (configs, imports, `CLAUDE.md`, the README);
+   then run the writers and build or run what reads them, and check nothing reappeared in
+   `rules/`, before the sync goes on.
 1. Copy `${CLAUDE_PLUGIN_ROOT}/project-rules.md` over the project's copy, and each file the
    *Rules* line declares from `${CLAUDE_PLUGIN_ROOT}/rules/` into the project's `rules/`.
    Copy only what is declared. **A project with no *Rules* line** is coming from the single
