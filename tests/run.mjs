@@ -31,6 +31,9 @@ function section(title) {
   console.log(`\n# ${title}`);
 }
 const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { encoding: "utf8", ...opts });
+// A hook that says nothing on purpose exits 0; one that crashed also says nothing, so a
+// silence check that ignores the exit status passes on a crash (audit B9).
+const silent = (result) => result.stdout === "" && result.status === 0;
 
 /** Every git-tracked file, so ignored and generated files never count. */
 const tracked = run("git", ["-C", repo, "ls-files", "-z"]).stdout.split("\0").filter(Boolean);
@@ -244,9 +247,9 @@ section("Relay after compact (standards/scripts/after-compact.mjs)");
   check("compact: emits valid SessionStart JSON asking for the full relay", context(compact).includes("after a compact") && context(compact).includes("full relay skill"));
   check("compact: says relay comes before a waiting request", context(compact).includes("even when a request from the owner is already waiting"));
   check("resume: names the resume", context(hook(withRules, JSON.stringify({ source: "resume" }))).includes("after a resume"));
-  check("startup: silent", hook(withStatus, JSON.stringify({ source: "startup" })).stdout === "");
-  check("clear: silent", hook(withStatus, JSON.stringify({ source: "clear" })).stdout === "");
-  check("a project with no status doc and no rules: silent", hook(bare, JSON.stringify({ source: "compact" })).stdout === "");
+  check("startup: silent", silent(hook(withStatus, JSON.stringify({ source: "startup" }))));
+  check("clear: silent", silent(hook(withStatus, JSON.stringify({ source: "clear" }))));
+  check("a project with no status doc and no rules: silent", silent(hook(bare, JSON.stringify({ source: "compact" }))));
   const broken = hook(withStatus, "{not json");
   check("unreadable input: silent, exit 0", broken.stdout === "" && broken.status === 0);
 
@@ -258,7 +261,7 @@ section("Relay after compact (standards/scripts/after-compact.mjs)");
   const ownScript = join(own, ".claude", "fleet", "scripts", "after-compact.mjs");
   mkdirSync(dirname(ownScript), { recursive: true });
   cpSync(script, ownScript);
-  check("the plugin's copy is silent where the project registers its own", hook(own, JSON.stringify({ source: "compact" })).stdout === "");
+  check("the plugin's copy is silent where the project registers its own", silent(hook(own, JSON.stringify({ source: "compact" }))));
   check("the project's own copy speaks", context(hook(own, JSON.stringify({ source: "compact" }), ownScript)).includes("full relay skill"));
 }
 
@@ -289,10 +292,10 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
     ctx = JSON.parse(out.stdout).hookSpecificOutput.additionalContext;
   } catch {}
   check("behind: emits valid SessionStart JSON naming both versions", ctx.includes("v3.4.0") && ctx.includes(`v${rulesVersion}`));
-  check("current: silent", hook(current).stdout === "" && hook(current).status === 0);
-  check("not on the standard: silent", hook(none).stdout === "");
+  check("current: silent", silent(hook(current)));
+  check("not on the standard: silent", silent(hook(none)));
   check("decline is recorded", decline(rulesVersion).status === 0 && JSON.parse(readFileSync(state, "utf8"))[behind] === rulesVersion);
-  check("declined version: silent", hook(behind).stdout === "");
+  check("declined version: silent", silent(hook(behind)));
   decline("3.5.0");
   check("newer than the declined version: speaks again", hook(behind).stdout.includes("additionalContext"));
   check("no data folder: falls back to asking every session", hook(behind, false).stdout.includes("This reminder returns next session"));
@@ -315,7 +318,7 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
     "@project-rules.md\n@rules/app.md\n@rules/node.md\n- **Rules**: app, node · Options: ai\nRead `rules/options/ai.md` before AI work.\n",
     ["rules/app.md", "rules/node.md", "rules/options/ai.md"],
   );
-  check("declared set whole, ai read on demand: silent", hook(whole).stdout === "");
+  check("declared set whole, ai read on demand: silent", silent(hook(whole)));
   const missing = setProject("set-missing", "@rules/app.md\n@rules/web.md\n- **Rules**: app, web\n", ["rules/app.md"]);
   const said = hook(missing).stdout;
   check("a declared file missing on a current core: speaks", said.includes("rules/web.md is declared but missing"));
@@ -326,7 +329,7 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   const unknownName = setProject("set-unknown", "@rules/app.md\n- **Rules**: app, gaem\n", ["rules/app.md"]);
   check("a name the standard has no file for: speaks", hook(unknownName).stdout.includes("rules/gaem.md, which the standard does not have"));
   const noLine = setProject("set-no-line", "# A v3 project\n", []);
-  check("no Rules line: silent (the version check covers it)", hook(noLine).stdout === "");
+  check("no Rules line: silent (the version check covers it)", silent(hook(noLine)));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -537,6 +540,65 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
   writeFileSync(join(existing, ".claude", "settings.json"), "{not json");
   const broken = run("node", [script, existing]);
   check("unreadable settings are left alone, with a warning", readFileSync(join(existing, ".claude", "settings.json"), "utf8") === "{not json" && broken.stdout.includes("register the hooks by hand"));
+}
+
+// ---------------------------------------------------------------------------------------------
+section("Every registered hook names a script that exists");
+{
+  // Rename a script and every other test still passes; these do not.
+  const scriptsIn = (text) => [...text.matchAll(/scripts\/([\w-]+\.mjs)/g)].map((m) => m[1]);
+  const plugin = scriptsIn(read("standards/hooks/hooks.json"));
+  check(`hooks.json: ${plugin.length} commands, each script in standards/scripts/`, plugin.length >= 3 && plugin.every((f) => existsSync(join(S, "scripts", f))), plugin.join(", "));
+  const own = scriptsIn(read(".claude/settings.json"));
+  check(`this repository's .claude/settings.json: ${own.length} command(s), each script exists`, own.length >= 1 && own.every((f) => existsSync(join(S, "scripts", f))), own.join(", "));
+  const hooksBlock = /const HOOKS = \[([\s\S]*?)\];/.exec(read("standards/scripts/copy-skills-to-project.mjs"))?.[1] ?? "";
+  const copied = [...hooksBlock.matchAll(/file: "([\w-]+\.mjs)"/g)].map((m) => m[1]);
+  check(`the copy script's ${copied.length} hooks each exist`, copied.length >= 2 && copied.every((f) => existsSync(join(S, "scripts", f))), copied.join(", "));
+}
+
+// ---------------------------------------------------------------------------------------------
+section("Report and copy across projects (standards/scripts/sync-rules.mjs)");
+{
+  const script = join(S, "scripts", "sync-rules.mjs");
+  const projects = join(scratch, "projects");
+  const make = (name, version, claude) => {
+    const dir = join(projects, name);
+    mkdirSync(dir, { recursive: true });
+    if (version) writeFileSync(join(dir, "project-rules.md"), `**Version:** ${version}\n`);
+    if (claude) writeFileSync(join(dir, "CLAUDE.md"), claude);
+    return dir;
+  };
+  const declared = make("a-declared", "3.0.0", "- **Rules**: app, node · Options: none\n");
+  const undeclared = make("b-undeclared", "3.0.0", "# no rules line\n");
+  make("c-current", rulesVersion);
+  make("d-none");
+  const report = run("node", [script, projects]);
+  const row = (name) => report.stdout.split("\n").find((l) => l.startsWith(name)) ?? "";
+  check("report: exit 0", report.status === 0, report.stderr);
+  check("report: behind, current and none told apart", row("a-declared").includes("behind") && row("c-current").includes("current") && row("d-none").includes("none"));
+  check("report: copies nothing", readFileSync(join(declared, "project-rules.md"), "utf8").includes("3.0.0") && !existsSync(join(undeclared, "rules")));
+  check("a missing projects folder: exit 1", run("node", [script, join(scratch, "no-such-folder")]).status === 1);
+}
+
+// ---------------------------------------------------------------------------------------------
+section("Install for other agents (standards/scripts/install-skills.mjs)");
+{
+  const script = join(S, "scripts", "install-skills.mjs");
+  const home = join(scratch, "home");
+  mkdirSync(home);
+  const install = () => run("node", [script, "--yes"], { env: { ...process.env, HOME: home, USERPROFILE: home } });
+  const first = install();
+  const fleet = join(home, ".agents", "fleet");
+  const skills = readdirSync(join(S, "skills"));
+  check("exit 0", first.status === 0, first.stderr);
+  check("the core and the rules files land in ~/.agents/fleet", existsSync(join(fleet, "project-rules.md")) && existsSync(join(fleet, "rules", "web.md")) && existsSync(join(fleet, "rules", "options", "ai.md")));
+  check("INSTALLED_FROM.json names this checkout", JSON.parse(readFileSync(join(fleet, "INSTALLED_FROM.json"), "utf8")).repo === repo);
+  check(
+    `all ${skills.length} skills land in both skill folders`,
+    skills.every((n) => existsSync(join(home, ".agents", "skills", n, "SKILL.md")) && existsSync(join(home, ".codex", "skills", n, "SKILL.md"))),
+  );
+  const second = install();
+  check("a second run finds every skill current", (second.stdout.match(/already current/g) ?? []).length === skills.length * 2, second.stdout);
 }
 
 rmSync(scratch, { recursive: true, force: true });
