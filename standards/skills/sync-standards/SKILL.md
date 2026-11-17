@@ -88,7 +88,11 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
 - **Section references.** If the jump crosses v2 → v3, every `§<number>` in this project's
   docs becomes a name. Count them: `grep -rn "§[0-9]" --include=*.md .`
 - **Granted exceptions this touches.** Read `conventions.md`: an exception against a rule
-  that changed may now be moot, or may now need restating.
+  that changed may now be moot, or may now need restating. **A moot one is offered for
+  removal**, quoted with the rule that made it moot, and removed on the owner's yes in Step 4
+  (a line in `decisions.md` says why). Known case: exceptions against §MOTION, moot since
+  v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
+  project that does not load the Firebase option is moot the same way.
 
 ## Step 3 — Ask once
 
