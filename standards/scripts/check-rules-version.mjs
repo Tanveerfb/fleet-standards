@@ -2,9 +2,10 @@
 // Fleet plugin startup check (hooks/hooks.json, SessionStart "startup").
 //
 // Tells the agent when the project's project-rules.md is older than the plugin's copy, so it
-// can offer sync-standards. Silent when the project is current, when it is not on the standard
-// at all, and when the owner already declined this version for this project. Never blocks a
-// session: any error ends in silence.
+// can offer sync-standards, and when the files the project declares on the Rules line of its
+// CLAUDE.md are missing or not imported (rules-line.mjs). Silent when the project is current
+// and whole, when it is not on the standard at all, and when the owner already declined this
+// version for this project. Never blocks a session: any error ends in silence.
 //
 //   node check-rules-version.mjs
 //       Hook mode. Reads CLAUDE_PROJECT_DIR, CLAUDE_PLUGIN_ROOT and CLAUDE_PLUGIN_DATA.
@@ -13,9 +14,10 @@
 //       command, with the paths filled in, because the agent's shell does not get the
 //       plugin's environment variables.
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { rulesProblems } from "./rules-line.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const VERSION_LINE = /^\*\*Version:\*\*\s*(\d+)\.(\d+)\.(\d+)/m;
@@ -66,6 +68,7 @@ try {
   const pluginRoot = process.env.CLAUDE_PLUGIN_ROOT || resolve(here, "..");
   const project = readVersion(join(projectDir, "project-rules.md"));
   const master = readVersion(join(pluginRoot, "project-rules.md"));
+  const lines = [];
 
   if (project && master && cmp(project, master) < 0) {
     const dataDir = process.env.CLAUDE_PLUGIN_DATA;
@@ -73,20 +76,46 @@ try {
     const declined = stateFile ? parse(readState(stateFile)[projectDir]) : null;
 
     if (!declined || cmp(declined, master) < 0) {
-      const lines = [
+      lines.push(
         `Fleet standard: this project's project-rules.md is v${show(project)}; the fleet plugin carries v${show(master)}.`,
         "Before other work, ask the owner with the question tool whether to sync now (first option, recommended: run sync-standards now; second: not now).",
         "On yes, run the sync-standards skill. It explains what changed and asks again before copying anything.",
         stateFile
           ? `On no, record it so this is not raised again until a newer version ships: node "${join(here, "check-rules-version.mjs")}" --decline "${stateFile}" "${projectDir}" ${show(master)}`
           : "On no, carry on. This reminder returns next session.",
-      ];
-      process.stdout.write(
-        JSON.stringify({
-          hookSpecificOutput: { hookEventName: "SessionStart", additionalContext: lines.join("\n") },
-        }),
       );
     }
+  }
+
+  // The declared set (§SCOPE): a project on the current core can still be missing a file it
+  // declares, or import one it does not. Not declinable: it is a fault, not a newer version.
+  if (project) {
+    let claude = null;
+    try {
+      claude = readFileSync(join(projectDir, "CLAUDE.md"), "utf8");
+    } catch {}
+    const problems = claude
+      ? rulesProblems(
+          claude,
+          (file) => existsSync(join(projectDir, file)),
+          (file) => existsSync(join(pluginRoot, file)),
+        )
+      : [];
+    if (problems.length) {
+      lines.push(
+        "Fleet standard: this project's rules set does not match the Rules line in its CLAUDE.md:",
+        ...problems.map((p) => `- ${p}`),
+        "Tell the owner in one line before other work, and offer sync-standards, which puts the declared set in place.",
+      );
+    }
+  }
+
+  if (lines.length) {
+    process.stdout.write(
+      JSON.stringify({
+        hookSpecificOutput: { hookEventName: "SessionStart", additionalContext: lines.join("\n") },
+      }),
+    );
   }
 } catch {
   // Never block a session over a reminder.

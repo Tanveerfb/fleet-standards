@@ -199,6 +199,12 @@ Behind → it goes under *the user's call* in the report, offering `sync-standar
 only: relay never syncs.** If the plugin's startup check already raised it this session, do
 not raise it twice. If no master copy can be reached, say so in one line.
 
+**The declared set, current core or not.** If `CLAUDE.md` has a *Rules* line (§SCOPE), every
+file it declares is in the project's `rules/` and imported with an `@rules/…` line —
+`rules/options/ai.md` excepted, which is read on demand and named in a line instead — and
+every `@rules/…` import is on the line. A mismatch goes under *the user's call*, offering
+`sync-standards`. The startup check reports the same; do not raise it twice.
+
 **A studio that appeared since the project was asked.** Also read the owner's
 `~/.claude/CLAUDE.md` for a `Studio credit:` line (§CREDIT; a cloud session has no such file,
 so skip this there). If one exists and the project's `CLAUDE.md` has no answer to it — no

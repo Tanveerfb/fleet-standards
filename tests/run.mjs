@@ -12,7 +12,7 @@ import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, appendFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const S = join(repo, "standards");
@@ -299,6 +299,51 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   check("bad --decline arguments: exit 1", run("node", [script, "--decline", "x", "y"]).status === 1);
   writeFileSync(state, "{not json");
   check("corrupt state file: still speaks, never crashes", hook(behind).status === 0 && hook(behind).stdout.includes("additionalContext"));
+
+  // The declared set (rules-line.mjs): a current core with the set wrong is not silent.
+  const setProject = (name, claude, files) => {
+    const dir = rules(join(scratch, name), rulesVersion);
+    writeFileSync(join(dir, "CLAUDE.md"), claude);
+    for (const f of files) {
+      mkdirSync(dirname(join(dir, f)), { recursive: true });
+      writeFileSync(join(dir, f), "x\n");
+    }
+    return dir;
+  };
+  const whole = setProject(
+    "set-whole",
+    "@project-rules.md\n@rules/app.md\n@rules/node.md\n- **Rules**: app, node · Options: ai\nRead `rules/options/ai.md` before AI work.\n",
+    ["rules/app.md", "rules/node.md", "rules/options/ai.md"],
+  );
+  check("declared set whole, ai read on demand: silent", hook(whole).stdout === "");
+  const missing = setProject("set-missing", "@rules/app.md\n@rules/web.md\n- **Rules**: app, web\n", ["rules/app.md"]);
+  const said = hook(missing).stdout;
+  check("a declared file missing on a current core: speaks", said.includes("rules/web.md is declared but missing"));
+  const stray = setProject("set-stray", "@rules/app.md\n@rules/ui.md\n- **Rules**: app\n", ["rules/app.md", "rules/ui.md"]);
+  check("an import the Rules line does not declare: speaks", hook(stray).stdout.includes("imports rules/ui.md, which the Rules line does not declare"));
+  const unimported = setProject("set-unimported", "@rules/app.md\n- **Rules**: app, node\n", ["rules/app.md", "rules/node.md"]);
+  check("a declared file not imported: speaks", hook(unimported).stdout.includes("rules/node.md is declared but not imported"));
+  const unknownName = setProject("set-unknown", "@rules/app.md\n- **Rules**: app, gaem\n", ["rules/app.md"]);
+  check("a name the standard has no file for: speaks", hook(unknownName).stdout.includes("rules/gaem.md, which the standard does not have"));
+  const noLine = setProject("set-no-line", "# A v3 project\n", []);
+  check("no Rules line: silent (the version check covers it)", hook(noLine).stdout === "");
+}
+
+// ---------------------------------------------------------------------------------------------
+section("The Rules line reader (standards/scripts/rules-line.mjs)");
+{
+  const { parseRulesLine, rulesImports } = await import(pathToFileURL(join(S, "scripts", "rules-line.mjs")).href);
+  const p = parseRulesLine("- **Rules**: app, UI, node, web · Options: Firebase, trello\n");
+  check(
+    "names are lower-cased, options under rules/options/",
+    JSON.stringify(p?.files) ===
+      JSON.stringify(["rules/app.md", "rules/ui.md", "rules/node.md", "rules/web.md", "rules/options/firebase.md", "rules/options/trello.md"]),
+    JSON.stringify(p),
+  );
+  check("Options: none is no options", JSON.stringify(parseRulesLine("Rules: non-application · Options: none")?.files) === JSON.stringify(["rules/non-application.md"]));
+  check("a name that is not a file name is reported, not dropped", JSON.stringify(parseRulesLine("Rules: app, ui/x")?.unknown) === JSON.stringify(["ui/x"]));
+  check("no line: null", parseRulesLine("# nothing here") === null);
+  check("imports read one per line", JSON.stringify(rulesImports("@project-rules.md\n@rules/app.md\n@./rules/ui.md\ntext @rules/no.md\n")) === JSON.stringify(["rules/app.md", "rules/ui.md"]));
 }
 
 // ---------------------------------------------------------------------------------------------
