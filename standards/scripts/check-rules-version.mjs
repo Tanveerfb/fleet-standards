@@ -18,21 +18,16 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { rulesProblems } from "./rules-line.mjs";
+import { compareVersions, versionIn } from "./standard.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const VERSION_LINE = /^\*\*Version:\*\*\s*(\d+)\.(\d+)\.(\d+)/m;
-
-const parse = (s) => {
-  const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(s ?? "");
-  return m ? m.slice(1).map(Number) : null;
-};
-const cmp = (a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
-const show = (v) => v.join(".");
+const parse = (s) => (/^\d+\.\d+\.\d+$/.test(s ?? "") ? s : null);
+const cmp = compareVersions;
+const show = (v) => v;
 
 function readVersion(file) {
   try {
-    const m = readFileSync(file, "utf8").match(VERSION_LINE);
-    return m ? m.slice(1, 4).map(Number) : null;
+    return versionIn(readFileSync(file, "utf8"));
   } catch {
     return null;
   }

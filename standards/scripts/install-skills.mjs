@@ -13,12 +13,12 @@ import { homedir } from "node:os";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
+import { REFERENCE } from "./standard.mjs";
 
 const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repo = resolve(standards, "..");
 const skillTargets = [join(homedir(), ".agents", "skills"), join(homedir(), ".codex", "skills")];
 const fleetRoot = join(homedir(), ".agents", "fleet");
-const reference = ["project-rules.md", "rules", "motifs.md", "motif-gallery.html", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
 const yes = process.argv.includes("--yes");
 const rl = createInterface({ input: process.stdin, output: process.stdout });
 
@@ -52,7 +52,7 @@ function installSkill(from, to) {
 
 // Reference files are overwritten without asking: they are copies of this repo by definition.
 mkdirSync(fleetRoot, { recursive: true });
-for (const item of reference) {
+for (const item of REFERENCE) {
   cpSync(join(standards, item), join(fleetRoot, item), { recursive: true });
 }
 

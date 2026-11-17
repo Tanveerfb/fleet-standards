@@ -344,6 +344,26 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
 }
 
 // ---------------------------------------------------------------------------------------------
+section("One reference list, one version reader, the manifests (standards/scripts/standard.mjs)");
+{
+  const { REFERENCE, versionIn, compareVersions } = await import(pathToFileURL(join(S, "scripts", "standard.mjs")).href);
+  const missingRef = REFERENCE.filter((f) => !existsSync(join(S, f)));
+  check(`the ${REFERENCE.length} reference files and folders exist`, missingRef.length === 0, missingRef.join(", "));
+  check("versionIn reads the line", versionIn("# Rules\n**Version:** 3.10.2\n") === "3.10.2");
+  check("versionIn ignores a version that does not start a line", versionIn("see **Version:** 1.2.3") === null);
+  check("versionIn rejects a four-part version", versionIn("**Version:** 3.9.0.1") === null);
+  check("compareVersions is numeric (3.10.0 after 3.9.9)", compareVersions("3.10.0", "3.9.9") > 0 && compareVersions("4.0.0", "4.0.0") === 0);
+  const skills = readdirSync(join(S, "skills")).sort();
+  for (const manifest of [".claude-plugin/marketplace.json", "standards/.claude-plugin/plugin.json"]) {
+    const text = read(manifest);
+    const unnamed = skills.filter((s) => !text.includes(s));
+    check(`${manifest} names all ${skills.length} skills`, unnamed.length === 0, unnamed.join(", "));
+  }
+  const scriptsUsingAList = ["copy-skills-to-project.mjs", "install-skills.mjs"].filter((f) => /\[\s*"project-rules\.md",/.test(read(`standards/scripts/${f}`)));
+  check("no script keeps its own copy of the reference list", scriptsUsingAList.length === 0, scriptsUsingAList.join(", "));
+}
+
+// ---------------------------------------------------------------------------------------------
 section("The Rules line reader (standards/scripts/rules-line.mjs)");
 {
   const { parseRulesLine, rulesImports } = await import(pathToFileURL(join(S, "scripts", "rules-line.mjs")).href);

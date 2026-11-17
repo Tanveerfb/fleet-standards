@@ -10,6 +10,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { rulesProblems } from "./rules-line.mjs";
+import { compareVersions, versionIn } from "./standard.mjs";
 
 const standards = join(dirname(fileURLToPath(import.meta.url)), "..");
 const master = join(standards, "project-rules.md");
@@ -17,22 +18,8 @@ const args = process.argv.slice(2);
 const root = resolve(args.find((a) => !a.startsWith("--")) ?? process.env.PROJECTS_DIR ?? "E:\\Projects");
 const commonDir = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-/** Reads the `**Version:** x.y.z` line from a rules file, or null if absent. */
-function versionOf(file) {
-  const match = readFileSync(file, "utf8").match(/^\*\*Version:\*\*\s*([\d.]+)/m);
-  return match ? match[1] : null;
-}
-
-/** Compares dotted versions numerically. */
-function compare(a, b) {
-  const pa = a.split(".").map(Number);
-  const pb = b.split(".").map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const d = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (d !== 0) return d;
-  }
-  return 0;
-}
+const versionOf = (file) => versionIn(readFileSync(file, "utf8"));
+const compare = compareVersions;
 
 if (!existsSync(root)) {
   console.error(`Projects folder not found: ${root}`);

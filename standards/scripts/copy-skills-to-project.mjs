@@ -27,6 +27,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { REFERENCE, versionIn } from "./standard.mjs";
 
 const standards = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -46,9 +47,8 @@ if (!existsSync(join(project, "project-rules.md"))) {
 // new-project: a project that exists is past setup. machine-inventory: the copies are for
 // cloud sessions, which have no machine of the owner's to inventory.
 const SKIP_SKILLS = new Set(["new-project", "machine-inventory"]);
-const REFERENCE = ["project-rules.md", "rules", "motifs.md", "motif-gallery.html", "CHANGELOG.md", "adopting-the-standard.md", "process-x.md", "templates"];
 const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", ".claude/fleet/");
-const version = (readFileSync(join(standards, "project-rules.md"), "utf8").match(/^\*\*Version:\*\*\s*(\S+)/m) ?? [])[1] ?? "unknown";
+const version = versionIn(readFileSync(join(standards, "project-rules.md"), "utf8")) ?? "unknown";
 
 /** Every file under `dir`, as paths relative to it. */
 function files(dir) {
