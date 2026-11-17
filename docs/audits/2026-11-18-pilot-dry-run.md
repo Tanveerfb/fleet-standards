@@ -68,19 +68,20 @@ named `pilot P<n>`.
 
 | Pick | Problems | Outcome |
 | --- | --- | --- |
-| P1 | 1, 2: `rules/` reported before the yes, and its writers found | |
-| P3 | 3: a project's own skill is never overwritten | |
-| P4 | 4: hooks offered apart from the skill copies | |
-| P5 | 5: one way to record options, credit and Trello included | |
-| P6 | 6, 10: questions that fit the kind; a stale credit answer asked again | |
-| P7 | 7: lockfiles counted per ecosystem | |
-| P8 | 8: a project may load more than one kind | |
-| P9 | 9: 403 is a plan without protection; what a token is | |
-| P11 | 11: any recorded refusal is kept | |
-| P12 | 12: a *Rules* line even when the import is declined | |
-| P13 | 13: a git preflight before the report | |
-| P15 | 15: one rule for naming a section's file | |
-| P16 | 16: the small wording fixes | |
-| P17 | 17: a sync pointed at a master folder, for pilots | |
+| P1 | 1, 2: `rules/` reported before the yes, and its writers found | **built** `bdbc7cd` |
+| P3 | 3: a project's own skill is never overwritten | **built** `97a6b3b`: `= own`, skipped; five tests |
+| P4 | 4: hooks offered apart from the skill copies | **built** `1e66590`: `--hooks-only`; four tests |
+| P5 | 5: one way to record options, credit and Trello included | **built** `b97515a` |
+| P6 | 6, 10: questions that fit the kind; a stale credit answer asked again | **built** `dbd9c83` |
+| P7 | 7: lockfiles counted per ecosystem | **built** `0a9bdfd`, one commit with P9 by mistake |
+| P8 | 8: a project may load more than one kind | **built** `c637570`: a §SCOPE sentence and the sync |
+| P9 | 9: 403 is a plan without protection; what a token is | **built** `0a9bdfd` |
+| P11 | 11: any recorded refusal is kept | **built** `cbdbbb3` |
+| P12 | 12: a *Rules* line even when the import is declined | **built** `3e52fa5`: `· read, not imported`, read by `rules-line.mjs`; four tests |
+| P13 | 13: a git preflight before the report | **built** `f1b433a`, with the questions asked in Step 3 |
+| P15 | 15: one rule for naming a section's file | **built** `ec1cf6a`: the standard names the file, a project the name alone |
+| P16 | 16: the small wording fixes | **built** `efcc62c` |
+| P17 | 17: a sync pointed at a master folder, for pilots | **built** `bdd832f` |
 
-Not picked: 14.
+Not picked: 14. **Every pick is built.** Not done: a real sync of any pilot; the fixes are
+written and tested by `tests/run.mjs` where they touch a script, never run on a project.
