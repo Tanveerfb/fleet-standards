@@ -24,6 +24,26 @@ dependency is installed without the owner's OK** (§AGENTS), and every package's
 version and API is checked first — npm for the version, Context7 or the provider's docs for
 the API (§PACKAGES). AI SDKs change fast; never write their code from memory.
 
+## Which kind of project
+
+Read the *Rules* line in `CLAUDE.md` (§SCOPE). The steps below are written for a **web
+project**; for the others, read them with these changes:
+
+- **Local Node tool** — no Route Handlers or Server Actions: the calls live in the tool's
+  own modules, behind the same `lib/ai/` adapter. Step 3 is between the AI SDK and a
+  provider's own SDK; Firebase AI Logic is a client SDK for apps and is not offered. Keys
+  come from an untracked env file (§SECURITY). Step 5's per-user limits become an output cap
+  per task and a spend limit set at the provider, which the owner confirms. Local models
+  (Step 6) fit well here. Step 9 runs the typecheck and the tool itself, not `npm run build`.
+- **Tool in another language** — the provider's SDK for that language, the same adapter
+  shape (an interface in domain terms, a mock, a model map), and the tool's own test run.
+- **Game** — a key is never shipped in a build. A game that calls a hosted model needs a
+  server between it and the provider: ask the owner before going further. A local model
+  over the engine's HTTP client is the exception, for development or a PC-only build.
+- **Non-application** — no code to scaffold. Record the platform's AI feature and its
+  settings (Steps 2, 3 and 8, with `environment.md` naming what data reaches it); Steps 4 to
+  7 and 9 do not apply.
+
 ## Step 1 — What is already here
 
 Read `CLAUDE.md`, `decisions.md`, `package.json`, and search the code for existing AI use:

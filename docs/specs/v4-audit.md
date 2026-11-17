@@ -210,7 +210,7 @@ the owner wants any done now.
 | --- | --- | --- |
 | A1 to A15 | all | **built 2026-11-13:** A1, A5, A6, A7, A8, A9, A12, A13, A15. **Built 2026-11-17:** A2 and A4 (with E1; bare `CPR` kept and given a row in §GIT). A3 (§GIT names the checkpoint's follow-up commit as the one exception). A10 (the template's "What shipped" became *Current state*; the mistake worth keeping moved to the log template). A11 (one list in Step 2, snapshot or log for each item). A14 (with E4). Group A is built |
 | B1 to B12 | all | B1 to B4 built 2026-11-13. **Built 2026-11-17:** B5 (one reader of the *Rules* line, `scripts/rules-line.mjs`, used by the startup check; relay Step 4.6 checks the same), B6, B7 (the owner: "Yes, apply"; triggers left as they are), B8 (fails in CI instead of skipping, until I4 removes it), B9 (the tests found `sync-rules.mjs --apply` dying on its second piped answer, exit 13: one more reason for I3), B10 (`.claude/fleet/copied.json`; `--remove-stale` on the owner's yes), B11 (on the report, `--apply` being gone with I3), B12. Group B is built |
-| C1 to C9 | all | **built 2026-11-17:** C1 (`new-project` 10,816 → 15,341 bytes; a skill, loaded only when run), C4 (built before C2, which adds to the same step). C2, C3, C5, C6, C7 (the skill stops; the pilots in phase 7 still look first). To build: C8, C9 |
+| C1 to C9 | all | **built 2026-11-17:** C1 (`new-project` 10,816 → 15,341 bytes; a skill, loaded only when run), C4 (built before C2, which adds to the same step). C2, C3, C5, C6, C7 (the skill stops; the pilots in phase 7 still look first), C8. To build: C9 |
 | D1 to D12 | all | to build |
 | E1 to E11 | all | **built 2026-11-17:** E1, E4 (`web` 10,427 → 8,094 bytes). To build: E2, E3, E5 to E11 |
 | F1 to F6 | picked | to build |

@@ -117,8 +117,12 @@ watch — and get it confirmed.
 instead of an HTML page, and check each at real size and at the size it is really seen at.
 The rest of this step — show, revise, repeat until locked — is unchanged.
 
-Otherwise, build a static HTML mockup in the gitignored `public/_mockups/` (§OWNER), rendering
-desktop and a 390px phone from the same markup. It shows:
+Otherwise, build a static HTML mockup **where the project's rules files say mockups live**
+(§OWNER): the gitignored `public/_mockups/` in a web project; `_mockups/` at the root of a
+repository without application code or a Node tool with no dev server; for a game, engine
+screenshots side by side, or HTML when the owner is on a phone, in `docs/mockups/`
+(`rules/game.md`). Render desktop and a 390px phone from the same markup, except for a
+PC-only game. It shows:
 
 - the motif in its **signature places** — hero, an empty state, the moment the product
   exists for;
@@ -148,6 +152,8 @@ genuinely light fills, each ratio noted. Fix the mockup if any fail.
    off-limits, colour schemes, palette sources.
 2. **`decisions.md`** — a dated entry: the motif, the way in, the alternatives offered and
    why they lost.
+3. **The `Motif:` line in `CLAUDE.md`** — `family — variant`, written or, on a redesign,
+   replaced (the old line moves to `docs/record/root.md`, §DOCS).
 
 From here the motif is a standing rule for every visual change in this project.
 
@@ -156,12 +162,15 @@ From here the motif is a standing rule for every visual change in this project.
 Offer, without starting any of it unasked:
 
 - a **starter kit** or a **full motif spec** (`motifs.md` → *Three levels of detail*);
-- **tokens** in `@theme` derived from the locked mockup;
-- the **component round** (§SHADCN) — the next mockup round, and not a quick one: the core
-  kit and the signature component designed in the motif, two or three creative options per
-  core component, every state, desktop and phone. **No stock component restyled with tokens
-  counts as done** — the generic test in §SHADCN applies. Built afterwards on shadcn's
-  behaviour primitives, keyboard and focus intact.
+- **tokens** derived from the locked mockup, where the project keeps them: `@theme` in a
+  web project; a code file the engine reads in a game (`rules/game.md`); the platform's
+  theme settings for a repository without application code;
+- the **component round** — the next mockup round, and not a quick one: the core kit and the
+  signature component designed in the motif, two or three creative options per core
+  component, every state, desktop and phone (§COMPONENTS). **No stock component restyled
+  with tokens counts as done.** In a web project the generic test in §SHADCN applies, and
+  the kit is built afterwards on shadcn's behaviour primitives, keyboard and focus intact;
+  elsewhere, on what the engine or platform provides.
 
 No git step of its own; git follows §GIT. Report: the motif and variant, where it is recorded, the locked mockup's
 path, and what is offered next.
