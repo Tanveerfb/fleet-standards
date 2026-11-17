@@ -16,11 +16,11 @@ a full session, and the judge is a small model — so it is not part of CI. Resu
 **How the cases work.** Tools are read-only (`Read`, `Glob`, `Grep`, `Skill`), so a case can
 never commit or push anything. Each prompt states the project's *Deploys* line and asks the
 agent to say exactly what it would do at the step under test. The graders check that the
-right skill fired and that the stated decision matches the rule.
+right skill fired and that the stated decision matches the rule: every case has both kinds.
 
 | Case | Checks |
 | --- | --- |
-| `relay-lets-continue` | "let's continue" starts relay |
+| `relay-lets-continue` | "let's continue" starts relay, which reports and then waits for the go-ahead |
 | `checkpoint-single-branch` | a plain checkpoint asks before committing, and separately before pushing |
 | `checkpoint-multi-branch` | the working branch is committed and pushed without asking; production untouched |
 | `checkpoint-local-only` | `git checkpoint` commits, never pushes, never adds a remote |
