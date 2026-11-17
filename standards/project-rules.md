@@ -236,7 +236,9 @@ depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` de
 
 The `checkpoint` skill (`fleet:checkpoint`) carries out this table, with the steps of each
 release; `relay` is its inverse. **If they do not appear in a session's skills list, look for
-them rather than improvising a commit process.**
+them rather than improvising a commit process.** **After a compact or a resume, run `relay`
+first**, before any waiting request, hook or no hook: where the compact's summary and the repo
+disagree, the repo wins.
 
 **A live project is multi-branch.** A project with a live domain or real users works on
 update branches, each checked on its preview deploy before it merges; a project with no live

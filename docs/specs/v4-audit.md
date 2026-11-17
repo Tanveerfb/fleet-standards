@@ -213,7 +213,7 @@ the owner wants any done now.
 | C1 to C9 | all | **built 2026-11-17:** C1 (`new-project` 10,816 → 15,341 bytes; a skill, loaded only when run), C4 (built before C2, which adds to the same step). C2, C3, C5, C6, C7 (the skill stops; the pilots in phase 7 still look first), C8, C9. Group C is built |
 | D1 to D12 | all | **built 2026-11-18:** D1 to D5 (§RUNTIME now divides between `node.md` and `web.md`). D6 to D10 (§GAME and §NONAPP, the audit's names). D11, D12. Group D is built |
 | E1 to E11 | all | **built 2026-11-17:** E1, E4 (`web` 10,427 → 8,094 bytes). **2026-11-18:** E2 (§GIT about 7.6 → 6.0 KB; core 32,783 → 31,185), E3, E5, E6 (`checkpoint` 19 → 5 bullets, `relay` 9 → 5, `machine-inventory` 4 → 1), E7 (eight skills, not six), E8, E9, E10 (`scripts/standard.mjs`), E11 (nine steps, not eight). Group E is built |
-| F1 to F6 | picked | to build |
+| F1 to F6 | picked | **built 2026-11-18:** F1 (§GIT, after the line naming `relay`). To build: F2 to F6 |
 | F7, F8, F9 | not picked | declined for v4; F8 is also a question for the owner |
 | G1 to G10 | phase 7 | not a pick |
 | H1 to H4 | picked | to build |

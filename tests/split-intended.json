@@ -237,7 +237,8 @@
     "   architecture map);",
     "7. proposals back to fleet.",
     "Nothing is built before it is picked, and a visual change is locked before it is built. It",
-    "counts as that release's deep audit."
+    "counts as that release's deep audit.",
+    "them rather than improvising a commit process.**"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -525,6 +526,9 @@
     "or before a release the owner wants deeply audited: an audit delivered as a ranked list, the",
     "owner's picks, then the build, ending in proposals back to the fleet. Its seven steps are in",
     "`process-x.md` in the standard. **Nothing is built before it is picked**, and a visual change",
-    "is locked before it is built. It counts as that release's deep audit."
+    "is locked before it is built. It counts as that release's deep audit.",
+    "them rather than improvising a commit process.** **After a compact or a resume, run `relay`",
+    "first**, before any waiting request, hook or no hook: where the compact's summary and the repo",
+    "disagree, the repo wins."
   ]
 }
