@@ -12,9 +12,9 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** **build the Fable review's picks, R1 to R15**
-(`docs/audits/2026-11-18-fable-v4-review-checked.md`, *Picks and outcomes*; the review scored
-v4 7 out of 10), one commit each named `review R<n>`. Then **phase 7**. The theme is chosen: **v4 Sutlej**, the
+**Next:** **phase 7.** The Fable review's fifteen picks are built, one commit each
+(`review R1` to `R15`, `docs/audits/2026-11-18-fable-v4-review-checked.md`); the review
+scored v4 7 out of 10 before them. The theme is chosen: **v4 Sutlej**, the
 five rivers of Punjab (`decisions.md`, 2026-11-18). Its README look starts as mockups, no
 sample gallery, locked before it is built. Open: whether the README leads with "Sutlej" or
 the number. The 4.0.0 changelog entry
@@ -128,7 +128,8 @@ plain text in `E:\Installed`. It was not opened.
 4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). Its review of
    v4 ran 2026-11-18: 7 out of 10, about $3.20 over two runs (the first hit its output cap
    and wrote nothing; the runner in `~/.claude/skills/fable-audit/` was fixed). The owner
-   picked all fifteen of its findings offered, R1 to R15.
+   picked all fifteen findings offered, R1 to R15, and all are built. Not done by them: a
+   second review to see the score move (about $1.50 to $3 with the cache cold).
 5. **Phase 7** — the themed README (Sutlej: river blues, a Phulkari-style pattern, original
    art), the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
