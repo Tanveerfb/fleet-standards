@@ -528,3 +528,15 @@ form in Indian official use (Satluj Jal Vidyut Nigam). Turned down: Sutlej, the 
 English and map spelling from the colonial era; Sutluj, rare in print. Entries above and the
 session log keep "Sutlej" as written then; everything from here uses Satluj. The other four
 keep their usual spellings: Beas, Ravi, Chenab, Jhelum.
+
+## 2026-11-18 — Satluj's README look locked: A, river bands
+
+Three mockups were shown as a private page (A river bands, B bagh field, C quiet mark); the
+owner locked **A** on the first round. The banner is an SVG in the repository on its own
+dark-water ground, so it reads on GitHub's light and dark themes: five flowing bands, one
+per river, the Satluj band bright and the other four quiet; a Phulkari-style border along the
+bottom (an original diamond darn-stitch in gold, saffron and rani pink on river blue); the
+title "fleet-standards", then "v4.0.0 · Satluj" with ਸਤਲੁਜ beside it. Under it: shields
+badges (standard, skills, license) and a line naming the five releases. The banner's text is
+outlined to paths, since GitHub shows an SVG as an image and loads no fonts. Turned down: B,
+a whole Phulkari field with the river cut through it; C, a small mark beside a plain heading.
