@@ -82,9 +82,9 @@ to the master through `propose-standard`, and is offered as that.
 
 ### 2a — Improve the project skills used this session
 
-Check whether this project has `.claude/skills/` (project-scoped, distinct from this global
-`checkpoint` skill itself). If it does, and any of its own skills were actually read or
-followed this session, look for what the session taught that the skill does not yet say:
+Check whether this project has `.claude/skills/` skills of its own: not the fleet's, which
+`sync-standards` copies there and `.claude/fleet/copied.json` lists. If it does, and any of
+those skills were actually read or followed this session, look for what the session taught that the skill does not yet say:
 
 - **A documented warning got hit anyway.** If a skill already said "don't do X" and X got done
   anyway this session (buried mid-paragraph, easy to skim past, wrong section), that's a skill
@@ -467,7 +467,7 @@ Then act on the answers, and report in a line or two what was done:
 - **On either compact answer**, tell the owner in one line that a plain `/compact` is enough,
   and why (below).
 
-### No compact block
+### A plain `/compact`
 
 **A plain `/compact` is enough.** The fleet's `SessionStart` hook (matcher `compact|resume`)
 tells the next session to run relay, and relay reads `Start here` with its **Live** line. So

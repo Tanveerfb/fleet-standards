@@ -218,7 +218,7 @@ the owner wants any done now.
 | G1 to G10 | phase 7 | not a pick |
 | H1 to H4 | picked | **built 2026-11-18:** H4 (`checkpoint-fired` in the five cases without it; `relay-lets-continue` gains `reports-and-waits`). H3 (the four graders say what is not a failure). H1 (`cpr-multi-branch`). H2 (`sync-asks-first`, `propose-files-an-issue`, and `new-project-game` now that C1 is built; `ai-setup` and `machine-inventory` still have none). Group H is built: fifteen cases. Not run: each takes the owner's go |
 | H5 | not picked | the run before release is in phase 7's own list |
-| I1 to I5 | all | **built 2026-11-17:** I3 (ahead of its group: B11 lands on what it leaves). **2026-11-18:** I1 (three true paragraphs; GitHub's private vulnerability reporting is off on the repository, checked, so the owner is the channel until they turn it on). I2 (moved to `docs/claude-skills.md`, outside the plugin). To build: I5; I4 at the release |
+| I1 to I5 | all | **built 2026-11-17:** I3 (ahead of its group: B11 lands on what it leaves). **2026-11-18:** I1 (three true paragraphs; GitHub's private vulnerability reporting is off on the repository, checked, so the owner is the channel until they turn it on). I2 (moved to `docs/claude-skills.md`, outside the plugin). I5 (Step 2a says which skills in `.claude/skills/` are the project's own; the heading is *A plain `/compact`*). I4 at the release |
 | K1 to K7 | the owner's answers | open |
 
 **Sizes before the picks** (bytes, 2026-11-13): core 31,001; `web` 10,427; `ui` 7,531;
