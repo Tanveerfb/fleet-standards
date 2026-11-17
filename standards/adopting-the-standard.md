@@ -1,7 +1,8 @@
 # Adopting the standard in an existing repo
 
 **Who this is for.** The first Claude Code session in a repo that already exists and was
-built before, or without, `project-rules.md`. Point a session at this file.
+built without the fleet standard. Point a session at this file. A repo already on the
+standard, at any version, takes `sync-standards` instead.
 
 **The failure mode this exists to prevent:** a session reads a rules file and starts "fixing"
 a working codebase. That is not the job. Section 1 is the job.
@@ -12,22 +13,25 @@ a working codebase. That is not the job. Section 1 is the job.
 
 **The first session's only deliverable is `conventions.md`, not a diff.**
 
+**First, the project's kind.** Work out which files it loads (`project-rules.md` §SCOPE has
+the tables) and confirm it with the owner in one question.
+
 **If the repository holds no application code**, record the non-application profile
-(`project-rules.md` §SCOPE) at the top of `conventions.md` first. The audit then walks only
-what the profile keeps: Part A, §SECURITY, §NAMING's vocabulary and file names, and §DESIGN
-plus the seen-working rule where there is a visual surface.
+(`rules/non-application.md` §NONAPP) at the top of `conventions.md` first. The audit then
+walks what the profile applies: the core, the naming vocabulary and file names, and
+`rules/ui.md` plus the seen-working rule where there is a visual surface.
 
 **If the project is a game in an engine** (Godot, Unity, Unreal), record the game-engine
-profile (§SCOPE) the same way. The audit walks the sections the profile applies in full, and
-reads the "in spirit" ones for the engine: what the engine's own test run, style guide and
-add-ons put in place of `tsc`, kebab-case and npm.
+profile (`rules/game.md` §GAME) the same way. The audit walks what the profile applies in
+full, and reads the "in spirit" sections for the engine: what its own test run, style guide
+and add-ons put in place of `tsc`, kebab-case and npm.
 
 **A project that has outgrown its adoption** — several releases on, with screens and
 components that no longer agree — is not re-adopted. It runs **Process X** (§OWNER,
 `process-x.md`), whose sixth step redoes this audit against today's repository.
 
-Walk `project-rules.md` section by section against the repo and sort every gap into one of
-two states:
+Walk the core and each file the project's kind loads, with any option it has chosen, section
+by section against the repo. Sort every gap into one of two states:
 
 - **Exception granted** — a deliberate divergence, dated, with the reason, decided by the
   owner.
@@ -122,7 +126,8 @@ Each cost a real session somewhere in this fleet.
 - **`${PIPESTATUS[0]}`** after a multi-stage pipeline reports the wrong command's status.
   Capture the exit code directly.
 - **A folder prefixed with `_` inside `app/` is a private folder** and never routes.
-- **`npm run lint` is not a build check.** Use `npm run build`.
+- **Lint is not a build check.** Run the build (`pnpm build`, or `npm run build` in a
+  project still on npm).
 - **A Node installed from the website pins every project to one version** (`rules/node.md`
   §RUNTIME). Setting up a version manager on Windows: list the global npm packages first
   (`npm ls -g --depth=0`, since they belong to one Node install and must be reinstalled),
@@ -179,12 +184,16 @@ Each cost a real session somewhere in this fleet.
 
 ## 6. Skills
 
-**From the `fleet` plugin, active in every project once it is installed — nothing to copy:**
+**Eight skills come from the `fleet` plugin**, active in every project once it is installed.
+Cloud sessions load no plugins, so the sync copies every skill but `new-project` and
+`machine-inventory` into `.claude/skills/`, and records what it wrote in
+`.claude/fleet/copied.json` (`sync-standards` Step 5). Never edit a copy in place: send the
+change back with `propose-standard`.
 
 - **`checkpoint`** — the full commit and documentation
   protocol. What `checkpoint`, `git checkpoint` and `git CPR` do depends on the project's
-  *Deploys* line (§GIT). `MAX` = claim-by-claim verified. **It may not appear in the surfaced skills list — look for it rather than
-  improvising a commit process.**
+  *Deploys* line (§GIT). `MAX` = claim-by-claim verified. **It may not appear in the surfaced
+  skills list. Look for it rather than improvising a commit process.**
 - **`relay`** — the inverse, run at the *start* of a session: loads the handoff **and verifies
   it still describes the repo** before any work starts. Its thesis: *the repo beats the
   handoff*.
@@ -193,20 +202,20 @@ Each cost a real session somewhere in this fleet.
 - **`design-motif`** — chooses or records the project's design motif. On an existing site it
   **records what is already there** rather than re-choosing, unless the owner wants a
   redesign.
-- **`ai-setup`** — adds AI features, or brings existing AI code under §AI. It inventories the
-  AI already in the code and never refactors scattered calls unasked.
-- **`sync-standards`** — brings the project's `project-rules.md` up to the latest version.
-  It is for a project already on the standard; it sends a project with no copy back here.
+- **`ai-setup`** — adds AI features, or brings existing AI code under §AI
+  (`rules/options/ai.md`). It inventories the AI already in the code and never refactors
+  scattered calls unasked.
+- **`sync-standards`** — brings the project's rules set, skill copies and hooks up to the
+  latest version. It is for a project already on the standard; it sends a project with no
+  copy back here.
 - **`propose-standard`** — sends a change or request back to `fleet-standards` as an issue.
+- **`machine-inventory`** — records what the machine has installed in `~/.claude/machine.md`,
+  so a project prefers it before proposing a tool.
 
 **Project-level** skills live in `.claude/skills/` — **not** `.github/skills/`, which Claude
 Code does not scan. One project's two skills sat in the wrong directory, correctly written and
-never loadable, for an unknown length of time.
-
-**Self-improvement is part of checkpoint (step 1.5):** if a project skill was followed and
-something in it was wrong, slow, or buried where it got skimmed past, fix the skill file in the
-same commit. Also bank what worked — a skill that only accumulates warnings gets conservative
-and slow.
+never loadable, for an unknown length of time. `checkpoint` (Step 2) fixes a project skill
+that was wrong or slow in the same commit.
 
 ---
 
@@ -216,21 +225,34 @@ and slow.
 2. Read whatever binding documents already exist — a design system, a product or brand
    definition. They outrank anything a session would invent.
 3. Ask the three day-one questions (section 4).
-4. Copy `project-rules.md` from `fleet-standards/standards/` and **`git add` it**. Check first what the newer
-   version *dropped*, not just what it added — newer is not automatically a superset.
-5. Write `conventions.md` — including the file naming convention the repo already uses, as an
-   exception rather than a rename (§NAMING). **Change no code.**
+4. Pick the files: the kind confirmed in section 1, and each option, asked
+   once (the studio credit, a Trello board, Firebase or SQLite, AI; §SCOPE). The credit's
+   steps are in `rules/options/credit.md`. A `rules/` folder the repo already uses for its
+   own files (a game's, Firestore's) moves to a folder named for what it is, on the owner's
+   word, first. Then copy `project-rules.md` and each chosen file under `rules/` from
+   `fleet-standards/standards/`, and **`git add` them**.
+5. Write `conventions.md`, with the profile block at the top for a game or non-application
+   project, and the file naming convention the repo already uses as an exception rather
+   than a rename (§NAMING). **Change no code.**
 6. Put the exceptions to the owner. Decisions and dates into `decisions.md`.
-7. Write `CLAUDE.md`, every claim carrying its verification date. A profile project
-   references the rules instead of importing them (§SCOPE; the template shows how).
+7. Write `CLAUDE.md`, every claim carrying its verification date. It carries the *Deploys*
+   line (single-branch, multi-branch or local only, §GIT), the *Rules* line
+   (`Rules: app, ui, node, web · Options: firebase, no-trello`; a declined option is
+   `no-<name>`), and one `@rules/<name>.md` import per file under `@project-rules.md`. A game
+   or non-application project imports its set like any other. The AI option is not imported:
+   the template gives the line that says to read it. *Commands* names the repo's package
+   manager; an existing project keeps the one it has (§NPM).
    Install the credential hook: `templates/pre-commit` to `.githooks/pre-commit`, then
    `git config core.hooksPath .githooks` (§SECURITY), and `templates/.gitattributes` to the
    root so the hook and any shell script keep LF (§GIT). Before relying on it, stage the
-   adoption's own documents and run the hook once — they quote its trigger words.
+   adoption's own documents and run the hook once, as they quote its trigger words.
+   Wire the agents as `sync-standards` Step 5 does: the plugin in `.claude/settings.json`,
+   the skill copies and hooks unless the project is local only, and the `AGENTS.md` and
+   `GEMINI.md` pointers from `templates/AGENTS.template.md`.
 8. Write `docs/STATUS.md` with a `Start here` block.
-9. Record the project's motif with `design-motif` — it describes the existing look and records
-   it; nothing is redesigned.
-10. `git checkpoint` only when the owner says so.
+9. Where the project loads `rules/ui.md`, record its motif with `design-motif`. It describes
+   the existing look and records it; nothing is redesigned.
+10. `checkpoint` only when the owner says so.
 
 Step 5 before step 7: `CLAUDE.md` names the granted exceptions, so it cannot be written until
 they exist.
@@ -240,39 +262,25 @@ they exist.
 ## 8. Kickoff prompt
 
 ```
-This repo is being brought onto the standard in project-rules.md, which I have
-copied into the root — read it first. The master copy lives in the standards/
-folder of github.com/Tanveerfb/fleet-standards, along with the templates and the guide
-you are following.
+This repo is being brought onto the fleet standard. The master copy is the
+standards/ folder of github.com/Tanveerfb/fleet-standards: project-rules.md (the
+core), the files under rules/, the templates, and adopting-the-standard.md, the
+guide you are following. Read the guide first.
 
 This repo already exists, so this is a migration, not a bootstrap. Do not
 arrive planning to modernise code.
 
-First deliverable is conventions.md: a full audit of this repo against
-project-rules.md, with every gap sorted into "exception granted" or "known,
-queued, not yet decided", plus a short section naming rules this repo already
-satisfies where someone might assume otherwise. CHANGE NO CODE in that pass.
-Put the exceptions to me as questions with your recommendation — I decide, and
-the decision plus date goes in decisions.md.
+First deliverable is conventions.md: a full audit of this repo against the core
+and each file its kind loads, with every gap sorted into "exception granted" or
+"known, queued, not yet decided", plus a short section naming rules this repo
+already satisfies where someone might assume otherwise. CHANGE NO CODE in that
+pass. Put the exceptions to me as questions with your recommendation. I decide,
+and the decision plus date goes in decisions.md.
 
-Then CLAUDE.md, then docs/STATUS.md with a Start here block. Templates for all
-three are in fleet-standards' standards/templates/.
+Then CLAUDE.md, then docs/STATUS.md with a Start here block, from the templates.
 
-How I work, and these are not negotiable:
-- Git follows §GIT and the Deploys line in CLAUDE.md. Ask me once which this project
-  is (single-branch, multi-branch or local only) and write it in before the first
-  commit. Batch commits, do not spam one per change. Every commit must build
-  standalone.
-- Every visual or layout change starts as a mockup I approve, and we iterate until
-  I lock it. Only a bug fix restoring an approved design goes straight in.
-- Use the question tool whenever you need input from me. It notifies my phone.
-- Three words on everything you touch: consistency, modularisation, QoL. If a
-  change introduces a second version of something this repo already has, it is
-  wrong.
-- The existing code is not the benchmark. It predates my current standard.
-- Never rewrite copy the business owns — draft it, show it, apply on a yes.
-- Mobile is first-class.
-- Never hand me a problem without a proposed fix and a recommendation.
+How I work is §OWNER in project-rules.md, and git is §GIT. They are not
+negotiable. Use the question tool whenever you need input from me.
 
 Ask me on day one: which files are frozen, what deploys from where, and what is
 mid-flight. Do not infer any of the three.
