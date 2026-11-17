@@ -349,7 +349,14 @@ git rev-parse --is-inside-work-tree 2>&1
 commit") and stop here. Do not suggest `git init` unless the user asks — that's their call, not
 implied by running a checkpoint.
 
-**If it is a repo:**
+**If it is a repo, first run the kind's checks** when this session changed code: the build
+and the tests its rules files name (`pnpm build` and `pnpm test` on a web project,
+`uv run pytest` and `uv run pyright` on a Python package, the engine's headless run on a
+game), or what `CLAUDE.md`'s *Commands* say. Record what ran and what it said in the log
+entry. **A failure stops any push that deploys** — on a single-branch project, the push is
+the release — and is said in Step 8; a working branch may still be pushed, the failure named
+in the commit message. A repository with nothing to build says so in a line. MAX's M4 is
+this run done claim by claim.
 
 ```bash
 git status -sb
