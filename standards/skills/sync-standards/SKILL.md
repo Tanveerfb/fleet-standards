@@ -1,6 +1,6 @@
 ---
 name: sync-standards
-description: Use inside a project to bring it up to the latest fleet standard from the fleet-standards repo — e.g. "sync standards", "sync to the latest standard", "update project rules", "are we on the latest rules", "check standards drift". Compares the project's project-rules.md with the fleet plugin's copy, explains what changed and what was dropped, then on approval copies the new rules in, translates section references, and wires the project to the fleet plugin. Never commits.
+description: Use inside a project to bring it up to the latest fleet standard from the fleet-standards repo — e.g. "sync standards", "sync to the latest standard", "update project rules", "are we on the latest rules", "check standards drift", "add the Trello option", "this project uses Firebase now", "add the studio credit". Compares the project's rules set with the fleet plugin's copy, explains what changed and what was dropped, then on approval copies the new rules in, translates section references, and wires the project to the fleet plugin; also adds or drops an option on a project already current. Never commits.
 ---
 
 # Sync standards
@@ -243,6 +243,27 @@ If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky 
 core and one for each declared file (`ai` excepted: it is read on demand), that each
 imported file exists in the project, and that nothing is imported that the line does not
 declare. Say what differs and fix it on a yes.
+
+## Adding an option to a project already on the set
+
+**Run on its own** when a project that is current wants an option it did not choose — "add
+Trello", "this project uses Firebase now", the studio credit after a studio appeared — and
+from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a current master.
+
+1. Read the option's file in the master (`${CLAUDE_PLUGIN_ROOT}/rules/options/<name>.md`)
+   and say in two lines what taking it on means for this project.
+2. On the owner's yes: copy it into `rules/options/`, add `<name>` to the *Rules* line's
+   `Options:` part (dropping `none`), and add its `@rules/options/<name>.md` import under the
+   others. **AI is not imported:** hand to `ai-setup`, which copies the file and writes the
+   two read-on-demand lines.
+3. Write what the option needs on `CLAUDE.md`'s own lines: `Trello board: <url>`; the
+   `Studio credit:` and `Studio showcase:` lines, with the showcase request filed as
+   `new-project` Step 1 describes; nothing more for Firebase until a credential exists
+   (§DOCS).
+4. One line in `decisions.md`: the option, the date, why.
+
+Dropping an option is the same in reverse, on the owner's word: the file, the import and the
+name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 
 ## Step 6 — Report
 

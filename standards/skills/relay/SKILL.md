@@ -211,8 +211,8 @@ every `@rules/…` import is on the line. A mismatch goes under *the user's call
 `~/.claude/CLAUDE.md` for a `Studio credit:` line (§CREDIT; a cloud session has no such file,
 so skip this there). If one exists and the project's `CLAUDE.md` has no answer to it — no
 `Studio credit:` line, or one that says "no studio configured" or "not asked" — say so in the
-report and offer the two §CREDIT questions. A project already on the latest standard never
-runs a sync, so nothing else would ask. **Relay itself never adds a credit.**
+report and offer the two §CREDIT questions, through `sync-standards`' *Adding an option*,
+which works on a project already current. **Relay itself never adds a credit.**
 
 ## Step 5 — Report, then STOP
 
