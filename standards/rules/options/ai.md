@@ -79,8 +79,8 @@ adapter instead.
 - Use them to build and test AI features without API cost, and for features in local-only
   tools. **A deployed app cannot reach a model on the owner's PC** — production uses a cloud
   provider
-- Choose models that fit the hardware: on a 16 GB GPU, roughly up to 14B parameters at 4-bit
-  quantisation runs comfortably, about 20B with care. Smaller local models are weaker at
+- Choose models that fit the hardware: the machine file (`~/.claude/machine.md`, kept by
+  `machine-inventory`) says what this GPU runs comfortably. Smaller local models are weaker at
   tool calling and structured output, and their output differs from the production model's,
   so a feature is only verified once it runs against the model that will serve it
 - Chrome's built-in on-device model, through AI Logic's hybrid mode (`InferenceMode`), is a
