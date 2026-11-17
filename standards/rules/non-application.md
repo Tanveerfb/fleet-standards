@@ -28,7 +28,9 @@ loads the files for that code from that day (§SCOPE). These things read differe
 
 - **The production surface is where the work lands, not the repository.** `CLAUDE.md`'s
   *Deploys* line names it and says whether it has live users. A change there is a production
-  change even though git never ships it; §GIT's branch rules govern only the repository
+  change even though git never ships it, and runs on the owner's go like any change to a
+  live system (§GIT, *Production outside git*); §GIT's branch rules govern only the
+  repository
 - **Mockups (§OWNER) still come first** for visual and layout changes on that surface. With no
   dev server, drafts live in a gitignored `_mockups/` at the root and open as files; locked
   ones move to `docs/design/` as usual

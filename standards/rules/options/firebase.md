@@ -30,8 +30,9 @@ The default backend for auth, data and storage across the fleet.
   exists in app code *and* in `firestore.rules` is two sources of truth kept in sync by hand.
   When you touch either, say so at the other.
 - **Editing `firestore.rules` does nothing until it is deployed.** Validate first
-  (`firebase_validate_security_rules` via the Firebase MCP), then
-  `firebase deploy --only firestore:rules`. Then read the live rules back and compare them
+  (`firebase_validate_security_rules` via the Firebase MCP); the deploy
+  (`firebase deploy --only firestore:rules`) changes production, so it runs on the owner's go
+  (§GIT, *Production outside git*). Then read the live rules back and compare them
   with the file, and trust nothing less: a deploy can report success and change nothing
   (`godot-toll`, 2026-10-23: the MCP's `firestore:rules` target did this, `firestore`
   worked). If they cannot be read back, say the rules are unconfirmed.

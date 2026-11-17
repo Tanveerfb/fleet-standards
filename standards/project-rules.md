@@ -279,6 +279,13 @@ confirmation. The owner should never learn from somewhere else that a checkpoint
 **Never run a destructive command** — force push, history rewrite, branch deletion,
 `git clean`, `reset --hard` — unless explicitly asked for that command.
 
+**Production outside git is gated the same way.** A command or tool call that changes a live
+system — a deploy (`firebase deploy`, `vercel --prod`), security rules, a hosted database, a
+tenant, a live service's settings — and a destructive command outside git (`rm -rf`,
+dropping or emptying data, deleting untracked files) run only on the owner's go for that
+command, each time. Say what it changes and whether it can be undone. An approval does not
+generalise.
+
 **The safety exceptions still stand**, and they are worth a sentence rather than silence: a
 secret in the staged diff, a dirty tree containing work that is not yours, a detached HEAD,
 or a push that would need a force. Stop for those even mid-checkpoint, and before any

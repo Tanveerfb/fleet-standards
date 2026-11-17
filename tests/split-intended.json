@@ -247,7 +247,10 @@
     "  project's package manager without asking.",
     "| Tool in another language (bash, Python) | core, app; ui if it has an interface |",
     "the studio credit, a Trello board, Firebase, AI — and record the answer, so a project that",
-    "| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |"
+    "| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |",
+    "  change even though git never ships it; §GIT's branch rules govern only the repository",
+    "  (`firebase_validate_security_rules` via the Firebase MCP), then",
+    "  `firebase deploy --only firestore:rules`. Then read the live rules back and compare them"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -648,6 +651,18 @@
     "  one-off goes in the scratchpad",
     "- **Processes on Windows:** `os.kill(pid, 0)` ends the process there instead of testing it,",
     "  and a venv's `python.exe` is a launcher whose pid is not the program's. Check liveness and",
-    "  find the real pid through the operating system"
+    "  find the real pid through the operating system",
+    "**Production outside git is gated the same way.** A command or tool call that changes a live",
+    "system — a deploy (`firebase deploy`, `vercel --prod`), security rules, a hosted database, a",
+    "tenant, a live service's settings — and a destructive command outside git (`rm -rf`,",
+    "dropping or emptying data, deleting untracked files) run only on the owner's go for that",
+    "command, each time. Say what it changes and whether it can be undone. An approval does not",
+    "generalise.",
+    "  change even though git never ships it, and runs on the owner's go like any change to a",
+    "  live system (§GIT, *Production outside git*); §GIT's branch rules govern only the",
+    "  repository",
+    "  (`firebase_validate_security_rules` via the Firebase MCP); the deploy",
+    "  (`firebase deploy --only firestore:rules`) changes production, so it runs on the owner's go",
+    "  (§GIT, *Production outside git*). Then read the live rules back and compare them"
   ]
 }
