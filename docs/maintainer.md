@@ -35,11 +35,6 @@ versions of the same rules file at once.
   `sync-standards` a Step 4 check if projects already on the standard need it. The installer
   and the project copies need nothing: `REFERENCE` in `standards/scripts/standard.mjs` lists
   the `rules` folder whole.
-- **The split check, until v4.0.0 is released.** `tests/split-check.mjs` proves the split
-  of the rules file lost and doubled nothing. Any other change to the wording of a rules
-  file fails it until it is listed in `tests/split-intended.json`. The release removes the
-  check, its list, its call in `tests/run.mjs` and `fetch-depth: 0` in
-  `.github/workflows/checks.yml` (audit item I4).
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
 - **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but

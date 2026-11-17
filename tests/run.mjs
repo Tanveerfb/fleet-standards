@@ -121,11 +121,6 @@ section("The rules set (standards/project-rules.md and standards/rules/)");
   const imports = [...read("standards/templates/CLAUDE.template.md").matchAll(/^@(\S+\.md)$/gm)].map((m) => m[1]);
   const dangling = imports.filter((f) => !existsSync(join(S, f)));
   check(`the CLAUDE.md template's ${imports.length} imports exist`, imports.length > 1 && dangling.length === 0, dangling.join(", "));
-
-  // The word-for-word proof of the v4 split. Remove with tests/split-check.mjs and
-  // tests/split-intended.json once v4.0.0 is released.
-  const split = run("node", [join(repo, "tests", "split-check.mjs")]);
-  check(split.stdout.trim().split("\n")[0], split.status === 0, split.stdout.trim().split("\n").slice(1, 6).join(" "));
 }
 
 // ---------------------------------------------------------------------------------------------
