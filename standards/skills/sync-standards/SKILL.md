@@ -1,6 +1,6 @@
 ---
 name: sync-standards
-description: Use inside a project to bring it up to the latest fleet standard from the fleet-standards repo — e.g. "sync standards", "sync to the latest standard", "update project rules", "are we on the latest rules", "check standards drift", "add the Trello option", "this project uses Firebase now", "add the studio credit". Compares the project's rules set with the fleet plugin's copy, explains what changed and what was dropped, then on approval copies the new rules in, translates section references, and wires the project to the fleet plugin; also adds or drops an option on a project already current. Never commits.
+description: Use inside a project to bring it up to the latest fleet standard from the fleet-standards repo — e.g. "sync standards", "upgrade standards", "migrate to the new standard", "sync to the latest standard", "update project rules", "are we on the latest rules", "check standards drift", "add the Trello option", "this project uses Firebase now", "add the studio credit". Compares the project's rules set with the fleet plugin's copy, explains what changed and what was dropped, audits the transition into one report, then on approval copies the new rules in, translates section references, and wires the project to the fleet plugin; also adds or drops an option on a project already current. Never commits.
 ---
 
 # Sync standards
@@ -94,10 +94,19 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
   project that does not load the Firebase option is moot the same way.
 
+**Then audit the transition, read-only.** Run every check in Step 4 (item 4, a to l) against
+the project without changing anything, and add each *What a project must change* item from
+the changelog entries it is behind. The result is **one upgrade report**, a line per item:
+what is there now, what the sync will do, or what is left for later and to whom (history in
+`docs/STATUS.md` goes at the next checkpoint: say how many entries). Items that need the
+owner's value are marked. An item that does not apply is left out; an empty report is a fine
+answer and says so.
+
 ## Step 3 — Ask once
 
 Put the plan to the owner with the question tool: apply the sync, or not. One question,
-with the summary from Step 2 as context. On a no, stop and leave everything untouched.
+with the summary and the upgrade report from Step 2 as context. On a no, stop and leave
+everything untouched.
 
 ## Step 4 — Apply
 
@@ -205,6 +214,20 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    at the top, built from the entries that record something the owner ruled out. The entries
    are not edited.
 
+   **j. One package manager (§NPM).** *If the project has two lockfiles,* say which, and
+   remove one on the owner's word about which goes. *If `CLAUDE.md`'s *Commands* do not name
+   the manager the lockfile shows,* correct them. Never switch the manager unasked.
+
+   **k. Python's shape (§PYTHON).** *If the project loads `python` and `conventions.md` does
+   not say whether it is a package or a folder of scripts,* ask once and write it in.
+
+   **l. Moot exceptions.** The ones Step 2 offered and the owner approved are removed from
+   `conventions.md`, with a line in `decisions.md` saying which rule made each moot.
+
+   **A release that needs a new check adds it here**, as the next letter, and names it in its
+   changelog entry's *What a project must change* list, so every later sync runs it and a
+   project several versions behind takes the same path.
+
 ## Step 5 — Wire the project to every agent
 
 **Claude Code on the owner's machine.** Check `.claude/settings.json` registers the
@@ -292,9 +315,14 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
 Dropping an option is the same in reverse, on the owner's word: the file, the import and the
 name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 
-## Step 6 — Report
+## Step 6 — Check, then report
+
+**Run the upgrade report's checks again, read-only**, on the project as it now is. Every
+item the sync was to do should be gone; anything still there is reported plainly as not
+done, with why, never left out.
 
 - Version moved from → to, or "already current".
+- The upgrade report's items: done, left for later (and to whom), or still failing.
 - Files changed, with the count of references translated, and the skill copies written.
 - Anything left for the owner: re-audit offered, exceptions to revisit, values asked for.
 - **Git, as §GIT has it for this project:** left uncommitted on a single-branch project,

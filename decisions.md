@@ -466,3 +466,22 @@ Asked through the question tool, two rounds; each answer is the option the owner
 - **K7, Python:** "Yes, in v4". A new `rules/python.md`, from what `toll-pipeline` and
   `cutscene` already do, loaded by the "tool in another language" kind when it is Python.
   Turned down: after v4; never.
+
+## 2026-11-18 — An upgrade path and an independent auditor, both the owner's ideas
+
+**Upgrade path.** The owner: a project moving from an older version needs a tool that helps
+the transition and audits it, so it is smooth (an old status doc still holding entries, for
+one). Picked: "Inside sync-standards". The sync audits the project read-only against every
+Step 4 check and the *What a project must change* lists of the releases it is behind, shows
+one upgrade report, asks once, applies, and re-runs the checks. Each release's changelog
+entry ends with that list, and a change no check covers gets a new check. Turned down: a
+separate `upgrade-standard` skill (two skills doing overlapping work, the duplication I3
+removed); talking it through first.
+
+**An independent auditor.** The owner proposed the `fable-audit` skill (their global skill:
+Fable 5.2 through the API, findings with suggestions) instead of the in-session audit in
+Process X. Picked: "Optional auditor". Process X's audit may be run by an independent
+auditor where the owner has one, and the in-session audit stays the fallback: the skill is
+on one PC, needs the owner's API key, and costs per run with their go, so a cloud session or
+another machine cannot depend on it. A Fable review of v4 itself is offered before release,
+priced first. Turned down: Fable required for every Process X; a v4 review alone.

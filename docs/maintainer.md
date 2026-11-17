@@ -14,7 +14,10 @@ versions of the same rules file at once.
 - **`project-rules.md`** — bump `**Version:**` (patch for wording, minor for an addition or
   loosening, major for a removal or anything that breaks section references) and add a
   `CHANGELOG.md` entry saying *why*. Never rename or renumber a section anchor as a side
-  effect.
+  effect. The entry ends with **What a project must change**: each thing a project already
+  on the standard has to do to move up, naming the `sync-standards` Step 4 check that does it.
+  A change no existing check covers gets a new check in the same release, so the sync's
+  upgrade report finds it in every project behind.
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
 - **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but
