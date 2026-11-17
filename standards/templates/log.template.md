@@ -22,7 +22,7 @@ Commits `<hashes>`. <Pushed / not pushed>, <and whether that branch auto-deploys
 <What happened, concretely: file paths, commands, config keys, with the measurements. The
 decisions and why, what was tried and did not work, and any deviation from the spec or plan
 the owner gave. Superseded numbers and the owner's quotes belong here, not in the snapshot.
-The `checkpoint` skill's Step 2 lists what each file holds.>
+The `checkpoint` skill's Step 3 lists what each file holds.>
 
 **The mistake worth keeping.** <Any claim this checkpoint had to correct: what it said
 before, and why it was wrong. A future session that meets the old claim elsewhere needs to

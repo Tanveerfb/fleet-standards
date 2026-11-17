@@ -29,7 +29,7 @@ change goes through here.
 From the conversation, establish — and ask only for what is genuinely missing:
 
 - **Target:** which file, and which section by anchor (`rules/ui.md` §MOTION, `checkpoint`
-  Step 3.5). A section that divides between files keeps its name in each: name the file.
+  Step 6). A section that divides between files keeps its name in each: name the file.
 - **Problem:** what the current wording causes in practice. Concrete — the project, the
   file, what went wrong or what it blocked.
 - **Proposed wording:** the actual text, not a description of it. Read the current section

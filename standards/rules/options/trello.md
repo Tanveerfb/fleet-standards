@@ -18,6 +18,6 @@ never search for a board or create one unasked.
   names others. Review holds work that is finished but not yet verified or approved; a card
   reaches Done only when `STATUS.md` records the work as verified
 - **Only the `checkpoint` skill writes to the board**, on every checkpoint, with or without
-  the `git` prefix — the board is not git; its Step 3.5 has the steps. **`relay` reads the
+  the `git` prefix — the board is not git; its Step 6 has the steps. **`relay` reads the
   board and never writes.** Outside those two, an agent writes to the board only when asked
 - Never delete or archive a card unasked. Finished work goes to Done

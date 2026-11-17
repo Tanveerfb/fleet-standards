@@ -518,7 +518,7 @@
     "- **Universe-inspired** motifs are inspired by a fictional world, never copied from it",
 
     "- **Only the `checkpoint` skill writes to the board**, on every checkpoint, with or without",
-    "  the `git` prefix — the board is not git; its Step 3.5 has the steps. **`relay` reads the",
+    "  the `git` prefix — the board is not git; its Step 6 has the steps. **`relay` reads the",
     "  board and never writes.** Outside those two, an agent writes to the board only when asked",
 
     "**Process X — a whole-product audit**, run when a project has grown well past its adoption,",

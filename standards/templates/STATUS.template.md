@@ -1,7 +1,7 @@
 # <PROJECT NAME> — status
 
 *Goes at `docs/STATUS.md`. This is the `checkpoint` skill's output format
-(the `fleet` plugin's `checkpoint`; its Step 2 lists each section and which file it belongs
+(the `fleet` plugin's `checkpoint`; its Step 3 lists each section and which file it belongs
 in) — match it, or the skill and the file fight each other.*
 
 **This file is the snapshot only** (`project-rules.md` §DOCS). It is **rewritten in place**
