@@ -60,6 +60,10 @@ core. The rest are loaded only where they apply:
 | Game | core, app, ui, game, its options |
 | Non-application | core, non-application; ui if it has a visual surface |
 
+A project of two kinds loads the files of both: a Next.js interface over a Python package
+loads app, ui, node, web and python. Scripts that only maintain a repository's documents do
+not make it an application; tools it ships or runs as its product do.
+
 **A project declares what it loads** in its `CLAUDE.md`: one import line per file, and one
 line beside *Deploys* that `sync-standards` reads:
 `Rules: app, ui, node, web · Options: firebase, trello`. Sync copies and updates only the

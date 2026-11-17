@@ -275,6 +275,9 @@
     "  A project that needs a stricter block (every `<<`) keeps its own hook beside it"
   ],
   "added": [
+    "A project of two kinds loads the files of both: a Next.js interface over a Python package",
+    "loads app, ui, node, web and python. Scripts that only maintain a repository's documents do",
+    "not make it an application; tools it ships or runs as its product do.",
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
     "under `rules/` are loaded only where they apply (§SCOPE).",
     "**Master copy:** `standards/project-rules.md` and `standards/rules/` in",

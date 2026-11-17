@@ -157,10 +157,12 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      for the skill copies in Step 5.
    - **Which files the project loads.** Work out its kind from the repository (a Next.js
      app, a Node tool, a tool in another language — `python` for Python, and its shape,
-     package or folder of scripts, from `conventions.md` — a game in an engine, no
-     application code)
-     and whether it has a visual surface, then **confirm it with the owner in one question**
-     before copying. Write the *Rules* line beside *Deploys* in `CLAUDE.md` and one
+     package or folder of scripts, from `conventions.md` or asked in the same question and
+     written in by (k) — a game in an engine, no application code) and whether it has a
+     visual surface, then **confirm it with the owner in one question** before copying. **A
+     project may be two kinds** (§SCOPE): a Next.js interface over a Python package loads
+     both sets. A documents repository with tool scripts is asked which it is, with §SCOPE's
+     test: scripts that only maintain its documents keep it non-application. Write the *Rules* line beside *Deploys* in `CLAUDE.md` and one
      `@rules/<name>.md` import per file under `@project-rules.md`
      (`${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.template.md` shows both).
    - **A profile project** (non-application or game-engine) that references the rules file
