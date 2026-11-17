@@ -375,6 +375,8 @@ ever disagree, §GIT wins and this table is the fault. `max` changes the depth, 
 - **A no** to the commit is a valid answer: say in Step 8 that the changes are left
   uncommitted, and do not push back. Never push without a yes or a phrase that gives one.
 - **Local only:** never add a remote unasked.
+- **What to stage:** what this session changed, by path. Never `git add -A` or `git add .`:
+  list any other change in the tree and ask whether it goes in.
 - **Multi-branch, before the push made without asking:** check that the branch checked out
   (`git branch --show-current`) is not the production branch the *Deploys* line names. If it
   is, stop and ask: that push would be a release, which only `git CPR` authorises.
