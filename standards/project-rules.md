@@ -43,6 +43,7 @@ core. The rest are loaded only where they apply:
 | `rules/ui.md` | Interface | Anything with a visual surface |
 | `rules/node.md` | The Node and TypeScript stack | Web projects and Node tools |
 | `rules/web.md` | The Next.js stack | Web projects |
+| `rules/python.md` | The Python stack | Tools written in Python |
 | `rules/game.md` | The game-engine stack | Games |
 | `rules/non-application.md` | What a repository without application code does differently | Those repositories |
 | `rules/options/trello.md`, `firebase.md`, `sqlite.md` | Things a project opts into at setup | Projects that chose them |
@@ -53,7 +54,7 @@ core. The rest are loaded only where they apply:
 | --- | --- |
 | Web project (Next.js) | core, app, ui, node, web, its options |
 | Local Node tool | core, app, node; ui if it has an interface; its options |
-| Tool in another language (bash, Python) | core, app; ui if it has an interface; its options |
+| Tool in another language (bash, Python) | core, app; python for Python; ui if it has an interface; its options |
 | Game | core, app, ui, game, its options |
 | Non-application | core, non-application; ui if it has a visual surface |
 

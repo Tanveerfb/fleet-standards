@@ -43,7 +43,7 @@ Then, through the question tool, where the spec does not settle them (§ASK):
    | --- | --- | --- |
    | Web project (Next.js) | core, app, ui, node, web | `create-next-app` |
    | Local Node tool | core, app, node; ui if it has an interface | `package.json` and `tsconfig.json` by hand |
-   | Tool in another language (bash, Python) | core, app; ui if it has an interface | none |
+   | Tool in another language (bash, Python) | core, app; python for Python; ui if it has an interface | a Python package: `uv init`; otherwise none |
    | Game | core, app, ui, game | the engine's own new-project |
    | Non-application | core, non-application; ui if it has a visual surface | none |
 
@@ -107,6 +107,13 @@ ask, and record the answer in `decisions.md`. Then the scripts `rules/node.md` �
 **Game.** The engine makes its own project: the owner creates it in the engine, in this
 folder, and says which engine and version. Nothing here writes engine files, and
 engine-generated files stay as the engine writes them.
+
+**Python.** Ask its shape (`rules/python.md` §PYTHON): a **package**, or a **folder of
+scripts** run by path. A package: `uv init --package`, the minor pinned in `.python-version`
+and `requires-python` after checking which one every planned dependency ships wheels for,
+then pytest, ruff and pyright as dev dependencies on the owner's yes. A folder of scripts:
+no scaffold; record the shape in `conventions.md` and the interpreter's full path in
+`CLAUDE.md`.
 
 **Tool in another language, non-application.** No scaffold. The repository starts with the
 standard's files alone; the work's own files come with the work.
@@ -244,7 +251,9 @@ passes — last.
 offered (GUT in Godot); the engine's headless run passes — last (`rules/game.md`).
 
 **Tool in another language, in addition:** the interpreter and its version recorded in
-*Technology*; the tool runs once on a real input — last.
+*Technology*; the tool runs once on a real input — last. **A Python package:** `uv.lock`
+committed; `uv run pytest`, `ruff check`, `ruff format --check` and `pyright` pass before
+that last run (§PYTHON).
 
 **Non-application, in addition:** the profile block in `conventions.md`; *Commands* says
 none exist; the production surface named on the *Deploys* line

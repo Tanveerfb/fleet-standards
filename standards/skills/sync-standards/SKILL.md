@@ -133,7 +133,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
      reference. A later sync that finds that answer recorded asks nothing. The same holds
      for the skill copies in Step 5.
    - **Which files the project loads.** Work out its kind from the repository (a Next.js
-     app, a Node tool, a tool in another language, a game in an engine, no application code)
+     app, a Node tool, a tool in another language — `python` for Python, and its shape,
+     package or folder of scripts, from `conventions.md` — a game in an engine, no
+     application code)
      and whether it has a visual surface, then **confirm it with the owner in one question**
      before copying. Write the *Rules* line beside *Deploys* in `CLAUDE.md` and one
      `@rules/<name>.md` import per file under `@project-rules.md`

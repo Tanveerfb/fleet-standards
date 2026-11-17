@@ -24,7 +24,7 @@ goes here; there is nowhere else for it to go.
 
      Web project (Next.js)        project-rules, app, ui, node, web
      Local Node tool              project-rules, app, node; ui if it has an interface
-     Tool in another language     project-rules, app; ui if it has an interface
+     Tool in another language     project-rules, app; python for Python; ui if it has an interface
      Game                         project-rules, app, ui, game
      Non-application              project-rules, non-application; ui if it has a visual surface
 
