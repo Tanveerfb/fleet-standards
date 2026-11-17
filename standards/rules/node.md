@@ -57,6 +57,26 @@ in the file that owns them.
 
 ---
 
+## §STATE — Validation and where logic lives
+
+**Zod** where the project handles external data: forms, API responses, uploads,
+stored records. A static site with no inputs does not need it.
+
+- One schema per entity, in `schemas/`
+- Parse at every boundary — submission, response, stored data read
+- Enums declared once in zod and imported. No scattered string literals
+- Seed and fixture data parsed through the same schemas. If it will not
+  validate, the schema or the data is wrong, and finding out early is the point
+- Form schemas extend entity schemas. They never redefine them
+
+**Where logic lives.** Pure business logic in `lib/domain/` — no framework, no storage —
+and the data adapter, where there is one, in `lib/data/` (`rules/app.md` §DATA,
+§LIFECYCLE). The same two folders in a web project and a Node tool.
+
+*§STATE continues in `rules/web.md`: client state with Zustand.*
+
+---
+
 ## §PACKAGES — Packages and APIs
 
 - Use the **latest version compatible with the framework and the rest of the

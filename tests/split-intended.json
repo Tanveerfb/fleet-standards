@@ -354,6 +354,13 @@
     "deploy.*",
     "- **`src/lib/env.ts` parses the environment** (§RUNTIME in `rules/node.md`): one schema for",
     "  server variables, one for client (`NEXT_PUBLIC_`) variables",
-    "*§RUNTIME's version pinning and the startup check are in `rules/node.md`.*"
+    "*§RUNTIME's version pinning and the startup check are in `rules/node.md`.*",
+
+    "## §STATE — Validation and where logic lives",
+    "**Where logic lives.** Pure business logic in `lib/domain/` — no framework, no storage —",
+    "and the data adapter, where there is one, in `lib/data/` (`rules/app.md` §DATA,",
+    "§LIFECYCLE). The same two folders in a web project and a Node tool.",
+    "*§STATE continues in `rules/web.md`: client state with Zustand.*",
+    "*§STATE's validation rules (zod) are in `rules/node.md`.*"
   ]
 }

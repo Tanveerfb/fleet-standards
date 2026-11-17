@@ -69,15 +69,7 @@ client state does not need a store. Confirm once, then apply consistently.
 - Selectors only. No derived data in a store. Actions describe intent
 - `immer` for deeply nested updates. `persist` for only what must survive reload
 
-**Zod** where the project handles external data: forms, API responses, uploads,
-stored records. A static site with no inputs does not need it.
-
-- One schema per entity, in `schemas/`
-- Parse at every boundary — submission, response, stored data read
-- Enums declared once in zod and imported. No scattered string literals
-- Seed and fixture data parsed through the same schemas. If it will not
-  validate, the schema or the data is wrong, and finding out early is the point
-- Form schemas extend entity schemas. They never redefine them
+*§STATE's validation rules (zod) are in `rules/node.md`.*
 
 ---
 
