@@ -80,7 +80,7 @@ const PLACEMENT = [
   ["**Library.** `motion`", "rules/web.md"],
   ["## §TESTING ", "rules/web.md"],
   ["- **Interface changes are checked in a real browser", "rules/web.md"],
-  ["## Checklist — new project", "rules/web.md"],
+  // The new-project checklist left the rules for the new-project skill (audit E4).
   // Profiles
   ["**Game-engine projects.**", "rules/game.md"],
   ["**Repositories without application code.**", "rules/non-application.md"],

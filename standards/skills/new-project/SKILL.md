@@ -123,18 +123,12 @@ as the brief. Continue here once the motif is locked and recorded, and fill in t
 
 ## Step 6 — The rest of the checklist
 
-Work through the remaining items of the checklist at the end of `rules/web.md` **with
-the owner**, one at a time — offer each, do not run them all silently:
-
-- tokens in `@theme` from the locked motif, then the **component round** (§SHADCN): the core
-  kit and signature component designed through mockups — custom, ambitious, every state —
-  before any feature work, then built on shadcn's behaviour primitives;
-- navigation style confirmed;
-- the data adapter interface, if the project has data (§DATA);
-- base components — navigation, footer, button;
-- Vitest wired to `npm test` (§TESTING);
-- `.env.local` and `environment.md` only once a credential actually exists (§DOCS);
-- **`npm run build` passes clean** — the last step, and it must actually run.
+Work through the items of the checklist below that Steps 2 to 5 did not already settle,
+**with the owner**, one at a time — offer each, do not run them all silently. The
+**component round** (§SHADCN) comes before any feature work: the core kit and signature
+component designed through mockups — custom, ambitious, every state — then built on
+shadcn's behaviour primitives. **`npm run build` is the last item**, and it must actually
+run.
 
 ## Step 7 — Report
 
@@ -143,3 +137,41 @@ the owner**, one at a time — offer each, do not run them all silently:
 - Checklist items done and still open.
 - **Nothing committed.** The first commit happens at the owner's `git checkpoint`, and
   `.gitignore` is already in place for it.
+
+## The checklist
+
+Used once, here, so it lives in this skill rather than in a rules file every session loads.
+
+- [ ] `create-next-app` with TypeScript, Tailwind, App Router, `src/`, `@/` alias (Step 2)
+- [ ] `.gitignore` covers `.secrets/` and `.env*` (except `.env.example`), in place before
+      the first commit
+- [ ] `tsconfig.json` strict confirmed
+- [ ] Node pinned to the deploy platform's major in `engines` and `.nvmrc` (§RUNTIME)
+- [ ] `src/lib/env.ts` validates env at startup; `.env.example` committed with an
+      `!.env.example` exception in `.gitignore` (§RUNTIME)
+- [ ] **The rules set in place:** `project-rules.md` and the `rules/` files the project
+      loads, each imported from `CLAUDE.md`, with the *Rules* line written (§SCOPE) — and
+      **committed** at the first checkpoint. An untracked copy is one `git clean` from gone.
+- [ ] `fleet` plugin enabled in `.claude/settings.json`, the skill copies made, the
+      `AGENTS.md` and `GEMINI.md` pointers and the credential hook in place (Step 4)
+- [ ] Motif proposed and chosen, recorded in `design-system.md` (§DESIGN, Step 5)
+- [ ] `design-system.md` written and tokens in `@theme` before any UI work
+- [ ] Component round done: the core kit and signature component designed in the motif,
+      approved through mockups, built on shadcn behaviour (§SHADCN)
+- [ ] Navigation style confirmed with the owner
+- [ ] Zustand and zod confirmed as needed or not needed (§STATE)
+- [ ] Data adapter interface defined, if the project has data (§DATA)
+- [ ] Base components built: navigation, footer, button
+- [ ] Document set created — only the files that have content (§DOCS)
+- [ ] Structure matches §STRUCTURE; files named per §NAMING, with the filename lint rule
+      offered
+- [ ] MCP servers active: Context7, Next.js DevTools, shadcn, Firebase and Vercel where
+      applicable, web search
+- [ ] `.env.local` and `environment.md` **only once a credential actually exists** (§DOCS);
+      from then, every variable recorded by name and owner (§FIREBASE for the Firebase set)
+- [ ] If the project has AI features: the `lib/ai/` adapter and model map in place, every
+      model call protected before any AI feature ships (§AI)
+- [ ] Vitest installed and `npm test` wired (§TESTING)
+- [ ] `Trello board:` line in `CLAUDE.md` — a URL, or `none` (§TRELLO)
+- [ ] Studio credit and showcase decided, if the owner has a studio (§CREDIT, Step 1)
+- [ ] First `npm run build` passes clean — last
