@@ -438,7 +438,8 @@ Then act on the answers, and report in a line or two what was done:
 - **An approved showcase update is filed as §CREDIT says** — an issue on the studio site's
   repository, its link in `decisions.md`; if this session cannot reach that repository, the
   request is written in full as an open item in `docs/STATUS.md`, and you say so.
-- **Those changes are committed under the answer Step 4 already had** — one follow-up commit,
+- **Those changes are committed under the answer Step 4 already had** (§GIT, *An approval
+  does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 4 pushed, committed only if Step 4 only committed, left uncommitted (and said
   so) if the owner declined. A release is not repeated: after a `git CPR`, say the follow-up
   commit is on the branch Step 4 used and ships with the next release.

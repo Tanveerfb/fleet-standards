@@ -272,7 +272,9 @@ session's history harder to read rather than easier.
 **An approval does not generalise.** Wherever a commit or push needs a trigger — on a
 single-branch project, and for every release to production — "Yes, commit that" authorises
 the commit in front of you and nothing after it. The next one needs its own trigger. The same applies to a push: one
-push approved is not pushing approved.
+push approved is not pushing approved. **One exception:** a checkpoint's own follow-up
+commit, holding what its closing question approved, is covered by the answer that
+checkpoint's git step had — pushed only if that step pushed, and never a release.
 
 **Where the branch auto-deploys, a push is a production release.** Say so in the
 confirmation. The owner should never learn from somewhere else that a checkpoint shipped.

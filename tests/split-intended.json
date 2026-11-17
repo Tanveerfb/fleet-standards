@@ -42,7 +42,9 @@
     "  every session costs context and buys nothing. `CLAUDE.md` omits the `@project-rules.md`",
     "  line and instead names the sections the profile keeps, with an instruction to read the",
     "  section before git, documentation, security or design work (`templates/CLAUDE.template.md`",
-    "  shows the variant). The startup check and `sync-standards` still read this file at the root"
+    "  shows the variant). The startup check and `sync-standards` still read this file at the root",
+
+    "push approved is not pushing approved."
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -169,6 +171,10 @@
     "*§TESTING's universal rules are in the core, `project-rules.md`; the browser check is in `rules/web.md`.*",
     "*§TESTING's universal rules are in the core, `project-rules.md`; unit tests are in `rules/node.md`.*",
 
-    "| `CPR` | As `checkpoint`; nothing to release, so say so. **In a cloud session:** as `git CPR`, but **ask** before the fast-forward. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; nothing to release, so say so. |"
+    "| `CPR` | As `checkpoint`; nothing to release, so say so. **In a cloud session:** as `git CPR`, but **ask** before the fast-forward. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; nothing to release, so say so. |",
+
+    "push approved is not pushing approved. **One exception:** a checkpoint's own follow-up",
+    "commit, holding what its closing question approved, is covered by the answer that",
+    "checkpoint's git step had — pushed only if that step pushed, and never a release."
   ]
 }
