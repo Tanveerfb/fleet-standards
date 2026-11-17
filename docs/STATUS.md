@@ -12,13 +12,13 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** **build group K** as the owner answered it 2026-11-18 (`decisions.md`): K1 to K5
-are small; K6 (`rules/options/sqlite.md`) and K7 (`rules/python.md`) are new files, written
-from what `roleodex`, `cutscene` and `toll-pipeline` already do. Then **phase 7**: the theme
-name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
+**Next:** **two ideas of the owner's, 2026-11-18, to shape before phase 7** (open items 3
+and 4): an upgrade path that audits a project moving between versions, and the `fable-audit`
+skill as an independent auditor. Nothing is built for either until picked. Then **phase 7**:
+the theme name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
 5 → 8, 6 → 9).
-**Blocked on:** nothing for group K; phase 7 waits on the owner's theme name.
+**Blocked on:** the owner's picks for the two ideas, and the theme name for phase 7.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
 `relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
 run; the skills' new paths (every kind in
@@ -82,7 +82,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I) but I4, at the release. Group K is the owner's questions |
+| 6. Process X on the standard | **Built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I, and K from the owner's answers: pnpm, JavaScript tools, `rules/options/sqlite.md`, `rules/python.md`) but I4, at the release |
 | 7. Theme and release | Not started. Needs the owner's theme name. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
@@ -119,15 +119,20 @@ plain text in `E:\Installed`. It was not opened.
 2. **GitHub's private vulnerability reporting is off** on the repository (checked
    2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
    setting; then that line can point at it.
-3. **Group K, answered, to build** — pnpm for new projects; JavaScript for local tools; a
-   core pointer to `ui.md`; a split proposed past 50 KB; §MOTION exceptions dropped at sync;
-   a SQLite option; a Python rules file. The answers are in `decisions.md`, 2026-11-18.
-4. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
+3. **An upgrade path (the owner, 2026-11-18):** a project moving from an older version
+   needs help with the transition and an audit of it, such as an old status doc that still
+   holds history to move out. `sync-standards` Step 4's checks a to i do part of this, one
+   check per known change. Not picked yet.
+4. **`fable-audit` as Process X's auditor (the owner, 2026-11-18):** the owner's global
+   skill runs Fable through the API on a set of files and returns findings with
+   suggestions. It lives on this PC only and costs API credit per run, with the owner's go.
+   Not picked yet.
+5. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all fifteen evals run once, then the release.
-5. **The machine file's local-models section is empty**: Ollama was not running when
+6. **The machine file's local-models section is empty**: Ollama was not running when
    `machine-inventory` ran. Start Ollama and run the skill again.
-6. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
+7. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
    checking at their next sync whether the stricter block is still wanted.
 
 ---
