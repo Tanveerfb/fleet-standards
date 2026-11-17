@@ -112,9 +112,5 @@ No git step: these are the owner's own files, outside any repository.
 
 ## Common mistakes
 
-- Installing a missing tool. This skill reports; installing is the owner's call.
 - Listing everything on the machine. The file is read every session: tools that matter to
   project work, nothing else.
-- Dropping the owner's notes on a rewrite. Read first, carry them over.
-- Writing the file into a project. It describes the machine, and a project is opened on
-  more than one.

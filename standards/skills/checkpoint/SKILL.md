@@ -554,49 +554,17 @@ session touched. A MAX checkpoint that pushes leaves no stale instruction in the
 
 ## Common mistakes
 
-- Pushing a new feature with a README that still describes the app before it. On a
-  `git checkpoint` or `git CPR`, the README ships with the code.
+*Only the traps the steps above do not already name.*
 
-- Searching Trello for a board because the project "probably has one". No `Trello board:`
-  line in `CLAUDE.md` means no Trello work.
-- Moving a card to Done because the code was written. Done means verified; finished but
-  unverified is Review.
 - Writing the deep doc *after* asking about git, so a "no, don't commit yet" answer leaves docs
   updated but uncommitted with no clear note of that — always doc → `Start here` → git, in that order,
   so the git step naturally includes the doc updates in what it offers to commit.
 - Treating the `Start here` block as sufficient on its own. It is deliberately lossy (under 15
   lines). If Step 2 is skipped, real information is lost, not just deferred.
-- Restating the doc's content inside `Start here` instead of pointing at headings — two sources of
-  truth that will drift.
-- Appending a correct new session-log entry above an old one that describes a system this session
-  deleted, without marking the old one RETIRED. The doc now contradicts itself and gives no way to
-  tell which half is current.
-- Folding by summarizing. The archive gets the entry verbatim or the fold has destroyed evidence.
 - Assuming a project is code just because most projects are. Some projects (like a streaming-app
   config rebuild, a document, an infra change) have no meaningful git diff at all — the "current
   state" lives somewhere else entirely. Document *that* location precisely.
-- Skipping the "what was tried and abandoned" content because it feels like noise. It's the
-  opposite of noise — it's the exact information that prevents a future session from burning time
-  re-discovering a dead end you already found.
-- Asking "want me to commit?" after the user said **git checkpoint**. They already answered.
-  Asking again reads as not having listened.
-- Ending the checkpoint without the Step 6 question, or printing a compact block. The owner
-  decides whether the session stops here; a plain `/compact` is all they need.
-- Asking Step 6's questions in several prompts. One call holds them all; questions that do
-  not apply are left out, not asked as "none".
-- Leaving live state only in the conversation: if it is not in **Live** or `CLAUDE.md`, the
-  compact loses it.
-- Reverting a tool-rewritten config without reading its diff. An engine, IDE or build tool
-  may have rewritten the file and also carry a real change. Read the diff, compare the
-  settings, and restore only the noise. Never a blind `git checkout -- <file>`.
-- Writing this checkpoint's log entry into `docs/STATUS.md`, or leaving a "was" in a brief.
-  History goes to `docs/log.md` and `docs/record/`; the files agents read hold what is true
-  now.
-- `git CPR` on a single-branch project in a cloud session ending at "nothing to release". The
-  harness branch is the working branch there; the release fast-forwards the main branch.
 - Treating **MAX** as "write more words". Length is not the dial — verification is. A shorter
   document where every claim was checked beats a longer one padded with confident recollection.
 - Skipping M4 because the suite was green earlier in the session. "Earlier" isn't now, and the
   checkpoint's own doc edits may have been the thing that broke it.
-- Letting a verified claim and an assumed one sit in the same voice. If you didn't check it,
-  the document has to say so.

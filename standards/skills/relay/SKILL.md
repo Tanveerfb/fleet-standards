@@ -279,18 +279,13 @@ rather than silently skipping it.
 
 ## Common mistakes
 
+*Only the traps the steps above do not already name.*
+
 - **Summarising the handoff back at the user.** They can read it. Relay earns
   its keep with the parts the handoff *can't* contain: whether it is still true.
-- **Re-reading auto-injected files** to look thorough. Check context first.
-- **Reading the entire log, or `docs/record/`.** They are history by design.
-  Snapshot, newest log entry, tail of `decisions.md`.
-- **Shortening relay after a compact because a request is waiting.** The full
-  relay, the report, then the request.
 - **Trusting the status doc because it is detailed.** Detail and accuracy are
   unrelated. The most dangerous line in any status doc is a confident
   present-tense claim about something that works.
-- **Starting the entry point immediately.** Relay ends in a report and a pause.
-  Momentum is not the goal; a true picture is.
 - **Skipping R2 because "nothing changed since last time".** You cannot know
   that until you have run it, and that is the entire point.
 - **Reporting an empty staleness list as an absence.** Say "I checked N claims
