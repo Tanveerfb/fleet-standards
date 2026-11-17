@@ -402,6 +402,9 @@
     "| Claude's built-in browser, Claude in Chrome (`rules/web.md` §TESTING) | The agent's own browser control; Playwright stays the last resort |",
     "- **Done means seen working.** A green build or a passing test is not evidence a change",
     "  works. It is done when it has been seen working: an interface on screen, a tool on a real",
-    "  input, a game in the engine"
+    "  input, a game in the engine",
+
+    "## §GAME — The game-engine profile",
+    "## §NONAPP — The non-application profile"
   ]
 }

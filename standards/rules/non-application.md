@@ -6,6 +6,8 @@ the set and who loads it, and its header carries the one version they share.
 
 ---
 
+## §NONAPP — The non-application profile
+
 **Repositories without application code.** Some repositories hold runbooks, records or
 configuration for a system that lives elsewhere — a Microsoft 365 tenant, a no-code platform,
 infrastructure managed through a console. They follow the **non-application profile**,

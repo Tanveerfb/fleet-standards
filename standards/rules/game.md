@@ -6,6 +6,8 @@ the set and who loads it, and its header carries the one version they share.
 
 ---
 
+## §GAME — The game-engine profile
+
 **Game-engine projects.** A game built in an engine (Godot first; Unity and Unreal are read
 the same way) is real application code, so the non-application profile does not fit, and
 the Node and Next.js files are written for a stack it does not have. It follows the **game-engine
