@@ -97,7 +97,7 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
   project that does not load the Firebase option is moot the same way.
 
-**Then audit the transition, read-only.** Run every check in Step 4 (item 4, a to l) against
+**Then audit the transition, read-only.** Run every check in Step 4 (item 4, a to m) against
 the project without changing anything, and add each *What a project must change* item from
 the changelog entries it is behind. The result is **one upgrade report**, a line per item:
 what is there now, what the sync will do, or what is left for later and to whom (history in
@@ -232,6 +232,23 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
 
    **l. Moot exceptions.** The ones Step 2 offered and the owner approved are removed from
    `conventions.md`, with a line in `decisions.md` saying which rule made each moot.
+
+   **m. The repository's security settings (§SECURITY).** Read first, change nothing
+   without the owner's yes for that item; each is a setting or a workflow, never a guess.
+   - *Branch protection.* *If the project has a GitHub remote and `conventions.md` records
+     no protection gap,* read the default branch's protection (`gh api
+     repos/<owner>/<repo>/branches/<branch>/protection`; a 404 means none). If force pushes
+     or deletion are allowed, or a multi-branch project does not require pull requests, say
+     so and offer to turn it on (the owner's yes; the same call `new-project` Step 4.5 makes).
+     If the plan does not allow it, record the gap in `conventions.md`, so no later sync asks.
+   - *Tokens.* *If `environment.md` names a token without its scope and expiry,* ask the
+     owner for them and write them in. Names, scopes and dates only; never open a credential
+     file or ask for a value.
+   - *Workflows.* *If a file under `.github/workflows/` has no `permissions:` block,* say
+     which, and offer the least it needs; changing a workflow is the owner's yes, every time.
+     *If the repository has Actions secrets* (`gh secret list`, names only) *and no workflow
+     uses one,* say which; removing them is the owner's.
+   A project with no GitHub remote skips this check and says so.
 
    **A release that needs a new check adds it here**, as the next letter, and names it in its
    changelog entry's *What a project must change* list, so every later sync runs it and a

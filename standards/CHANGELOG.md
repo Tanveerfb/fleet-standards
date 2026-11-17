@@ -104,7 +104,7 @@ A section that appears in two files (§NAMING, §PACKAGES, §BUILD, §STATE, §R
   the question instead of guessing.
 - **`sync-standards` is the upgrade path.** It audits the transition into one upgrade
   report, applies on one yes, then re-runs its checks. Its per-version steps became state
-  checks, a to l (below), so a project several versions behind takes the same path. A
+  checks, a to m (below), so a project several versions behind takes the same path. A
   declined option is recorded as `no-<name>` on the *Rules* line and a declined sync in
   `decisions.md`, so neither is asked again. `copied.json` keeps a hash per copied skill, so
   a local edit (`! edited`) shows apart from a master change (`~ changed`). Hook scripts are
@@ -149,7 +149,10 @@ A section that appears in two files (§NAMING, §PACKAGES, §BUILD, §STATE, §R
 11. **(j) One package manager,** one lockfile, and the *Commands* naming it.
 12. **(k) Python's shape,** package or folder of scripts, in `conventions.md`.
 13. **(l) Moot exceptions** the owner approves are removed from `conventions.md`.
-14. **Step 5:** the relay-after-compact and shell-write hooks in `.claude/settings.json`
+14. **(m) The repository's security settings,** each on the owner's yes: the default branch
+    protected or the gap recorded in `conventions.md`; each token's scope and expiry in
+    `environment.md`; workflows declaring their `permissions`; unused Actions secrets named.
+15. **Step 5:** the relay-after-compact and shell-write hooks in `.claude/settings.json`
     (cloud sessions load no plugin hooks), and the skill copies with their hashes.
 
 ### Built as 3.9.0, never released (issues #20 to #33)

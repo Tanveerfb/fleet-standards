@@ -22,7 +22,7 @@ numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7, 5 → 8
 **Blocked on:** nothing.
 **Don't trust:** no behaviour eval has run since groups A to E, and four of the fifteen
 cases never have; the skills' new paths (every kind in `new-project` and its Step 4.5, the
-sync's upgrade report and checks a to l, `--remove-stale`, the hashes, relay's short form
+sync's upgrade report and checks a to m, `--remove-stale`, the hashes, relay's short form
 after a resume) have never met a real project. The installer's three crash fixes were read,
 not tested. The PowerShell half of the shell-write guard is tested, never seen live.
 **Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
@@ -121,7 +121,7 @@ plain text in `E:\Installed`. It was not opened.
    2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
    setting; then that line can point at it.
 3. **The upgrade path is built, never run:** `sync-standards` audits the transition into
-   one report, applies on one yes, re-checks (Step 4 now runs a to l). The pilot syncs in
+   one report, applies on one yes, re-checks (Step 4 now runs a to m; m, the repository's security settings, added with the changelog). The pilot syncs in
    phase 7 are its first use; the 4.0.0 changelog entry has to carry its list.
 4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). Its review of
    v4 ran 2026-11-18: 7 out of 10, about $3.20 over two runs (the first hit its output cap
@@ -168,7 +168,7 @@ plain text in `E:\Installed`. It was not opened.
 
 - The eight older eval cases still pass. They were not re-run after the split, nor after
   groups A to C rewrote parts of `checkpoint`, `sync-standards`, `relay` and `new-project`.
-- `sync-standards` (its checks a to l, the upgrade report, *Adding an option*, the stale-copy and declined-import
+- `sync-standards` (its checks a to m, the upgrade report, *Adding an option*, the stale-copy and declined-import
   paths), `new-project` for each kind, `ai-setup` and `design-motif` by kind: written and
   read through, never run against a project. The pilot syncs in phase 7 are their first
   real use.
