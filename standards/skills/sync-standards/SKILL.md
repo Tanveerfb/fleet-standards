@@ -261,6 +261,13 @@ the owner declining the copies**: ask as Step 4 (a) says, and never copy them un
 node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>" --check
 ```
 
+**The hook scripts are shown before they are copied.** They run unattended, on every shell
+command and after every compact, from a master copied off `main`. For each
+`.claude/fleet/scripts/` line `--check` lists as new or changed, show the owner the diff
+(`git diff --no-index <the project's copy> <the master's>`, or the master file whole when
+it is new) and say what the change does, before the run that writes it. A change nobody can
+explain is not copied; raise it as §SECURITY says.
+
 `--check` writes nothing and lists what would change: `~ changed` is the master's update,
 **`! edited` is a copy edited in this project since the last sync** (its hash in
 `copied.json` no longer matches). Treat an edited one like an edited rules file (Step 1): show
