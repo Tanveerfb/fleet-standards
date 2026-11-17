@@ -31,6 +31,9 @@ right skill fired and that the stated decision matches the rule: every case has 
 | `relay-after-compact` | after a compact, relay runs in full before a request that is already waiting |
 | `checkpoint-log-split` | a status doc that still holds its session log is split: old entries move word for word to `docs/log.md`, the new entry goes there, the status doc stays a snapshot |
 | `motif-show-me` | on "Show me", design-motif drafts a page of sample tiles before asking for a pick, the same pieces in each tile |
+| `sync-asks-first` | `sync-standards` says what changed and what was dropped, then asks once before copying anything |
+| `propose-files-an-issue` | `propose-standard` drafts an issue, shows it, files it on a yes: no branch, push or pull request unasked |
+| `new-project-game` | `new-project` for a Godot game puts the game's rules files in place, scaffolds nothing for the web, and commits nothing |
 | `checkpoint-pause` | a checkpoint ends with one question — what next — and no compact block: a plain `/compact` is enough |
 
 **When a case fails**, read its transcript in the results folder before changing anything: a
