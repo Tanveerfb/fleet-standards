@@ -116,7 +116,17 @@
     "  the system around them. **Keep it current, or it becomes a confident lie** — the checkpoint",
     "  updates it whenever a module is added, moved or removed. The depends-on and used-by columns",
     "  can be generated from the imports by a tool such as dependency-cruiser or madge rather than",
-    "  maintained by hand — the owner's choice (§AGENTS)"
+    "  maintained by hand — the owner's choice (§AGENTS)",
+
+    "  defined together as a token pair in `@theme` (`--color-danger` with `--color-on-danger`)",
+    "Every project has a `components.md` listing what exists.",
+    "In a project without a component library (a game engine, a native app), the register may be",
+    "a table in `design-system.md`, one row per shared piece: the piece, its file, what it is,",
+    "and whose pick it was. A separate `components.md` is created when the table outgrows that",
+    "file. Either way, a new screen uses what is registered, and a hand-made copy of a registered",
+    "piece is a bug.",
+    "- **Durations, easings and springs are tokens** in `@theme` (§STYLING), recorded in",
+    "  `design-system.md` once a mockup settles them"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -296,6 +306,17 @@
     "gitignored `public/_mockups/` that the dev server serves; a locked one moves to",
     "`docs/design/`, outside `public/`. **The architecture map (§SCALE)** follows the main flows",
     "as form → Server Action → adapter → store, and its depends-on columns can come from",
-    "dependency-cruiser or madge."
+    "dependency-cruiser or madge.",
+
+    "  defined together as a token pair where the project keeps its tokens (`--color-danger` with",
+    "  `--color-on-danger` in `@theme`, in a web project)",
+    "Every project with an interface keeps a registry of what exists: `components.md`, or, where",
+    "there is no component library (a game engine, a native app, a platform), a table in",
+    "`design-system.md` — one row per shared piece: the piece, its file, what it is, and whose",
+    "pick it was — until the table outgrows that file.",
+    "A new screen uses what is registered, and a hand-made copy of a registered piece is a bug.",
+    "- **Durations, easings and springs are tokens**, kept where the project keeps its tokens",
+    "  (`@theme` in a web project, `rules/web.md` §STYLING), recorded in `design-system.md` once a",
+    "  mockup settles them"
   ]
 }

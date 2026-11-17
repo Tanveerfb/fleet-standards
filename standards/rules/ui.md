@@ -49,7 +49,8 @@ Then, always:
 - Sentence case throughout, including buttons and table headers
 - Never convey state by colour alone
 - **Text on colour is designed, not guessed.** Every fill colour has a partner text colour,
-  defined together as a token pair in `@theme` (`--color-danger` with `--color-on-danger`)
+  defined together as a token pair where the project keeps its tokens (`--color-danger` with
+  `--color-on-danger` in `@theme`, in a web project)
   and never improvised per component:
   - **Saturated mid-tone fills — red, green, blue, purple, orange — carry white text.** If
     white does not reach 4.5:1 (3:1 for large or bold text), **darken the fill until it
@@ -66,18 +67,17 @@ Then, always:
 
 ## §COMPONENTS — Component registry
 
-Every project has a `components.md` listing what exists.
+Every project with an interface keeps a registry of what exists: `components.md`, or, where
+there is no component library (a game engine, a native app, a platform), a table in
+`design-system.md` — one row per shared piece: the piece, its file, what it is, and whose
+pick it was — until the table outgrows that file.
 
 - **Read it, and verify it against the filesystem, before building any
   component.** It is an index, not a source of truth
 - If something close exists, extend it with a prop. Do not fork it
 - Add what you build to the registry in the same commit
 
-In a project without a component library (a game engine, a native app), the register may be
-a table in `design-system.md`, one row per shared piece: the piece, its file, what it is,
-and whose pick it was. A separate `components.md` is created when the table outgrows that
-file. Either way, a new screen uses what is registered, and a hand-made copy of a registered
-piece is a bug.
+A new screen uses what is registered, and a hand-made copy of a registered piece is a bug.
 
 An unmaintained registry is worse than none, because it gets trusted.
 
@@ -142,8 +142,9 @@ Three things hold regardless:
   taste, and no exception covers it
 - **Motion never makes the app feel slow.** Nothing waits on an animation before it can be
   used, and it stays smooth on a mid-range phone. If it drops frames, cut it back
-- **Durations, easings and springs are tokens** in `@theme` (§STYLING), recorded in
-  `design-system.md` once a mockup settles them
+- **Durations, easings and springs are tokens**, kept where the project keeps its tokens
+  (`@theme` in a web project, `rules/web.md` §STYLING), recorded in `design-system.md` once a
+  mockup settles them
 
 Motion is verified on film, never from stills (§TESTING).
 
