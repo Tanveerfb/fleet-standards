@@ -145,10 +145,13 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    already has a thing is not asked about it again. Ask where a value is the owner's.
 
    **a. The rules set (v4; §SCOPE has the tables).** *If `CLAUDE.md` has no *Rules* line:*
-   - **First, a decision against it.** Search `decisions.md` (and its declined index) for an
-     entry declining the rules import or the skill copies — some projects did, for a reason
-     of their own: "a fleet sync must not put the import back", 70 KB of Next.js rules that
-     did not apply. **Never restore either unasked.** Quote the entry, say what changed (the
+   - **First, a decision against it.** Search `decisions.md` (and its declined index) and the
+     granted exceptions in `conventions.md` for any refusal of something this sync would add:
+     the rules import ("copied, not imported", "referenced, not imported"), the skill copies,
+     the hooks, the plugin wiring, `AGENTS.md` or `GEMINI.md`, the credential hook. Some
+     projects refused, for a reason of their own: "a fleet sync must not put the import
+     back", 70 KB of Next.js rules that did not apply. **Never restore any of them unasked**;
+     Step 5 checks the same list before each of its items. Quote the entry, say what changed (the
      core is about 31 KB, all of it applies to every kind, and the kind's files are the only
      others loaded), and ask. A no stands: leave the import and the *Rules* line out (the
      startup check would report a declared file not imported every session), record the
@@ -228,7 +231,8 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
 
    **g. The profile block in `conventions.md`.** *If a game or a repository without
    application code carries a block of its own, or one that still speaks of "Part A",
-   "Parts B to E" or the rules being "referenced, not imported"* (the words before v4), offer
+   "Parts B to E" or the rules being "referenced, not imported" or "copied, not imported"*
+   (the words before v4), offer
    to replace it with the block for its kind from the conventions template (§SCOPE), keeping
    anything the project's block says that the profile does not. "Part" wording elsewhere in
    `CLAUDE.md` or `conventions.md` is corrected to the section names it meant; never in
@@ -282,6 +286,10 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    project several versions behind takes the same path.
 
 ## Step 5 — Wire the project to every agent
+
+**Each item below is skipped where the project recorded a refusal of it** (Step 4 (a)'s
+search: `decisions.md` or a `conventions.md` exception). Say which, and ask only if what
+changed since might change the answer.
 
 **Claude Code on the owner's machine.** Check `.claude/settings.json` registers the
 marketplace and enables the plugin, so local sessions load the skills and the startup check.
