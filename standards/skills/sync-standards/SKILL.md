@@ -100,7 +100,10 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
 - **What was dropped** — newer is not automatically a superset. A dropped rule this project
   relied on is the one thing a sync can silently break.
 - **Section references.** If the jump crosses v2 → v3, every `§<number>` in this project's
-  docs becomes a name. Count them: `grep -rn "§[0-9]" --include=*.md .`
+  docs becomes a name. Count them in the project's own tracked files, never in copies,
+  clones or archives: `git grep -n "§[0-9]" -- '*.md' ':!.claude/' ':!docs/archive/'`. A
+  document's own numbered sections (a spec's §2) are not the standard's: count only
+  references to it.
 - **Granted exceptions this touches.** Read `conventions.md`: an exception against a rule
   that changed may now be moot, or may now need restating. **A moot one is offered for
   removal**, quoted with the rule that made it moot, and removed on the owner's yes in Step 4
@@ -110,9 +113,10 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
 
 **Then audit the transition, read-only.** Run Step 4's item 0 (a `rules/` folder that is not
 the standard's) and every check in item 4, a to m, against the project without changing
-anything. A `rules/` stop goes at the top of the report, so the owner sees it before saying
-yes, and add each *What a project must change* item from
-the changelog entries it is behind. The result is **one upgrade report**, a line per item:
+anything; a `rules/` stop goes at the top of the report, so the owner sees it before saying
+yes. Add each *What a project must change* item from the changelog entries it is behind
+(entries before 4.0.0 have no such list: their "What a project does" lines, where they have
+them, serve). The result is **one upgrade report**, a line per item:
 what is there now, what the sync will do, or what is left for later and to whom (history in
 `docs/STATUS.md` goes at the next checkpoint: say how many entries). Items that need the
 owner's value are marked. An item that does not apply is left out; an empty report is a fine
@@ -235,7 +239,8 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    does not), which loads by itself when AI code is read.
 
    **d. The motif, where the project loads `rules/ui.md`.** *If `CLAUDE.md` has no `Motif:`
-   line,* add it. *If `design-system.md` records no motif,* offer to run `design-motif`, which
+   line,* add it. *If `design-system.md` (or the file the project keeps its design in, such
+   as `DESIGN.md`) records no motif,* offer to run `design-motif`, which
    records the project's existing look rather than re-choosing it.
 
    **e. `CLAUDE.md`'s working agreement.** *If it restates bullets §OWNER now holds,* offer to

@@ -127,7 +127,7 @@ A section that appears in two files (§NAMING, §PACKAGES, §BUILD, §STATE, §R
 
 `sync-standards` does each of these: Step 4's checks, by letter, in its upgrade report.
 
-1. **Step 0:** a `rules/` folder of the project's own (a game's, Firestore's) moves to a
+1. **Step 4, item 0:** a `rules/` folder of the project's own (a game's, Firestore's) moves to a
    folder named for what it is, on the owner's word, before anything is copied.
 2. **(a) The rules set.** Write the *Rules* line, copy the core and the kind's files, and
    import them in `CLAUDE.md`. A game or non-application project that referenced the rules
