@@ -13,8 +13,9 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
 **Next:** the Fable review of v4, then **phase 7**. The theme is chosen: **v4 Sutlej**, the
-five rivers of Punjab (`decisions.md`, 2026-11-18); how the README's look is made is still
-the owner's to say. Offered and not yet run: a Fable review of v4
+five rivers of Punjab (`decisions.md`, 2026-11-18). Its README look starts as mockups, no
+sample gallery, locked before it is built. Open: whether the README leads with "Sutlej" or
+the number. Offered and not yet run: a Fable review of v4
 through `fable-audit` (open item 4), priced before the owner's go. The 4.0.0 changelog entry
 must end with its *What a project must change* list (`docs/maintainer.md`). `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,

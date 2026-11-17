@@ -506,3 +506,11 @@ artwork only** (the repository is public). Not ticked: "the version number stays
 reference" and "the look goes through `design-motif`". What the owner wants instead is not
 yet said. The scripts read only `x.y.z` (`scripts/standard.mjs`), so the number stays in
 the version line whatever the README leads with.
+
+## 2026-11-18 — Sutlej's look: mockups straight away, no sample gallery
+
+The owner: "Mockups, no gallery". The README's look skips `design-motif`'s brief-and-tiles
+step ("Show me"): it starts as mockups of the README itself, revised until the owner locks
+one, and is built only after the lock (§OWNER). Turned down: the full `design-motif` loop;
+deciding at phase 7. Still open: whether the README and changelog lead with "Sutlej" or the
+number.
