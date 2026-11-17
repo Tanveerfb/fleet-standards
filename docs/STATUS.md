@@ -13,9 +13,9 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 are done. Phase 6 is the audit (`docs/specs/v4-audit.md`, every pick built but I4, at the
 release) and a blind Fable 5.2 review (7 out of 10; its fifteen picks R1 to R15 built,
 `docs/audits/`). `main` is untouched; nothing is released.
-**Next:** **phase 7**, *Theme and release*: v4 is **Sutlej** (the five rivers of Punjab,
-`decisions.md`). Start with the README's look as mockups, no sample gallery, locked before
-it is built; ask first whether the README leads with "Sutlej" or "v4.0.0". The rest is open
+**Next:** **phase 7**, *Theme and release*: v4 is **Satluj** (the five rivers of Punjab,
+`decisions.md`; spelled Satluj, not Sutlej). The README leads "v4.0.0 · Satluj". Next is
+the README's look as mockups, no sample gallery, locked before it is built. The rest is open
 item 5. The 4.0.0 changelog entry ends with its *What a project must change* list
 (`docs/maintainer.md`). `checkpoint`'s steps are 1 to 9; the audit's rows cite the old
 numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7, 5 → 8, 6 → 9).
@@ -84,7 +84,7 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
 | 6. Process X on the standard | **Done.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I, and K from the owner's answers: pnpm, JavaScript tools, `rules/options/sqlite.md`, `rules/python.md`) but I4, at the release. Then the Fable review, `docs/audits/`: R1 to R15 built. Also: the sync's upgrade report, Fable as Process X's optional auditor |
-| 7. Theme and release | Not started. The theme is chosen: v4 Sutlej. Group G in the audit is its list of documents to rewrite |
+| 7. Theme and release | Not started. The theme is chosen: v4 Satluj. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
 only referenced the file), measured 2026-11-18 at the checkpoint: web 62.4 KB plus its
@@ -128,7 +128,7 @@ plain text in `E:\Installed`. It was not opened.
    and wrote nothing; the runner in `~/.claude/skills/fable-audit/` was fixed). The owner
    picked all fifteen findings offered, R1 to R15, and all are built. Not done by them: a
    second review to see the score move (about $1.50 to $3 with the cache cold).
-5. **Phase 7** — the themed README (Sutlej: river blues, a Phulkari-style pattern, original
+5. **Phase 7** — the themed README (Satluj: river blues, a Phulkari-style pattern, original
    art), the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all fifteen evals run once, then the release.

@@ -514,10 +514,17 @@ step ("Show me"): it starts as mockups of the README itself, revised until the o
 one, and is built only after the lock (§OWNER). Turned down: the full `design-motif` loop;
 deciding at phase 7.
 
-## 2026-11-18 — The number leads: "v4.0.0 · Sutlej"
+## 2026-11-18 — The number leads: "v4.0.0 · Satluj"
 
 Asked at the start of phase 7, the owner picked the number first and the river as its
 subtitle, in the README's title area and the changelog heading. The version stays the thing
 a reader scans for; the name carries the look. This settles the open "version number stays
-the reference" point above. Turned down: "Sutlej · v4.0.0", name first; the name only in the
-banner art.
+the reference" point above. Turned down: the name first; the name only in the banner art.
+
+## 2026-11-18 — The spelling is Satluj
+
+The owner asked "Sutlej or Sutluj?". Picked: **Satluj**, closest to the Punjabi ਸਤਲੁਜ and the
+form in Indian official use (Satluj Jal Vidyut Nigam). Turned down: Sutlej, the common
+English and map spelling from the colonial era; Sutluj, rare in print. Entries above and the
+session log keep "Sutlej" as written then; everything from here uses Satluj. The other four
+keep their usual spellings: Beas, Ravi, Chenab, Jhelum.
