@@ -216,7 +216,7 @@ the owner wants any done now.
 | F1 to F6 | picked | **built 2026-11-18:** F1 (§GIT, after the line naming `relay`). F2 (§SCOPE names `rules/`, the skill copies and `.claude/fleet/`). F3 (a bullet in §AGENTS; `checkpoint` Step 7 points at it). F4 (Step 7 checks the branch against the *Deploys* line before the unasked push). F5 (stage by path; anything else is listed and asked about). F6 (the entry names the earlier commits by hash and its own as "and this one"; never amended, no commit just for the hash). F1 to F6 are built |
 | F7, F8, F9 | not picked | declined for v4; F8 is also a question for the owner |
 | G1 to G10 | phase 7 | not a pick |
-| H1 to H4 | picked | **built 2026-11-18:** H4 (`checkpoint-fired` in the five cases without it; `relay-lets-continue` gains `reports-and-waits`). To build: H1 to H3. Not run: each takes the owner's go |
+| H1 to H4 | picked | **built 2026-11-18:** H4 (`checkpoint-fired` in the five cases without it; `relay-lets-continue` gains `reports-and-waits`). H3 (the four graders say what is not a failure). To build: H1, H2. Not run: each takes the owner's go |
 | H5 | not picked | the run before release is in phase 7's own list |
 | I1 to I5 | all | **built 2026-11-17:** I3 (ahead of its group: B11 lands on what it leaves). To build: I1, I2, I5; I4 at the release |
 | K1 to K7 | the owner's answers | open |
