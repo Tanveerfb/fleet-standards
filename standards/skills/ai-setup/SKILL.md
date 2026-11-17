@@ -100,39 +100,26 @@ lib/ai/
 
 ## Step 5 — Protect every model call
 
-Before anything is user-facing (§AI):
-
-- **AI Logic:** App Check registered and enforced, limited-use tokens preferred, per-user
-  quotas set. Enforcement and quotas live in the Firebase console — list exactly what the
-  owner has to click, and do not mark this step done until they confirm.
-- **AI SDK:** routes require an authenticated user and rate-limit per user on the server. If
-  the project has no rate limiter, propose options (a Firestore counter, a hosted limiter)
-  and let the owner choose.
-- Output caps (max tokens) set per task.
+Before anything is user-facing, every protection §AI lists for the chosen tooling is in
+place, with an output cap per task. Two things are the owner's: **AI Logic's enforcement and
+quotas live in the Firebase console** — list exactly what to click, and do not mark this
+step done until they confirm; and **a rate limiter the project lacks** — propose options (a
+Firestore counter, a hosted limiter) and let them choose.
 
 ## Step 6 — Local models (AI SDK only, if wanted)
 
-- Base URL and model name from environment variables — Ollama `http://localhost:11434/v1`,
-  LM Studio `http://localhost:1234/v1`, through the AI SDK's OpenAI-compatible provider.
-- Ask the owner which model; use the name exactly as `ollama list` or LM Studio shows it.
-- Make one real call from the server side of the dev app and show the response. If the
-  server is not running or the model is missing, say so plainly.
-- Remind the owner: a deployed app cannot reach their PC, and small local models are weaker
-  at tool calling and structured output — test with the model that will serve the feature.
+Wire them as §AI describes (base URL and model name from the environment). Ask the owner
+which model and use its name exactly as `ollama list` or LM Studio shows it; check the
+machine file for what this GPU runs. Make one real call from the server side of the dev app
+and show the response — if the server is not running or the model is missing, say so
+plainly — and remind the owner that a deployed app cannot reach their PC.
 
 ## Step 7 — The first feature
 
-Build one feature from the brief end to end, through the adapter:
-
-- a zod schema for any structured output (§AI, §STATE), parsed on every response, one retry
-  then an error state;
-- a prompt file with typed input, user input delimited from instructions;
-- output treated as untrusted — never raw HTML, never executed;
-- tools, if any: zod-parsed arguments, server-side permission checks, user confirmation for
-  side effects;
-- the interface: streaming, a skeleton while waiting, stop and retry, an error state that says
-  what to do, AI-generated content marked (§QOL). Any visual work goes through the mockup
-  loop first (§OWNER) and fits the project's motif (§DESIGN).
+Build one feature from the brief end to end, through the adapter, meeting every rule in §AI
+for structured output, prompts, untrusted output, tools and the interface. Parse each
+response, retry once, then show an error state. Any visual work goes through the mockup loop
+first (§OWNER) and fits the project's motif (`rules/ui.md` §DESIGN).
 
 ## Step 8 — Record
 

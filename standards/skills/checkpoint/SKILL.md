@@ -515,22 +515,16 @@ build — whatever this project actually uses. Write down what ran and what it s
 fails, that failure goes in the doc; a green claim you didn't verify is worse than an honest
 red one. If verification can't run, record why.
 
-**M5. Write the negative space.** These are the parts a future session cannot recover and will
-otherwise redo:
-- What was tried and abandoned, and *why* it didn't work.
-- What the user explicitly declined or ruled out, in their own words where you have them.
-- What was deliberately deferred, and to when or to what condition.
-- What is out of scope by decision rather than by oversight.
-- Open questions you raised that the user hasn't answered yet.
+**M5. Write the negative space in full.** Step 2's log items, without gaps — beyond what was
+tried and abandoned and why: what the owner declined, in their own words; what was deferred,
+and to when; what is out of scope by decision; open questions not yet answered.
 
-**M6. Add a "Confidence and gaps" section.** Name plainly: what is verified, what is assumed,
-what is untested, and what you'd check first if you came back cold. This section is what stops
-the next session from treating the whole document as equally solid.
+**M6. Fill *Confidence and gaps* claim by claim** (Step 2's snapshot section): every verified,
+assumed and untested item named, and what you would check first coming back cold.
 
-**M7. Capture durable user preferences.** Any constraint, working-style rule, or ruling the
-user gave this session that isn't already written somewhere permanent goes into the project's
-durable location (`CLAUDE.md`, `conventions.md`, `decisions.md`) — not only into the
-`Start here` block, which is overwritten next checkpoint by design.
+**M7. Every ruling to its durable place.** Each constraint or ruling the owner gave this
+session goes to `CLAUDE.md`, `conventions.md` or `decisions.md`, never only into `Start here`
+(Step 3).
 
 **M8. Cross-link doc and commit.** The deep doc names the commit hash; the commit message
 reflects what the doc says. A session landing on either can reach the other.
