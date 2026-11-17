@@ -411,7 +411,7 @@ Copilot, Cursor, Gemini CLI or any other.
 | Named here | Elsewhere |
 | --- | --- |
 | The question tool (§ASK) | The agent's own ask-the-user tool; otherwise a short question with numbered options, recommended first |
-| Claude's built-in browser, Claude in Chrome (§TESTING) | The agent's own browser control; Playwright stays the last resort |
+| Claude's built-in browser, Claude in Chrome (`rules/web.md` §TESTING) | The agent's own browser control; Playwright stays the last resort |
 | Context7, Trello and GitHub MCP tools | The same MCP servers configured in that agent, or `gh`; with none, say so |
 | `fleet` plugin, `${CLAUDE_PLUGIN_ROOT}` | `~/.agents/fleet/`, installed by `install-skills.mjs` |
 
@@ -499,14 +499,13 @@ first time an agent duplicates something or works in the wrong place.
 
 ## §TESTING — Testing
 
-- A green build is not evidence an interface works. A UI change is done when it has been
-  seen working
+- **Done means seen working.** A green build or a passing test is not evidence a change
+  works. It is done when it has been seen working: an interface on screen, a tool on a real
+  input, a game in the engine
 - **Motion is checked on film.** An animation or effect is verified by recording the real
   screen, not a draft stage: the engine's movie writer, a screen recorder or Playwright
   video. Read it frame by frame (contact sheets), in each layout it plays in, mirrored if it
   mirrors, and at each speed setting. A short clip goes to the owner for the look; anything
   the agent cannot judge (sound) is named as unverified
-- No end-to-end suite by default. If a project needs one, that is a decision, recorded in
-  `decisions.md`
 
 *§TESTING continues in `rules/node.md` (unit tests) and `rules/web.md` (the browser check).*

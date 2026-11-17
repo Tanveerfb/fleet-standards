@@ -35,9 +35,9 @@ const PLACEMENT = [
   ["## §SCALE ", "project-rules.md"],
   ["## §SECURITY ", "project-rules.md"],
   ["## §TESTING ", "project-rules.md"],
-  ["- A green build is not evidence an interface works.", "project-rules.md"],
+  ["- **Done means seen working.**", "project-rules.md"],
   ["- **Motion is checked on film.**", "project-rules.md"],
-  ["- No end-to-end suite by default.", "project-rules.md"],
+  ["- No end-to-end suite by default.", "rules/web.md"], // audit D9
   // Engineering
   ["## §GROWTH ", "rules/app.md"],
   ["## §MODULES ", "rules/app.md"],

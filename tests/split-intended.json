@@ -156,7 +156,11 @@
     "**Status and Trello.** On a project with a board (§TRELLO), the status line links the spec's",
     "- **Where this file names a Claude Code tool, use the equivalent:**",
     "  `.env.example`, which holds names only (§RUNTIME)",
-    "**Animation is decided by the owner at the mockup stage, not by this file.** Nothing is"
+    "**Animation is decided by the owner at the mockup stage, not by this file.** Nothing is",
+
+    "| Claude's built-in browser, Claude in Chrome (§TESTING) | The agent's own browser control; Playwright stays the last resort |",
+    "- A green build is not evidence an interface works. A UI change is done when it has been",
+    "  seen working"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -393,6 +397,11 @@
     "- **Where the standard names a Claude Code tool, use the equivalent:**",
     "  `.env.example`, which holds names only (`rules/node.md` §RUNTIME)",
     "- **The studio is configured by the owner, not by the standard.** The owner's own",
-    "**Animation is decided by the owner at the mockup stage, not by the standard.** Nothing is"
+    "**Animation is decided by the owner at the mockup stage, not by the standard.** Nothing is",
+
+    "| Claude's built-in browser, Claude in Chrome (`rules/web.md` §TESTING) | The agent's own browser control; Playwright stays the last resort |",
+    "- **Done means seen working.** A green build or a passing test is not evidence a change",
+    "  works. It is done when it has been seen working: an interface on screen, a tool on a real",
+    "  input, a game in the engine"
   ]
 }

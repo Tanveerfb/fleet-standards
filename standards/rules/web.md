@@ -178,5 +178,7 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
   a 390px phone width (§OWNER). Use, in this order: **Claude's built-in browser**, then
   **Claude in Chrome**. Playwright or any other headless tool is the last resort, only when
   neither is available — and say so in the report
+- No end-to-end suite by default. If a project needs one, that is a decision, recorded in
+  `decisions.md`
 
 *§TESTING's universal rules are in the core, `project-rules.md`; unit tests are in `rules/node.md`.*
