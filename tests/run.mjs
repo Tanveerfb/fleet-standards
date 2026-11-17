@@ -378,6 +378,12 @@ section("The Rules line reader (standards/scripts/rules-line.mjs)");
   check("Options: none is no options", JSON.stringify(parseRulesLine("Rules: non-application · Options: none")?.files) === JSON.stringify(["rules/non-application.md"]));
   check("a name that is not a file name is reported, not dropped", JSON.stringify(parseRulesLine("Rules: app, ui/x")?.unknown) === JSON.stringify(["ui/x"]));
   check("no line: null", parseRulesLine("# nothing here") === null);
+  const declined = parseRulesLine("Rules: app, node · Options: trello, no-firebase, No-AI");
+  check(
+    "a declined option (no-<name>) is recorded, not read as a file",
+    JSON.stringify(declined?.files) === JSON.stringify(["rules/app.md", "rules/node.md", "rules/options/trello.md"]) && JSON.stringify(declined?.declined) === JSON.stringify(["firebase", "ai"]),
+    JSON.stringify(declined),
+  );
   check("imports read one per line", JSON.stringify(rulesImports("@project-rules.md\n@rules/app.md\n@./rules/ui.md\ntext @rules/no.md\n")) === JSON.stringify(["rules/app.md", "rules/ui.md"]));
 }
 

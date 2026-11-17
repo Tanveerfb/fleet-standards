@@ -52,7 +52,8 @@ Then, through the question tool, where the spec does not settle them (§ASK):
    live domain or real users means this: name the working branch and the release), or
    **local only** (no remote, by decision). For a repository without application code, also
    the production surface and whether it has live users.
-3. **The options, each asked once** (§SCOPE), and the answer recorded either way:
+3. **The options, each asked once** (§SCOPE), and the answer recorded either way (a declined
+   backend or AI as `no-<name>` on the *Rules* line's `Options:` part):
    - **Studio credit** — only if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
      line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` (§CREDIT; read on demand,
      never imported) and do what it says: its two questions, the client's agreement for a

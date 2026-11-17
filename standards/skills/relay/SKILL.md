@@ -201,8 +201,9 @@ master's:
 - otherwise — a cloud session, which does not install plugins — `standards/project-rules.md`
   on `main` of `Tanveerfb/fleet-standards`, through whatever GitHub access the session has.
 
-Behind → it goes under *the user's call* in the report, offering `sync-standards`. **Read
-only: relay never syncs.** If the plugin's startup check already raised it this session, do
+Behind → it goes under *the user's call* in the report, offering `sync-standards`, unless
+`decisions.md` records the owner declining a sync to that master version: then one line
+saying so, no offer. **Read only: relay never syncs.** If the plugin's startup check already raised it this session, do
 not raise it twice. If no master copy can be reached, say so in one line.
 
 **The declared set, current core or not.** If `CLAUDE.md` has a *Rules* line (§SCOPE), every

@@ -109,7 +109,8 @@ answer and says so.
 
 Put the plan to the owner with the question tool: apply the sync, or not. One question,
 with the summary and the upgrade report from Step 2 as context. On a no, stop and leave
-everything untouched.
+everything untouched but one line appended to `decisions.md`: the sync to `<master version>`
+declined, and why if the owner said. Relay reads it and stops offering that version.
 
 ## Step 4 — Apply
 
@@ -183,7 +184,9 @@ everything untouched.
      project on SQLite that carries a §FIREBASE exception gets the SQLite option instead,
      and the exception is offered for removal (Step 2).
 
-   Record each answer on the `Options:` part, `none` if none. An option is copied and
+   Record each answer on the `Options:` part: a chosen option by name, **a declined one as
+   `no-<name>`** (`Options: trello, no-firebase, no-sqlite, no-ai`), so no later sync asks it
+   again; Trello and the credit keep their answers on their own lines. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,
    which is copied but never imported — the skills read it when they reach its step, so
    read it before asking the credit questions — and `ai`: add the template's

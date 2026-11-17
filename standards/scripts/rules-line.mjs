@@ -13,18 +13,25 @@ const NAMED_IN_CLAUDE_MD = new Set(["rules/options/ai.md"]);
 /**
  * The files under rules/ a CLAUDE.md declares, or null when it has no Rules line.
  * Names are lower-cased; a name that still is not a plain file name is returned in
- * `unknown`, never dropped silently.
+ * `unknown`, never dropped silently. An option the owner declined is written `no-<name>`
+ * (`Options: trello, no-firebase, no-ai`) and returned in `declined`, so it is never asked
+ * again and never read as a file.
  */
 export function parseRulesLine(text) {
   const line = (text ?? "").match(LINE);
   if (!line) return null;
   const unknown = [];
+  const declined = [];
   const names = (part) =>
     (part ?? "")
       .split(",")
       .map((name) => name.trim().replace(/[`*.]/g, "").trim().toLowerCase())
       .filter((name) => {
         if (name === "" || name === "none") return false;
+        if (/^no-[a-z-]+$/.test(name)) {
+          declined.push(name.slice(3));
+          return false;
+        }
         if (/^[a-z-]+$/.test(name)) return true;
         unknown.push(name);
         return false;
@@ -33,7 +40,7 @@ export function parseRulesLine(text) {
     ...names(line[1]).map((n) => `rules/${n}.md`),
     ...names(line[2]).map((n) => `rules/options/${n}.md`),
   ];
-  return { files, unknown };
+  return { files, unknown, declined };
 }
 
 /** The `@rules/...` files a CLAUDE.md imports, one per line. */
