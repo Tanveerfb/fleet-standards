@@ -140,12 +140,19 @@ Establish:
 - **What landed since?** If commits exist after the handoff's, the handoff
   describes a repo that has moved.
 - **Are you on the branch the handoff assumed?**
+- **Is work stranded on another branch?** After a `git fetch`, list remote branches with
+  commits the production branch lacks (`git branch -r --no-merged origin/<production>`),
+  newest first. A cloud session leaves its work on a harness branch (§GIT, *Cloud
+  sessions*); one the handoff does not mention goes under *the user's call*, with its last
+  commit's subject and date.
 - **No upstream?** If `CLAUDE.md`'s *Deploys* line says **local only**, that is the design,
   not a finding — say so in a word. Anywhere else, a missing upstream is worth raising.
 - **Is the credential hook live?** If the project has `.githooks/pre-commit`, check
   `git config core.hooksPath` prints `.githooks`. If it does not, this clone commits with no
   credential check — put that under *the user's call*, with the one-line fix
-  (`git config core.hooksPath .githooks`). Relay reports; it does not set it.
+  (`git config core.hooksPath .githooks`). Relay reports; it does not set it, **except in a
+  cloud session**, whose fresh clone commits unattended: there it sets it and says so in a
+  word.
 - **Did anything change what runs unattended?** List the commits since the last
   checkpoint's that touch `.github/workflows/`, `.claude/settings.json`, the hook scripts in
   `.claude/fleet/scripts/` (they run on every shell command and after every compact) or the

@@ -663,6 +663,10 @@
     "  repository",
     "  (`firebase_validate_security_rules` via the Firebase MCP); the deploy",
     "  (`firebase deploy --only firestore:rules`) changes production, so it runs on the owner's go",
-    "  (§GIT, *Production outside git*). Then read the live rules back and compare them"
+    "  (§GIT, *Production outside git*). Then read the live rules back and compare them",
+    "**On a multi-branch project, `git CPR` fast-forwards the working branch to the harness",
+    "branch** the same way, then releases as the *Deploys* line declares. Until then the work is",
+    "on the harness branch alone: the checkpoint says so by name, and the next session's relay",
+    "lists it."
   ]
 }

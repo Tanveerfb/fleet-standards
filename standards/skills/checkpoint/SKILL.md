@@ -378,7 +378,7 @@ ever disagree, §GIT wins and this table is the fault. `max` changes the depth, 
 | `checkpoint` | **Ask** whether to commit; if yes, ask separately whether to push. | Commit and push the working branch. | **Ask** whether to commit. No push. | Commit and push the harness branch. |
 | **`git checkpoint`** | Commit and push. | The same as `checkpoint`. | Commit. No push. | Commit and push the harness branch. |
 | `CPR` | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; then nothing to release: say so. | As `checkpoint`, then **ask** before the release. |
-| **`git CPR`** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release.** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release**: on a single-branch project, the fast-forward below. |
+| **`git CPR`** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release.** | As `git checkpoint`; then nothing to release: say so and stop. | As `git checkpoint`, **then the release**: the fast-forward below, of the main branch (single-branch) or of the working branch and then the declared release (multi-branch). |
 
 - **A *Deploys* line that is missing or unclear:** treat the project as single-branch, ask
   the owner once which it is, and write the answer into that line.
@@ -392,7 +392,10 @@ ever disagree, §GIT wins and this table is the fault. `max` changes the depth, 
   is, stop and ask: that push would be a release, which only `git CPR` authorises.
 - **Cloud session:** the harness branch is a working branch (§GIT, *Cloud sessions*): it is
   pushed without asking because the container is discarded and unpushed work is lost. Never
-  push to a branch the harness did not name, except the release below.
+  push to a branch the harness did not name, except the release below. **Short of a release,
+  say in Step 8 by name that the work is on `<harness branch>` and not in the main or
+  working branch**: it reaches them only through `git CPR` or a pull request the owner asks
+  for, and the next relay lists it.
 
 **The release.** The project's own `CLAUDE.md` says what "release" means on a multi-branch
 project (e.g. a squash pull request from `dev` into `master`): follow it exactly, never
@@ -407,6 +410,11 @@ to the harness branch**: `git fetch origin <main branch>`, then
 moved on — stop and ask (merge, or a pull request), and never force. Then
 `git push origin HEAD:<main branch>`, the branch named from the *Deploys* line. If the push is
 refused (branch protection, or the harness blocks it), say so and offer a pull request.
+
+**A multi-branch project in a cloud session** fast-forwards **the working branch** the
+*Deploys* line names to the harness branch the same way (fetch, the ancestor check, stop and
+ask if it moved on, `git push origin HEAD:<working branch>`), then releases exactly as the
+*Deploys* line declares, from the working branch.
 
 Order is fixed: the checkpoint's commit and push land first, then the release ships them. If
 the checkpoint stops for a safety case, the release does not happen. The confirmation says
@@ -477,7 +485,8 @@ Then act on the answers, and report in a line or two what was done:
   does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 7 pushed, committed only if Step 7 only committed, left uncommitted (and said
   so) if the owner declined. A release is not repeated: after a `git CPR`, say the follow-up
-  commit is on the branch Step 7 used and ships with the next release.
+  commit is on the branch Step 7 used and ships with the next release — in a cloud session,
+  name that branch: it is not in the main or working branch until the next `git CPR`.
 - **On either compact answer**, tell the owner in one line that a plain `/compact` is enough,
   and why (below).
 

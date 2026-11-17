@@ -262,6 +262,10 @@ pushes it on its own, and never pushes to `main`/`master` or any branch the harn
 name, except that **`git CPR` on a single-branch project fast-forwards the main branch to
 it** — fast-forward only, the target named from the *Deploys* line, never forced. `git CPR`
 is the only permission for that push. Never open a pull request unless the owner asks.
+**On a multi-branch project, `git CPR` fast-forwards the working branch to the harness
+branch** the same way, then releases as the *Deploys* line declares. Until then the work is
+on the harness branch alone: the checkpoint says so by name, and the next session's relay
+lists it.
 
 **Batch. Do not commit per change.** A session's work lands as one considered set of commits
 — at a checkpoint, or on a working branch at the end of a piece of work.
