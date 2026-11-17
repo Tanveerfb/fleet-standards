@@ -26,6 +26,7 @@ right skill fired and that the stated decision matches the rule: every case has 
 | `checkpoint-local-only` | `git checkpoint` commits, never pushes, never adds a remote |
 | `cpr-single-branch` | `git CPR` on a single-branch project, locally, says there is nothing to release |
 | `cpr-single-branch-cloud` | the same in a cloud session fast-forwards the main branch to the harness branch |
+| `cpr-multi-branch` | `git CPR` on a multi-branch project pushes the working branch, then releases exactly as the *Deploys* line declares, without asking |
 | `checkpoint-skill-proposal` | a procedure repeated in the session is proposed as one project skill, asked first |
 | `relay-after-compact` | after a compact, relay runs in full before a request that is already waiting |
 | `checkpoint-log-split` | a status doc that still holds its session log is split: old entries move word for word to `docs/log.md`, the new entry goes there, the status doc stays a snapshot |
