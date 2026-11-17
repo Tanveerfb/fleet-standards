@@ -12,17 +12,16 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
 are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
 goes at the release. `main` is untouched; nothing is released.
-**Next:** **two ideas of the owner's, 2026-11-18, to shape before phase 7** (open items 3
-and 4): an upgrade path that audits a project moving between versions, and the `fable-audit`
-skill as an independent auditor. Nothing is built for either until picked. Then **phase 7**:
-the theme name first. `checkpoint`'s steps are numbered 1 to 9 since E11;
+**Next:** **phase 7**, the theme name first. Offered and not yet run: a Fable review of v4
+through `fable-audit` (open item 4), priced before the owner's go. The 4.0.0 changelog entry
+must end with its *What a project must change* list (`docs/maintainer.md`). `checkpoint`'s steps are numbered 1 to 9 since E11;
 the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
 5 → 8, 6 → 9).
-**Blocked on:** the owner's picks for the two ideas, and the theme name for phase 7.
+**Blocked on:** the theme name for phase 7.
 **Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
 `relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
 run; the skills' new paths (every kind in
-`new-project`, sync checks a to i, *Adding an option*, `--remove-stale`) have never met a
+`new-project`, sync checks a to l and its upgrade report, *Adding an option*, `--remove-stale`) have never met a
 real project. The PowerShell half of the shell-write guard is tested, never seen live.
 **Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
 line, and keeps this one session going: checkpoint, compact, continue here. **After a
@@ -119,14 +118,11 @@ plain text in `E:\Installed`. It was not opened.
 2. **GitHub's private vulnerability reporting is off** on the repository (checked
    2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
    setting; then that line can point at it.
-3. **An upgrade path (the owner, 2026-11-18):** a project moving from an older version
-   needs help with the transition and an audit of it, such as an old status doc that still
-   holds history to move out. `sync-standards` Step 4's checks a to i do part of this, one
-   check per known change. Not picked yet.
-4. **`fable-audit` as Process X's auditor (the owner, 2026-11-18):** the owner's global
-   skill runs Fable through the API on a set of files and returns findings with
-   suggestions. It lives on this PC only and costs API credit per run, with the owner's go.
-   Not picked yet.
+3. **The upgrade path is built, never run:** `sync-standards` audits the transition into
+   one report, applies on one yes, re-checks (Step 4 now runs a to l). The pilot syncs in
+   phase 7 are its first use; the 4.0.0 changelog entry has to carry its list.
+4. **`fable-audit` is Process X's optional auditor** (`process-x.md` step 1). A Fable review
+   of v4 itself is offered, not run: dry run for the price first, then the owner's go.
 5. **Phase 7** — the theme name, the themed README, the changelog's 4.0.0 entry with a
    section-to-file table, `adopting-the-standard.md`, `docs/maintainer.md`, pilot syncs of
    one project of each kind, all fifteen evals run once, then the release.
@@ -163,7 +159,7 @@ plain text in `E:\Installed`. It was not opened.
 
 - The eight older eval cases still pass. They were not re-run after the split, nor after
   groups A to C rewrote parts of `checkpoint`, `sync-standards`, `relay` and `new-project`.
-- `sync-standards` (its checks a to i, *Adding an option*, the stale-copy and declined-import
+- `sync-standards` (its checks a to l, the upgrade report, *Adding an option*, the stale-copy and declined-import
   paths), `new-project` for each kind, `ai-setup` and `design-motif` by kind: written and
   read through, never run against a project. The pilot syncs in phase 7 are their first
   real use.
