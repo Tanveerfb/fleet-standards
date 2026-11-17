@@ -41,6 +41,9 @@ The default backend for auth, data and storage across the fleet.
   anything else when a page build times out.
 - **Firebase is not exempt from §QOL or §FORMS.** Every read and write path gets loading,
   error and empty states.
+- **Live data uses Firestore `onSnapshot` listeners**, exposed by the data adapter as a
+  subscription method (§DATA), and unsubscribed when the view that opened them closes.
+  Sign-in with Firebase Auth runs in the browser, through the client SDK.
 - **A public page never fetches Firestore in a component.** It serves crawlers an empty
   skeleton, which for a content site is the whole ballgame. Read on the server; the one
   exception is an admin preview route rendering an unpublished draft, which the server path

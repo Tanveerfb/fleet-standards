@@ -126,7 +126,12 @@
     "file. Either way, a new screen uses what is registered, and a hand-made copy of a registered",
     "piece is a bug.",
     "- **Durations, easings and springs are tokens** in `@theme` (§STYLING), recorded in",
-    "  `design-system.md` once a mockup settles them"
+    "  `design-system.md` once a mockup settles them",
+
+    "where it must run in the browser (Firebase Auth sign-in, for example). `useActionState` holds",
+    "Live data uses Firestore `onSnapshot` listeners, exposed by the data adapter as",
+    "a subscription method (§DATA), wrapped in a hook, and unsubscribed on unmount.",
+    "Loading, error and empty states handled every time."
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -317,6 +322,13 @@
     "A new screen uses what is registered, and a hand-made copy of a registered piece is a bug.",
     "- **Durations, easings and springs are tokens**, kept where the project keeps its tokens",
     "  (`@theme` in a web project, `rules/web.md` §STYLING), recorded in `design-system.md` once a",
-    "  mockup settles them"
+    "  mockup settles them",
+
+    "- **Live data uses Firestore `onSnapshot` listeners**, exposed by the data adapter as a",
+    "  subscription method (§DATA), and unsubscribed when the view that opened them closes.",
+    "  Sign-in with Firebase Auth runs in the browser, through the client SDK.",
+    "where it must run in the browser (a client SDK's sign-in, for example). `useActionState` holds",
+    "Live data is a subscription method on the data adapter (§DATA), wrapped in a hook, and",
+    "unsubscribed on unmount. Loading, error and empty states handled every time."
   ]
 }

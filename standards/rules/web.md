@@ -68,7 +68,7 @@ stored records. A static site with no inputs does not need it.
 
 **Forms.** Simple forms — login, contact, search — use a `<form action={…}>` with
 uncontrolled inputs: a Server Action where the work belongs on the server, a client function
-where it must run in the browser (Firebase Auth sign-in, for example). `useActionState` holds
+where it must run in the browser (a client SDK's sign-in, for example). `useActionState` holds
 the pending and error state; `useFormStatus` drives the submit button. Complex forms —
 multi-step, conditional, dynamic validation — use `react-hook-form` with `zod`. Never mix
 controlled and uncontrolled inputs in one form. Validate on the client, and again on the
@@ -81,9 +81,8 @@ happened and what to do, and does not apologise.
 
 **Fetching.** Server Actions or Route Handlers for mutations. Client-side
 fetching uses SWR or TanStack Query, never bare `useEffect` plus `fetch`.
-Live data uses Firestore `onSnapshot` listeners, exposed by the data adapter as
-a subscription method (§DATA), wrapped in a hook, and unsubscribed on unmount.
-Loading, error and empty states handled every time.
+Live data is a subscription method on the data adapter (§DATA), wrapped in a hook, and
+unsubscribed on unmount. Loading, error and empty states handled every time.
 
 ---
 
