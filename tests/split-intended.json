@@ -101,7 +101,22 @@
     "// See demo-shortcuts.md #4",
     "- JSDoc on exported functions and hooks",
     "- No `console.log` left behind. No commented-out code",
-    "- TypeScript and ESLint errors are blockers, not warnings. Warnings cleared"
+    "- TypeScript and ESLint errors are blockers, not warnings. Warnings cleared",
+
+    "- Read `components.md` and check the filesystem before creating a component",
+    "- Do not bypass the data adapter (§DATA) or write a status directly",
+    "  (§LIFECYCLE)",
+    "- **Mockups are static HTML**, rendering desktop and a 390px phone from the same markup.",
+    "  Drafts live in a gitignored `public/_mockups/`, which the dev server serves. Animation is",
+    "  decided here (§MOTION)",
+    "  committed, and outside `public/` so it is never deployed — with a dated `decisions.md`",
+    "  `CLAUDE.md` — `src/features/billing/CLAUDE.md`. Claude Code loads it when work touches that",
+    "  - how data moves through the main flows (form → Server Action → adapter → store);",
+    "  `components.md` (§COMPONENTS) stays the registry of interface components; the map covers",
+    "  the system around them. **Keep it current, or it becomes a confident lie** — the checkpoint",
+    "  updates it whenever a module is added, moved or removed. The depends-on and used-by columns",
+    "  can be generated from the imports by a tool such as dependency-cruiser or madge rather than",
+    "  maintained by hand — the owner's choice (§AGENTS)"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -258,6 +273,29 @@
     "- No debug output left behind (`console.log`, `print`). No commented-out code",
     "- Type-checker and linter errors are blockers, not warnings. Warnings cleared",
     "- Business logic taken out of a component (§MODULES) goes to a hook or a pure function;",
-    "  pure logic imports nothing from React, Next or any store"
+    "  pure logic imports nothing from React, Next or any store",
+
+    "- Check what already exists before creating anything: the filesystem, and",
+    "  `components.md` where the project keeps one (`rules/ui.md` §COMPONENTS)",
+    "- Where the project has a data adapter or a status map, never bypass it",
+    "  (`rules/app.md` §DATA, §LIFECYCLE)",
+    "- **Mockups show desktop and a 390px phone from the same draft**, wherever the work is seen",
+    "  on a phone. What a draft is and where it lives is in the files the project loads: static",
+    "  HTML in a web project (`rules/web.md`), engine screenshots in a game (`rules/game.md`),",
+    "  rendered files for fixed-size media (`rules/non-application.md`). Animation is decided",
+    "  here (`rules/ui.md` §MOTION)",
+    "  committed, and outside anything deployed — with a dated `decisions.md`",
+    "  `CLAUDE.md` — a feature folder's, say, or a game's `scenes/`. Claude Code loads it when work touches that",
+    "  - how data moves through the main flows, from input to storage and back;",
+    "  Where the project keeps `components.md` (`rules/ui.md` §COMPONENTS), it stays the registry",
+    "  of interface components; the map covers the system around them. **Keep it current, or it",
+    "  becomes a confident lie** — the checkpoint updates it whenever a module is added, moved or",
+    "  removed. The depends-on and used-by columns can be generated from the imports by a tool for",
+    "  the language rather than maintained by hand — the owner's choice (§AGENTS)",
+    "**Mockups (§OWNER)** are static HTML, desktop and a 390px phone from the same markup, in a",
+    "gitignored `public/_mockups/` that the dev server serves; a locked one moves to",
+    "`docs/design/`, outside `public/`. **The architecture map (§SCALE)** follows the main flows",
+    "as form → Server Action → adapter → store, and its depends-on columns can come from",
+    "dependency-cruiser or madge."
   ]
 }

@@ -154,11 +154,12 @@ issues is the churn, status is the current position.
 - Use the question tool for decisions that are the owner's to make (§ASK)
 - Do not create pages or routes absent from the project's documentation.
   Propose them
-- Read `components.md` and check the filesystem before creating a component
+- Check what already exists before creating anything: the filesystem, and
+  `components.md` where the project keeps one (`rules/ui.md` §COMPONENTS)
 - Do not introduce a colour, size, spacing or motion value outside
   `design-system.md`
-- Do not bypass the data adapter (§DATA) or write a status directly
-  (§LIFECYCLE)
+- Where the project has a data adapter or a status map, never bypass it
+  (`rules/app.md` §DATA, §LIFECYCLE)
 - Do not add dependencies without asking
 - Never read a credential file's contents into context
 - Where documentation and code disagree, the documentation is the intent and the
@@ -311,11 +312,13 @@ does not restate them.
   deliverable. Offer alternatives where the direction is open, revise on feedback, and keep
   going round by round — the loop ends when the owner says the design is locked, not when
   the agent thinks it is close enough. Ask through the question tool at each round (§ASK)
-- **Mockups are static HTML**, rendering desktop and a 390px phone from the same markup.
-  Drafts live in a gitignored `public/_mockups/`, which the dev server serves. Animation is
-  decided here (§MOTION)
+- **Mockups show desktop and a 390px phone from the same draft**, wherever the work is seen
+  on a phone. What a draft is and where it lives is in the files the project loads: static
+  HTML in a web project (`rules/web.md`), engine screenshots in a game (`rules/game.md`),
+  rendered files for fixed-size media (`rules/non-application.md`). Animation is decided
+  here (`rules/ui.md` §MOTION)
 - **A locked design is recorded.** The approved mockup moves to `docs/design/<name>.html` —
-  committed, and outside `public/` so it is never deployed — with a dated `decisions.md`
+  committed, and outside anything deployed — with a dated `decisions.md`
   entry naming it. Building follows the locked mockup; changing a locked design takes a new
   mockup round
 - **Mobile is first-class** — it must work properly on a phone, not merely not break
@@ -421,7 +424,7 @@ right slice. Add them when a project outgrows a single read: several feature are
 first time an agent duplicates something or works in the wrong place.
 
 - **Area `CLAUDE.md` files.** A folder with rules or traps of its own gets its own
-  `CLAUDE.md` — `src/features/billing/CLAUDE.md`. Claude Code loads it when work touches that
+  `CLAUDE.md` — a feature folder's, say, or a game's `scenes/`. Claude Code loads it when work touches that
   folder, so local rules arrive exactly when needed and the root file stays short and
   general. **A fact lives in exactly one of them**: the most local file it applies to. The
   root `CLAUDE.md` lists the area files that exist
@@ -436,14 +439,14 @@ first time an agent duplicates something or works in the wrong place.
   to **read the area file for its work before starting**, wherever that work sits
 - **The architecture map** — `docs/architecture.md`, the registry of what belongs where:
   - a table of modules: each folder, what it owns, what it depends on, what uses it;
-  - how data moves through the main flows (form → Server Action → adapter → store);
+  - how data moves through the main flows, from input to storage and back;
   - a *where do I find…* index for the questions that keep coming up.
 
-  `components.md` (§COMPONENTS) stays the registry of interface components; the map covers
-  the system around them. **Keep it current, or it becomes a confident lie** — the checkpoint
-  updates it whenever a module is added, moved or removed. The depends-on and used-by columns
-  can be generated from the imports by a tool such as dependency-cruiser or madge rather than
-  maintained by hand — the owner's choice (§AGENTS)
+  Where the project keeps `components.md` (`rules/ui.md` §COMPONENTS), it stays the registry
+  of interface components; the map covers the system around them. **Keep it current, or it
+  becomes a confident lie** — the checkpoint updates it whenever a module is added, moved or
+  removed. The depends-on and used-by columns can be generated from the imports by a tool for
+  the language rather than maintained by hand — the owner's choice (§AGENTS)
 
 ---
 

@@ -32,6 +32,12 @@ docs/STATUS.md      the living project record — §DOCS
 **Import aliases.** Always `@/`. Never relative paths climbing directories.
 Confirm `"paths": { "@/*": ["./src/*"] }` in `tsconfig.json`.
 
+**Mockups (§OWNER)** are static HTML, desktop and a 390px phone from the same markup, in a
+gitignored `public/_mockups/` that the dev server serves; a locked one moves to
+`docs/design/`, outside `public/`. **The architecture map (§SCALE)** follows the main flows
+as form → Server Action → adapter → store, and its depends-on columns can come from
+dependency-cruiser or madge.
+
 ---
 
 ## §STATE — State and validation
