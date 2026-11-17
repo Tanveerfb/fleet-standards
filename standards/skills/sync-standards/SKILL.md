@@ -282,9 +282,13 @@ a project may have narrowed the pattern on purpose, which is a `propose-standard
 rather than something to overwrite. Copy with `cp` (never retype it), then:
 
 ```bash
-git add --chmod=+x .githooks/pre-commit
 git config core.hooksPath .githooks
 ```
+
+Marking it executable is a staging step (`git add --chmod=+x .githooks/pre-commit`), so it
+waits for the commit: the owner's checkpoint on a single-branch or local-only project, which
+§GIT does not let a sync pre-empt; with the session's work on a working branch. Say so in
+Step 6.
 
 If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky and add
 `.githooks/pre-commit || exit 1` to `.husky/pre-commit` instead.
