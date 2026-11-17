@@ -5,10 +5,9 @@ description: Use to record or refresh what this machine has installed, so projec
 
 # Machine inventory
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. "The question tool" means your own ask-the-user
-> tool, or a short question with numbered options in plain text. The file lives where your
-> agent keeps the owner's global instructions; say where you put it.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them. The file lives where your agent keeps the owner's
+> global instructions; say where you put it.
 
 A project does not know what the machine it runs on has unless the owner says so each time.
 This skill keeps one file that says it: `~/.claude/machine.md`, imported from the owner's

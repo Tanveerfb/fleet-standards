@@ -22,10 +22,32 @@ const reference = ["project-rules.md", "rules", "motifs.md", "motif-gallery.html
 const yes = process.argv.includes("--yes");
 const rl = createInterface({ input: process.stdin, output: process.stdout });
 
-/** True when both skill folders hold an identical SKILL.md. */
+// Inside the installed skills, `${CLAUDE_PLUGIN_ROOT}/` becomes `~/.agents/fleet/`, where this
+// script puts the standard, as copy-skills-to-project.mjs does for a project's copies: only
+// plugin skills get the variable substituted. A bare `${CLAUDE_PLUGIN_ROOT}` with no slash
+// after it is left alone; the skills use it to tell a plugin session from a copy.
+const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", "~/.agents/fleet/");
+
+/** Every file under `dir`, as paths relative to it. */
+function filesIn(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? filesIn(join(dir, e.name)).map((f) => join(e.name, f)) : [e.name],
+  );
+}
+
+/** True when the installed skill matches what this checkout would install. */
 function sameSkill(a, b) {
   const target = join(b, "SKILL.md");
-  return existsSync(target) && readFileSync(join(a, "SKILL.md"), "utf8") === readFileSync(target, "utf8");
+  return existsSync(target) && rewrite(readFileSync(join(a, "SKILL.md"), "utf8")) === readFileSync(target, "utf8");
+}
+
+/** Copies a skill folder, rewriting the plugin path in its Markdown. */
+function installSkill(from, to) {
+  for (const f of filesIn(from)) {
+    mkdirSync(dirname(join(to, f)), { recursive: true });
+    const text = readFileSync(join(from, f), "utf8");
+    writeFileSync(join(to, f), f.endsWith(".md") ? rewrite(text) : text);
+  }
 }
 
 // Reference files are overwritten without asking: they are copies of this repo by definition.
@@ -64,7 +86,7 @@ for (const target of skillTargets) {
         continue;
       }
     }
-    cpSync(from, to, { recursive: true });
+    installSkill(from, to);
     console.log(`+ ${to}`);
   }
 }

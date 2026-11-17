@@ -664,6 +664,8 @@ section("Install for other agents (standards/scripts/install-skills.mjs)");
     `all ${skills.length} skills land in both skill folders`,
     skills.every((n) => existsSync(join(home, ".agents", "skills", n, "SKILL.md")) && existsSync(join(home, ".codex", "skills", n, "SKILL.md"))),
   );
+  const installed = readFileSync(join(home, ".agents", "skills", "sync-standards", "SKILL.md"), "utf8");
+  check("the plugin path is rewritten to ~/.agents/fleet/", !installed.includes("${CLAUDE_PLUGIN_ROOT}/") && installed.includes("~/.agents/fleet/project-rules.md"));
   const second = install();
   check("a second run finds every skill current", (second.stdout.match(/already current/g) ?? []).length === skills.length * 2, second.stdout);
 }

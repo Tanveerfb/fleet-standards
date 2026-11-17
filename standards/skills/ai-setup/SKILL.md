@@ -5,13 +5,9 @@ description: Use when a project needs AI or LLM features set up or added — e.g
 
 # AI setup
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 Adds AI to a project — new or existing — the way `rules/options/ai.md` §AI describes, instead
 of improvising. Read §AI in full before Step 1; this skill is the process, §AI is the rules.

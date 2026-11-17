@@ -5,13 +5,9 @@ description: Use inside a project to bring it up to the latest fleet standard fr
 
 # Sync standards
 
-> **Outside Claude Code** (Codex, Copilot, Cursor, Gemini CLI): this skill is written in
-> Claude Code's terms; map them to your own. If `${CLAUDE_PLUGIN_ROOT}` appears unsubstituted
-> anywhere below, the standard's files are in `~/.agents/fleet/` instead. "The question tool"
-> means your own ask-the-user tool, or a short question with numbered options in plain text.
-> Named MCP tools (`mcp__github__*`, `mcp__Trello__*`) mean whatever GitHub or Trello
-> integration you have — an MCP server, `gh` — and with none, say so and skip that step.
-> Never skip a step silently because a Claude-specific name did not match.
+> **Outside Claude Code:** map this skill's Claude Code terms to your own, as
+> `project-rules.md` §TOOLS lists them, and never skip a step silently because a name did not
+> match.
 
 Brings one project up to the fleet standard. The master copies ship inside this plugin:
 
