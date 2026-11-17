@@ -223,7 +223,21 @@
     "- **The `checkpoint` skill writes to the board on every checkpoint**, with or without the",
     "  `git` prefix — the board is not git. It moves cards between lists, creates cards for new",
     "  open items, and ticks checklist items whose work is verified. **`relay` reads the board",
-    "  and never writes.** Outside those two, an agent writes to the board only when asked"
+    "  and never writes.** Outside those two, an agent writes to the board only when asked",
+
+    "**Process X — a whole-product audit.** When a project has grown well past its adoption, or",
+    "before a release the owner wants deeply audited, run Process X in this order",
+    "(`process-x.md` in the standard has each step):",
+    "1. the audit, delivered as a ranked list for the owner;",
+    "2. the owner's picks;",
+    "3. drafts, then build;",
+    "4. shared pieces;",
+    "5. the motif;",
+    "6. the fleet re-audit (conventions, design system, skills and hooks, area files, the",
+    "   architecture map);",
+    "7. proposals back to fleet.",
+    "Nothing is built before it is picked, and a visual change is locked before it is built. It",
+    "counts as that release's deep audit."
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -505,6 +519,12 @@
 
     "- **Only the `checkpoint` skill writes to the board**, on every checkpoint, with or without",
     "  the `git` prefix — the board is not git; its Step 3.5 has the steps. **`relay` reads the",
-    "  board and never writes.** Outside those two, an agent writes to the board only when asked"
+    "  board and never writes.** Outside those two, an agent writes to the board only when asked",
+
+    "**Process X — a whole-product audit**, run when a project has grown well past its adoption,",
+    "or before a release the owner wants deeply audited: an audit delivered as a ranked list, the",
+    "owner's picks, then the build, ending in proposals back to the fleet. Its seven steps are in",
+    "`process-x.md` in the standard. **Nothing is built before it is picked**, and a visual change",
+    "is locked before it is built. It counts as that release's deep audit."
   ]
 }

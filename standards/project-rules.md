@@ -327,21 +327,11 @@ does not restate them.
 - **Frozen files** are listed in the project's `CLAUDE.md`. Frozen means raise it and get a
   yes, not never touch
 
-**Process X — a whole-product audit.** When a project has grown well past its adoption, or
-before a release the owner wants deeply audited, run Process X in this order
-(`process-x.md` in the standard has each step):
-
-1. the audit, delivered as a ranked list for the owner;
-2. the owner's picks;
-3. drafts, then build;
-4. shared pieces;
-5. the motif;
-6. the fleet re-audit (conventions, design system, skills and hooks, area files, the
-   architecture map);
-7. proposals back to fleet.
-
-Nothing is built before it is picked, and a visual change is locked before it is built. It
-counts as that release's deep audit.
+**Process X — a whole-product audit**, run when a project has grown well past its adoption,
+or before a release the owner wants deeply audited: an audit delivered as a ranked list, the
+owner's picks, then the build, ending in proposals back to the fleet. Its seven steps are in
+`process-x.md` in the standard. **Nothing is built before it is picked**, and a visual change
+is locked before it is built. It counts as that release's deep audit.
 
 ---
 
