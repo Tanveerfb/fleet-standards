@@ -218,9 +218,7 @@ depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` de
   production branch changes only on `git CPR`**
 - **Local only** — the repository has no remote, by the owner's decision. Commits follow the
   single-branch rule; **there is no push and nothing to release**, and an agent never adds a
-  remote unasked. Cloud sessions cannot open it, so `sync-standards` skips the skill copies,
-  and a missing upstream is not a finding. Declared as `local only — <where the work lands,
-  if anywhere>`
+  remote unasked. Declared as `local only — <where the work lands, if anywhere>`
 - **Not declared** — treat the project as single-branch, ask the owner once which it is, and
   write the answer into the *Deploys* line. Never infer it from the branches that exist: this
   line decides whether an agent may push
@@ -234,49 +232,29 @@ depends on how the project ships, which the *Deploys* line in its `CLAUDE.md` de
 | **`git checkpoint`** | Documentation pass, then **commit and push.** Both pre-authorised. | The same as `checkpoint`. | Documentation pass, then **commit.** No push. |
 | **`git checkpoint max`** | The same, exhaustively verified claim by claim. | The same, exhaustively verified. | The same, exhaustively verified. |
 | `CPR` | As `checkpoint`; nothing to release, so say so. **In a cloud session:** as `git CPR`, but **ask** before the fast-forward. | As `checkpoint`, then **ask** before the release. | As `checkpoint`; nothing to release, so say so. |
-| **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. **In a cloud session:** the checkpoint to the harness branch, then fast-forward the main branch to it (*Cloud sessions*, below). | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. | Nothing to release: the checkpoint, then say so and stop. |
+| **`git CPR`** | Nothing to release: the checkpoint, then say so and stop. **In a cloud session:** the checkpoint to the harness branch, then fast-forward the main branch to it (*Cloud sessions*). | Checkpoint to the working branch, **then the release to production.** Both pre-authorised. | Nothing to release: the checkpoint, then say so and stop. |
 
-The `checkpoint` skill and `relay`, its inverse, ship in the `fleet` plugin (§SCOPE) and
-appear as `fleet:checkpoint` and `fleet:relay`. **If they do not appear in a session's
-surfaced skills list, look for them rather than improvising a commit process**, which is how a session ends up inventing its own
-worse version of a protocol that already exists.
+The `checkpoint` skill (`fleet:checkpoint`) carries out this table, with the steps of each
+release; `relay` is its inverse. **If they do not appear in a session's skills list, look for
+them rather than improvising a commit process.**
+
+**A live project is multi-branch.** A project with a live domain or real users works on
+update branches, each checked on its preview deploy before it merges; a project with no live
+users may work on its main branch. A branch that deploys straight to production is never a
+working branch, whatever it is called. **Keep update branches short-lived** — merge within
+days or bring main in regularly, split a large update, and use a feature flag for the
+largest.
 
 **Cloud sessions.** A cloud session (Claude Code on the web, a GitHub Action) is assigned a
 branch by its harness — the container is discarded, and unpushed work is lost. **That branch
 is a working branch**, whatever the project's *Deploys* line says: the session commits and
-pushes it on its own, as above, and never pushes to `main`/`master` or any branch the harness
-did not name. Never open a pull request unless the owner asks.
-
-**On a single-branch project, `git CPR` in a cloud session releases the harness branch.** The
-harness branch makes the project multi-branch for that session, so `git CPR` is the
-checkpoint to the harness branch, then the release: **fast-forward the main branch to it**,
-naming the target from the *Deploys* line (`git push origin HEAD:master`), never computing it.
-Fast-forward only: if the main branch has moved on, stop and ask — merge, or a pull request —
-and never force. If the push is refused (branch protection, or a harness that blocks it),
-say so and offer a pull request instead. `git CPR` is the explicit permission a harness needs
-before pushing to a branch it did not name; nothing else is, and without it the main branch
-is never pushed.
-
-**Where work happens depends on whether the project is live.** The project's `CLAUDE.md`
-says which applies (its *Deploys* line):
-
-- **A project with a live domain or real users** works on an update branch and merges to the
-  production branch when the update is complete. Every branch gets a preview deploy — check
-  the update there before merging
-- **A project with no live users** may work on its main branch
-- **A live project is therefore multi-branch**, and its update branches are working branches.
-  A branch that deploys straight to production is never a working branch, whatever it is
-  called — an automatic push to it would be an unannounced release
-- **Keep update branches short-lived.** A branch that runs for weeks drifts from main and ends
-  in a merge-conflict session. Merge within days, or bring main into the branch regularly;
-  split a large update into several branches that each merge on their own. For the largest
-  updates, a feature flag lets work merge continuously while staying switched off on the live
-  site (Firebase Remote Config, or the platform's flags)
+pushes it on its own, and never pushes to `main`/`master` or any branch the harness did not
+name, except that **`git CPR` on a single-branch project fast-forwards the main branch to
+it** — fast-forward only, the target named from the *Deploys* line, never forced. `git CPR`
+is the only permission for that push. Never open a pull request unless the owner asks.
 
 **Batch. Do not commit per change.** A session's work lands as one considered set of commits
-— at a checkpoint, or on a working branch at the end of a piece of work. A long string of
-small commits is not tidiness — it is the thing this rule exists to prevent, and it makes a
-session's history harder to read rather than easier.
+— at a checkpoint, or on a working branch at the end of a piece of work.
 
 **An approval does not generalise.** Wherever a commit or push needs a trigger — on a
 single-branch project, and for every release to production — "Yes, commit that" authorises
