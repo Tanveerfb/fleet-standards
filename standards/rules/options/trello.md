@@ -17,10 +17,7 @@ never search for a board or create one unasked.
 - **Lists are Backlog / To do / Doing / Review / Done**, unless the project's `CLAUDE.md`
   names others. Review holds work that is finished but not yet verified or approved; a card
   reaches Done only when `STATUS.md` records the work as verified
-- **An open item with a card carries the card's link in `STATUS.md`.** The link is how item
-  and card are matched — never the title, which drifts
-- **The `checkpoint` skill writes to the board on every checkpoint**, with or without the
-  `git` prefix — the board is not git. It moves cards between lists, creates cards for new
-  open items, and ticks checklist items whose work is verified. **`relay` reads the board
-  and never writes.** Outside those two, an agent writes to the board only when asked
+- **Only the `checkpoint` skill writes to the board**, on every checkpoint, with or without
+  the `git` prefix — the board is not git; its Step 3.5 has the steps. **`relay` reads the
+  board and never writes.** Outside those two, an agent writes to the board only when asked
 - Never delete or archive a card unasked. Finished work goes to Done

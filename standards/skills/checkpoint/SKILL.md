@@ -457,9 +457,8 @@ Then act on the answers, and report in a line or two what was done:
 
 - **Approved skill changes are made now** (1.5c); a declined new skill gets its
   `decisions.md` line.
-- **An approved showcase update is filed as §CREDIT says** — an issue on the studio site's
-  repository, its link in `decisions.md`; if this session cannot reach that repository, the
-  request is written in full as an open item in `docs/STATUS.md`, and you say so.
+- **An approved showcase update is filed as §CREDIT says**, kept as an open item when the
+  studio's repository cannot be reached.
 - **Those changes are committed under the answer Step 4 already had** (§GIT, *An approval
   does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 4 pushed, committed only if Step 4 only committed, left uncommitted (and said

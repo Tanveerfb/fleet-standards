@@ -154,10 +154,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
    on the *Rules* line's `Options:` part:*
    - **Studio credit** — if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:` line and
      the project's `CLAUDE.md` lacks either the `Studio credit:` or the `Studio showcase:`
-     line — or says `local only — not asked` — ask the missing §CREDIT questions once
-     (credit; showcase, if the owner's line names one) and record the answers in `CLAUDE.md`
-     and `decisions.md`. A showcase yes files the request issue as `new-project` Step 1
-     describes. With no `Studio credit:` line in the owner's file, write `no studio
+     line — or says `local only — not asked` — read `rules/options/credit.md` from the
+     master and ask its missing questions once, as it says. With no `Studio credit:` line in
+     the owner's file, write `no studio
      configured` and ask nothing. A project already crediting the studio gets the option
      without a question.
    - **Trello** — a `Trello board: <url or none>` line in `CLAUDE.md` (§TRELLO); a project
@@ -281,8 +280,8 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
    others. **Two are not imported** (§SCOPE): the credit is copied with no import line, and
    AI goes to `ai-setup`, which copies the file and writes the two read-on-demand lines.
 3. Write what the option needs on `CLAUDE.md`'s own lines: `Trello board: <url>`; the
-   `Studio credit:` and `Studio showcase:` lines, with the showcase request filed as
-   `new-project` Step 1 describes; nothing more for Firebase until a credential exists
+   `Studio credit:` and `Studio showcase:` lines, as §CREDIT says; nothing more for
+   Firebase until a credential exists
    (§DOCS).
 4. One line in `decisions.md`: the option, the date, why.
 

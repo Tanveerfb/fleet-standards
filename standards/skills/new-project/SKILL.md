@@ -58,14 +58,10 @@ Then, through the question tool, where the spec does not settle them (§ASK):
    the production surface and whether it has live users.
 3. **The options, each asked once** (§SCOPE), and the answer recorded either way:
    - **Studio credit** — only if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
-     line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` first (§CREDIT; it is read
-     on demand, never imported). Does the project carry the credit, and, if the line names a showcase, will it be
-     featured on the studio's site; for a client project, has the client agreed. Local-only
-     projects are asked too. **On a showcase yes**, file the feature request as an issue on
-     the studio site's repository — what the project is, its status, stack and tools, links,
-     nothing private — and record its link in `decisions.md`; if this session cannot reach
-     that repository, write the request in full as an open item in `docs/STATUS.md` and say
-     so (`rules/options/credit.md` §CREDIT).
+     line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` (§CREDIT; read on demand,
+     never imported) and do what it says: its two questions, the client's agreement for a
+     client project, and a showcase yes filed as a request there. Local-only projects are
+     asked too.
    - **A Trello board** — its URL, or none.
    - **Firebase** — for a kind with application code; a non-application repository is
      asked only if it will hold Firebase configuration.
