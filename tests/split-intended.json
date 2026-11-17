@@ -1,6 +1,7 @@
 {
   "about": "The lines the v4 split changes on purpose (docs/specs/v4-split-map.md, 'Changed on purpose'). tests/split-check.mjs fails on any difference from the baseline that is not listed here. An entry is a line, or [line, how many times].",
   "removed": [
+    "**Version:** 3.9.0",
     "**Applies to:** All projects. Part A applies everywhere. Parts B to E assume a Next.js",
     "application; a repository without application code, or a game built in an engine, follows",
     "its profile in §SCOPE.",
@@ -275,6 +276,7 @@
     "  A project that needs a stricter block (every `<<`) keeps its own hook beside it"
   ],
   "added": [
+    "**Version:** 4.0.0",
     "A project of two kinds loads the files of both: a Next.js interface over a Python package",
     "loads app, ui, node, web and python. Scripts that only maintain a repository's documents do",
     "not make it an application; tools it ships or runs as its product do.",

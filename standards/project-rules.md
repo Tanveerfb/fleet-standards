@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 3.9.0
+**Version:** 4.0.0
 **Applies to:** All projects. This file is the core, which every repository loads; the files
 under `rules/` are loaded only where they apply (§SCOPE).
 **Master copy:** `standards/project-rules.md` and `standards/rules/` in

@@ -303,8 +303,9 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v3.9.0** (2026-11-12). See [`standards/CHANGELOG.md`](standards/CHANGELOG.md) for
-what changed and why, including the map from v2 section numbers to v3 names.
+Current: **v4.0.0** (2026-11-18), **Satluj**. See [`standards/CHANGELOG.md`](standards/CHANGELOG.md)
+for what changed and why: where each section lives now, what a project must change to move
+up, and the map from v2 section numbers to v3 names.
 
 ---
 

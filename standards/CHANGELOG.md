@@ -33,7 +33,7 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
-## 4.0.0 · Satluj — unreleased
+## 4.0.0 · Satluj — 2026-11-18
 
 The first named release: the five rivers of Punjab, v4 Satluj, then Beas, Ravi, Chenab and
 Jhelum. The name is on the surface only (README, this heading, the release notes); the rules
