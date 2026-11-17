@@ -404,6 +404,12 @@ into the named branch, or the release command in `CLAUDE.md`. Never compute it f
 `origin/HEAD` or any other ref a shallow or fresh clone may lack: a computed target once
 created a stray remote branch literally named `HEAD`.
 
+**After a squash release**, the working branch still holds the commits the squash replaced,
+and the next pull request would carry them again. Bring it back in line as the last step of
+the same release: `git fetch origin <production>`, then on the working branch
+`git merge origin/<production>` (an ordinary merge commit, never a reset or a force push)
+and push the working branch. A conflict stops the release there: say so and ask.
+
 **A single-branch project in a cloud session** releases by **fast-forwarding the main branch
 to the harness branch**: `git fetch origin <main branch>`, then
 `git merge-base --is-ancestor origin/<main branch> HEAD`; if that fails, the main branch has

@@ -92,6 +92,6 @@ and none is answered by the files the reviewer did not see (`hooks.json`, `CHANG
 | R12 | Nobody to answer: an unattended session stops and leaves the question instead of guessing | missing | **built 2026-11-18:** a §ASK bullet |
 | R13 | First remote in `new-project`: the repository, the working branch, branch protection, each on a yes | missing | **built 2026-11-18:** `new-project` Step 4.5 and a checklist line |
 | R14 | Hook scripts diffed before the sync copies them | missing | **built 2026-11-18:** `sync-standards` Step 5 |
-| R15 | After a squash release: `dev` brought back in line without a force push | missing | to build |
+| R15 | After a squash release: `dev` brought back in line without a force push | missing | **built 2026-11-18:** checkpoint's release merges production back into the working branch. All fifteen picks are built |
 
 Not offered: 15 (the board), already surfaced to the owner; the drafts in a cloud container.
