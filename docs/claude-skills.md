@@ -1,7 +1,8 @@
-### Prompts
+# The maintainer's plugins
 
-*The maintainer's own plugin list, kept for reference. Only the first entry is part of the
-standard; install the rest only if you want them.*
+*The maintainer's own plugin list, kept for reference in `docs/`, outside the plugin, so it
+does not ship to projects. Only the first entry is part of the standard; install the rest only
+if you want them.*
 
 - The fleet standard itself (this repo):
   /plugin marketplace add Tanveerfb/fleet-standards
