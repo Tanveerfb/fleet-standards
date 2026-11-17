@@ -651,6 +651,29 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
     check("--check is clean afterwards", copy("--check").status === 0);
   }
 
+  // A project's own skill of the same name as a fleet one (the pilots, P3).
+  {
+    const own = join(scratch, "own-skill");
+    mkdirSync(join(own, ".claude", "skills", "relay"), { recursive: true });
+    writeFileSync(join(own, "project-rules.md"), `**Version:** ${rulesVersion}\n`);
+    writeFileSync(join(own, ".claude", "skills", "relay", "SKILL.md"), "---\nname: relay\n---\nThis project's own relay.\n");
+    const out = run("node", [script, own]);
+    check("a project's own skill of the same name is listed as its own", out.stdout.replaceAll("\\", "/").includes("= own     .claude/skills/relay"), out.stdout);
+    check("and never overwritten", readFileSync(join(own, ".claude", "skills", "relay", "SKILL.md"), "utf8").includes("This project's own relay."));
+    check("the other skills are still copied", existsSync(join(own, ".claude", "skills", "checkpoint", "SKILL.md")));
+    check("--check afterwards is clean (the own skill is not a change)", run("node", [script, own, "--check"]).status === 0);
+    // A copy from a sync before the manifest is a fleet copy: it carries the rewritten paths.
+    const old = join(project, ".claude", "skills", "relay", "SKILL.md");
+    const m = join(project, ".claude", "fleet", "copied.json");
+    const saved = readFileSync(m, "utf8");
+    rmSync(m);
+    appendFileSync(old, "\nmaster moved\n");
+    const pre = run("node", [script, project, "--check"]);
+    check("a copy from before the manifest is still the standard's, not the project's", !pre.stdout.includes("= own") && pre.stdout.replaceAll("\\", "/").includes(".claude/skills/relay/SKILL.md"), pre.stdout);
+    writeFileSync(m, saved);
+    copy();
+  }
+
   const existing = join(scratch, "existing");
   mkdirSync(join(existing, ".claude"), { recursive: true });
   writeFileSync(join(existing, "project-rules.md"), `**Version:** ${rulesVersion}\n`);

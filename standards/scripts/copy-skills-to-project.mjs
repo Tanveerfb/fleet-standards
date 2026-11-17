@@ -24,6 +24,9 @@
 // wholly the sync's), or a file .claude/fleet/copied.json says an earlier sync wrote. That
 // manifest is how a removed skill is told from the project's own skills beside it.
 //
+// A skill folder of the same name that no sync wrote is the project's own: it is skipped and
+// listed as `= own`, never overwritten.
+//
 // The manifest also keeps a hash of each file as written. A copy that no longer matches its
 // hash was edited in this project since the last sync, and is listed as `! edited` rather
 // than `~ changed`, so a local edit is never mistaken for an update from the master.
@@ -63,10 +66,37 @@ function files(dir) {
   });
 }
 
+// What the last sync wrote (.claude/fleet/copied.json), read first: it tells a fleet copy from
+// a skill the project wrote itself under the same name.
+const manifestPath = join(project, ".claude", "fleet", "copied.json");
+let previous = [];
+let previousHashes = {};
+try {
+  const parsed = JSON.parse(readFileSync(manifestPath, "utf8"));
+  if (Array.isArray(parsed?.files)) previous = parsed.files.filter((f) => typeof f === "string");
+  if (parsed?.hashes && typeof parsed.hashes === "object" && !Array.isArray(parsed.hashes)) previousHashes = parsed.hashes;
+} catch {}
+
+// A skill folder of the same name that no sync recorded, and whose SKILL.md carries none of
+// the paths a copy has (`.claude/fleet/`), is the project's own (a project that keeps its own
+// relay or checkpoint). It is never overwritten: the owner decides what to do with it.
+const ownSkills = [];
+function isOwnSkill(name) {
+  const dir = join(project, ".claude", "skills", name);
+  if (!existsSync(dir)) return false;
+  if (previous.some((f) => f.startsWith(`.claude/skills/${name}/`))) return false;
+  const skillFile = join(dir, "SKILL.md");
+  return !existsSync(skillFile) || !readFileSync(skillFile, "utf8").includes(".claude/fleet/");
+}
+
 const planned = []; // [target, content]
 for (const name of readdirSync(join(standards, "skills"))) {
   // Folders only: a stray file in skills/ is not a skill.
   if (SKIP_SKILLS.has(name) || !statSync(join(standards, "skills", name)).isDirectory()) continue;
+  if (isOwnSkill(name)) {
+    ownSkills.push(name);
+    continue;
+  }
   const from = join(standards, "skills", name);
   for (const f of files(from)) {
     const text = readFileSync(join(from, f), "utf8");
@@ -149,17 +179,9 @@ if (settingsReadable) {
 }
 
 // What this sync writes, recorded so the next one can tell what the standard has since dropped.
-const manifestPath = join(project, ".claude", "fleet", "copied.json");
 const slash = (p) => p.replace(/\\/g, "/");
 const plannedRel = new Set(planned.map(([target]) => slash(relative(project, target))));
 plannedRel.add(slash(relative(project, manifestPath)));
-let previous = [];
-let previousHashes = {};
-try {
-  const parsed = JSON.parse(readFileSync(manifestPath, "utf8"));
-  if (Array.isArray(parsed?.files)) previous = parsed.files.filter((f) => typeof f === "string");
-  if (parsed?.hashes && typeof parsed.hashes === "object" && !Array.isArray(parsed.hashes)) previousHashes = parsed.hashes;
-} catch {}
 const hash = (text) => createHash("sha256").update(text).digest("hex");
 const fleetDir = join(project, ".claude", "fleet");
 const onDisk = existsSync(fleetDir) ? files(fleetDir).map((f) => slash(join(".claude", "fleet", f))) : [];
@@ -179,6 +201,9 @@ for (const [target, content] of planned) {
 planned.push([manifestPath, JSON.stringify({ version, files: [...new Set(recorded)].sort(), hashes }, null, 2) + "\n"]);
 const manifestRel = slash(relative(project, manifestPath));
 
+for (const name of ownSkills) {
+  console.log(`= own     .claude/skills/${name} (the project's own skill of that name: not overwritten)`);
+}
 let changed = 0;
 for (const [target, content] of planned) {
   const rel = relative(project, target);

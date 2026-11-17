@@ -300,6 +300,10 @@ hashes cannot tell the two apart once: read the diff. **A `- stale` line** is a 
 the standard has since dropped — a retired skill, a reference file that went: name each to
 the owner, and on their yes run the command once more with `--remove-stale`. A project's own
 skills are never on that list (`.claude/fleet/copied.json` records what the sync wrote).
+**An `= own` line** is a skill folder of the project's own under a fleet skill's name (its own
+`relay` or `checkpoint`): the script never overwrites it and copies the rest. Name it to the
+owner; keeping it is a granted divergence for `conventions.md`, and taking the fleet skill
+means the owner renames or retires theirs first.
 Otherwise run the same command without `--check`. It writes every skill but `new-project` and `machine-inventory` to `.claude/skills/` and the files
 they read to `.claude/fleet/`, and adds two hooks to `.claude/settings.json`, merged with
 whatever the file already holds: the §AGENTS shell-write hook
