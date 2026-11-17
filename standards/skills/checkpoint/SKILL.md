@@ -193,20 +193,41 @@ pass: a brief never gains a "was", a record never loses a line.
    2,700 lines, most of it describing deleted systems, which cost every later session real reading
    time and taught several of them things that were no longer true.
 
-**Content to cover** (adapt headings to the project, but hit all of these):
+**Content to cover — and which file each goes in.** This list is the format; the templates
+(`templates/STATUS.template.md`, `templates/log.template.md`) follow it heading for heading,
+and `relay` reads the snapshot's sections by these names. Adapt the wording to the project,
+never the set.
 
+**The snapshot, `docs/STATUS.md`**, in this order:
+
+- **Start here** — Step 3.
+- **Things that will save a session** — the few environment facts not discoverable from the
+  code that cost real time when unknown. Kept while true.
 - **What this project is** — one paragraph, in case the reader has zero prior context.
 - **Current state** — what exists right now, concretely. For a codebase: what's built, where.
   For non-code work: what config/content/state exists and where it lives (it may not be files in
   this repo at all — e.g. a running app's own data store, a cloud dashboard, a third-party
   service).
+- **Open items** — recommended next steps, priority-ordered.
+- **Verified this checkpoint, by measurement** — only what this session checked, with the
+  check named.
+- **Assumed, not verified** — anything untested or carried on an earlier session's word,
+  named plainly and never in the same voice as the section above.
+- **Confidence and gaps** — what you would check first coming back cold (M6 fills it claim
+  by claim).
+
+**This checkpoint's entry in the log, `docs/log.md`:**
+
+- **What happened** — what got built, changed or fixed, concretely, with the commits and the
+  measurements.
 - **Decisions and why** — every meaningful choice, especially reversals or abandoned approaches.
   Include *what was tried and didn't work*, not just what succeeded — this is the single most
-  valuable thing for preventing a future session from re-treading dead ends.
+  valuable thing for preventing a future session from re-treading dead ends. A choice that
+  should bind later sessions also goes in `decisions.md` (Step 2.5).
 - **Explicit deviations from any spec/plan the user gave** — anything you or the user changed
   from an original ask, flagged clearly so it doesn't read as an oversight later.
-- **Open items / recommended next steps**, priority-ordered.
-- **Anything untested or unverified**, named plainly.
+- **The mistake worth keeping** — a claim this checkpoint corrected, what it said before,
+  and why it was wrong. Left out when there is none.
 
 Write it so a reader with *zero* memory of this session — not even the general shape of it —
 comes away able to act correctly. Don't assume they'll re-derive intent from file diffs.
