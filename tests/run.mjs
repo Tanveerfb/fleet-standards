@@ -702,9 +702,16 @@ section("Install for other agents (standards/scripts/install-skills.mjs)");
     skills.every((n) => existsSync(join(home, ".agents", "skills", n, "SKILL.md")) && existsSync(join(home, ".codex", "skills", n, "SKILL.md"))),
   );
   const installed = readFileSync(join(home, ".agents", "skills", "sync-standards", "SKILL.md"), "utf8");
-  check("the plugin path is rewritten to ~/.agents/fleet/", !installed.includes("${CLAUDE_PLUGIN_ROOT}/") && installed.includes("~/.agents/fleet/project-rules.md"));
+  // Absolute, not `~/`: the skills quote their paths, and a quoted ~ is never expanded.
+  const fleetPath = fleet.replaceAll("\\", "/");
+  check("the plugin path is rewritten to the absolute ~/.agents/fleet/", !installed.includes("${CLAUDE_PLUGIN_ROOT}/") && !installed.includes("~/.agents/fleet/project-rules.md") && installed.includes(`${fleetPath}/project-rules.md`));
+  check("the scripts and the master skills land beside the rules", existsSync(join(fleet, "scripts", "copy-skills-to-project.mjs")) && existsSync(join(fleet, "skills", "sync-standards", "SKILL.md")));
   const second = install();
   check("a second run finds every skill current", (second.stdout.match(/already current/g) ?? []).length === skills.length * 2, second.stdout);
+  // With no terminal (an agent's shell), a skill that differs is skipped and said, never a hang.
+  writeFileSync(join(home, ".agents", "skills", "relay", "SKILL.md"), "edited here\n");
+  const noTerminal = run("node", [script], { input: "", env: { ...process.env, HOME: home, USERPROFILE: home } });
+  check("no terminal: a differing skill is skipped and said", noTerminal.status === 0 && noTerminal.stdout.includes("skipped (no terminal") && readFileSync(join(home, ".agents", "skills", "relay", "SKILL.md"), "utf8") === "edited here\n", noTerminal.stdout + noTerminal.stderr);
 }
 
 rmSync(scratch, { recursive: true, force: true });

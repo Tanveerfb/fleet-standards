@@ -27,6 +27,10 @@ if (!existsSync(root)) {
 }
 
 const current = versionOf(master);
+if (!current) {
+  console.error(`${master} has no **Version:** line: nothing to compare against.`);
+  process.exit(1);
+}
 console.log(`Master: v${current}  (${root})\n`);
 for (const name of readdirSync(root)) {
   const dir = join(root, name);
@@ -37,7 +41,7 @@ for (const name of readdirSync(root)) {
     version === null ? "none"
     : version === "unknown" ? "unknown version"
     : compare(version, current) < 0 ? "behind"
-    : compare(version, current) > 0 ? "AHEAD of master — copy it back"
+    : compare(version, current) > 0 ? "AHEAD of master — a stale master, or an edit to propose"
     : "current";
   console.log(`${name.padEnd(32)} ${(version ?? "-").padEnd(8)} ${state}`);
   // The declared set (rules-line.mjs): a name it cannot match, a declared file missing or

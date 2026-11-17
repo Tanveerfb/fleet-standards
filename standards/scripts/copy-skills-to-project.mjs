@@ -35,7 +35,7 @@ const check = args.includes("--check");
 const removeStale = args.includes("--remove-stale") && !check;
 const projectArg = args.find((a) => !a.startsWith("--"));
 if (!projectArg) {
-  console.error("usage: copy-skills-to-project.mjs <projectDir> [--check]");
+  console.error("usage: copy-skills-to-project.mjs <projectDir> [--check | --remove-stale]");
   process.exit(2);
 }
 const project = resolve(projectArg);
@@ -60,7 +60,8 @@ function files(dir) {
 
 const planned = []; // [target, content]
 for (const name of readdirSync(join(standards, "skills"))) {
-  if (SKIP_SKILLS.has(name)) continue;
+  // Folders only: a stray file in skills/ is not a skill.
+  if (SKIP_SKILLS.has(name) || !statSync(join(standards, "skills", name)).isDirectory()) continue;
   const from = join(standards, "skills", name);
   for (const f of files(from)) {
     const text = readFileSync(join(from, f), "utf8");

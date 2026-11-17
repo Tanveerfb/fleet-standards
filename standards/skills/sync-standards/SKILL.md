@@ -53,8 +53,11 @@ cloud session, an SDK host), say the freshness of the plugin copy is unverified 
 
 **Outside Claude Code**, the standard was installed by `install-skills.mjs`. Read
 `~/.agents/fleet/INSTALLED_FROM.json` for the `fleet-standards` checkout it came from, then run
-`git -C <repo> pull` and `node <repo>/standards/scripts/install-skills.mjs`. If either
-changed anything, tell the owner to restart the agent and invoke this skill again, then stop.
+`git -C <repo> pull` and `node <repo>/standards/scripts/install-skills.mjs`. With no terminal
+it skips any installed skill that differs from the checkout and says so: show the owner the
+difference (it may be a local edit worth proposing) and, on a yes, run it again with
+`--yes`. If anything changed, tell the owner to restart the agent and invoke this skill
+again, then stop.
 
 ## Step 1 — Read both versions
 
