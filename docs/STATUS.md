@@ -9,24 +9,22 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 ## Start here
 
 **State:** v3.8.0 is on `main`. **v4.0.0 is in progress on the working branch
-`origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 5 of seven
-are done and phase 6, the audit of the standard, is **built**: every pick but I4, which
-goes at the release. `main` is untouched; nothing is released.
-**Next:** **phase 7.** The Fable review's fifteen picks are built, one commit each
-(`review R1` to `R15`, `docs/audits/2026-11-18-fable-v4-review-checked.md`); the review
-scored v4 7 out of 10 before them. The theme is chosen: **v4 Sutlej**, the
-five rivers of Punjab (`decisions.md`, 2026-11-18). Its README look starts as mockups, no
-sample gallery, locked before it is built. Open: whether the README leads with "Sutlej" or
-the number. The 4.0.0 changelog entry
-must end with its *What a project must change* list (`docs/maintainer.md`). `checkpoint`'s steps are numbered 1 to 9 since E11;
-the audit's rows cite the old numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7,
-5 → 8, 6 → 9).
+`origin/claude/new-project-mockup-zp2h2z`** (local branch `v4.0.0`): phases 1 to 6 of seven
+are done. Phase 6 is the audit (`docs/specs/v4-audit.md`, every pick built but I4, at the
+release) and a blind Fable 5.2 review (7 out of 10; its fifteen picks R1 to R15 built,
+`docs/audits/`). `main` is untouched; nothing is released.
+**Next:** **phase 7**, *Theme and release*: v4 is **Sutlej** (the five rivers of Punjab,
+`decisions.md`). Start with the README's look as mockups, no sample gallery, locked before
+it is built; ask first whether the README leads with "Sutlej" or "v4.0.0". The rest is open
+item 5. The 4.0.0 changelog entry ends with its *What a project must change* list
+(`docs/maintainer.md`). `checkpoint`'s steps are 1 to 9; the audit's rows cite the old
+numbers (old 1.5 → 2, 2 → 3, 2.5 → 4, 3 → 5, 3.5 → 6, 4 → 7, 5 → 8, 6 → 9).
 **Blocked on:** nothing.
-**Don't trust:** no behaviour eval has run since groups A to E rewrote `checkpoint`,
-`relay`, `sync-standards` and `new-project`, and the five cases H1 and H2 added have never
-run; the skills' new paths (every kind in
-`new-project`, sync checks a to l and its upgrade report, *Adding an option*, `--remove-stale`) have never met a
-real project. The PowerShell half of the shell-write guard is tested, never seen live.
+**Don't trust:** no behaviour eval has run since groups A to E, and four of the fifteen
+cases never have; the skills' new paths (every kind in `new-project` and its Step 4.5, the
+sync's upgrade report and checks a to l, `--remove-stale`, the hashes, relay's short form
+after a resume) have never met a real project. The installer's three crash fixes were read,
+not tested. The PowerShell half of the shell-write guard is tested, never seen live.
 **Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
 line, and keeps this one session going: checkpoint, compact, continue here. **After a
 compact nothing runs relay by itself here** (the installed plugin is `main`'s: see the
@@ -85,15 +83,15 @@ line reads 3.9.0 until phase 7 (`decisions.md`, 2026-11-13).
 | 3. Documents and sessions | Done. Two evals; this file split from `docs/log.md` |
 | 4. Motif previews | Done. "Show me" in `design-motif`; `standards/motif-gallery.html`, 35 tiles, **locked** by the owner: changing a tile takes a new round |
 | 5. Security, machine inventory | Done. Five §SECURITY rules; relay's check for unexplained workflow and settings changes; the `machine-inventory` skill and the §AGENTS rule that reads its file |
-| 6. Process X on the standard | **Built.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I, and K from the owner's answers: pnpm, JavaScript tools, `rules/options/sqlite.md`, `rules/python.md`) but I4, at the release |
+| 6. Process X on the standard | **Done.** `docs/specs/v4-audit.md`: about 90 findings, the owner picked the recommended set; every pick is built (groups A to F, H, I, and K from the owner's answers: pnpm, JavaScript tools, `rules/options/sqlite.md`, `rules/python.md`) but I4, at the release. Then the Fable review, `docs/audits/`: R1 to R15 built. Also: the sync's upgrade report, Fable as Process X's optional auditor |
 | 7. Theme and release | Not started. The theme is chosen: v4 Sutlej. Group G in the audit is its list of documents to rewrite |
 
 **What each kind loads** (before the split: 76.5 KB, or nothing for a profile project that
-only referenced the file), measured 2026-11-18 after group E: web 60.4 KB plus its options;
-Node tool 44.3; game 46.5; non-application 33.9, or 40.9 with a visual surface. Options
-imported: Firebase 3.2, Trello 1.3. Read on demand: AI 6.6, credit 4.3. The core is 31.0 KB:
-groups A to D added to it (rules made true for every kind, citations naming their files),
-E2 and E9 took it back. `checkpoint` is 35.7 KB, from 38.2.
+only referenced the file), measured 2026-11-18 at the checkpoint: web 62.4 KB plus its
+options; Node tool 46.3; Python tool 42.2; game 47.5; non-application 35.1, or 42.0 with a
+visual surface. Options imported: Firebase 3.3, SQLite 2.8, Trello 1.3. Read on demand: AI
+6.6, credit 4.3. The core is 32.1 KB: K, R1, R3, R8 and R12 added rules, R11 cut 2.4 KB of
+plumbing. `checkpoint` is 38.7 KB.
 
 ---
 
@@ -116,9 +114,9 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **The audit's picks** — all built but I4 (the split check and `fetch-depth: 0` go at the
-   release). There are fifteen eval cases now, five never run; about $0.30 each, by hand and
-   with the owner's go. `ai-setup` and `machine-inventory` still have no case.
+1. **I4 at the release:** the split check, its intended list and `fetch-depth: 0` go
+   together. **Fifteen eval cases**, four never run (H1, H2); about $0.30 each, by hand and with the
+   owner's go. `ai-setup` and `machine-inventory` still have no case.
 2. **GitHub's private vulnerability reporting is off** on the repository (checked
    2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the owner's
    setting; then that line can point at it.
@@ -143,17 +141,19 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Verified, by measurement (2026-11-13, and 2026-11-18 where dated)
 
-- `node tests/run.mjs` — all checks pass (2026-11-18): the rules set (sections, the
-  divided ones, the template's imports), the gallery (35 families, each with a tile in its
-  group and order), the split check, the shell-write guard's 100-odd cases for both shells,
-  and the scripts: the startup check's declared-set report, the *Rules* line reader, the
-  shared reference list and version reader, both manifests naming every skill, the fleet
-  report, the installer and its path rewrite, stale skill copies, the `--project-copy`
-  flag, `null` JSON, and every hook path.
+- `node tests/run.mjs` — all checks pass (2026-11-18, at the checkpoint): the rules set
+  (sections, the divided ones, the template's imports), the gallery, the split check (13
+  files), the shell-write guard's cases for both shells (12 added from the Fable review), and
+  the scripts: the startup check, the *Rules* line reader with `no-<name>`, the reference
+  list and version reader, both manifests, the fleet report, the installer (absolute path,
+  scripts installed, no hang without a terminal), stale copies, the per-copy hashes, the
+  resume message, `null` JSON, and every hook path.
 - `claude plugin validate .` and `claude plugin validate standards` — pass, with warnings
   only; both run in CI.
-- CI — success on the working branch at `41a819f` (2026-11-18), actions pinned by commit,
+- CI — success on the working branch at `ea2069a` (2026-11-18), actions pinned by commit,
   the split check running in full.
+- The Fable review's findings — each checked against the repository by a separate agent,
+  the guard's by test (`docs/audits/2026-11-18-fable-v4-review-checked.md`).
 - The sizes in *Where v4 stands* — measured with `wc -c` on 2026-11-18.
 - Behaviour evals — the three new cases (`relay-after-compact`, `checkpoint-log-split`,
   `motif-show-me`) scored 1.00 with the skill and 0.00 without, on 2026-11-13, before

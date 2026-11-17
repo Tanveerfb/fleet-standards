@@ -13,6 +13,56 @@ relocation, never summarising.***
 
 ---
 
+### 2026-11-18 — the audit finished, group K, two new ideas, the theme, and a Fable review
+
+Commits `877153e` to `ea2069a`, 47 of them, and this one; all pushed to
+`claude/new-project-mockup-zp2h2z`, CI green at each push checked; nothing reached `main`.
+The same session, continued after a compact ("lets continue").
+
+- **The audit's last picks**, one commit each: F1 to F6 (relay first after a compact, in the
+  core; "never edit in place" covers `rules/`, the skill copies and `.claude/fleet/`; a
+  rewritten config's diff read before reverting, in §AGENTS; checkpoint checks the branch
+  before an unasked push, stages by path, and names its own commit as "and this one"), H1 to
+  H4 (eval cases `cpr-multi-branch`, `sync-asks-first`, `propose-files-an-issue`,
+  `new-project-game`; four graders say what is not a failure; every case checks its skill
+  fired), I1 (`SECURITY.md`, three true paragraphs), I2 (`claude-skills.md` to `docs/`), I5.
+- **Group K, the owner's seven answers** (two question rounds): pnpm for new projects, npm
+  stays; JavaScript a named choice for local tools; a core pointer to `ui.md`; a split
+  proposed past 50 KB (the recommendation was 30); §MOTION exceptions dropped at sync;
+  `rules/options/sqlite.md` (the recommendation was to wait for a third project); and
+  `rules/python.md`, with two shapes, package and folder of scripts. K6 and K7 were written
+  from a read-only survey of `roleodex`, `cutscene` and `toll-pipeline`: only roleodex has
+  working SQLite code; cutscene's core is the fully tooled Python, toll-pipeline loose
+  scripts. Vercel and Firebase were checked for pnpm before K1.
+- **Two ideas of the owner's**, both picked as recommended: the upgrade path goes inside
+  `sync-standards` (an audit-first upgrade report, checks j to l, a re-check after, each
+  release's changelog ending with *What a project must change*); `fable-audit` is Process
+  X's optional auditor (`process-x.md` step 1).
+- **The theme:** after two rounds the owner chose the five rivers of Punjab, v4 **Sutlej**
+  (Ludhiana's river), then Beas, Ravi, Chenab, Jhelum. Accepted: surface only, original art.
+  The README look goes straight to mockups, no gallery. Open: Sutlej or the number first.
+- **The Fable review** (`docs/audits/`): Fable 5.2, blind, 36 files. The first run hit its
+  16,000-token cap while thinking and wrote nothing, about $1.66; the runner in
+  `~/.claude/skills/fable-audit/` was fixed (48,000, a cut-off reply fails loudly, honest
+  estimates) and the second cost $1.54: **7 out of 10**. A separate agent checked every
+  finding against the repo and tested the guard's: none wholly wrong. The owner picked all
+  fifteen, R1 to R15, each built and committed `review R<n>`: a gate on production outside
+  git; the build before a deploying push; cloud harness branches listed and named; no
+  staging in sync; the guard's runners and quoted paths (12 tests); the installer's absolute
+  path, scripts and no-terminal skip; hashes in `copied.json`; two core sentences scoped; the
+  reference pass; `no-<name>` for a declined option; R11's trim and relay's short form after
+  a resume; §ASK with nobody to answer; `new-project`'s remote and branch protection; hook
+  scripts diffed before copying; a squash release merged back into the working branch.
+
+**The mistakes worth keeping.**
+- I told the owner H1 and H2 left "five" cases never run; they added four.
+- I tried `sed -i` on `docs/STATUS.md`; the guard refused it, rightly, and nothing changed.
+- The `fable-audit` dry run estimated $0.79 by counting words as prose; code and markdown run
+  about 2.35 tokens a word, and review mode's thinking used the whole output cap. The runner
+  now estimates both honestly.
+- The owner remembered Process X as not yet done; it was: phase 6 is Process X on the
+  standard. The Fable review is its independent second read, not a replacement.
+
 ### 2026-11-17 to 18 — the audit's groups A to E built
 
 Commits `27abdb9` to the head of `claude/new-project-mockup-zp2h2z`, 52 including this
