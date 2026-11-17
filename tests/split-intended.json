@@ -160,7 +160,9 @@
 
     "| Claude's built-in browser, Claude in Chrome (§TESTING) | The agent's own browser control; Playwright stays the last resort |",
     "- A green build is not evidence an interface works. A UI change is done when it has been",
-    "  seen working"
+    "  seen working",
+
+    "| `rules/options/credit.md`, `trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |"
   ],
   "added": [
     "**Applies to:** All projects. This file is the core, which every repository loads; the files",
@@ -213,7 +215,7 @@
     "# Fleet rules — option: studio credit (`rules/options/credit.md`)",
     "# Fleet rules — option: Trello (`rules/options/trello.md`)",
     "# Fleet rules — option: Firebase (`rules/options/firebase.md`)",
-    ["**Loaded by:** projects that chose it at setup.", 3],
+    ["**Loaded by:** projects that chose it at setup.", 2],
     "# Fleet rules — option: AI and model features (`rules/options/ai.md`)",
     "**Loaded by:** nothing by default. Read on demand, by projects that chose it.",
 
@@ -405,6 +407,15 @@
     "  input, a game in the engine",
 
     "## §GAME — The game-engine profile",
-    "## §NONAPP — The non-application profile"
+    "## §NONAPP — The non-application profile",
+
+    "| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |",
+    "| `rules/options/credit.md` | The studio credit and showcase | Read on demand, by the skills that reach its steps |",
+    "`rules/options/credit.md` is read the same way, but by the skills: it is used at setup, at a",
+    "sync and at a checkpoint, so `new-project`, `sync-standards` and `checkpoint` read it when",
+    "they reach its step, and the project's `Studio credit:` and `Studio showcase:` lines carry",
+    "the answers between.",
+    "**Loaded by:** nothing by default. Read on demand, by `new-project`, `sync-standards` and",
+    "`checkpoint` when they reach its step."
   ]
 }

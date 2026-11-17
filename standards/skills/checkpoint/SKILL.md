@@ -438,7 +438,8 @@ context window is, and the owner can (`/context`, or the app's context indicator
 
 1. **Skill proposals** — only if Step 1.5 found any: a multi-select, each option naming the
    skill and the change in a line.
-2. **Showcase update** — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
+2. **Showcase update** — read `rules/options/credit.md` first (§CREDIT; read on demand, never
+   imported) — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
    checkpoint recorded a phase done or a notable verified feature: file an update request on
    the studio site's repository (§CREDIT)? Say in a line what it would report.
 3. **What next?**

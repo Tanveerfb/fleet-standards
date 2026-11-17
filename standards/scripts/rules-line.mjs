@@ -5,8 +5,10 @@
 
 const LINE = /^[-*\s]*\**Rules\**:\**\s*([^\n·]*)(?:·\s*\**Options\**:\**\s*([^\n]*))?/m;
 
-// The AI option is read on demand, never imported (rules/options/ai.md, §SCOPE).
-export const READ_ON_DEMAND = ["rules/options/ai.md"];
+// Options read on demand, never imported (§SCOPE). AI is read through a line in CLAUDE.md,
+// which must name the file; the credit is read by the skills, so CLAUDE.md need not.
+export const READ_ON_DEMAND = ["rules/options/ai.md", "rules/options/credit.md"];
+const NAMED_IN_CLAUDE_MD = new Set(["rules/options/ai.md"]);
 
 /**
  * The files under rules/ a CLAUDE.md declares, or null when it has no Rules line.
@@ -55,11 +57,12 @@ export function rulesProblems(text, exists, known = () => true) {
     if (!known(file)) problems.push(`the Rules line declares ${file}, which the standard does not have`);
     else if (!exists(file)) problems.push(`${file} is declared but missing from the project`);
     else if (READ_ON_DEMAND.includes(file)) {
-      if (!text.includes(file)) problems.push(`${file} is declared but CLAUDE.md never says to read it`);
+      if (NAMED_IN_CLAUDE_MD.has(file) && !text.includes(file)) problems.push(`${file} is declared but CLAUDE.md never says to read it`);
     } else if (!imports.includes(file)) problems.push(`${file} is declared but not imported in CLAUDE.md`);
   }
   for (const file of imports) {
     if (!declared.files.includes(file)) problems.push(`CLAUDE.md imports ${file}, which the Rules line does not declare`);
+    else if (READ_ON_DEMAND.includes(file)) problems.push(`CLAUDE.md imports ${file}, which is read on demand, not imported`);
   }
   return problems;
 }

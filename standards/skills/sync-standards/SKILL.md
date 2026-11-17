@@ -166,7 +166,9 @@ with the summary from Step 2 as context. On a no, stop and leave everything unto
      `lib/ai/` folder) and ask.
 
    Record each answer on the `Options:` part, `none` if none. An option is copied and
-   imported like any other file, except `ai`, which is read on demand: add the template's
+   imported like any other file, except two that are read on demand (§SCOPE): `credit`,
+   which is copied but never imported — the skills read it when they reach its step, so
+   read it before asking the credit questions — and `ai`: add the template's
    "read `rules/options/ai.md` before any work on an AI feature" line instead of an import,
    and the same line in `src/lib/ai/CLAUDE.md` (create it if the folder exists and the file
    does not), which loads by itself when AI code is read.
@@ -276,8 +278,8 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
    and say in two lines what taking it on means for this project.
 2. On the owner's yes: copy it into `rules/options/`, add `<name>` to the *Rules* line's
    `Options:` part (dropping `none`), and add its `@rules/options/<name>.md` import under the
-   others. **AI is not imported:** hand to `ai-setup`, which copies the file and writes the
-   two read-on-demand lines.
+   others. **Two are not imported** (§SCOPE): the credit is copied with no import line, and
+   AI goes to `ai-setup`, which copies the file and writes the two read-on-demand lines.
 3. Write what the option needs on `CLAUDE.md`'s own lines: `Trello board: <url>`; the
    `Studio credit:` and `Studio showcase:` lines, with the showcase request filed as
    `new-project` Step 1 describes; nothing more for Firebase until a credential exists

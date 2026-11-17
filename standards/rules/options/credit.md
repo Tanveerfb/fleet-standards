@@ -1,6 +1,7 @@
 # Fleet rules — option: studio credit (`rules/options/credit.md`)
 
-**Loaded by:** projects that chose it at setup.
+**Loaded by:** nothing by default. Read on demand, by `new-project`, `sync-standards` and
+`checkpoint` when they reach its step.
 One file of the fleet standard. `project-rules.md` is the core: its §SCOPE lists every file in
 the set and who loads it, and its header carries the one version they share.
 

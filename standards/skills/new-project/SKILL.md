@@ -58,7 +58,8 @@ Then, through the question tool, where the spec does not settle them (§ASK):
    the production surface and whether it has live users.
 3. **The options, each asked once** (§SCOPE), and the answer recorded either way:
    - **Studio credit** — only if the owner's `~/.claude/CLAUDE.md` has a `Studio credit:`
-     line: does the project carry the credit, and, if the line names a showcase, will it be
+     line. Read `${CLAUDE_PLUGIN_ROOT}/rules/options/credit.md` first (§CREDIT; it is read
+     on demand, never imported). Does the project carry the credit, and, if the line names a showcase, will it be
      featured on the studio's site; for a client project, has the client agreed. Local-only
      projects are asked too. **On a showcase yes**, file the feature request as an issue on
      the studio site's repository — what the project is, its status, stack and tools, links,
@@ -123,7 +124,8 @@ standard's files alone; the work's own files come with the work.
    — never invented:
    - `CLAUDE.template.md` → `CLAUDE.md`:
      - **the imports**: one `@` line per file copied in step 1, the others deleted (the
-       template's comment lists them by kind); options imported, AI never;
+       template's comment lists them by kind); Trello and Firebase imported, AI and the
+       credit never — they are read on demand (§SCOPE);
      - **the *Rules* line**: the same files and the options, e.g.
        `app, node · Options: trello`, or `· Options: none` — the line the startup check and
        `sync-standards` read (§SCOPE);

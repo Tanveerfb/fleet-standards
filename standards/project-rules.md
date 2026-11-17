@@ -45,8 +45,9 @@ core. The rest are loaded only where they apply:
 | `rules/web.md` | The Next.js stack | Web projects |
 | `rules/game.md` | The game-engine stack | Games |
 | `rules/non-application.md` | What a repository without application code does differently | Those repositories |
-| `rules/options/credit.md`, `trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |
+| `rules/options/trello.md`, `firebase.md` | Things a project opts into at setup | Projects that chose them |
 | `rules/options/ai.md` | AI and model features | Read on demand by projects that chose it |
+| `rules/options/credit.md` | The studio credit and showcase | Read on demand, by the skills that reach its steps |
 
 | Kind of repository | Loads |
 | --- | --- |
@@ -69,6 +70,10 @@ never opted in has still been asked.
 its root `CLAUDE.md` — read that file before any work on an AI feature — and the same line
 in `src/lib/ai/CLAUDE.md`, an area file (§SCALE) that loads by itself when anything under
 `lib/ai/` is read. `ai-setup` writes both. Never act on memory of the file.
+`rules/options/credit.md` is read the same way, but by the skills: it is used at setup, at a
+sync and at a checkpoint, so `new-project`, `sync-standards` and `checkpoint` read it when
+they reach its step, and the project's `Studio credit:` and `Studio showcase:` lines carry
+the answers between.
 
 **Keeping in step with the master.** The `fleet` plugin (marketplace `tanveerfb`, from
 `Tanveerfb/fleet-standards`) carries this file, its templates and the fleet skills. Its

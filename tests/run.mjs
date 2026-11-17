@@ -326,6 +326,10 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
     ["rules/app.md", "rules/node.md", "rules/options/ai.md"],
   );
   check("declared set whole, ai read on demand: silent", silent(hook(whole)));
+  const credit = setProject("set-credit", "@rules/app.md\n- **Rules**: app · Options: credit\n", ["rules/app.md", "rules/options/credit.md"]);
+  check("the credit option, not imported and not named: silent (the skills read it)", silent(hook(credit)));
+  const creditImported = setProject("set-credit-imported", "@rules/app.md\n@rules/options/credit.md\n- **Rules**: app · Options: credit\n", ["rules/app.md", "rules/options/credit.md"]);
+  check("the credit option imported: speaks (it is read on demand)", hook(creditImported).stdout.includes("read on demand, not imported"));
   const missing = setProject("set-missing", "@rules/app.md\n@rules/web.md\n- **Rules**: app, web\n", ["rules/app.md"]);
   const said = hook(missing).stdout;
   check("a declared file missing on a current core: speaks", said.includes("rules/web.md is declared but missing"));
