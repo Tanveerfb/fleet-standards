@@ -551,6 +551,11 @@
     "  to fix, on the owner's word about which goes",
     "- **The manager is named in the project's `CLAUDE.md`** (its *Commands*). Commands in this",
     "  set are written for npm; a pnpm project runs the same with `pnpm` (`npm run build` is",
-    "  `pnpm build`, `npx` is `pnpm dlx`)"
+    "  `pnpm build`, `npx` is `pnpm dlx`)",
+    "- **JavaScript is a named choice for a local tool only**: chosen at setup, recorded in",
+    "  `decisions.md`, never for a web project, a client's project or anything deployed. It keeps",
+    "  the type checking: `.mjs` files, a `tsconfig.json` with `\"checkJs\": true`, `\"strict\": true`",
+    "  and `\"noEmit\": true`, types in JSDoc, and `tsc --noEmit` passing as it would for",
+    "  TypeScript. The rules below hold, written in JSDoc"
   ]
 }

@@ -99,7 +99,8 @@ block), keep it; Step 4 adds the pointer above the block. Then, before anything 
 
 **Local Node tool.** No framework. `package.json` (`pnpm init`, then the name, `type`,
 `engines.node` and `.nvmrc` as §RUNTIME says), `tsconfig.json` strict (§TS), and the
-scripts `rules/node.md` §BUILD names. Every dependency is the owner's yes (§AGENTS).
+language: TypeScript, or JavaScript with type checking on, which §TS allows a local tool;
+ask, and record the answer in `decisions.md`. Then the scripts `rules/node.md` §BUILD names. Every dependency is the owner's yes (§AGENTS).
 
 **Game.** The engine makes its own project: the owner creates it in the engine, in this
 folder, and says which engine and version. Nothing here writes engine files, and

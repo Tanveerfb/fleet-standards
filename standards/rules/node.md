@@ -40,6 +40,11 @@ shadcn and `create-next-app` generate.
 ## §TS — TypeScript
 
 - **Strict mode always.** `"strict": true` is non-negotiable
+- **JavaScript is a named choice for a local tool only**: chosen at setup, recorded in
+  `decisions.md`, never for a web project, a client's project or anything deployed. It keeps
+  the type checking: `.mjs` files, a `tsconfig.json` with `"checkJs": true`, `"strict": true`
+  and `"noEmit": true`, types in JSDoc, and `tsc --noEmit` passing as it would for
+  TypeScript. The rules below hold, written in JSDoc
 - No `any`. Use `unknown` and narrow
 - Props, parameters, return types and state are explicitly typed
 - `type` for object shapes and unions. `interface` only when extending
