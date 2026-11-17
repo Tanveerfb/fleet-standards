@@ -244,7 +244,10 @@ untrue or incomplete:
   script, a renamed command, a new env var, a changed setup step: each one is a README change.
 - **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
   `Deploys`, `Trello board` and `Motif` lines, traps found this session. A replaced line
-  moves to `docs/record/` (Step 3); it is not kept beside the new one.
+  moves to `docs/record/` (Step 3); it is not kept beside the new one. **Measure the root
+  `CLAUDE.md`** (`wc -c`, or the file's size in PowerShell): past 50 KB, propose a split by
+  §SCALE in Step 9's question, with the sections that would move and where. Never split
+  unasked.
 - **`decisions.md`** — the session's choices appended, and its "declined, never again" index
   at the top gaining a line for anything the owner ruled out.
 - **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
@@ -442,13 +445,15 @@ context window is, and the owner can (`/context`, or the app's context indicator
    imported) — only if `CLAUDE.md`'s `Studio showcase:` line says yes **and** this
    checkpoint recorded a phase done or a notable verified feature: file an update request on
    the studio site's repository (§CREDIT)? Say in a line what it would report.
-3. **What next?**
+3. **A `CLAUDE.md` split** — only if Step 4 measured the root past 50 KB: split it by
+   §SCALE? Name the sections that would move and their area files in a line.
+4. **What next?**
    - **Compact, then continue** — compact now and carry on with the next task in a fresh
      window.
    - **Compact and stop here** — the session ends at this checkpoint.
    - **Keep going, compact later** — there is room for another task first.
 
-Recommend an option for 3, and say what the recommendation rests on: you cannot measure
+Recommend an option for 4, and say what the recommendation rests on: you cannot measure
 the window, so judge from what you can see — a long session, many large outputs (screenshots,
 logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
 A phase boundary is the usual moment to recommend *Compact, then continue*.
@@ -459,6 +464,8 @@ Then act on the answers, and report in a line or two what was done:
   `decisions.md` line.
 - **An approved showcase update is filed as §CREDIT says**, kept as an open item when the
   studio's repository cannot be reached.
+- **An approved split is the next piece of work**, done by §SCALE's steps after the pause,
+  not in the follow-up commit: it is too large to ride on Step 7's answer.
 - **Those changes are committed under the answer Step 7 already had** (§GIT, *An approval
   does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 7 pushed, committed only if Step 7 only committed, left uncommitted (and said

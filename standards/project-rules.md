@@ -414,6 +414,9 @@ first time an agent duplicates something or works in the wrong place.
   general. **A fact lives in exactly one of them**: the most local file it applies to. The
   root `CLAUDE.md` lists the area files that exist
 
+  **A root `CLAUDE.md` past 50 KB is due a split.** The checkpoint measures it and proposes
+  one; the split happens on the owner's yes.
+
   **Splitting an existing `CLAUDE.md`:** move whole sections word for word, never rewrite
   them on the way. Then check, read-only, that every non-blank line of the old file is in
   exactly one new file, and name any line changed on purpose. The root keeps what binds

@@ -559,6 +559,8 @@
     "  TypeScript. The rules below hold, written in JSDoc",
     "- **Before touching an interface file, read `rules/ui.md`** where the project loads it — a",
     "  component, a page, a style, a game's UI scene — however the session began, a script or a",
-    "  question included. Its rules and §OWNER's visual ones bind every interface change"
+    "  question included. Its rules and §OWNER's visual ones bind every interface change",
+    "  **A root `CLAUDE.md` past 50 KB is due a split.** The checkpoint measures it and proposes",
+    "  one; the split happens on the owner's yes."
   ]
 }
