@@ -6,6 +6,7 @@
   <img src="https://img.shields.io/badge/standard-v4.0.0%20Satluj-1d5f86" alt="standard v4.0.0 Satluj">
   <img src="https://img.shields.io/badge/skills-8-c3245e" alt="8 skills">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9772b" alt="MIT license"></a>
+  <a href="https://tinkertogether.studio"><img src="https://img.shields.io/badge/built%20by-Tinker%20Together-8f5736" alt="Built by Tinker Together"></a>
 </p>
 
 A shared rulebook, project templates, and agent skills for building projects with an AI coding
@@ -308,6 +309,13 @@ for what changed and why: where each section lives now, what a project must chan
 up, and the map from v2 section numbers to v3 names.
 
 ---
+
+## Who maintains it
+
+Built and maintained by **[Tinker Together](https://tinkertogether.studio)**, a small web and AI
+studio in Sydney. It is the studio's own way of working — every project it builds runs on this
+standard — published so anyone can use it. Proposals from other projects are welcome
+(`propose-standard`).
 
 ## License
 
