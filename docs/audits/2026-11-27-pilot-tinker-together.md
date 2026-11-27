@@ -46,6 +46,21 @@ day, so no option question arose.
 8. **`templates/gates.yml` pins `checkout` and `setup-node` at v4.4.0;** this project's own
    workflow already pins v7.
 
+## Addendum: the admin repo, the same day
+
+The same session then synced the studio's admin repository (non-application with `ui`,
+single-branch) on the owner's "Now": the core and `rules/ui.md`, the skill copies, the
+`sk-` fix (re-normalised to LF again: problem 3 repeated), a leftover
+`rules/options/trello.md` removed, and `AGENTS.md` and `GEMINI.md` added. Three findings:
+
+9. **The repository had neither `AGENTS.md` nor `GEMINI.md`**, though its v4.0.0 sync ran
+   Step 5's check and nothing recorded a refusal. Step 6's re-check does not look again.
+10. **Step 5 checks only that the pointer exists.** The site's two pointers were from the
+    older template, naming `project-rules.md` alone and not the files under `rules/`; nothing
+    flagged it. (The 2026-11-18 dry run's problem 14, not picked then.)
+11. **The Trello leftover was in both repositories**, so it is systematic: declining an
+    option by editing the *Rules* line never removes its file. Covered by T5.
+
 ## Picks and outcomes
 
 **The owner, 2026-11-27: every one.** Built after the evals that were running finished,
@@ -61,6 +76,7 @@ since they read the skills from this folder.
 | T7 | 7: the upgrade report covers Step 5 | |
 | T8 | 8: the gates template's pins | |
 | S | the Windows line; the startup check run after a sync | |
+| T9 | 9, 10: the pointers compared with the template, and re-checked in Step 6 (the owner: "Yes, both parts"; this reverses 2026-11-18's "not picked" for problem 14) | |
 
 Also picked the same day, from the owner: **the update check asks GitHub once a day** and
 runs on resume and compact too (the startup check had never spoken: it ran only on a new

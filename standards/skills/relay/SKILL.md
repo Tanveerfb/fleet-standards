@@ -150,8 +150,8 @@ and it is the list of things not to propose.
   keeps each document, which is where the steps above and the checkpoint look.
 
 **A project whose *Rules* line ends `· read, not imported`** loads none of its rules files
-by itself. Read the core and each file the line declares now, before the report: the rules
-apply all the same.
+by itself. Read each file the line declares now, before the report, and the core too where
+`CLAUDE.md` does not import it: the rules apply all the same.
 
 ## Step 5 — Check git reality
 
