@@ -55,7 +55,7 @@ versions of the same rules file at once.
   declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by project path. It
   must stay silent on every error and never block a session. Test it by pointing
   `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` at a scratch folder.
-  Claude Code only: cloud sessions and other agents rely on `relay` Step 4.6 instead.
+  Claude Code only: cloud sessions and other agents rely on `relay` Step 7 instead.
 - **The shell-write hook** — `standards/hooks/hooks.json` also runs
   `standards/scripts/block-shell-writes.mjs` before every Bash command (§AGENTS). It exits 2
   to refuse, with the reason on stderr, and 0 on anything it cannot read — it must fail open.

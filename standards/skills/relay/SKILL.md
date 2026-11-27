@@ -44,14 +44,14 @@ One dial: depth.
 
 | Phrase | Depth |
 | --- | --- |
-| `relay`, `let's continue`, `catch me up`, `where were we` | Standard. Steps 1–5. |
-| **`relay MAX`**, **`relay max`** | **Exhaustive.** Steps 1–5 *plus* the MAX protocol, which is mandatory, not a suggestion. |
+| `relay`, `let's continue`, `catch me up`, `where were we` | Standard. Steps 1 to 8. |
+| **`relay MAX`**, **`relay max`** | **Exhaustive.** Steps 1 to 8 *plus* the MAX protocol, which is mandatory, not a suggestion. |
 
 ## Before you start: check what's already loaded
 
 **Do not re-read what the harness already injected.** Look in the context you
-already have for auto-loaded `CLAUDE.md` / `AGENTS.md` (and the
-`project-rules.md` it imports), plus any `=== HANDOFF ===` or `=== MEMORY ===`
+already have for auto-loaded `CLAUDE.md` / `AGENTS.md` (and the rules files it
+imports: `project-rules.md` and those under `rules/`), plus any `=== HANDOFF ===` or `=== MEMORY ===`
 block. Re-reading those is wasted tokens and makes the report look thorough
 while adding nothing. Relay's value is in the layers that are **not**
 auto-loaded: the status doc (usually far too big to inject), the decisions
@@ -80,7 +80,7 @@ repo disagree, the repo wins. Where no hook runs (other agents), the rule is the
 a compact, run relay first.
 
 **After a resume: the short form.** A resumed session keeps its conversation, so relay
-checks only what may have moved while it was away: read `Start here`, run Step 4's
+checks only what may have moved while it was away: read `Start here`, run Step 5's
 `git status -sb` and `git log --oneline -5` (with a `git fetch` where there is a remote), and
 compare both with what the conversation last knew. Nothing moved: report it in a line or
 two, then handle the waiting request. Anything moved (a commit the conversation did not
@@ -111,8 +111,9 @@ by default; a status doc written before the split still carries it below the
 snapshot. Either way, do not read the whole log — it grows long and most of it
 is history. Read:
 
-- the snapshot sections — **Open items**, **Verified this checkpoint**,
-  **Assumed, not verified**, **Confidence and gaps**;
+- the snapshot sections — **Things that will save a session** (a quoted block inside
+  *Start here* in the template), **Current state**, **Open items**, **Verified this
+  checkpoint**, **Assumed, not verified**, **Confidence and gaps**;
 - the newest session-log entry, end to end. Skip anything marked
   `**RETIRED**`.
 
@@ -136,7 +137,7 @@ and abandoned entries are what stop you re-proposing a dead end. Where the
 file opens with a "declined, never again" index, read that too: it is short,
 and it is the list of things not to propose.
 
-## Step 3b — Read `conventions.md`, and any rules the project reads rather than imports
+## Step 4 — Read `conventions.md`, and any rules the project reads rather than imports
 
 `conventions.md` is not loaded by itself, and it is where a project says how it differs:
 
@@ -152,7 +153,7 @@ and it is the list of things not to propose.
 by itself. Read the core and each file the line declares now, before the report: the rules
 apply all the same.
 
-## Step 4 — Check git reality
+## Step 5 — Check git reality
 
 ```bash
 git status -sb
@@ -199,7 +200,7 @@ Establish:
   "fix" it. An unexplained change to a workflow is an incident until the owner says
   otherwise (§SECURITY).
 
-## Step 4.5 — Read the Trello board, if the project has one
+## Step 6 — Read the Trello board, if the project has one
 
 **Only if `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the template writes
 `- **Trello board**: <url>`; `rules/options/trello.md`
@@ -217,7 +218,7 @@ mirror has drifted:
 
 If the Trello tools are unavailable, say so and continue.
 
-## Step 4.6 — Is the project on the latest standard?
+## Step 7 — Is the project on the latest standard?
 
 **Only if the project has a `project-rules.md`.** Compare its `**Version:**` line with the
 master's:
@@ -256,7 +257,7 @@ so skip this there). If one exists and the project's `CLAUDE.md` has no answer t
 report and offer the two §CREDIT questions, through `sync-standards`' *Adding an option*,
 which works on a project already current. **Relay itself never adds a credit.**
 
-## Step 5 — Report, then STOP
+## Step 8 — Report, then STOP
 
 Report, in this order and briefly:
 
@@ -275,7 +276,7 @@ Report, in this order and briefly:
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
 4. **What is the user's call** — anything flagged as the previous agent's
    invention, any open question the previous session raised, a rules copy that is
-   behind the master, and a studio credit not yet asked about (Step 4.6).
+   behind the master, and a studio credit not yet asked about (Step 7).
 
 **Then stop and wait.** Do not start the entry point. After a compact or a resume with a
 request of the owner's already waiting, the report comes first and the request is handled
