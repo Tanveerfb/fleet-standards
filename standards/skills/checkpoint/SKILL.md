@@ -236,6 +236,15 @@ must be true when the checkpoint lands. **This matters most when the checkpoint 
 a collaborator or the next session reads. A pushed feature with a README still describing
 last month's app is a stale document shipped on purpose.
 
+**First, where this project keeps each document.** §DOCS names a set; a project may keep one
+under another name or inside another file, and says so in `conventions.md`'s table *§DOCS
+Document set — mapped, not duplicated*. Read that table and use its paths for everything
+below: a design kept in `DESIGN.md` is this project's `design-system.md`. A row that maps to
+nothing means the document does not exist yet: create it only if this session gave it
+content (§DOCS, *Do not create a document before it has content*), and then add its row. No
+table: use the standard names, and look for an obvious equivalent before concluding a
+document is missing.
+
 Check every document this session's changes touched, and update what the session made
 untrue or incomplete:
 

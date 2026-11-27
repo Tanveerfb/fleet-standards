@@ -14,11 +14,16 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `8a9b8ae`, CI green on `main`, issues #20 to #33 closed. All seven phases of v4 are done.
 This line and the log's *Released* item came in the checkpoint's follow-up commit, so they
 are on the working branch, not yet on `main`.
-**Next:** **v4.1.0 is planned, nothing built** (`docs/specs/v4.1.md`, 2026-11-27): the nine
-proposals #35 to #39 and #41 to #44, all in; `checkpoint` and `relay` brought in line (the
-owner picked G1 to G5 and G7 to G12, not G6); sync checks n and o, and check m reading
-rulesets; a real sync of `tinker-together` before the merge. Start at the spec's phase 1 on
-the owner's go. No open questions.
+**Next:** **v4.1.0 is being built** (`docs/specs/v4.1.md`, the owner's go 2026-11-27).
+**Phases 1 to 5 are built and pushed** (commits `1145956` to `5beca2e`): all nine proposals
+(#35 to #39, #41 to #44), check m reading rulesets, sync checks n (the gates in CI) and o
+(read-only findings), the two gates templates, `rules/options/family.md` and the ninth
+skill `session-family`. **Next is phase 6:** `checkpoint` and `relay`, the owner's picks G1
+to G5 and G7 to G12 (not G6), one commit each, in the spec's table. Then phase 7 (changelog
+`4.1.0 · Satluj`, README, version), phase 8 (a real sync of `tinker-together`, run by the
+"Tinker Together Main" session on a message from here; the owner answers its questions
+there), phase 9 (evals for what changed, release on `git CPR`). The version line still
+reads 4.0.0. No open questions.
 **Blocked on:** nothing.
 **Don't trust:** no `sync-standards` has run against a real project on v4 — only the
 read-only dry run; the pilot fixes (P1 to P17) are written and, where they touch a script,
