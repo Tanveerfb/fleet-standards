@@ -3,7 +3,7 @@
 // sessions (Claude Code on the web) install no plugins, but they do load a repository's own
 // `.claude/skills/`. Run by sync-standards (Step 5); not meant to be run by hand.
 //
-//   skills (all but new-project and machine-inventory) -> <project>/.claude/skills/<name>/
+//   skills (all but those in SKIP_SKILLS)     -> <project>/.claude/skills/<name>/
 //   files the skills read        -> <project>/.claude/fleet/
 //   the two hooks                -> <project>/.claude/fleet/scripts/block-shell-writes.mjs and
 //                                   after-compact.mjs, registered in
@@ -21,6 +21,8 @@
 //   --remove-stale  also deletes the stale copies. sync-standards runs it on the owner's yes.
 //   --hooks-only    the two hooks and their registration only, for a project that declined
 //                   the skill copies but keeps the hooks current. Nothing is listed as stale.
+//   --credential-hook  only templates/pre-commit -> <project>/.githooks/pre-commit, with LF
+//                   line endings whatever the master checkout holds. With --check: reports.
 //
 // A stale copy is one the standard no longer has: a file under .claude/fleet/ (the folder is
 // wholly the sync's), or a file .claude/fleet/copied.json says an earlier sync wrote. That
@@ -56,9 +58,35 @@ if (!existsSync(join(project, "project-rules.md"))) {
 }
 
 // new-project: a project that exists is past setup. machine-inventory: the copies are for
-// cloud sessions, which have no machine of the owner's to inventory.
-const SKIP_SKILLS = new Set(["new-project", "machine-inventory"]);
+// cloud sessions, which have no machine of the owner's to inventory. session-family: a
+// family is local sessions only, and never messages a cloud one.
+const SKIP_SKILLS = new Set(["new-project", "machine-inventory", "session-family"]);
 const rewrite = (text) => text.replaceAll("${CLAUDE_PLUGIN_ROOT}/", ".claude/fleet/");
+// Line endings: a Windows checkout with core.autocrlf holds CRLF, in the master and in the
+// project alike. Every copy is written with LF and compared with LF, so a file that differs
+// only in its line endings is not a change, and a copy git re-checked-out with CRLF is not
+// taken for one edited in the project.
+const lf = (text) => text.replace(/\r\n/g, "\n");
+const master = (...parts) => lf(readFileSync(join(standards, ...parts), "utf8"));
+
+// --credential-hook: the one file that must be LF to run (sh reads it), copied here rather
+// than with cp so a CRLF master cannot break it. Alone: nothing else is written.
+if (args.includes("--credential-hook")) {
+  const target = join(project, ".githooks", "pre-commit");
+  const content = master("templates", "pre-commit");
+  const before = existsSync(target) ? readFileSync(target, "utf8") : null;
+  if (before === content) {
+    console.log("The credential hook is current.");
+    process.exit(0);
+  }
+  const why = before === null ? "+ new    " : lf(before) === content ? "~ line endings" : "~ changed";
+  console.log(`${why} .githooks/pre-commit`);
+  if (!check) {
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, content);
+  }
+  process.exit(check ? 1 : 0);
+}
 const version = versionIn(readFileSync(join(standards, "project-rules.md"), "utf8")) ?? "unknown";
 
 /** Every file under `dir`, as paths relative to it. */
@@ -102,14 +130,14 @@ for (const name of hooksOnly ? [] : readdirSync(join(standards, "skills"))) {
   }
   const from = join(standards, "skills", name);
   for (const f of files(from)) {
-    const text = readFileSync(join(from, f), "utf8");
+    const text = master("skills", name, f);
     planned.push([join(project, ".claude", "skills", name, f), f.endsWith(".md") ? rewrite(text) : text]);
   }
 }
 for (const item of hooksOnly ? [] : REFERENCE) {
   const from = join(standards, item);
   const list = statSync(from).isDirectory() ? files(from).map((f) => join(item, f)) : [item];
-  for (const f of list) planned.push([join(project, ".claude", "fleet", f), readFileSync(join(standards, f), "utf8")]);
+  for (const f of list) planned.push([join(project, ".claude", "fleet", f), master(f)]);
 }
 if (!hooksOnly) planned.push([
   join(project, ".claude", "fleet", "README.md"),
@@ -128,7 +156,7 @@ const HOOKS = [
 ];
 const commandOf = (file, args = "") => `node "$CLAUDE_PROJECT_DIR/.claude/fleet/scripts/${file}"${args}`;
 for (const { file } of HOOKS) {
-  planned.push([join(project, ".claude", "fleet", "scripts", file), readFileSync(join(standards, "scripts", file), "utf8")]);
+  planned.push([join(project, ".claude", "fleet", "scripts", file), master("scripts", file)]);
 }
 const settingsPath = join(project, ".claude", "settings.json");
 let settings = {};
@@ -211,7 +239,7 @@ for (const name of ownSkills) {
 let changed = 0;
 for (const [target, content] of planned) {
   const rel = relative(project, target);
-  const before = existsSync(target) ? readFileSync(target, "utf8") : null;
+  const before = existsSync(target) ? lf(readFileSync(target, "utf8")) : null;
   if (before === content) continue;
   changed++;
   const known = previousHashes[slash(rel)];

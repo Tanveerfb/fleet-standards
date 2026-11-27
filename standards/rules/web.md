@@ -52,6 +52,14 @@ dependency-cruiser or madge.
 - A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
 - **Before pushing server-rendered changes, deploy a preview.** A green local build does not
   prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+- **Security headers from the first deploy.** `next.config` sets a baseline on every route
+  through `headers()`: `Content-Security-Policy: frame-ancestors 'self'` (or
+  `X-Frame-Options: SAMEORIGIN`), `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy: strict-origin-when-cross-origin`, and `Strict-Transport-Security` where
+  the host doesn't add it. A fuller Content-Security-Policy is the project's choice, recorded
+  in `decisions.md`. **`images.remotePatterns` names the project's own hosts and buckets**,
+  never a wildcard over a shared service — `/v0/b/<project>.firebasestorage.app/**`, not
+  `/v0/b/**`
 
 *§RUNTIME's version pinning and the startup check are in `rules/node.md`.*
 
@@ -82,6 +90,14 @@ the pending and error state; `useFormStatus` drives the submit button. Complex f
 multi-step, conditional, dynamic validation — use `react-hook-form` with `zod`. Never mix
 controlled and uncontrolled inputs in one form. Validate on the client, and again on the
 server; client validation is a courtesy, not a control.
+
+**Public writes are throttled.** Every form or route a visitor can submit without signing in
+— contact, sign-up, a brief, a comment — has a **per-visitor rate limit** (a hashed IP, never
+the raw address, counted where the project keeps data) and a **maximum length on every
+free-text field** in its zod schema, so one request can't store megabytes. Add a bot check
+(Turnstile or similar) where the form is a known spam target; it is a visible change, so it
+goes through a mockup. A refusal answers 429 with a message that says what to do. One limiter
+serves every public route; a new form reuses it.
 
 **Errors.** `try`/`catch` around every async operation. Nothing fails silently.
 `error.tsx` for route-level boundaries, error boundary components around complex
@@ -175,9 +191,16 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
 ## §TESTING — Testing
 
 - **Interface changes are checked in a real browser by the agent**, at desktop width and at
-  a 390px phone width (§OWNER). Use, in this order: **Claude's built-in browser**, then
-  **Claude in Chrome**. Playwright or any other headless tool is the last resort, only when
-  neither is available — and say so in the report
+  phone widths of 390px and 360px (§OWNER). Use, in this order: **Claude's built-in
+  browser**, then **Claude in Chrome**. Playwright or any other headless tool is the last
+  resort, only when neither is available — and say so in the report
+- **Before a release, and whenever someone reports a phone problem, check the phone engines
+  themselves**, where the machine has them: **Android Chrome** on an emulator, and
+  **Safari's engine (WebKit)** — through Playwright, the one exception to its being the last
+  resort, since no built-in browser renders WebKit; on a Mac, the iOS simulator.
+  `~/.claude/machine.md` lists what is installed and the commands. Name in the report which
+  engines were checked and which were not. A desktop browser at phone size is a layout
+  check, not proof of how a phone renders the page
 - No end-to-end suite by default. If a project needs one, that is a decision, recorded in
   `decisions.md`
 

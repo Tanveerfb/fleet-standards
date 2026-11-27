@@ -159,7 +159,10 @@ standard's files alone; the work's own files come with the work.
 - **`AGENTS.md` and `GEMINI.md`** — the pointer from `templates/AGENTS.template.md`; in an
   existing `AGENTS.md`, above any generated block, never inside it.
 - **The credential hook (§SECURITY)** — copy `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit` to
-  `.githooks/pre-commit` with `cp`, then `git config core.hooksPath .githooks`. Mark it
+  `.githooks/pre-commit` with `cp`, check it has LF line endings (a CRLF hook does not run:
+  `git ls-files --eol` after staging, or copy it with `copy-skills-to-project.mjs
+  --credential-hook` once the project has its rules file), then
+  `git config core.hooksPath .githooks`. Mark it
   executable when the owner's first commit adds it (`git add --chmod=+x`). Copy
   `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` to the project root with it, so the hook
   and any shell script keep LF on a Windows checkout (§GIT).
@@ -181,6 +184,11 @@ Each on its own yes from the owner (§GIT, *An approval does not generalise*):
    Through the repository's settings or `gh api`; where the plan does not allow it, record
    the gap in `conventions.md`. This step outlives the session: if the first push has not
    happened, put it in `Start here` as the first open item.
+4. **The gates in CI (§BUILD),** for a kind with gates to run: copy
+   `${CLAUDE_PLUGIN_ROOT}/templates/gates.yml` (Node and web) or `gates-python.yml` (a
+   Python package) to `.github/workflows/gates.yml` with `cp`; a project of two kinds takes
+   both, the second under its own name. It needs `.nvmrc` (Node) and the lockfile committed.
+   A folder of scripts, a game and a repository without application code take none.
 
 ## Step 5 — Design first, where there is a visual surface
 

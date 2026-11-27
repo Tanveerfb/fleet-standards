@@ -587,3 +587,64 @@ in between. The calls made under it:
 - **The release is a merge pull request into `main`**, as v3.8.0 was (pull request #19), not a
   squash; this repository has no `CLAUDE.md` *Deploys* line to say otherwise. Issues #20 to
   #33 close with it (`decisions.md`, 2026-11-13).
+
+## 2026-11-27 — v4.1.0 planned: all nine proposals, and checkpoint and relay
+
+Nine proposals arrived after v4.0.0 (issues #35 to #39, #41 to #44). The owner: all of them
+go in — "they are there for a reason and they were put there on my yes as well". The owner
+also asked that `checkpoint` and `relay` be brought in line with how v4 lays the rules out,
+"mainly in terms of documentation and other management". The plan is `docs/specs/v4.1.md`.
+
+How each open point was settled, by question:
+
+- **#36, the gates in CI:** one Node template serving pnpm or npm, and a Python one. Turned
+  down: Node only; the proposal's npm workflow as it is.
+- **#42, phone engines:** the rule short in `rules/web.md`, the commands in
+  `~/.claude/machine.md`. Turned down: the commands in the rules file.
+- **#35, #37, #38 in projects already live:** the sync flags them, read-only (a new check).
+  Turned down: the changelog only.
+- **Proof:** one real sync, `tinker-together`, against the branch before the merge. Turned
+  down: another project; evals only.
+- **Checkpoint and relay:** an independent audit found twelve gaps; the owner picked all but
+  G6 (relay's credential-hook check on husky).
+- **A minor release carries its major's river name:** `4.1.0 · Satluj`. This settles the
+  point left open on 2026-11-18.
+- **`session-family` is not copied into projects:** a family is local sessions only.
+
+`main` is protected since 2026-11-27 by a ruleset of the owner's ("Main": no deletion, no
+force push), read back through the API.
+
+## 2026-11-27 — v4.1.0: what was decided while it was built
+
+- **The pilot ran in the project's own session.** The owner: the "Tinker Together Main"
+  session "is actually active right now ... you can send it a message". One message asked it
+  to sync against this checkout; every question went to the owner there, and nothing was
+  relayed as an approval. It synced the studio's site and its admin repository and reported
+  eleven findings (`docs/audits/2026-11-27-pilot-tinker-together.md`). The owner picked
+  every fix, T1 to T9, **including the `AGENTS.md` pointer check declined on 2026-11-18**
+  (problem 14 then): a real project had shown it biting.
+- **The update check asks GitHub once a day**, and runs on resume and compact. The owner:
+  "projects automatically don't know ... no project has done that so far to me". Why it had
+  never spoken: it ran only on a new session, and the owner resumes and compacts; and it
+  compared with the installed plugin, which does not update unless the marketplace's
+  auto-update is on. Turned down: no network, with the owner turning auto-update on; the
+  same check copied into projects for cloud sessions (relay still covers those).
+- **The banner carries the exact version**, `v4.1.0 · Satluj`, rebuilt at each release (the
+  owner's pick). Turned down: `v4 · Satluj`, true for every 4.x with one rebuild (the
+  agent's recommendation); leaving it at v4.0.0.
+- **All seventeen evals were run** on the owner's "All 17", then three again after the
+  pilot's fixes changed their skills.
+
+Calls the agent made, for the owner to overrule:
+
+- **`templates/gates.yml` finds pnpm or npm from the lockfile**, where the plan said the
+  sync would fill the manager in: no one edits the file.
+- **`astral-sh/setup-uv` is pinned one release back** (v10.3.3), the newest being a week old:
+  nothing younger than two weeks is pinned in a workflow that runs unattended
+  (`docs/maintainer.md`).
+- **`relay-rules-line`, a case written this session, failed on its first run** because its
+  grader asked for the core to be read on a project that imports it. The reply was right;
+  the grader and relay's sentence were corrected.
+- **The fleet `session-family` skill is the owner's machine-wide copy without the first
+  family's project names.** The owner's copy in `~/.claude/skills/` was not touched; with
+  v4.1 installed both exist until the owner removes theirs.

@@ -56,8 +56,10 @@ export function rulesImports(text) {
  *   text      the project's CLAUDE.md
  *   exists    (path relative to the project) => boolean
  *   known     (path relative to the standard) => boolean, whether the standard has that file
+ *   present   the files under the project's rules/ folder, as `rules/x.md` paths; a file of
+ *             the standard's left there after its option was declined or dropped is reported
  */
-export function rulesProblems(text, exists, known = () => true) {
+export function rulesProblems(text, exists, known = () => true, present = []) {
   const declared = parseRulesLine(text);
   if (!declared) return [];
   const problems = [];
@@ -73,6 +75,10 @@ export function rulesProblems(text, exists, known = () => true) {
   for (const file of imports) {
     if (!declared.files.includes(file)) problems.push(`CLAUDE.md imports ${file}, which the Rules line does not declare`);
     else if (READ_ON_DEMAND.includes(file)) problems.push(`CLAUDE.md imports ${file}, which is read on demand, not imported`);
+  }
+  for (const file of present) {
+    const rel = file.replace(/\\/g, "/");
+    if (known(rel) && !declared.files.includes(rel)) problems.push(`${rel} is in the project but the Rules line does not declare it (an option declined or dropped leaves its file behind)`);
   }
   return problems;
 }

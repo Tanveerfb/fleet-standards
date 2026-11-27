@@ -77,6 +77,14 @@ again, then stop.
   compared with the master's. No *Rules* line means the project is still on the single
   file from before v4: Step 4 moves it onto the set.
 
+**Compare content, never line endings.** A Windows checkout with `core.autocrlf` holds CRLF,
+so a plain diff shows a whole file changed. Diff with
+`git diff --no-index --ignore-cr-at-eol` (or `diff --strip-trailing-cr`); the scripts already
+compare this way.
+
+**On Windows, run the scripts from PowerShell** if Git Bash prints a Node version manager's
+environment error or turns `/e/...` into a wrong path: `node "<full Windows path>" …`.
+
 Then branch:
 
 | Project copy | Meaning | Do |
@@ -84,6 +92,7 @@ Then branch:
 | **None** | Not on the standard at all | Stop. This is an adoption, not a sync — a migration that writes `conventions.md` and changes no code. Point at `adopting-the-standard.md` and ask whether to start it. |
 | **Same version, same content** | Current | Say so, then Step 5 only. |
 | **Same version, different content** | Edited in place inside this project | Show the diff. That edit is either a fix the master should get — offer `propose-standard` — or a local divergence that belongs in `conventions.md`. Never overwrite it silently. |
+| **Same version, different content, and the master is a named folder whose changelog's top entry says `unreleased`** | A pilot of the next release: its version line is not bumped until it ships | Tell the two apart first: compare the project's files with the master's **last release** (`git -C <master> show <the release's commit>:standards/<file>`, the commit that dated the newest released changelog entry). No difference: the project is unedited and behind the pilot, so Steps 2–6, and say in the report that the version line will not move until the release. A difference: the row above, for those lines. |
 | **Older** | Behind | Steps 2–6. |
 | **Newer than the master** | The master is behind, or the plugin copy is stale | Stop and say which. Never downgrade. |
 
@@ -111,18 +120,24 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   document's own numbered sections (a spec's §2) are not the standard's: count only
   references to it.
 - **Granted exceptions this touches.** Read `conventions.md`: an exception against a rule
-  that changed may now be moot, or may now need restating. **A moot one is offered for
-  removal**, quoted with the rule that made it moot, and removed on the owner's yes in Step 4
-  (a line in `decisions.md` says why). Known case: exceptions against §MOTION, moot since
+  that changed may now be moot, or may now need restating. **A moot one is put to the owner
+  with three answers**, quoted with the rule that made it moot: **remove it**; **keep it as
+  the project's own rule**, where it carries limits the project still wants (an exception
+  that said "motion allowed here, within these bounds" is, once the rule is gone, simply the
+  project's rule about motion: it is retitled, and its limits stay); or **leave it**. Step 4
+  does what was answered (a line in `decisions.md` says why). Known case: exceptions against §MOTION, moot since
   v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
   project that does not load the Firebase option is moot the same way.
 
 **Then audit the transition, read-only.** Run Step 4's item 0 (a `rules/` folder that is not
-the standard's) and every check in item 4, a to m, against the project without changing
+the standard's) and every check in item 4, from (a) to the last, against the project without changing
 anything; a `rules/` stop goes at the top of the report, so the owner sees it before saying
 yes. Add each *What a project must change* item from the changelog entries it is behind
 (entries before 4.0.0 have no such list: their "What a project does" lines, where they have
-them, serve). The result is **one upgrade report**, a line per item:
+them, serve). **Step 5's items belong in it too**, found the same read-only way: the skill
+copies and hooks (`copy-skills-to-project.mjs --check`), the credential hook
+(`--credential-hook --check`), the `AGENTS.md` and `GEMINI.md` pointers, the plugin wiring
+and the imports. The result is **one upgrade report**, a line per item:
 what is there now, what the sync will do, or what is left for later and to whom (history in
 `docs/STATUS.md` goes at the next checkpoint: say how many entries). Items that need the
 owner's value are marked. An item that does not apply is left out; an empty report is a fine
@@ -236,7 +251,13 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    `no-trello`, `credit` or `no-credit`): item 1 copies what this part declares, so an option
    missing from it is never copied or updated. Those two also keep their details on their own
    lines (`Trello board:`; `Studio credit:` and `Studio showcase:`). With no studio in the
-   owner's file the credit is not asked and not listed. An option is copied and
+   owner's file the credit is not asked and not listed. **`family` is never asked about**
+   (§SCOPE): where `Options:` already declares it, its file is copied and updated like any
+   other, and `CLAUDE.md` has its `Family: <manager | member of <manager>>` line (§FAMILY):
+   ask which, if it is missing. Where it does not declare it, say nothing of it — **unless
+   the project is already running a family** at the owner's word, with no option yet (a
+   `Family:` line, a `docs/family.md` register, or family rules written into `CLAUDE.md`):
+   then say what was found and offer the option, as *Adding an option* does. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,
    which is copied but never imported — the skills read it when they reach its step, so
    read it before asking the credit questions — and `ai`: add the template's
@@ -285,14 +306,20 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    **k. Python's shape (§PYTHON).** *If the project loads `python` and `conventions.md` does
    not say whether it is a package or a folder of scripts,* ask once and write it in.
 
-   **l. Moot exceptions.** The ones Step 2 offered and the owner approved are removed from
-   `conventions.md`, with a line in `decisions.md` saying which rule made each moot.
+   **l. Moot exceptions.** Each one Step 2 put to the owner is removed from `conventions.md`,
+   or moved out of the granted exceptions and restated as a rule of the project's own with
+   its limits kept, as the owner answered; a line in `decisions.md` says which rule made
+   each moot. Never drop a limit the project still relies on by removing its exception.
 
    **m. The repository's security settings (§SECURITY).** Read first, change nothing
    without the owner's yes for that item; each is a setting or a workflow, never a guess.
    - *Branch protection.* *If the project has a GitHub remote and `conventions.md` records
      no protection gap,* read the default branch's protection (`gh api
-     repos/<owner>/<repo>/branches/<branch>/protection`). A 404 means none: if force pushes
+     repos/<owner>/<repo>/branches/<branch>/protection`) **and the rulesets that apply to it**
+     (`gh api repos/<owner>/<repo>/rules/branches/<branch>`): a branch guarded by a ruleset
+     answers 404 on the first call and is protected all the same. `deletion` and
+     `non_fast_forward` rules there are the two the standard asks for everywhere, and
+     `pull_request` the one a multi-branch project needs. A 404 with no such rules means none: if force pushes
      or deletion are allowed, or a multi-branch project does not require pull requests, say
      so and offer to turn it on (the owner's yes; the same call `new-project` Step 4.5 makes).
      **A 403 saying the feature needs another plan** (a private repository on a free plan)
@@ -308,6 +335,31 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      *If the repository has Actions secrets* (`gh secret list`, names only) *and no workflow
      uses one,* say which; removing them is the owner's.
    A project with no GitHub remote skips this check and says so.
+
+   **n. CI runs the gates (§BUILD).** *If the project has a GitHub remote, gates to run (a
+   Node or web project, a Python package) and no workflow that runs them,* offer the
+   template for its kind: `${CLAUDE_PLUGIN_ROOT}/templates/gates.yml`, or
+   `gates-python.yml`, copied to `.github/workflows/` with `cp` on the owner's yes, as for
+   any workflow. Say what it needs first: `.nvmrc` and a committed lockfile for Node,
+   `uv.lock` for Python. *If a workflow already runs some of the gates,* name the ones it
+   lacks and leave the file to the owner. A build that needs secrets is said, not solved
+   here: the template's comment says how.
+
+   **o. Findings from newer rules: look and list, change no code.** A rule that asks for
+   code in a project already live cannot be applied by a sync. Read for each, and put what
+   is found in the upgrade report as work for the project, with the rule it comes from:
+   - *Public writes (`rules/web.md` §FORMS).* A form, Server Action or route handler a
+     visitor can submit without signing in, with no rate limit or no maximum length on its
+     free-text fields.
+   - *Security headers (`rules/web.md` §RUNTIME).* No `headers()` in `next.config`, and no
+     middleware or host configuration setting them; an `images.remotePatterns` entry that is
+     a wildcard over a shared service.
+   - *Legal pages (§SECURITY).* A privacy policy, terms or cookie notice whose promises
+     (what is kept, for how long, how it is deleted) `data-model.md` does not record. Only
+     the comparison: whether the code keeps a promise is the project's own audit.
+
+   Only where the project loads the file the rule is in. Finding nothing is said in a line.
+   Nothing here is fixed by the sync, and none of it stops the sync.
 
    **A release that needs a new check adds it here**, as the next letter, and names it in its
    changelog entry's *What a project must change* list, so every later sync runs it and a
@@ -349,7 +401,7 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
 **The hook scripts are shown before they are copied.** They run unattended, on every shell
 command and after every compact, from a master copied off `main`. For each
 `.claude/fleet/scripts/` line `--check` lists as new or changed, show the owner the diff
-(`git diff --no-index <the project's copy> <the master's>`, or the master file whole when
+(`git diff --no-index --ignore-cr-at-eol <the project's copy> <the master's>`, or the master file whole when
 it is new) and say what the change does, before the run that writes it. A change nobody can
 explain is not copied; raise it as §SECURITY says.
 
@@ -365,7 +417,7 @@ skills are never on that list (`.claude/fleet/copied.json` records what the sync
 `relay` or `checkpoint`): the script never overwrites it and copies the rest. Name it to the
 owner; keeping it is a granted divergence for `conventions.md`, and taking the fleet skill
 means the owner renames or retires theirs first.
-Otherwise run the same command without `--check`. It writes every skill but `new-project` and `machine-inventory` to `.claude/skills/` and the files
+Otherwise run the same command without `--check`. It writes every skill but `new-project`, `machine-inventory` and `session-family` to `.claude/skills/` and the files
 they read to `.claude/fleet/`, and adds two hooks to `.claude/settings.json`, merged with
 whatever the file already holds: the §AGENTS shell-write hook
 (`.claude/fleet/scripts/block-shell-writes.mjs`) and the relay-after-compact hook
@@ -383,11 +435,18 @@ and `GEMINI.md` (Gemini CLI), each holding the pointer from
 `${CLAUDE_PLUGIN_ROOT}/templates/AGENTS.template.md`. `CLAUDE.md` stays the one file with
 content; these only point at it. If a tool already generated an `AGENTS.md` (Next.js does,
 inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never edit inside it.
+**Compare each pointer with the template, as the credential hook is compared**, not only
+for being there: a pointer from before v4 names `project-rules.md` alone, so another agent
+never reads the files under `rules/`. Show the difference and bring it up to the template
+on a yes, keeping any generated block and anything the project added below the pointer.
 
 **The credential hook (§SECURITY).** If `.githooks/pre-commit` is missing, or differs from
 `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit`, show the difference and ask before copying —
 a project may have narrowed the pattern on purpose, which is a `propose-standard` candidate
-rather than something to overwrite. Copy with `cp` (never retype it), then:
+rather than something to overwrite. Copy it with the script, never `cp` and never retyped:
+`node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
+--credential-hook` writes it with LF line endings whatever the master checkout holds (a
+CRLF hook does not run). Then:
 
 ```bash
 git config core.hooksPath .githooks
@@ -404,7 +463,11 @@ If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky 
 **Imports match the *Rules* line (§SCOPE).** Check `CLAUDE.md` has one import line for the
 core and one for each declared file (`ai` excepted: it is read on demand), that each
 imported file exists in the project, and that nothing is imported that the line does not
-declare. Say what differs and fix it on a yes. A line ending `· read, not imported` has no
+declare. **A file of the standard's in `rules/` that the line does not declare** is a
+leftover: an option declined by editing the line (`no-trello`) leaves its file behind, and
+nothing loads or updates it. Name each and remove it on the owner's yes (`git rm`). A file
+there that is not the standard's is item 0's business, not this one's. Say what differs and
+fix it on a yes. A line ending `· read, not imported` has no
 import lines by the owner's decision: check only that each declared file exists.
 
 ## Adding an option to a project already on the set
@@ -425,6 +488,13 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
    (§DOCS).
 4. One line in `decisions.md`: the option, the date, why.
 
+**A kind's file is added the same way** when a project outgrows its *Rules* line: a tool that
+gained an interface takes `ui`; a second language takes its file (`python` beside a web
+app, §SCOPE: a project of two kinds loads both); a repository that gained application code
+takes `app` and its language's file in place of `non-application`. Copy the file into
+`rules/`, add its name to the *Rules* part and its import, and for a kind change replace the
+profile block in `conventions.md`. The checkpoint offers this when a session made it true.
+
 Dropping an option is the same in reverse, on the owner's word: the file, the import and the
 name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 
@@ -432,7 +502,15 @@ name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 
 **Run the upgrade report's checks again, read-only**, on the project as it now is. Every
 item the sync was to do should be gone; anything still there is reported plainly as not
-done, with why, never left out.
+done, with why, never left out. Three checks close it, each said in the report:
+
+- **the startup check is silent:** run
+  `node "${CLAUDE_PLUGIN_ROOT}/scripts/check-rules-version.mjs"` from the project root. It
+  prints nothing when the rules are current and the *Rules* line matches the folder;
+- **`AGENTS.md` and `GEMINI.md` exist** and match the template, unless the project recorded
+  a refusal of them (an earlier sync left one repository with neither, and nothing noticed);
+- **`copy-skills-to-project.mjs --check` says every copy is current**, where the project
+  takes the copies.
 
 - Version moved from → to, or "already current".
 - The upgrade report's items: done, left for later (and to whom), or still failing.

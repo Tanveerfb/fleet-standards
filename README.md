@@ -1,11 +1,12 @@
 <p align="center">
-  <img src="docs/assets/satluj-banner.svg" width="880" alt="fleet-standards v4.0.0 · Satluj">
+  <img src="docs/assets/satluj-banner.svg" width="880" alt="fleet-standards v4.1.0 · Satluj">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/standard-v4.0.0%20Satluj-1d5f86" alt="standard v4.0.0 Satluj">
-  <img src="https://img.shields.io/badge/skills-8-c3245e" alt="8 skills">
+  <img src="https://img.shields.io/badge/standard-v4.1.0%20Satluj-1d5f86" alt="standard v4.1.0 Satluj">
+  <img src="https://img.shields.io/badge/skills-9-c3245e" alt="9 skills">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9772b" alt="MIT license"></a>
+  <a href="https://tinkertogether.studio"><img src="https://img.shields.io/badge/built%20by-Tinker%20Together-8f5736" alt="Built by Tinker Together"></a>
 </p>
 
 A shared rulebook, project templates, and agent skills for building projects with an AI coding
@@ -46,13 +47,13 @@ name (`§GIT`, `§MOTION`) wherever they live.
 | `rules/python.md` | uv, pyright, ruff, pytest; a package or a folder of scripts | Python tools |
 | `rules/game.md` | What a game in an engine reads differently | games |
 | `rules/non-application.md` | What a repository without application code does differently | those repositories |
-| `rules/options/` | Firebase, SQLite, Trello (imported when chosen); AI and the studio credit (read when needed) | projects that chose them |
+| `rules/options/` | Firebase, SQLite, Trello (imported when chosen); AI and the studio credit (read when needed); a family of local sessions (only when asked for) | projects that chose them |
 
-A web project loads the core, app, ui, node and web, about 62 KB; a Python tool loads the
-core, app and python, about 42 KB. A `Rules:` line in `CLAUDE.md` declares the set
+A web project loads the core, app, ui, node and web, about 67 KB; a Python tool loads the
+core, app and python, about 44 KB. A `Rules:` line in `CLAUDE.md` declares the set
 (`Rules: app, ui, node, web · Options: firebase, no-trello`).
 
-**Eight skills** — instructions your agent loads when a phrase triggers them:
+**Nine skills** — instructions your agent loads when a phrase triggers them:
 
 | Skill | Say | What happens |
 | --- | --- | --- |
@@ -64,6 +65,7 @@ core, app and python, about 42 KB. A `Rules:` line in `CLAUDE.md` declares the s
 | `sync-standards` | "sync standards", "upgrade standards" | Brings a project up to the latest standard: one upgrade report of everything that would change, applied on your yes, then checked again |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 | `machine-inventory` | "machine inventory", "I just installed ffmpeg" | Records what this machine has installed in `~/.claude/machine.md`, so projects prefer it before proposing a tool |
+| `session-family` | "set up a session family", "cross-session family" | Only when you ask: sets up several local sessions to work together, with one manager, a register, and rules for who may message, decide and edit what. Never offered |
 
 **Design motifs** — [`standards/motifs.md`](standards/motifs.md): 35 families of themes
 a project's interface can be designed around, in seven groups — Stationery, Classroom,
@@ -97,8 +99,8 @@ In any Claude Code session:
 ```
 
 The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:new-project`,
-`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards`, `fleet:propose-standard`
-and `fleet:machine-inventory`.
+`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards`, `fleet:propose-standard`,
+`fleet:machine-inventory` and `fleet:session-family`.
 To receive updates automatically, open `/plugin` → **Marketplaces** → `tanveerfb` →
 **Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
@@ -141,8 +143,8 @@ node fleet-standards/standards/scripts/install-skills.mjs
 
 | Installs | To | Read by |
 | --- | --- | --- |
-| The eight skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
-| The eight skills | `~/.codex/skills/` | OpenAI Codex |
+| The nine skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
+| The nine skills | `~/.codex/skills/` | OpenAI Codex |
 | The rules set, templates and scripts | `~/.agents/fleet/` | The skills, which look for the standard there |
 
 Restart your agent afterwards. To update: `git pull` in the clone and run the installer again
@@ -216,11 +218,14 @@ kickoff prompt for your agent.
   found it. Nothing changes until you say yes; afterwards it runs the checks again and says
   what is still left. A project coming from v3's single file takes the same path. You rarely
   need to remember:
-  when a new session starts in a project whose rules are behind the plugin's copy, the
-  plugin's startup check has the agent ask whether to sync. Say no, and it stays quiet until
-  a newer version ships. `relay` makes the same check, which covers cloud sessions (they do
-  not install plugins) and other agents. Turn on the marketplace's auto-update, or the
-  plugin's own copy goes stale and the check has nothing new to compare against.
+  the plugin's update check has the agent ask you. It runs when a session starts, and at
+  most once a day per project when one is resumed or compacted. It compares the project's
+  rules with the plugin's copy, and **once a day asks GitHub what the released version is**
+  (one small public file is fetched; nothing about your project is sent; offline, it stays
+  silent). So a release reaches you even when the plugin has not updated itself: the agent
+  then asks whether to update the plugin and sync. Say no, and it stays quiet until a newer
+  version ships. Set `FLEET_MASTER_URL=off` to stop it asking GitHub. `relay` makes the
+  same check, which covers cloud sessions (they do not install plugins) and other agents.
 - Agents change files with their editor tools, never the shell, so you see a reviewable diff.
   The plugin enforces it: a hook refuses inline Python or Node scripts and heredocs that
   write files (`§AGENTS`); `sync-standards` adds the same hook to each project for cloud
@@ -274,12 +279,13 @@ standards/                        the standard — also the `fleet` plugin
   adopting-the-standard.md        bringing an existing project onto the standard
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif, ai-setup,
-                                  sync-standards, propose-standard, machine-inventory
+                                  sync-standards, propose-standard, machine-inventory,
+                                  session-family
   process-x.md                    Process X: the whole-product audit, step by step
-  hooks/hooks.json                startup check: offers sync-standards when rules fall behind;
+  hooks/hooks.json                update check: offers sync-standards when rules fall behind;
                                   relay after a compact or a resume; shell-write guard:
                                   refuses inline scripts and file-writing heredocs (§AGENTS)
-  scripts/check-rules-version.mjs the script behind the startup check
+  scripts/check-rules-version.mjs the script behind the update check
   scripts/after-compact.mjs       the script behind relay-after-compact
   scripts/block-shell-writes.mjs  the script behind the shell-write guard
   scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions
@@ -303,11 +309,18 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v4.0.0** (2026-11-18), **Satluj**. See [`standards/CHANGELOG.md`](standards/CHANGELOG.md)
+Current: **v4.1.0** (2026-11-27), **Satluj**. See [`standards/CHANGELOG.md`](standards/CHANGELOG.md)
 for what changed and why: where each section lives now, what a project must change to move
 up, and the map from v2 section numbers to v3 names.
 
 ---
+
+## Who maintains it
+
+Built and maintained by **[Tinker Together](https://tinkertogether.studio)**, a small web and AI
+studio in Sydney. It is the studio's own way of working — every project it builds runs on this
+standard — published so anyone can use it. Proposals from other projects are welcome
+(`propose-standard`).
 
 ## License
 

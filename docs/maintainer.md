@@ -19,11 +19,12 @@ versions of the same rules file at once.
   effect. A section that moves to another file keeps its name, so a reference by name still
   holds. The entry ends with **What a project must change**: each thing a project already
   on the standard has to do to move up, naming the `sync-standards` Step 4 check that does it.
-  The checks run from a to m. A change no existing check covers gets a new check in the same
+  The checks run from a to o. A change no existing check covers gets a new check in the same
   release, with the next letter, so the sync's upgrade report finds it in every project
   behind.
 - **The changelog heading** is `## x.y.z · Name — yyyy-mm-dd`. The name is the major
-  version's river, from the five rivers of Punjab: v4 Satluj, v5 Beas, v6 Ravi, v7 Chenab,
+  version's river, and every minor and patch release of that major carries it (`4.1.0 ·
+  Satluj`; the owner, 2026-11-27). The rivers are the five of Punjab: v4 Satluj, v5 Beas, v6 Ravi, v7 Chenab,
   v8 Jhelum. A new series starts after v8 (`decisions.md`, 2026-11-18). The name stays on the
   surface: the README, the changelog heading and the release notes. Rules and skills stay
   plain. While a release is being built, its entry reads `— unreleased` in place of the
@@ -35,6 +36,17 @@ versions of the same rules file at once.
   `sync-standards` a Step 4 check if projects already on the standard need it. The installer
   and the project copies need nothing: `REFERENCE` in `standards/scripts/standard.mjs` lists
   the `rules` folder whole.
+- **The README's version** is in four places, all set at the release: the banner
+  (`docs/assets/satluj-banner.svg` carries the exact version as outlined text, so it is
+  rebuilt each time: `docs/assets/make-banner.mjs` says how, and its fonts and tool are
+  downloaded to a scratch folder on the owner's yes), the banner's `alt`, the standard badge,
+  and the *Versions* line, which the tests compare with the changelog.
+- **The CI templates** (`templates/gates.yml`, `gates-python.yml`) pin every action by
+  commit. At each release, look up the current release of each action (`gh api
+  repos/<owner>/<action>/releases`), take the newest that is at least two weeks old, and
+  pin its commit (`gh api repos/<owner>/<action>/commits/<tag>`); the tests check the pins
+  are commits, not that they are current. The first template shipped a major behind what
+  the fleet's own projects already ran.
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
 - **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but
@@ -47,15 +59,21 @@ versions of the same rules file at once.
   `standards/.claude-plugin/plugin.json`), and, if the skill reads a new file from the
   standard, that file in `REFERENCE` in `standards/scripts/standard.mjs`. Decide whether
   projects get a copy: `copy-skills-to-project.mjs` copies every skill except those in its
-  `SKIP_SKILLS` list (today `new-project` and `machine-inventory`, which a cloud session has
-  no use for). Keep the description within the budget under *Checks*.
-- **The startup check** — `standards/hooks/hooks.json` runs
-  `standards/scripts/check-rules-version.mjs` when a session starts. It prints only when the
-  project's rules are behind the plugin's copy and the owner has not declined that version;
-  declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by project path. It
-  must stay silent on every error and never block a session. Test it by pointing
-  `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` at a scratch folder.
-  Claude Code only: cloud sessions and other agents rely on `relay` Step 4.6 instead.
+  `SKIP_SKILLS` list (today `new-project`, `machine-inventory` and `session-family`, which a
+  cloud session has no use for). Keep the description within the budget under *Checks*.
+- **The update check** — `standards/hooks/hooks.json` runs
+  `standards/scripts/check-rules-version.mjs` on every `SessionStart`: always on `startup`,
+  and at most once a day per project on `compact|resume` (the owner keeps sessions alive,
+  so a startup-only check never ran for them). It prints when the project's rules are
+  behind the plugin's copy, **or behind what is released on `main`**, which it asks GitHub
+  for once a day (`raw.githubusercontent.com`, the core's version line; the answer and the
+  time are kept in `${CLAUDE_PLUGIN_DATA}/update-check.json`). The plugin does not update
+  itself unless the marketplace's auto-update is on, so before this a release reached no
+  one. The owner's declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by
+  project path. It must stay silent on every error, offline, and with `FLEET_MASTER_URL=off`,
+  and never block a session. Test it by pointing `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT`
+  and `CLAUDE_PLUGIN_DATA` at a scratch folder, and `FLEET_MASTER_URL` at a local file.
+  Claude Code only: cloud sessions and other agents rely on `relay` Step 7 instead.
 - **The shell-write hook** — `standards/hooks/hooks.json` also runs
   `standards/scripts/block-shell-writes.mjs` before every Bash command (§AGENTS). It exits 2
   to refuse, with the reason on stderr, and 0 on anything it cannot read — it must fail open.
@@ -102,13 +120,16 @@ private drift survey (`fleet-drift.md` in the owner's plans repository).
   and HTML comments close; the credential hook passes every tracked file and blocks ten
   fake key shapes; every script behaves in every case. **CI runs it on every push and pull
   request** (`.github/workflows/checks.yml`), with `claude plugin validate .`.
-- **Behaviour evals** — `standards/evals/`, fifteen cases on the riskiest behaviour (relay's
-  trigger, the git step and `cpr` per *Deploys* value, skill proposals, the pause, the log
-  split, `sync-standards` asking first, `propose-standard` filing an issue, the motif's *Show
-  me*, a new game project). They cost model usage, so they
-  are run by hand before releasing a change to a skill or to §GIT; the README there has the
-  command. A failing case is a skill that reads ambiguously or a case asking the wrong
-  question — never loosen a grader to get green.
+- **Behaviour evals** — `standards/evals/`, seventeen cases on the riskiest behaviour
+  (relay's trigger, the git step and `cpr` per *Deploys* value, skill proposals, the pause,
+  the log split, the document map, relay reading the *Rules* line, `sync-standards` asking
+  first, `propose-standard` filing an issue, the motif's *Show me*, a new game project). They
+  cost model usage, so they are run by hand before releasing a change to a skill or to §GIT;
+  the README there has the command. A failing case is a skill that reads ambiguously or a
+  case asking the wrong question — never loosen a grader to get green. **A change to what a
+  skill does updates the case that grades it in the same commit:** `sync-asks-first` failed
+  at the v4.0.0 release because two picks had changed the sync and its grader still
+  described the old behaviour.
 - **This repo runs its own credential hook.** In each clone, once:
   `git config core.hooksPath standards/templates`.
 - **Status and decisions.** `docs/STATUS.md` is where the work is; `decisions.md` at the root

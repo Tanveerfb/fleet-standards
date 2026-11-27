@@ -38,6 +38,7 @@ result, not an error. Run them as plain commands, one tool per line, never an in
 | Local AI | Ollama, LM Studio, ComfyUI, whisper.cpp, Python with torch | `ollama --version` and `ollama list`; the app's own CLI or install folder |
 | Runtimes | Node and its version manager, Python, git, Docker | `--version` |
 | Engines and editors | Godot, Unity, Unreal, Android Studio | their CLI, or the install folder |
+| Phone engines | The Android SDK's emulator and `adb` with its virtual devices (`emulator -list-avds`); Playwright's WebKit; on a Mac, the iOS simulator | the SDK folder (`%LOCALAPPDATA%\Android\Sdk`, `~/Library/Android/sdk`); `npx playwright --version` |
 | Hardware | GPU model and memory, system memory, free disk on the work drive | `nvidia-smi` or the platform's system report |
 
 Three things the first run on a Windows PC taught (2026-11-13):
@@ -50,6 +51,15 @@ Three things the first run on a Windows PC taught (2026-11-13):
   manager's list does the same. Use it before concluding a tool is missing.
 - **A model folder may be elsewhere.** `OLLAMA_MODELS` says where Ollama keeps its models.
   If the models cannot be listed, write that in the file rather than leaving the section out.
+
+**For a phone engine, write the commands into the file's *Good for* cell**, since
+`rules/web.md` §TESTING sends a session here for them and keeps none itself: for the Android
+emulator, how to start a named device (`emulator -avd <name>`), open a page in Chrome
+(`adb shell am start -a android.intent.action.VIEW -d <url> com.android.chrome`), reach a
+local dev server (`adb reverse tcp:<port> tcp:<port>`) and take a screenshot
+(`adb exec-out screencap -p`); for WebKit, the install line
+(`npx playwright install webkit`) if it is missing. Name each virtual device with its screen
+size and CSS width.
 
 The table is a starting list, not a limit: probe anything the existing file names, and
 anything the owner mentions. **Never read a credential, a token or a config file's secrets**

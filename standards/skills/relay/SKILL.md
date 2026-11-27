@@ -44,14 +44,14 @@ One dial: depth.
 
 | Phrase | Depth |
 | --- | --- |
-| `relay`, `let's continue`, `catch me up`, `where were we` | Standard. Steps 1–5. |
-| **`relay MAX`**, **`relay max`** | **Exhaustive.** Steps 1–5 *plus* the MAX protocol, which is mandatory, not a suggestion. |
+| `relay`, `let's continue`, `catch me up`, `where were we` | Standard. Steps 1 to 8. |
+| **`relay MAX`**, **`relay max`** | **Exhaustive.** Steps 1 to 8 *plus* the MAX protocol, which is mandatory, not a suggestion. |
 
 ## Before you start: check what's already loaded
 
 **Do not re-read what the harness already injected.** Look in the context you
-already have for auto-loaded `CLAUDE.md` / `AGENTS.md` (and the
-`project-rules.md` it imports), plus any `=== HANDOFF ===` or `=== MEMORY ===`
+already have for auto-loaded `CLAUDE.md` / `AGENTS.md` (and the rules files it
+imports: `project-rules.md` and those under `rules/`), plus any `=== HANDOFF ===` or `=== MEMORY ===`
 block. Re-reading those is wasted tokens and makes the report look thorough
 while adding nothing. Relay's value is in the layers that are **not**
 auto-loaded: the status doc (usually far too big to inject), the decisions
@@ -66,6 +66,11 @@ section, `PROJECT.md`) and say in the report that the convention isn't
 followed. A `=== HANDOFF ===` block from another plugin is a hint, not the
 record — where it disagrees with `Start here`, report the disagreement.
 
+**A session in a family sets cross-session first.** If `CLAUDE.md` declares `Family:`
+(`rules/options/family.md` §FAMILY), set cross-session from who is active before anything
+else, as the `session-family` skill's Step 2 says, and give it one line of the report. No
+`Family:` line: nothing to do, and never offer one.
+
 ## After a compact or a resume
 
 The fleet's `SessionStart` hook (matcher `compact|resume`) asks for relay first. **It runs in
@@ -75,7 +80,7 @@ repo disagree, the repo wins. Where no hook runs (other agents), the rule is the
 a compact, run relay first.
 
 **After a resume: the short form.** A resumed session keeps its conversation, so relay
-checks only what may have moved while it was away: read `Start here`, run Step 4's
+checks only what may have moved while it was away: read `Start here`, run Step 5's
 `git status -sb` and `git log --oneline -5` (with a `git fetch` where there is a remote), and
 compare both with what the conversation last knew. Nothing moved: report it in a line or
 two, then handle the waiting request. Anything moved (a commit the conversation did not
@@ -106,8 +111,9 @@ by default; a status doc written before the split still carries it below the
 snapshot. Either way, do not read the whole log — it grows long and most of it
 is history. Read:
 
-- the snapshot sections — **Open items**, **Verified this checkpoint**,
-  **Assumed, not verified**, **Confidence and gaps**;
+- the snapshot sections — **Things that will save a session** (a quoted block inside
+  *Start here* in the template), **Current state**, **Open items**, **Verified this
+  checkpoint**, **Assumed, not verified**, **Confidence and gaps**;
 - the newest session-log entry, end to end. Skip anything marked
   `**RETIRED**`.
 
@@ -131,7 +137,23 @@ and abandoned entries are what stop you re-proposing a dead end. Where the
 file opens with a "declined, never again" index, read that too: it is short,
 and it is the list of things not to propose.
 
-## Step 4 — Check git reality
+## Step 4 — Read `conventions.md`, and any rules the project reads rather than imports
+
+`conventions.md` is not loaded by itself, and it is where a project says how it differs:
+
+- **the profile block** at the top, in a game or a repository without application code, and
+  a Python project's shape (package or folder of scripts);
+- **the granted exceptions.** A divergence recorded as granted is settled (§SCOPE): never
+  raise it as a finding, never "fix" it;
+- **the open table**: known backlog, which is not this session's news either;
+- **the document map** (*§DOCS Document set — mapped, not duplicated*): where this project
+  keeps each document, which is where the steps above and the checkpoint look.
+
+**A project whose *Rules* line ends `· read, not imported`** loads none of its rules files
+by itself. Read each file the line declares now, before the report, and the core too where
+`CLAUDE.md` does not import it: the rules apply all the same.
+
+## Step 5 — Check git reality
 
 ```bash
 git status -sb
@@ -178,7 +200,7 @@ Establish:
   "fix" it. An unexplained change to a workflow is an incident until the owner says
   otherwise (§SECURITY).
 
-## Step 4.5 — Read the Trello board, if the project has one
+## Step 6 — Read the Trello board, if the project has one
 
 **Only if `CLAUDE.md` has a `Trello board: <url>` line**, bold or not (the template writes
 `- **Trello board**: <url>`; `rules/options/trello.md`
@@ -196,7 +218,7 @@ mirror has drifted:
 
 If the Trello tools are unavailable, say so and continue.
 
-## Step 4.6 — Is the project on the latest standard?
+## Step 7 — Is the project on the latest standard?
 
 **Only if the project has a `project-rules.md`.** Compare its `**Version:**` line with the
 master's:
@@ -214,11 +236,19 @@ Behind → it goes under *the user's call* in the report, offering `sync-standar
 saying so, no offer. **Read only: relay never syncs.** If the plugin's startup check already raised it this session, do
 not raise it twice. If no master copy can be reached, say so in one line.
 
-**The declared set, current core or not.** If `CLAUDE.md` has a *Rules* line (§SCOPE), every
-file it declares is in the project's `rules/` and imported with an `@rules/…` line —
-`rules/options/ai.md` excepted, which is read on demand and named in a line instead — and
-every `@rules/…` import is on the line. A mismatch goes under *the user's call*, offering
-`sync-standards`. The startup check reports the same; do not raise it twice.
+**The declared set, current core or not.** If `CLAUDE.md` has a *Rules* line (§SCOPE), read
+it as `scripts/rules-line.mjs` does, so relay and the startup check never disagree:
+
+- every file it declares is in the project's `rules/`, and imported with an `@rules/…` line;
+- **two options are never imported**: `rules/options/ai.md`, which `CLAUDE.md` names in a
+  line instead, and `rules/options/credit.md`, which the skills read at its step;
+- **a declined option, `no-<name>`, is an answer, not a file**: nothing to find or import;
+- **a line ending `· read, not imported`** has no imports by the owner's decision: check
+  only that each declared file exists;
+- every `@rules/…` import is on the line.
+
+A real mismatch goes under *the user's call*, offering `sync-standards`. The startup check
+reports the same; do not raise it twice.
 
 **A studio that appeared since the project was asked.** Also read the owner's
 `~/.claude/CLAUDE.md` for a `Studio credit:` line (§CREDIT; a cloud session has no such file,
@@ -227,23 +257,37 @@ so skip this there). If one exists and the project's `CLAUDE.md` has no answer t
 report and offer the two §CREDIT questions, through `sync-standards`' *Adding an option*,
 which works on a project already current. **Relay itself never adds a credit.**
 
-## Step 5 — Report, then STOP
+## Step 8 — Report, then STOP
 
 Report, in this order and briefly:
 
 1. **Where things stand** — 2–4 lines, in your own words, not a quote of the
    handoff.
-2. **The entry point**, and whether it is still valid.
+2. **The entry point**, and whether it is still valid — with what a session must read
+   before starting it, found now and named, not left for later:
+   - **its spec**, if `docs/specs/` has one (§SPECS): the status line, and any open
+     question. A spec marked `built` is not pending work; an open question is the owner's
+     to answer before anything is built on it;
+   - **its area `CLAUDE.md`** (§SCALE): an area file loads only when a file in its folder is
+     read, so name the one for this work;
+   - **the map**, `docs/architecture.md`, where the project keeps one.
 3. **The staleness list** — every claim that no longer holds, with what it said
    and what is actually true, including where the Trello board disagrees with
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
 4. **What is the user's call** — anything flagged as the previous agent's
    invention, any open question the previous session raised, a rules copy that is
-   behind the master, and a studio credit not yet asked about (Step 4.6).
+   behind the master, and a studio credit not yet asked about (Step 7).
 
 **Then stop and wait.** Do not start the entry point. After a compact or a resume with a
 request of the owner's already waiting, the report comes first and the request is handled
 straight after it: that request is the go-ahead.
+
+**With nobody to answer** (a scheduled run, an Action; §ASK), the task the run was started
+for is the go-ahead, and it is still handled after the report. Whatever the report puts
+under *the user's call* is written into *Start here*'s **Blocked on**, with a recommendation
+each, where the session may write; nothing there is decided for the owner. **An unexplained
+change to what runs unattended still stops the run** (§SECURITY): write it up and do
+nothing else.
 
 This is the deliberate design: a stale handoff usually means someone else worked
 in the repo, and the user needs to know that before an agent acts on it. Ask for

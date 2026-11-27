@@ -1,0 +1,45 @@
+name: gates
+
+# The fleet standard's gates in CI for a Python package (rules/python.md §PYTHON): tests,
+# lint, format and types on every push and every pull request. Copy to
+# .github/workflows/gates.yml. A folder of scripts has no gates to run and does not take
+# this file. A project of two kinds (a Next.js interface over a Python package) keeps this
+# beside the Node template as gates-python.yml.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gates-python-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Reads the Python version from .python-version or pyproject.toml.
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Tests
+        run: uv run pytest
+
+      - name: Lint
+        run: uv run ruff check
+
+      - name: Format
+        run: uv run ruff format --check
+
+      - name: Types
+        run: uv run pyright

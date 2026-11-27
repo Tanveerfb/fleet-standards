@@ -33,6 +33,122 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
+## 4.1.0 · Satluj — 2026-11-27
+
+Nine proposals from the fortnight after v4.0.0, most from an independent audit of the
+studio's own site, and `checkpoint` and `relay` brought in line with how v4 lays the rules
+out. Additions only: no section renamed, nothing removed.
+
+### The rules
+
+- **`rules/web.md` §FORMS — public writes are throttled.** A form or route a visitor can
+  submit without signing in has a per-visitor rate limit and a maximum length on every
+  free-text field; a bot check where it is a spam target. The site's contact endpoint stored
+  whatever it was sent. Issue #35.
+- **`rules/web.md` §RUNTIME — security headers from the first deploy**, and
+  `images.remotePatterns` naming the project's own hosts, never a wildcard over a shared
+  service. Issue #38.
+- **`rules/web.md` §TESTING — 360px, and the real phone engines.** Interface changes are
+  checked at 390 and 360px; before a release, and on any phone report, in Android Chrome on
+  an emulator and in WebKit, where the machine has them. A desktop browser at phone size is
+  a layout check, not a phone. The commands live in `~/.claude/machine.md`, which
+  `machine-inventory` now writes them into. Issue #42.
+- **§SECURITY — a legal page is a spec.** What a privacy policy, terms or cookie notice
+  promises is built and recorded in `data-model.md`, and each side changes with the other.
+  The checkpoint compares them when a session touched storage, retention or what a form
+  collects. Issue #37.
+- **§BUILD — CI runs the gates.** `templates/gates.yml` (Node and web: it finds pnpm or npm
+  from the lockfile, and runs `next typegen` before `tsc` on a Next.js project) and
+  `templates/gates-python.yml` (the four commands `rules/python.md` names), with actions
+  pinned by commit and read-only permissions. The agent still runs the gates by hand; CI is
+  the net. Issue #36.
+- **§OWNER — modular, consistent, QoL are three checks**, made before building and again
+  before calling it done. A second version is the same job done twice, whatever its size or
+  name. A spec answers "one of each"; `rules/ui.md` searches by job, not by name, and makes
+  sister places match. Issue #43.
+- **§SCOPE — a project of two kinds loads the files of both** (built with v4.0.0's pilot
+  fixes, first listed here).
+- **`rules/options/family.md` §FAMILY, and a ninth skill, `session-family`.** A family of
+  local sessions that message each other: one manager and its register, cross-session set
+  fresh at every relay, decisions only from the owner, each session editing only its own
+  repository. **Never asked at setup**: it is added only when the owner asks. Issue #44.
+- **`templates/pre-commit`** matches an `sk-` key only at a word start: a link's slug with
+  "risk-" in it had blocked a commit. Issue #41.
+- **The README credits Tinker Together** as the maintainer. Issue #39.
+
+### `checkpoint` and `relay`
+
+An independent audit compared both skills with every duty the rules place on a session's
+start or end. Eleven of its twelve findings are fixed:
+
+- **`checkpoint` updates §DOCS's whole set**, row for row: it had never named
+  `conventions.md`, `design-system.md`, `issues.md` or `roadmap.md`, nor a locked mockup's
+  move to `docs/design/`. It **reads the project's own document map first**, so a design
+  kept in `DESIGN.md` is found.
+- **`checkpoint` notices when a session outgrows the *Rules* line** (new code, an
+  interface, a second language, a backend) and offers the files or option the project now
+  needs. Nothing is copied unasked.
+- **`checkpoint` reads each kind's checks from its rules file** and runs them with or
+  without a repository; stages a newly copied credential hook as executable; records a
+  mockup-free visual fix and every new dependency.
+- **`relay` reads the *Rules* line as v4 writes it**: a declined option, the credit option
+  and `· read, not imported` are no longer reported as mismatches every session. It **reads
+  `conventions.md`** (the profile block, the granted exceptions, the document map) and the
+  rules of a project that does not import them, and names the entry point's spec, area file
+  and map.
+- **Both have an unattended path** (§ASK): with nobody to answer, the questions go into
+  *Blocked on* with a recommendation each, and nothing that needed a yes is done.
+- `relay`'s steps are numbered 1 to 8. Its old Step 4.6 is Step 7.
+
+### `sync-standards`
+
+- **Check m reads rulesets** as well as branch protection: a branch guarded by a ruleset
+  answered "not protected".
+- **Check n** offers the gates workflow; **check o** lists, and never fixes, what the newer
+  rules ask of code already live.
+- *Adding an option* also adds a kind's file to a project that outgrew its *Rules* line.
+
+A real sync of the studio's two repositories, the first of any project on v4, proved the
+release and found nine more faults, all fixed: a pilot against an unreleased master is told
+from a local edit; **copies are compared and written with LF**, so a Windows checkout no
+longer shows every file changed, and the credential hook is copied by the script so it
+cannot arrive with line endings that stop it running; a rules file left behind by a declined
+option is reported and removed on a yes; a moot exception can become the project's own
+rule; the `AGENTS.md` and `GEMINI.md` pointers are compared with the template; the upgrade
+report covers Step 5; and the sync closes by running the update check.
+
+### The update check
+
+**A release now reaches a project by itself.** The plugin's check ran only when a session
+was new, and compared the project with the installed plugin, which does not update unless
+the marketplace's auto-update is on: so a release reached no one. It now also runs when a
+session is resumed or compacted (at most once a day per project), and **once a day asks
+GitHub what the released version is**: one small public file, nothing about the project
+sent, silent when offline, off with `FLEET_MASTER_URL=off`. Where the plugin is behind, the
+agent asks whether to update it and then sync. A no stays quiet until a newer version.
+
+### What a project must change
+
+`sync-standards` does each of these, or lists it, in its upgrade report.
+
+1. **(n) The gates in CI:** a project with a remote and gates to run takes
+   `.github/workflows/gates.yml` from the template for its kind, on the owner's yes.
+2. **(o) Public forms:** each form or route a visitor can submit without signing in gets a
+   rate limit and length caps. Listed by the sync; the work is the project's.
+3. **(o) Security headers** in `next.config`, and no wildcard in `images.remotePatterns`.
+   Listed by the sync; the work is the project's.
+4. **(o) Legal pages:** what they promise is recorded in `data-model.md`. Listed by the
+   sync; the work is the project's.
+5. **(m) Branch protection** is read again where an earlier sync said a ruleset-protected
+   branch had none.
+6. **Step 5:** the credential hook is offered again, for the `sk-` fix; a rules file the
+   *Rules* line no longer declares (a declined option's) is removed on a yes; `AGENTS.md`
+   and `GEMINI.md` are brought up to the template, so other agents read the files under
+   `rules/`. Nothing else: the new §OWNER checks, the phone engines and §FAMILY ask nothing
+   of a project at sync.
+
+---
+
 ## 4.0.0 · Satluj — 2026-11-18
 
 The first named release: the five rivers of Punjab, v4 Satluj, then Beas, Ravi, Chenab and

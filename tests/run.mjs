@@ -201,6 +201,9 @@ section("Credential hook (standards/templates/pre-commit)");
     "API_KEY= assignment": "API_KEY" + `=${k(20)}`,
     "apiKey in code": "const apiKey" + ` = '${k(20)}';`,
     "sk- token": "OPENAI=" + "sk" + `-${k(24)}`,
+    "sk- token at the start of a line": "sk" + `-${k(24)}`,
+    "sk- token after a quote": 'key: "' + "sk" + `-${k(24)}"`,
+    "sk- token after a space": "the key is " + "sk" + `-${k(24)}`,
     "Google API key": "key: " + "AI" + `za${k(35, "B")}`,
     "Discord webhook URL": "hook = https://discord" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
     "Discord webhook URL, old domain": "https://discordapp" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
@@ -218,6 +221,27 @@ section("Credential hook (standards/templates/pre-commit)");
   writeFileSync(join(dir, "prose.md"), "Invite: https://discord.com/invite/abc and the docs at discord.com/developers/docs/resources/webhook.\n");
   run("git", ["add", "prose.md"], { cwd: dir });
   check("passes: a Discord link that is not a webhook", runHook() === 0);
+  // A word ending in "sk" before a long hyphenated tail is not a key (issue #41).
+  for (const slug of ["the-real-risk-were-not-talking-about-today", "task-list-for-the-next-release-cycle", "desk-booking-system-for-the-office"]) {
+    writeFileSync(join(dir, "prose.md"), `Source: https://example.com/articles/${slug}\n`);
+    run("git", ["add", "prose.md"], { cwd: dir });
+    check(`passes: a slug with a word ending in sk (${slug.split("-").slice(0, 3).join("-")}…)`, runHook() === 0);
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
+section("CI templates (standards/templates/gates*.yml)");
+{
+  // A workflow a project copies in runs unattended: the same rules §SECURITY sets for any.
+  for (const name of ["gates.yml", "gates-python.yml"]) {
+    const text = read(`standards/templates/${name}`);
+    const uses = [...text.matchAll(/^\s*-?\s*uses:\s*(\S+)/gm)].map((m) => m[1]);
+    const unpinned = uses.filter((u) => !/@[0-9a-f]{40}$/.test(u));
+    check(`${name}: ${uses.length} actions, each pinned by commit`, uses.length >= 2 && unpinned.length === 0, unpinned.join(", "));
+    check(`${name}: read-only permissions`, /^permissions:\n  contents: read$/m.test(text));
+    check(`${name}: no secret is read`, !/\$\{\{\s*secrets\./.test(text));
+    check(`${name}: a timeout`, /timeout-minutes:\s*\d+/.test(text));
+  }
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -287,9 +311,10 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   mkdirSync(none);
   const data = join(scratch, "data");
   const state = join(data, "sync-declined.json");
+  // FLEET_MASTER_URL "off": no test asks the network what is released.
   const hook = (project, withData = true) =>
     run("node", [script], {
-      env: { ...process.env, CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, ...(withData ? { CLAUDE_PLUGIN_DATA: data } : {}) },
+      env: { ...process.env, FLEET_MASTER_URL: "off", CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, ...(withData ? { CLAUDE_PLUGIN_DATA: data } : {}) },
     });
   const decline = (v) => run("node", [script, "--decline", state, behind, v]);
 
@@ -312,6 +337,35 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   writeFileSync(state, "null");
   check("a state file holding null: still speaks", hook(behind).stdout.includes("additionalContext"));
   check("and --decline over it records the version", decline(rulesVersion).status === 0 && JSON.parse(readFileSync(state, "utf8"))[behind] === rulesVersion);
+
+  // A release newer than the installed plugin, and sessions that resume or compact.
+  {
+    const data2 = join(scratch, "data-released");
+    const released = join(scratch, "released.md");
+    writeFileSync(released, "# Project Rules\n**Version:** 99.0.0\n");
+    const ask = (project, source, url = released, dir = data2) =>
+      run("node", [script], {
+        input: source ? JSON.stringify({ source }) : "",
+        env: { ...process.env, FLEET_MASTER_URL: url, CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, CLAUDE_PLUGIN_DATA: dir },
+      });
+    const first = ask(current, "startup");
+    check("a release newer than the plugin: says so, and to update the plugin first", first.stdout.includes("v99.0.0 is released") && first.stdout.includes("claude plugin marketplace update tanveerfb"), first.stdout);
+    const cache = JSON.parse(readFileSync(join(data2, "update-check.json"), "utf8"));
+    check("the answer is remembered with its time", cache.latest === "99.0.0" && typeof cache.checkedAt === "number");
+    writeFileSync(released, "# Project Rules\n**Version:** 100.0.0\n");
+    check("within a day the remembered answer is used, not asked for again", ask(current, "startup").stdout.includes("v99.0.0"));
+    check("a resumed session already asked today: silent", silent(ask(current, "resume")));
+    check("a compacted one too", silent(ask(current, "compact")));
+    const fresh = join(scratch, "data-resume");
+    check("a resumed session not yet asked today: speaks", ask(current, "resume", released, fresh).stdout.includes("v100.0.0 is released"));
+    check("and then stays quiet for the day", silent(ask(current, "resume", released, fresh)));
+    check("a new session is always asked", ask(current, "startup", released, fresh).stdout.includes("is released"));
+    run("node", [script, "--decline", join(fresh, "sync-declined.json"), current, "100.0.0"]);
+    check("declining the released version: silent until a newer one", silent(ask(current, "startup", released, fresh)));
+    const offline = join(scratch, "data-offline");
+    check("an unreachable master: silent, never an error", ask(current, "startup", join(scratch, "no-such-file.md"), offline).status === 0 && silent(ask(current, "startup", join(scratch, "no-such-file.md"), offline)));
+    check("the plugin's own version is not reported as a release", silent(ask(current, "startup", join(S, "project-rules.md"), join(scratch, "data-same"))));
+  }
 
   // The declared set (rules-line.mjs): a current core with the set wrong is not silent.
   const setProject = (name, claude, files) => {
@@ -395,6 +449,11 @@ section("The Rules line reader (standards/scripts/rules-line.mjs)");
     check("so a declared file left unimported is not a problem", rulesProblems(text, () => true).length === 0, rulesProblems(text, () => true).join("; "));
     check("but a missing one still is", rulesProblems(text, (f) => f !== "rules/game.md").length === 1);
     check("without the marker, an unimported file is reported", rulesProblems("Rules: app\n", () => true).length === 1);
+    // A file left behind after its option was declined (the tinker-together pilot, T5).
+    const left = "Rules: app · Options: no-trello\n@rules/app.md\n";
+    const found = rulesProblems(left, () => true, () => true, ["rules/app.md", "rules\\options\\trello.md", "rules/options/mine.md"].filter((f) => !f.includes("mine")));
+    check("a standard file in rules/ the line does not declare is reported", found.length === 1 && found[0].includes("rules/options/trello.md"), found.join("; "));
+    check("a file the standard does not have is the project's own, and left alone", rulesProblems(left, () => true, (f) => f !== "rules/options/mine.md", ["rules/options/mine.md"]).length === 0);
   }
   check("imports read one per line", JSON.stringify(rulesImports("@project-rules.md\n@rules/app.md\n@./rules/ui.md\ntext @rules/no.md\n")) === JSON.stringify(["rules/app.md", "rules/ui.md"]));
 }
@@ -677,6 +736,28 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
     check("a copy from before the manifest is still the standard's, not the project's", !pre.stdout.includes("= own") && pre.stdout.replaceAll("\\", "/").includes(".claude/skills/relay/SKILL.md"), pre.stdout);
     writeFileSync(m, saved);
     copy();
+  }
+
+  // Line endings (the tinker-together pilot, T2 and T3): a Windows checkout holds CRLF.
+  {
+    const crlf = join(scratch, "crlf");
+    mkdirSync(crlf);
+    writeFileSync(join(crlf, "project-rules.md"), `**Version:** ${rulesVersion}\n`);
+    run("node", [script, crlf]);
+    const relay = join(crlf, ".claude", "skills", "relay", "SKILL.md");
+    const guard = join(crlf, ".claude", "fleet", "scripts", "block-shell-writes.mjs");
+    check("copies are written with LF", !readFileSync(relay, "utf8").includes("\r") && !readFileSync(guard, "utf8").includes("\r"));
+    for (const f of [relay, guard]) writeFileSync(f, readFileSync(f, "utf8").replace(/\n/g, "\r\n"));
+    const again = run("node", [script, crlf, "--check"]);
+    check("a copy that differs only in line endings is not a change, nor an edit", again.status === 0 && !again.stdout.includes("edited"), again.stdout);
+    const hookFile = join(crlf, ".githooks", "pre-commit");
+    check("--credential-hook --check on a project without it: reports, writes nothing", run("node", [script, crlf, "--credential-hook", "--check"]).status === 1 && !existsSync(hookFile));
+    run("node", [script, crlf, "--credential-hook"]);
+    check("--credential-hook writes the hook with LF", existsSync(hookFile) && !readFileSync(hookFile, "utf8").includes("\r"));
+    writeFileSync(hookFile, readFileSync(hookFile, "utf8").replace(/\n/g, "\r\n"));
+    const endings = run("node", [script, crlf, "--credential-hook"]);
+    check("a CRLF hook is rewritten, and said to differ in line endings only", endings.stdout.includes("line endings") && !readFileSync(hookFile, "utf8").includes("\r"), endings.stdout);
+    check("and nothing else is written by --credential-hook", run("node", [script, crlf, "--credential-hook", "--check"]).status === 0);
   }
 
   // The hooks without the skill copies (the pilots, P4).

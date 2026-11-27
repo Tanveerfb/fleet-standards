@@ -8,49 +8,53 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 
 ## Start here
 
-**State:** **v4.0.0 · Satluj is released to `main`** by the 2026-11-18 checkpoint's
+**State:** **v4.1.0 · Satluj is released to `main`** by the 2026-11-27 checkpoint's
 `git CPR max`, as a merge pull request from the working branch
-`claude/new-project-mockup-zp2h2z` (local branch `v4.0.0`). The newest entry of
-`docs/log.md` names the pull request; if `main` does not hold `standards/rules/`, the release
-did not land and that entry says why. All seven phases of v4 are done.
-**Next:** nothing is in flight. Projects sync to v4 when their owner next works in them
-(`decisions.md`, 2026-11-18: real pilot syncs after the release); the dry run's reports for
-five of them are in `docs/audits/2026-11-18-pilot-dry-run.md`, a head start for those syncs.
-The open items below are the owner's.
+`claude/new-project-mockup-zp2h2z` (local branch `v4.0.0`, its name from the earlier
+release). The newest entry of `docs/log.md` names the pull request; if `main`'s version line
+does not read 4.1.0, the release did not land and that entry says why.
+**Next:** nothing is in flight. The two repositories the pilot synced
+(`tinker-together` and its admin) hold copies from before the pilot's own fixes, uncommitted
+until their owner's checkpoint there: a second sync after the plugin updates brings them the
+fixes. Other projects sync as they are next worked on; the update check now tells them.
 **Blocked on:** nothing.
-**Don't trust:** no `sync-standards` has run against a real project on v4 — only the
-read-only dry run; the pilot fixes (P1 to P17) are written and, where they touch a script,
-tested, never seen on a project. `new-project` for any kind has never run. The installer's
-three crash fixes were read, not tested. The PowerShell half of the shell-write guard is
-tested, never seen live.
+**Don't trust:** the pilot's fixes T1 to T9 have tests where they are script changes (LF
+comparison, `--credential-hook`, the leftover-file report) and are wording elsewhere; no
+sync has run since them. The update check ran live once, from this checkout, never from an
+installed plugin after a resume. `new-project` for any kind has never run. The two gates
+templates have never run in a repository. `session-family` as a fleet skill has never set a
+family up.
 **Live:** the owner follows over Remote Control as well as on the PC, answers choices in a
-line, and keeps one session going: checkpoint, compact, continue. The release ran overnight
-on the agent's calls, each recorded in `decisions.md` ("The release ran overnight"): read
-them first. **After a compact nothing runs relay by itself here** until the plugin is
-updated (below), so read this file and the newest entry of `docs/log.md` before anything else.
+line, and keeps one session going: checkpoint, compact, continue. They asked that a better
+option, where one is seen, be put to them with the question tool. Other local sessions can
+be messaged when the owner says so ("Tinker Together Main" ran the pilot); a message there
+carries no approval.
 
 > **Things that will save a session:**
-> - **Update the installed `fleet` plugin** (`/plugin marketplace update tanveerfb`, then
->   `/reload-plugins`). Until then the PC runs v3.8.0's copy, whose `checkpoint` and `relay`
->   do not load (a frontmatter fault fixed in v4) and which has no relay-after-compact hook.
->   This repository has no `CLAUDE.md` of its own.
+> - **Update the installed `fleet` plugin after a release**
+>   (`claude plugin marketplace update tanveerfb`, then `/reload-plugins`): the marketplace's
+>   auto-update is off on this PC. From v4.1 the update check says so by itself. This
+>   repository has no `CLAUDE.md` of its own.
 > - **Fetch every remote branch before starting release work**, and read any status newer
->   than the clone's. Two sessions built apart on 2026-11-12 because one did not.
+>   than the clone's.
 > - Files change through the editor tools, never the shell (§AGENTS) — this repo included.
->   The shell-write hook is registered in `.claude/settings.json` for Bash and PowerShell and
->   refuses inline scripts (`node -e`, `python -c`), `echo` or `printf` to a file, `sed -i`
->   and file-writing heredocs. A commit message heredoc is fine, and so is a command's own
->   output sent to a file.
+>   The shell-write hook refuses inline scripts (`node -e`, `python -c`), `echo` or `printf`
+>   to a file, `sed -i` and file-writing heredocs. A commit message heredoc is fine, and so
+>   is a command's own output sent to a file.
+> - **Git Bash here gives Node `/e/...` paths that resolve wrongly, and `cd` into a temp
+>   folder breaks fnm.** Run `node` from the repository root with `E:/...` or `C:/...` paths.
 > - `node tests/run.mjs` before every push; CI runs it too. `claude plugin validate .` and
 >   `claude plugin validate standards` pass with one expected warning each (no `version`).
 > - After a push, wait for CI: `gh run watch <id> --exit-status` on the run whose head is
 >   the pushed commit.
 > - Turn the credential hook on in each clone: `git config core.hooksPath standards/templates`.
 > - Evals cost money; they are run by hand, one `--case` at a time
->   (`standards/evals/README.md`). The runner takes no brace list, and runs a no-plugin arm
->   beside each case, so a case costs about $0.20 to $0.30.
-> - Cloud sessions do not install plugins. A cloud session on this repo has no fleet skills
->   loaded: read them from `standards/skills/` directly.
+>   (`standards/evals/README.md`): about $0.27 a case, with its no-plugin arm. **Do not edit
+>   anything under `standards/` while they run**: they load the plugin from this folder.
+> - **A release rebuilds the banner** with its version (`docs/assets/make-banner.mjs`); the
+>   fonts and the tool are downloaded to a scratch folder on the owner's yes, and the
+>   scratchpad does not last between sessions.
+> - Cloud sessions do not install plugins: read the skills from `standards/skills/` directly.
 
 ---
 
@@ -58,46 +62,47 @@ updated (below), so read this file and the newest entry of `docs/log.md` before 
 
 The fleet standard: a core rules file (`standards/project-rules.md`) every repository loads,
 and the files under `standards/rules/` a project loads by its kind and options; the `fleet`
-Claude Code plugin that carries them with eight skills, templates, a startup check, a
+Claude Code plugin that carries them with nine skills, templates, an update check, a
 relay-after-compact hook and a shell-write guard; and an installer for other agents. Changes
 arrive as `[proposal]` issues from projects, usually raised by `propose-standard`, and ship as
 versioned, named releases recorded in `standards/CHANGELOG.md` (v4 Satluj, then Beas, Ravi,
-Chenab, Jhelum). Why choices were made, with the alternatives, is in
-[`decisions.md`](../decisions.md).
+Chenab, Jhelum; a minor release carries its major's name). Why choices were made, with the
+alternatives, is in [`decisions.md`](../decisions.md).
 
 ---
 
 ## Current state
 
-**v4.0.0 · Satluj**, released 2026-11-18. The plan was `docs/specs/v4.md`; what each kind
-loads, measured at this checkpoint (bytes): core 32,426; web project 62,721; Node tool
-46,611; Python tool 42,584; game 47,895; non-application 35,402, or 42,386 with a visual
-surface. Options: Firebase 3,344; AI 6,637 and credit 4,306, both read on demand. Skills:
-`checkpoint` 38,650, `sync-standards` 31,144, `new-project` 16,891, `relay` 16,836.
+**v4.1.0 · Satluj**, released 2026-11-27 (`docs/specs/v4.1.md`; v4.0.0 was 2026-11-18,
+`docs/specs/v4.md`). What each kind loads, measured at this checkpoint (bytes): core 34,099;
+web project 67,180; Node tool 48,781; Python tool 44,488; game 50,040; non-application
+37,075, or 44,531 with a visual surface. The family option is 2,387. Skills: `checkpoint`
+44,175, `sync-standards` 37,795, `relay` 19,696, `new-project` 17,515, `session-family`
+9,942.
 
-| Phase | State |
-| --- | --- |
-| 1. The split | Done; proved word for word by `tests/split-check.mjs` until the release, which removed it (I4) |
-| 2. Profiles | Done: `rules/game.md` §GAME, `rules/non-application.md` §NONAPP; AI read through an area file |
-| 3. Documents and sessions | Done: two evals; this file split from `docs/log.md` |
-| 4. Motif previews | Done: "Show me", `standards/motif-gallery.html`, 35 tiles, locked |
-| 5. Security, machine inventory | Done: five §SECURITY rules; relay's check for unexplained workflow and settings changes; `machine-inventory` |
-| 6. Process X on the standard | Done: `docs/specs/v4-audit.md`, every pick built (I4 at the release); Fable's review, R1 to R15 built (`docs/audits/`) |
-| 7. Theme and release | Done: the README banner (`docs/assets/`), the 4.0.0 changelog with its section table and *What a project must change* (15 items, sync checks a to m), group G's documents, the pilot dry run and its fourteen fixes, all fifteen evals, the version bump, I4, the release |
+- **Rules:** a core and seven kind files; options Firebase, SQLite, Trello (imported), AI
+  and the credit (read on demand), and a family of sessions (only when the owner asks).
+- **Skills (nine):** `checkpoint`, `relay`, `new-project`, `design-motif`, `ai-setup`,
+  `sync-standards` (checks a to o), `propose-standard`, `machine-inventory`,
+  `session-family`.
+- **Scripts:** the update check (asks GitHub once a day; runs on startup, resume and
+  compact), relay after a compact, the shell-write guard, the skill copier (LF throughout;
+  `--hooks-only`, `--credential-hook`, `--remove-stale`), the installer, the fleet report,
+  the *Rules* line's reader.
+- **Templates:** the project documents, the credential hook, `.gitattributes`, and two CI
+  workflows (`gates.yml`, `gates-python.yml`).
+- **Evals:** seventeen cases.
 
 ---
 
 ## Security
 
 A stolen GitHub token pushed a secret-stealing workflow to `main` three times on 11–12
-November 2026, each followed by a "restore". `.github/workflows/` holds only `checks.yml`,
-the repository's own workflow; the release removed its one v4 line (`fetch-depth: 0`, on the
-owner's yes). No Actions secrets are set. The owner's incident record is in Drive.
+November 2026. `.github/workflows/` holds only `checks.yml`, the repository's own workflow.
+No Actions secrets are set. The owner's incident record is in Drive.
 
-**`main` is not protected** (checked 2026-11-18: the API answers 404, "Branch not
-protected", so the plan allows it). §SECURITY says it should be; turning it on is the
-owner's setting (the steps are in the plans repo's `owner-setup.md`, and `sync-standards`
-check m now offers it in projects).
+**`main` is protected by a ruleset** ("Main", the owner's, read back 2026-11-27: deletion
+and force pushes refused; pull requests are not required).
 
 **The owner was told, and it is theirs to act on:** a file named `comfy_api_key.txt` sits in
 plain text in `E:\Installed`. It was not opened.
@@ -106,52 +111,48 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **Protect `main`** (above). The owner's setting.
-2. **Update the installed plugin** on the PC (above), then let projects sync to v4 as they
-   are next worked on; the dry-run reports are a head start. `toll-kits` stops at its
-   `rules/` folder (a hook mirrors files into it), and `godot-toll` and `toll-kits` keep their
-   own `relay` and `checkpoint`.
-3. **GitHub's private vulnerability reporting is off** on the repository (checked
-   2026-11-18), so `SECURITY.md` names the owner as the channel. Turning it on is the
-   owner's setting; then that line can point at it.
-4. **`ai-setup` and `machine-inventory` have no eval case.** The other fifteen ran
-   2026-11-18.
-5. **A second Fable review** to see whether the score moved from 7 out of 10: offered, not
-   asked for (about $1.50 to $3 with the cache cold).
-6. **The machine file's local-models section is empty**: Ollama was not running when
-   `machine-inventory` ran. Start Ollama and run the skill again.
-7. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one. Worth
-   checking at their next sync whether the stricter block is still wanted.
-8. **Not decided:** whether a minor release repeats its major's river name.
-   `docs/maintainer.md` treats the name as the major version's.
+1. **The owner's machine-wide `session-family` skill** (`~/.claude/skills/session-family/`)
+   now has a fleet twin. Removing the machine-wide one, once the plugin is updated, is the
+   owner's.
+2. **Sync the two pilot repositories again** after the plugin updates, to pick up T1 to T9;
+   it is also the first test of those fixes.
+3. **G6 was not picked:** relay's credential-hook check is wrong on a husky project, and in
+   a cloud session would switch husky off (`docs/specs/v4.1.md`).
+4. **This repository's own `checks.yml` pins `checkout` and `setup-node` at v4.4.0**; the
+   templates moved to v7. A workflow edit, so the owner's yes.
+5. **GitHub's private vulnerability reporting is off** (checked 2026-11-18), so `SECURITY.md`
+   names the owner as the channel.
+6. **`ai-setup`, `machine-inventory` and `session-family` have no eval case.**
+7. **A second Fable review** of the standard: offered on 2026-11-18, not asked for.
+8. **The machine file's local-models section is empty** (Ollama was not running).
+9. **toll-kits and toll-the-game keep their own heredoc hooks** beside the fleet one.
 
 ---
 
 ## Confidence and gaps
 
-**Verified at this checkpoint (2026-11-18):**
-- `node tests/run.mjs`: all checks pass. `claude plugin validate .` and
-  `claude plugin validate standards`: pass, one warning each (no `version`).
-- CI: success on the working branch at `dde8008`, the release's last commit before this
-  checkpoint.
-- **Behaviour evals, all fifteen, with the plugin: 1.00 each.** Thirteen on the first run;
-  `sync-asks-first` after its grader was brought in line with R10 and P13;
-  `relay-after-compact` on a rerun with nothing changed. Without the plugin, most score 0;
-  `checkpoint-multi-branch`, `checkpoint-local-only` and `checkpoint-log-split` 0.67, and
-  `relay-after-compact` 0.67 on the rerun. About $4.60 in all, the two reruns included.
-- The sizes in *Current state*, by `wc -c`.
-- The branch merged into `main` cleanly before the release (`git merge-tree`).
-- The pilot dry run read five real projects and changed nothing in them.
-- The banner renders: ਸਤਲੁਜ's vowel sign sits under ਲ (seen at 3.5×).
+**Verified at this checkpoint (2026-11-27):**
+- `node tests/run.mjs`: all checks pass, among them the version agreement (rules 4.1.0,
+  changelog 4.1.0 dated 2026-11-27, README the same). Both plugin validations pass, one
+  warning each.
+- CI: success on the working branch at `0bc80a7`, the last push before the release commits.
+- **All seventeen evals, with the plugin: 1.00** on the skills as released.
+- Two real syncs, by the project's own session, on the owner's answers.
+- The update check fetched `main`'s version from GitHub and cached it (4.0.0 at the time).
+- The banner renders with `v4.1.0` and ਸਤਲੁਜ intact (seen in the browser).
+- The sizes in *Current state*, by `wc -c`; the README's two size claims corrected to match.
+- The branch merges into `main` cleanly (`git merge-tree`, before the release commits).
 
 **Assumed, not verified:**
-- That `sync-standards`, `new-project` for each kind, `ai-setup` and `design-motif` behave on
-  real projects as written; the evals are single prompts in an empty folder.
-- That the banner and badges look right on GitHub itself.
-- That `~/.claude/machine.md` loads (it takes a new session to see).
+- That the pilot's fixes behave on a real project; that `new-project`, the gates templates
+  and `session-family` work as written.
+- That the update check speaks from an installed plugin on a resumed session: tested by
+  script, not seen in a session.
+- Nine of the twelve checkpoint and relay findings were built from the auditor's line
+  references; each was read against the skill text as it was fixed, none by a run.
 
-**First thing to check coming back cold:** that `main` holds v4.0.0 (`git log origin/main -3`
-and `standards/rules/` on `main`), and that CI passed there.
+**First thing to check coming back cold:** `git log origin/main -3` and `main`'s version
+line (4.1.0), and that the nine proposal issues closed.
 
 ---
 

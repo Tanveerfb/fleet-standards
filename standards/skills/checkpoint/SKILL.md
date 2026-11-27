@@ -25,6 +25,14 @@ The dials combine: `git CPR max` is an exhaustive checkpoint, committed and push
 release. Which column of Step 7's table applies comes from the *Deploys* line of `CLAUDE.md`
 (`project-rules.md` §GIT), and from whether this is a cloud session.
 
+**With nobody to answer** (a scheduled run, an Action, a session the owner left to finish;
+§ASK): the checkpoint still runs whole, and asks nothing. Every question it would have asked
+(Step 2's proposals, a commit or push that needed a yes, Step 9's) is written into *Start
+here*'s **Blocked on**, each with its options and a recommendation. Git takes the column the
+session has without a yes: the cloud column in a cloud session; otherwise nothing that
+needed asking is done, and the tree is left as it is and said so. Never a release. Step 9's
+pause is skipped; the questions wait for the owner's next relay.
+
 ## Overview
 
 A checkpoint has four parts, done in order:
@@ -190,8 +198,9 @@ pass: a brief never gains a "was", a record never loses a line.
    time and taught several of them things that were no longer true.
 
 **Content to cover — and which file each goes in.** This list is the format; the templates
-(`templates/STATUS.template.md`, `templates/log.template.md`) follow it heading for heading,
-and `relay` reads the snapshot's sections by these names. Adapt the wording to the project,
+(`templates/STATUS.template.md`, `templates/log.template.md`) follow it part for part (the
+template sets *Things that will save a session* as a quoted block inside *Start here*), and
+`relay` reads the snapshot's sections by these names. Adapt the wording to the project,
 never the set.
 
 **The snapshot, `docs/STATUS.md`**, in this order:
@@ -222,6 +231,8 @@ never the set.
   should bind later sessions also goes in `decisions.md` (Step 4).
 - **Explicit deviations from any spec/plan the user gave** — anything you or the user changed
   from an original ask, flagged clearly so it doesn't read as an oversight later.
+- **A visual fix made without a mockup** (§OWNER's one exception: a bug fix restoring an
+  approved design) — one line each: what was broken and what it was restored to.
 - **The mistake worth keeping** — a claim this checkpoint corrected, what it said before,
   and why it was wrong. Left out when there is none.
 
@@ -236,6 +247,15 @@ must be true when the checkpoint lands. **This matters most when the checkpoint 
 a collaborator or the next session reads. A pushed feature with a README still describing
 last month's app is a stale document shipped on purpose.
 
+**First, where this project keeps each document.** §DOCS names a set; a project may keep one
+under another name or inside another file, and says so in `conventions.md`'s table *§DOCS
+Document set — mapped, not duplicated*. Read that table and use its paths for everything
+below: a design kept in `DESIGN.md` is this project's `design-system.md`. A row that maps to
+nothing means the document does not exist yet: create it only if this session gave it
+content (§DOCS, *Do not create a document before it has content*), and then add its row. No
+table: use the standard names, and look for an obvious equivalent before concluding a
+document is missing.
+
 Check every document this session's changes touched, and update what the session made
 untrue or incomplete:
 
@@ -243,21 +263,63 @@ untrue or incomplete:
   commands and scripts, environment variables, deployment, screenshots. A new feature, a new
   script, a renamed command, a new env var, a changed setup step: each one is a README change.
 - **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
-  `Deploys`, `Trello board` and `Motif` lines, traps found this session. A replaced line
+  identity lines (`Deploys`, `Rules`, `Trello board`, `Motif`, the studio lines,
+  `Area files · Map`), traps found this session. A replaced line
   moves to `docs/record/` (Step 3); it is not kept beside the new one. **Measure the root
   `CLAUDE.md`** (`wc -c`, or the file's size in PowerShell): past 50 KB, propose a split by
   §SCALE in Step 9's question, with the sections that would move and where. Never split
   unasked.
+- **What the project loads (§SCOPE).** The *Rules* line says which rules files apply, and a
+  session can outgrow it: a repository without application code gained some; a tool gained
+  an interface; a second language arrived (a Python package beside a web app); a backend, an
+  AI feature or a board appeared (a `firebase` dependency, a SQLite driver, a model SDK). If
+  this session added one, say which files or option the project now needs and offer, in
+  Step 9's question, `sync-standards`' *Adding an option* or the new kind's files. Never
+  copy a rules file or edit the *Rules* line unasked; the same goes for a kind or option
+  the session removed.
+
+**Then §DOCS's set, row for row** — each when its "Updated when" happened this session
+(`docs/STATUS.md`, `docs/log.md` and `docs/record/` are Step 3's):
+
+- **`conventions.md`** — a decision changed: an exception the owner granted, a choice
+  specific to this project, the profile block or Python's shape, a row of the document map.
 - **`decisions.md`** — the session's choices appended, and its "declined, never again" index
-  at the top gaining a line for anything the owner ruled out.
-- **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
-  and **`.env.example`** — where the session added, moved or removed what they list.
+  at the top gaining a line for anything the owner ruled out. **Every dependency this
+  session added** has its entry (`rules/app.md` §PACKAGES): read the manifest's diff
+  (`package.json`, `pyproject.toml`) rather than trusting memory.
+- **`design-system.md`** — a token or a rule changed: colours and their contrast ratios,
+  type, spacing, motion tokens, an exclusion, the motif record (`rules/ui.md` §DESIGN).
+- **`components.md`**, or its table in `design-system.md` — a component added, moved or
+  removed. Where this session built or changed an interface piece or a shared helper, name
+  in the log entry what else does the same job, and whether it was joined, changed with it,
+  or left apart and why (§OWNER's three checks). "Nothing else does" is a fine answer, once
+  searched for.
+- **`data-model.md`** — an entity, a relationship or an invariant changed.
+- **`environment.md`** and **`.env.example`** — a variable, a credential or an external
+  account appeared or went. Names, purposes and owners; never a value.
+- **`issues.md`** — an issue found, or closed, this session.
+- **`roadmap.md`** — a phase started or finished.
+- **`docs/architecture.md`** and the area `CLAUDE.md` files (§SCALE) — a module added, moved
+  or removed updates the map; a rule or trap that belongs to one area goes in that folder's
+  `CLAUDE.md`, not the root one.
 - **`docs/specs/`** (§SPECS) — if this session built or advanced work from a spec, update its
   status line: `in progress`, or `built` once its done-means criteria are verified. Without a
   board, the status word in the spec is the whole record; with one, Step 6 moves the card.
-- **Area `CLAUDE.md` files and `docs/architecture.md`** (§SCALE) — a module added, moved or
-  removed updates the map; a rule or trap that belongs to one area goes in that folder's
-  `CLAUDE.md`, not the root one.
+
+**And the records other rules keep:**
+
+- **A design the owner locked this session** (§OWNER) — the approved mockup is moved to
+  `docs/design/<name>.html` with its `decisions.md` entry. Drafts are gitignored, so a lock
+  that is not moved never reaches git: check for one before the git step.
+- **`demo-shortcuts.md`** (`rules/app.md` §SHORTCUTS) — a shortcut taken or paid back.
+- **The legal pages against `data-model.md`** (§SECURITY, *A legal page is a spec*) — when
+  this session touched data storage, retention or what a form collects, compare what the
+  privacy policy, terms and cookie notice promise with what `data-model.md` records and the
+  code does. Say in Step 8 whether they still agree; a promise nothing implements is a
+  defect to raise, never a line to reword unasked.
+- **`docs/family.md`**, in a project whose `CLAUDE.md` declares `Family:` (§FAMILY) — a
+  family's manager updates the register's owner and *Awake* lines; any family session with
+  members awake runs the cross-checkpoint: what went stale on each side, one line each way.
 - **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
 - Any other document the project keeps that the session's changes made untrue.
 
@@ -314,7 +376,8 @@ might match, and never create one.
 
 This step runs on **every** checkpoint, with or without the `git` prefix — the board is not
 git, and updating it is part of the documentation pass. Use the Trello MCP tools
-(`mcp__Trello__*`; load them with ToolSearch if they are deferred). If they are unavailable,
+(whatever the session calls them: find them by "Trello", and load them if they are
+deferred). If they are unavailable,
 say so in Step 8 and carry on — a missing connector never blocks the git step.
 
 **`docs/STATUS.md` is the record and the board mirrors it.** Read the board's lists and
@@ -345,18 +408,22 @@ Check whether this is a git repository:
 git rev-parse --is-inside-work-tree 2>&1
 ```
 
-**If not a repo:** say so plainly in your final summary to the user ("not a git repo, nothing to
-commit") and stop here. Do not suggest `git init` unless the user asks — that's their call, not
-implied by running a checkpoint.
+**First, repository or not, run the kind's checks** when this session changed code: every
+command the project's rules files list before a checkpoint, read from the file rather than
+from memory — `rules/node.md` §BUILD and §TESTING for a Node or web project (typecheck,
+lint, tests, build), `rules/python.md` §PYTHON for a Python package (its four commands; a
+folder of scripts runs the changed script on one job), `rules/game.md` for the engine's
+headless run — in the project's own form from `CLAUDE.md`'s *Commands*. Record what ran and
+what it said in the log entry. **A failure stops any push that deploys** — on a
+single-branch project, the push is the release — and is said in Step 8; a working branch may
+still be pushed, the failure named in the commit message. A repository with nothing to build
+says so in a line. MAX's M4 is this run done claim by claim.
 
-**If it is a repo, first run the kind's checks** when this session changed code: the build
-and the tests its rules files name (`pnpm build` and `pnpm test` on a web project,
-`uv run pytest` and `uv run pyright` on a Python package, the engine's headless run on a
-game), or what `CLAUDE.md`'s *Commands* say. Record what ran and what it said in the log
-entry. **A failure stops any push that deploys** — on a single-branch project, the push is
-the release — and is said in Step 8; a working branch may still be pushed, the failure named
-in the commit message. A repository with nothing to build says so in a line. MAX's M4 is
-this run done claim by claim.
+**If not a repo:** say so plainly in your final summary to the user ("not a git repo, nothing to
+commit") and skip the rest of this step; Steps 8 and 9 still run. Do not suggest `git init`
+unless the user asks — that's their call, not implied by running a checkpoint.
+
+**If it is a repo:**
 
 ```bash
 git status -sb
@@ -387,6 +454,9 @@ ever disagree, §GIT wins and this table is the fault. `max` changes the depth, 
 - **Local only:** never add a remote unasked.
 - **What to stage:** what this session changed, by path. Never `git add -A` or `git add .`:
   list any other change in the tree and ask whether it goes in.
+- **A credential hook copied in this session** (`.githooks/pre-commit`, by `new-project` or
+  `sync-standards`) is staged executable: `git add --chmod=+x .githooks/pre-commit`. Those
+  skills leave the bit for this commit, since staging is not theirs to do.
 - **Multi-branch, before the push made without asking:** check that the branch checked out
   (`git branch --show-current`) is not the production branch the *Deploys* line names. If it
   is, stop and ask: that push would be a release, which only `git CPR` authorises.
@@ -468,13 +538,15 @@ context window is, and the owner can (`/context`, or the app's context indicator
    the studio site's repository (§CREDIT)? Say in a line what it would report.
 3. **A `CLAUDE.md` split** — only if Step 4 measured the root past 50 KB: split it by
    §SCALE? Name the sections that would move and their area files in a line.
-4. **What next?**
+4. **The rules the project loads** — only if Step 4 found the session outgrew the *Rules*
+   line: add the option or the kind's files now, through `sync-standards`? Name them.
+5. **What next?**
    - **Compact, then continue** — compact now and carry on with the next task in a fresh
      window.
    - **Compact and stop here** — the session ends at this checkpoint.
    - **Keep going, compact later** — there is room for another task first.
 
-Recommend an option for 4, and say what the recommendation rests on: you cannot measure
+Recommend an option for 5, and say what the recommendation rests on: you cannot measure
 the window, so judge from what you can see — a long session, many large outputs (screenshots,
 logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
 A phase boundary is the usual moment to recommend *Compact, then continue*.
@@ -486,7 +558,8 @@ Then act on the answers, and report in a line or two what was done:
 - **An approved showcase update is filed as §CREDIT says**, kept as an open item when the
   studio's repository cannot be reached.
 - **An approved split is the next piece of work**, done by §SCALE's steps after the pause,
-  not in the follow-up commit: it is too large to ride on Step 7's answer.
+  not in the follow-up commit: it is too large to ride on Step 7's answer. So is an approved
+  change to the rules the project loads, done by `sync-standards`.
 - **Those changes are committed under the answer Step 7 already had** (§GIT, *An approval
   does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 7 pushed, committed only if Step 7 only committed, left uncommitted (and said
@@ -519,7 +592,8 @@ Never run `/compact` yourself, and never assume the owner will. It is their call
 
 ## MAX protocol
 
-Runs only for `checkpoint MAX` / `git checkpoint max`. Standard mode reconstructs the session
+Runs only where the owner said `max`: `checkpoint MAX`, `git checkpoint max`, `CPR max`,
+`git CPR max`. Standard mode reconstructs the session
 from your own context, which is exactly where hallucination and quiet omission enter. MAX
 replaces recollection with verification. Everything below is required.
 

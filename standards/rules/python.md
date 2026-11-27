@@ -42,6 +42,9 @@ it is one. A folder of scripts that grows shared logic becomes a package.
   by running it on one job first, and says so in `conventions.md`
 - **Before a checkpoint, a package runs** `uv run pytest`, `uv run ruff check`,
   `uv run ruff format --check` and `uv run pyright`, and the checkpoint records the result
+- **CI runs the same four** on every push and pull request, in a package with a remote:
+  `.github/workflows/gates.yml` from `templates/gates-python.yml`, added on the owner's yes
+  (the rule in `rules/node.md` §BUILD, in Python)
 - **Environment checked at startup** in one settings module: a missing or malformed
   variable stops the program with its name (the rule `rules/node.md` §RUNTIME sets for
   Node, in Python)

@@ -1,6 +1,6 @@
 # Project Rules & Code Style
 **Author:** Tanveer (tanveerfb)
-**Version:** 4.0.0
+**Version:** 4.1.0
 **Applies to:** All projects. This file is the core, which every repository loads; the files
 under `rules/` are loaded only where they apply (§SCOPE).
 **Master copy:** `standards/project-rules.md` and `standards/rules/` in
@@ -52,6 +52,7 @@ core. The rest are loaded only where they apply:
 | `rules/options/trello.md`, `firebase.md`, `sqlite.md` | Things a project opts into at setup | Projects that chose them |
 | `rules/options/ai.md` | AI and model features | Read on demand by projects that chose it |
 | `rules/options/credit.md` | The studio credit and showcase | Read on demand, by the skills that reach its steps |
+| `rules/options/family.md` | A family of local sessions that message each other | Projects whose owner asked for one; never asked at setup |
 
 | Kind of repository | Loads |
 | --- | --- |
@@ -72,7 +73,8 @@ files declared. A section that divides between files keeps its name in each.
 
 **The options are asked about once.** `new-project` and `sync-standards` ask about each —
 the studio credit, a Trello board, Firebase or SQLite, AI — and record the answer, so a project that
-never opted in has still been asked.
+never opted in has still been asked. A family of sessions is the exception: it is added only
+when the owner asks for one, and no skill offers it.
 
 **Two options are read, not imported.** `rules/options/ai.md`: `CLAUDE.md` and
 `src/lib/ai/CLAUDE.md` each carry a line saying to read it before any work on an AI feature;
@@ -327,10 +329,21 @@ does not restate them.
   entry naming it. Building follows the locked mockup; changing a locked design takes a new
   mockup round
 - **Mobile is first-class** — it must work properly on a phone, not merely not break
-- **Consistency, modularisation, QoL — on everything touched**, not only on work with a
-  spec. If a change introduces a second version of something the repo already has, it is
-  wrong. Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard: every
-  visual change fits it
+- **Consistency, modularisation, QoL — on everything touched**, without being asked, not only
+  on work with a spec. **A second version is the same job done twice**, whatever its size or
+  name: a smaller copy on another screen counts. Three checks, before building and again
+  before calling it done:
+  - **Modular** — does anything already do this job? Extend it, or pull it out into one
+    shared piece first. One shared piece; each place declares what it accepts
+  - **Consistent** — do the places that do this job look, behave and say the same? A fix or
+    an ability given to one is given to its sisters, or the difference is written down with
+    its reason
+  - **QoL** — does it have what the sister places and `rules/ui.md` §QOL give?
+
+  Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard:
+  every visual change fits it. What changes nothing on screen is done as it is met; what
+  changes a look goes through the mockup rule above. Sharing a piece never shares
+  permissions: what a place may *do* is declared per place
 - **Don't state the obvious.** Interface text that repeats what a component already makes
   clear is noise. A light/dark toggle is a switch with a sun and a moon — no "Light mode"
   label beside it. No helper text explaining a self-evident control, no caption restating a
@@ -367,6 +380,9 @@ Skip a spec when the work does not need one.
 - **Decided versus open** — the owner's confirmed choices, each with a one-line reason, kept
   apart from open questions. Never write a guess in the voice of a decision
 - **What it touches** — the areas, files and data it changes
+- **One of each** — what already does this job, which shared piece it uses or becomes, and
+  which sister places change with it. An update plan of several pieces answers it for the
+  whole update
 - **Done means** — acceptance criteria that can be checked
 - **Status** — the first line
 
@@ -489,6 +505,11 @@ first time an agent duplicates something or works in the wrong place.
   Actions secrets has none
 - **An unexplained change under `.github/workflows/` is an incident until proven
   otherwise.** Do not run it, do not "fix" it; tell the owner first
+- **A legal page is a spec.** Whatever a privacy policy, terms or cookie notice promises —
+  what is collected, who it is shared with, how long it is kept, how it is deleted — is
+  built, tested where it is logic, and recorded in `data-model.md` beside the entity it
+  covers. A change to either side changes the other in the same commit. A promise nothing
+  implements is a defect, not a wording issue: fix the code or, on the owner's yes, the page
 
 ---
 

@@ -13,6 +13,57 @@ relocation, never summarising.***
 
 ---
 
+### 2026-11-27 — v4.1.0: nine proposals, checkpoint and relay, two real syncs, the update check
+
+Commits `35ad557` to `16c8a50`, 41 of them (one is the merge of pull request #40's branch),
+and this one; pushed to `claude/new-project-mockup-zp2h2z`, CI green at each push checked.
+Then `git CPR max`: this checkpoint and the release, a merge pull request into `main`. The
+same session, resumed nine days after v4.0.0 ("lets continue"), now on Fable 5.2.
+
+- **Relay first:** the repository matched the 2026-11-18 handoff. New since: nine proposals
+  (#35 to #39, #41 to #44), pull request #40, and `main` protected by a ruleset of the
+  owner's.
+- **The plan**, `docs/specs/v4.1.md`: all nine proposals in (the owner: "they were put there
+  on my yes"), how each lands settled by question, and an independent audit of `checkpoint`
+  and `relay` against every duty the rules place on a session's start and end: twelve
+  findings, the owner picked all but G6.
+- **Built, phases 1 to 7:** #41 (`sk-` at a word start), check m reading rulesets, #39; #35,
+  #38, #37, #42, #43; #36 with two gates templates and check n; check o; #44 with
+  `rules/options/family.md` and the ninth skill; G1 to G5 and G7 to G12; two eval cases; the
+  changelog entry. The core is 34,099 bytes (32,426 at v4.0.0).
+- **Phase 8, the pilot:** the "Tinker Together Main" session synced the studio's site and
+  admin repository against this checkout, the first real syncs on v4. Both applied. Nine
+  faults in the skill, built as T1 to T9: the pilot path, LF comparison and writing (with
+  `--credential-hook`), a family already running, a leftover rules file, a moot exception
+  restated, the report covering Step 5, newer action pins, the pointers compared with the
+  template.
+- **The update check** (the owner's ask mid-session): it now asks GitHub once a day and
+  runs on resume and compact. Run once live: it fetched 4.0.0 from `main`.
+- **Evals:** all seventeen at 1.00 with the plugin. First full run $4.71, sixteen passing;
+  `relay-rules-line` failed on a wrong grader of mine and passed once corrected; two more
+  re-run after the pilot's fixes. About $5.30.
+- **The release:** version 4.1.0, the changelog dated, the banner rebuilt with `v4.1.0`
+  (fonts and tool downloaded again on the owner's yes; the generator takes the version).
+  Checked at this checkpoint: tests pass, both plugin validations pass, sizes re-measured
+  (the README said 62 and 42 KB for a web project and a Python tool; they are 67 and 44, and
+  it now says so).
+
+**The mistakes worth keeping.**
+- My brief to the pilot said `tinker-together` was on 3.8.0 with no *Rules* line, from the
+  2026-11-18 dry run. It had been on 4.0.0 since that day. A brief to another session states
+  what was checked today, or says it was not checked.
+- Two picks went into one commit twice (G7 with G12; T2 with T3), against one per pick.
+- The first gates template copied this repository's own action pins, a major behind what
+  the fleet's projects already ran.
+- My first live run of the update check failed silently because Git Bash gave Node a
+  `/e/...` path: the Windows trap the pilot had just reported.
+- The scratchpad that held the banner's fonts was gone nine days later, as its own note
+  says it may be: anything a later release needs is not kept there.
+
+**Process X:** not run this session.
+
+---
+
 ### 2026-11-18 — phase 7: Satluj's look, the changelog, the pilots, the evals, and the release
 
 Commits `777e5c4` to `dde8008`, 28 of them, and this one; pushed to
@@ -46,6 +97,10 @@ the owner's go to finish with `git CPR max`.
   split check, its list and `fetch-depth: 0` (the workflow edit on the owner's yes).
   Checked at this checkpoint: tests pass, both plugin validations pass, the sizes measured;
   `main` found unprotected (404), left for the owner.
+- **Released**, checked after the merge: pull request #34 merged into `main` as `8a9b8ae`
+  (a merge commit, after its checks passed); `main` reads `**Version:** 4.0.0` and holds
+  `standards/rules/`; CI on `main` succeeded; issues #20 to #33 closed with it. No tag, as no
+  earlier release had one.
 
 **The mistakes worth keeping.**
 - P7 and P9 went into one commit, against one commit per pick.

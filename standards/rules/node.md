@@ -149,6 +149,12 @@ deploy.*
   substance, and fix what they report before moving on
 - **`npm run build` before every checkpoint and before anything deploys.** It
   is the only check that proves the app builds — lint and typecheck do not
+- **CI runs the gates too.** Every repository with a remote carries
+  `.github/workflows/gates.yml` (`templates/gates.yml`): typecheck, lint, tests and build,
+  plus the project's own gates, on every push and every pull request, with
+  `permissions: contents: read` and actions pinned by commit. A red run on a release pull
+  request is a stop. The agent still runs the gates by hand during work; CI is the net, not
+  the method. Adding or changing the workflow takes the owner's yes (§SECURITY)
 
 *§BUILD's rules on comments, leftovers and failing builds are in `rules/app.md`.*
 
