@@ -65,6 +65,9 @@ pick it was — until the table outgrows that file.
 - **Read it, and verify it against the filesystem, before building any
   component.** It is an index, not a source of truth
 - If something close exists, extend it with a prop. Do not fork it
+- **Search by job, not by name** ("takes a message", "picks a model", "confirms a delete"):
+  a copy rarely shares a name. Writing a smaller version inside a screen is a fork. The
+  registry notes, for a piece used in several places, what each place turns on
 - Add what you build to the registry in the same commit
 
 A new screen uses what is registered, and a hand-made copy of a registered piece is a bug.
@@ -88,6 +91,10 @@ Build the expected version, not a bare minimum needing immediate extension.
 | Card | Skeleton variant |
 | Input | Clear button, character count, password reveal — where applicable |
 | Button | Sizes (sm, md, lg), outline and ghost treatments, loading, full width, leading and trailing icons |
+
+**Sister places match.** Where several screens have the same kind of thing (lists, message
+boxes, editors, pickers), a comfort one has is either in all of them or deliberately left out,
+with the reason recorded.
 
 Every list has a written empty state saying what to do next. Every async view has
 a skeleton matching its final layout, not a spinner.

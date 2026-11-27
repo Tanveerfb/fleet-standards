@@ -327,10 +327,21 @@ does not restate them.
   entry naming it. Building follows the locked mockup; changing a locked design takes a new
   mockup round
 - **Mobile is first-class** — it must work properly on a phone, not merely not break
-- **Consistency, modularisation, QoL — on everything touched**, not only on work with a
-  spec. If a change introduces a second version of something the repo already has, it is
-  wrong. Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard: every
-  visual change fits it
+- **Consistency, modularisation, QoL — on everything touched**, without being asked, not only
+  on work with a spec. **A second version is the same job done twice**, whatever its size or
+  name: a smaller copy on another screen counts. Three checks, before building and again
+  before calling it done:
+  - **Modular** — does anything already do this job? Extend it, or pull it out into one
+    shared piece first. One shared piece; each place declares what it accepts
+  - **Consistent** — do the places that do this job look, behave and say the same? A fix or
+    an ability given to one is given to its sisters, or the difference is written down with
+    its reason
+  - **QoL** — does it have what the sister places and `rules/ui.md` §QOL give?
+
+  Where the project has a motif (`rules/ui.md` §DESIGN), it is held to the same standard:
+  every visual change fits it. What changes nothing on screen is done as it is met; what
+  changes a look goes through the mockup rule above. Sharing a piece never shares
+  permissions: what a place may *do* is declared per place
 - **Don't state the obvious.** Interface text that repeats what a component already makes
   clear is noise. A light/dark toggle is a switch with a sun and a moon — no "Light mode"
   label beside it. No helper text explaining a self-evident control, no caption restating a
@@ -367,6 +378,9 @@ Skip a spec when the work does not need one.
 - **Decided versus open** — the owner's confirmed choices, each with a one-line reason, kept
   apart from open questions. Never write a guess in the voice of a decision
 - **What it touches** — the areas, files and data it changes
+- **One of each** — what already does this job, which shared piece it uses or becomes, and
+  which sister places change with it. An update plan of several pieces answers it for the
+  whole update
 - **Done means** — acceptance criteria that can be checked
 - **Status** — the first line
 

@@ -252,6 +252,10 @@ untrue or incomplete:
   at the top gaining a line for anything the owner ruled out.
 - **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
   and **`.env.example`** — where the session added, moved or removed what they list.
+  Where this session built or changed an interface piece or a shared helper, name in the log
+  entry what else does the same job, and whether it was joined, changed with it, or left
+  apart and why (§OWNER's three checks). "Nothing else does" is a fine answer, once searched
+  for.
 - **`docs/specs/`** (§SPECS) — if this session built or advanced work from a spec, update its
   status line: `in progress`, or `built` once its done-means criteria are verified. Without a
   board, the status word in the spec is the whole record; with one, Step 6 moves the card.
