@@ -83,6 +83,14 @@ multi-step, conditional, dynamic validation — use `react-hook-form` with `zod`
 controlled and uncontrolled inputs in one form. Validate on the client, and again on the
 server; client validation is a courtesy, not a control.
 
+**Public writes are throttled.** Every form or route a visitor can submit without signing in
+— contact, sign-up, a brief, a comment — has a **per-visitor rate limit** (a hashed IP, never
+the raw address, counted where the project keeps data) and a **maximum length on every
+free-text field** in its zod schema, so one request can't store megabytes. Add a bot check
+(Turnstile or similar) where the form is a known spam target; it is a visible change, so it
+goes through a mockup. A refusal answers 429 with a message that says what to do. One limiter
+serves every public route; a new form reuses it.
+
 **Errors.** `try`/`catch` around every async operation. Nothing fails silently.
 `error.tsx` for route-level boundaries, error boundary components around complex
 or third-party subtrees. Users never see a raw error — every fallback says what
