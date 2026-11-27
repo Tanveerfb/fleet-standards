@@ -262,7 +262,14 @@ Report, in this order and briefly:
 
 1. **Where things stand** — 2–4 lines, in your own words, not a quote of the
    handoff.
-2. **The entry point**, and whether it is still valid.
+2. **The entry point**, and whether it is still valid — with what a session must read
+   before starting it, found now and named, not left for later:
+   - **its spec**, if `docs/specs/` has one (§SPECS): the status line, and any open
+     question. A spec marked `built` is not pending work; an open question is the owner's
+     to answer before anything is built on it;
+   - **its area `CLAUDE.md`** (§SCALE): an area file loads only when a file in its folder is
+     read, so name the one for this work;
+   - **the map**, `docs/architecture.md`, where the project keeps one.
 3. **The staleness list** — every claim that no longer holds, with what it said
    and what is actually true, including where the Trello board disagrees with
    `STATUS.md`. Empty is a fine and good answer; say so plainly.
