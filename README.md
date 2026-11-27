@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="docs/assets/satluj-banner.svg" width="880" alt="fleet-standards v4.0.0 · Satluj">
+  <img src="docs/assets/satluj-banner.svg" width="880" alt="fleet-standards v4.1.0 · Satluj">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/standard-v4.0.0%20Satluj-1d5f86" alt="standard v4.0.0 Satluj">
+  <img src="https://img.shields.io/badge/standard-v4.1.0%20Satluj-1d5f86" alt="standard v4.1.0 Satluj">
   <img src="https://img.shields.io/badge/skills-9-c3245e" alt="9 skills">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9772b" alt="MIT license"></a>
   <a href="https://tinkertogether.studio"><img src="https://img.shields.io/badge/built%20by-Tinker%20Together-8f5736" alt="Built by Tinker Together"></a>
@@ -49,8 +49,8 @@ name (`§GIT`, `§MOTION`) wherever they live.
 | `rules/non-application.md` | What a repository without application code does differently | those repositories |
 | `rules/options/` | Firebase, SQLite, Trello (imported when chosen); AI and the studio credit (read when needed); a family of local sessions (only when asked for) | projects that chose them |
 
-A web project loads the core, app, ui, node and web, about 62 KB; a Python tool loads the
-core, app and python, about 42 KB. A `Rules:` line in `CLAUDE.md` declares the set
+A web project loads the core, app, ui, node and web, about 67 KB; a Python tool loads the
+core, app and python, about 44 KB. A `Rules:` line in `CLAUDE.md` declares the set
 (`Rules: app, ui, node, web · Options: firebase, no-trello`).
 
 **Nine skills** — instructions your agent loads when a phrase triggers them:
@@ -309,7 +309,7 @@ be loaded as instructions by anyone opening the repo in Claude Code.
 
 ## Versions
 
-Current: **v4.0.0** (2026-11-18), **Satluj**. See [`standards/CHANGELOG.md`](standards/CHANGELOG.md)
+Current: **v4.1.0** (2026-11-27), **Satluj**. See [`standards/CHANGELOG.md`](standards/CHANGELOG.md)
 for what changed and why: where each section lives now, what a project must change to move
 up, and the map from v2 section numbers to v3 names.
 

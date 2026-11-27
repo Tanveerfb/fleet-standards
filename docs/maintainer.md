@@ -36,6 +36,11 @@ versions of the same rules file at once.
   `sync-standards` a Step 4 check if projects already on the standard need it. The installer
   and the project copies need nothing: `REFERENCE` in `standards/scripts/standard.mjs` lists
   the `rules` folder whole.
+- **The README's version** is in four places, all set at the release: the banner
+  (`docs/assets/satluj-banner.svg` carries the exact version as outlined text, so it is
+  rebuilt each time: `docs/assets/make-banner.mjs` says how, and its fonts and tool are
+  downloaded to a scratch folder on the owner's yes), the banner's `alt`, the standard badge,
+  and the *Versions* line, which the tests compare with the changelog.
 - **The CI templates** (`templates/gates.yml`, `gates-python.yml`) pin every action by
   commit. At each release, look up the current release of each action (`gh api
   repos/<owner>/<action>/releases`), take the newest that is at least two weeks old, and

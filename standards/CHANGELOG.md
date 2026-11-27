@@ -33,7 +33,7 @@ v2.0.0 used different numbers again (v2.0.0 §6 Styling = v2.3.0 §12, §7 Askin
 
 ---
 
-## 4.1.0 · Satluj — unreleased
+## 4.1.0 · Satluj — 2026-11-27
 
 Nine proposals from the fortnight after v4.0.0, most from an independent audit of the
 studio's own site, and `checkpoint` and `relay` brought in line with how v4 lays the rules
