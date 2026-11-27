@@ -191,9 +191,16 @@ GSAP where it is genuinely the better tool, with the reason in `decisions.md`.
 ## §TESTING — Testing
 
 - **Interface changes are checked in a real browser by the agent**, at desktop width and at
-  a 390px phone width (§OWNER). Use, in this order: **Claude's built-in browser**, then
-  **Claude in Chrome**. Playwright or any other headless tool is the last resort, only when
-  neither is available — and say so in the report
+  phone widths of 390px and 360px (§OWNER). Use, in this order: **Claude's built-in
+  browser**, then **Claude in Chrome**. Playwright or any other headless tool is the last
+  resort, only when neither is available — and say so in the report
+- **Before a release, and whenever someone reports a phone problem, check the phone engines
+  themselves**, where the machine has them: **Android Chrome** on an emulator, and
+  **Safari's engine (WebKit)** — through Playwright, the one exception to its being the last
+  resort, since no built-in browser renders WebKit; on a Mac, the iOS simulator.
+  `~/.claude/machine.md` lists what is installed and the commands. Name in the report which
+  engines were checked and which were not. A desktop browser at phone size is a layout
+  check, not proof of how a phone renders the page
 - No end-to-end suite by default. If a project needs one, that is a decision, recorded in
   `decisions.md`
 
