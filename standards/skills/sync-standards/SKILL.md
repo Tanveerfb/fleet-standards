@@ -247,7 +247,11 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    lines (`Trello board:`; `Studio credit:` and `Studio showcase:`). With no studio in the
    owner's file the credit is not asked and not listed. **`family` is never asked about**
    (§SCOPE): where `Options:` already declares it, its file is copied and updated like any
-   other; where it does not, say nothing of it. An option is copied and
+   other, and `CLAUDE.md` has its `Family: <manager | member of <manager>>` line (§FAMILY):
+   ask which, if it is missing. Where it does not declare it, say nothing of it — **unless
+   the project is already running a family** at the owner's word, with no option yet (a
+   `Family:` line, a `docs/family.md` register, or family rules written into `CLAUDE.md`):
+   then say what was found and offer the option, as *Adding an option* does. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,
    which is copied but never imported — the skills read it when they reach its step, so
    read it before asking the credit questions — and `ai`: add the template's
