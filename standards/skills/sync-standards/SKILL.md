@@ -118,7 +118,7 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   project that does not load the Firebase option is moot the same way.
 
 **Then audit the transition, read-only.** Run Step 4's item 0 (a `rules/` folder that is not
-the standard's) and every check in item 4, a to m, against the project without changing
+the standard's) and every check in item 4, from (a) to the last, against the project without changing
 anything; a `rules/` stop goes at the top of the report, so the owner sees it before saying
 yes. Add each *What a project must change* item from the changelog entries it is behind
 (entries before 4.0.0 have no such list: their "What a project does" lines, where they have
@@ -321,6 +321,22 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    `uv.lock` for Python. *If a workflow already runs some of the gates,* name the ones it
    lacks and leave the file to the owner. A build that needs secrets is said, not solved
    here: the template's comment says how.
+
+   **o. Findings from newer rules: look and list, change no code.** A rule that asks for
+   code in a project already live cannot be applied by a sync. Read for each, and put what
+   is found in the upgrade report as work for the project, with the rule it comes from:
+   - *Public writes (`rules/web.md` §FORMS).* A form, Server Action or route handler a
+     visitor can submit without signing in, with no rate limit or no maximum length on its
+     free-text fields.
+   - *Security headers (`rules/web.md` §RUNTIME).* No `headers()` in `next.config`, and no
+     middleware or host configuration setting them; an `images.remotePatterns` entry that is
+     a wildcard over a shared service.
+   - *Legal pages (§SECURITY).* A privacy policy, terms or cookie notice whose promises
+     (what is kept, for how long, how it is deleted) `data-model.md` does not record. Only
+     the comparison: whether the code keeps a promise is the project's own audit.
+
+   Only where the project loads the file the rule is in. Finding nothing is said in a line.
+   Nothing here is fixed by the sync, and none of it stops the sync.
 
    **A release that needs a new check adds it here**, as the next letter, and names it in its
    changelog entry's *What a project must change* list, so every later sync runs it and a

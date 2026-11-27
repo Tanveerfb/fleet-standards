@@ -19,7 +19,7 @@ versions of the same rules file at once.
   effect. A section that moves to another file keeps its name, so a reference by name still
   holds. The entry ends with **What a project must change**: each thing a project already
   on the standard has to do to move up, naming the `sync-standards` Step 4 check that does it.
-  The checks run from a to m. A change no existing check covers gets a new check in the same
+  The checks run from a to o. A change no existing check covers gets a new check in the same
   release, with the next letter, so the sync's upgrade report finds it in every project
   behind.
 - **The changelog heading** is `## x.y.z · Name — yyyy-mm-dd`. The name is the major
