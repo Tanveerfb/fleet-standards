@@ -22,7 +22,8 @@ that branch auto-deploys>.
 
 <What happened, concretely: file paths, commands, config keys, with the measurements. The
 decisions and why, what was tried and did not work, and any deviation from the spec or plan
-the owner gave. Superseded numbers and the owner's quotes belong here, not in the snapshot.
+the owner gave. A visual fix that went in without a mockup (§OWNER's one exception) gets its
+line here. Superseded numbers and the owner's quotes belong here, not in the snapshot.
 The `checkpoint` skill's Step 3 lists what each file holds.>
 
 **The mistake worth keeping.** <Any claim this checkpoint had to correct: what it said

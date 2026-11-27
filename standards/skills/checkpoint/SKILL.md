@@ -222,6 +222,8 @@ never the set.
   should bind later sessions also goes in `decisions.md` (Step 4).
 - **Explicit deviations from any spec/plan the user gave** — anything you or the user changed
   from an original ask, flagged clearly so it doesn't read as an oversight later.
+- **A visual fix made without a mockup** (§OWNER's one exception: a bug fix restoring an
+  approved design) — one line each: what was broken and what it was restored to.
 - **The mistake worth keeping** — a claim this checkpoint corrected, what it said before,
   and why it was wrong. Left out when there is none.
 
@@ -273,7 +275,9 @@ untrue or incomplete:
 - **`conventions.md`** — a decision changed: an exception the owner granted, a choice
   specific to this project, the profile block or Python's shape, a row of the document map.
 - **`decisions.md`** — the session's choices appended, and its "declined, never again" index
-  at the top gaining a line for anything the owner ruled out.
+  at the top gaining a line for anything the owner ruled out. **Every dependency this
+  session added** has its entry (`rules/app.md` §PACKAGES): read the manifest's diff
+  (`package.json`, `pyproject.toml`) rather than trusting memory.
 - **`design-system.md`** — a token or a rule changed: colours and their contrast ratios,
   type, spacing, motion tokens, an exclusion, the motif record (`rules/ui.md` §DESIGN).
 - **`components.md`**, or its table in `design-system.md` — a component added, moved or
