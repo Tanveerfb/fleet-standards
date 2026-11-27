@@ -34,6 +34,8 @@ right skill fired and that the stated decision matches the rule: every case has 
 | `sync-asks-first` | `sync-standards` says what changed and what was dropped, then asks once before copying anything |
 | `propose-files-an-issue` | `propose-standard` drafts an issue, shows it, files it on a yes: no branch, push or pull request unasked |
 | `new-project-game` | `new-project` for a Godot game puts the game's rules files in place, scaffolds nothing for the web, and commits nothing |
+| `checkpoint-document-map` | a checkpoint reads the project's own document map: a design kept in `DESIGN.md` is updated there, and a document mapped to nothing is created only when it has content |
+| `relay-rules-line` | relay raises no mismatch for a *Rules* line with a declined option, the credit option and `· read, not imported`, and reads the declared files itself |
 | `checkpoint-pause` | a checkpoint ends with one question — what next — and no compact block: a plain `/compact` is enough |
 
 **When a case fails**, read its transcript in the results folder before changing anything: a

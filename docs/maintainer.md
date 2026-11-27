@@ -102,13 +102,16 @@ private drift survey (`fleet-drift.md` in the owner's plans repository).
   and HTML comments close; the credential hook passes every tracked file and blocks ten
   fake key shapes; every script behaves in every case. **CI runs it on every push and pull
   request** (`.github/workflows/checks.yml`), with `claude plugin validate .`.
-- **Behaviour evals** — `standards/evals/`, fifteen cases on the riskiest behaviour (relay's
-  trigger, the git step and `cpr` per *Deploys* value, skill proposals, the pause, the log
-  split, `sync-standards` asking first, `propose-standard` filing an issue, the motif's *Show
-  me*, a new game project). They cost model usage, so they
-  are run by hand before releasing a change to a skill or to §GIT; the README there has the
-  command. A failing case is a skill that reads ambiguously or a case asking the wrong
-  question — never loosen a grader to get green.
+- **Behaviour evals** — `standards/evals/`, seventeen cases on the riskiest behaviour
+  (relay's trigger, the git step and `cpr` per *Deploys* value, skill proposals, the pause,
+  the log split, the document map, relay reading the *Rules* line, `sync-standards` asking
+  first, `propose-standard` filing an issue, the motif's *Show me*, a new game project). They
+  cost model usage, so they are run by hand before releasing a change to a skill or to §GIT;
+  the README there has the command. A failing case is a skill that reads ambiguously or a
+  case asking the wrong question — never loosen a grader to get green. **A change to what a
+  skill does updates the case that grades it in the same commit:** `sync-asks-first` failed
+  at the v4.0.0 release because two picks had changed the sync and its grader still
+  described the old behaviour.
 - **This repo runs its own credential hook.** In each clone, once:
   `git config core.hooksPath standards/templates`.
 - **Status and decisions.** `docs/STATUS.md` is where the work is; `decisions.md` at the root
