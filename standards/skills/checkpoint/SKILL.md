@@ -394,18 +394,22 @@ Check whether this is a git repository:
 git rev-parse --is-inside-work-tree 2>&1
 ```
 
-**If not a repo:** say so plainly in your final summary to the user ("not a git repo, nothing to
-commit") and stop here. Do not suggest `git init` unless the user asks — that's their call, not
-implied by running a checkpoint.
+**First, repository or not, run the kind's checks** when this session changed code: every
+command the project's rules files list before a checkpoint, read from the file rather than
+from memory — `rules/node.md` §BUILD and §TESTING for a Node or web project (typecheck,
+lint, tests, build), `rules/python.md` §PYTHON for a Python package (its four commands; a
+folder of scripts runs the changed script on one job), `rules/game.md` for the engine's
+headless run — in the project's own form from `CLAUDE.md`'s *Commands*. Record what ran and
+what it said in the log entry. **A failure stops any push that deploys** — on a
+single-branch project, the push is the release — and is said in Step 8; a working branch may
+still be pushed, the failure named in the commit message. A repository with nothing to build
+says so in a line. MAX's M4 is this run done claim by claim.
 
-**If it is a repo, first run the kind's checks** when this session changed code: the build
-and the tests its rules files name (`pnpm build` and `pnpm test` on a web project,
-`uv run pytest` and `uv run pyright` on a Python package, the engine's headless run on a
-game), or what `CLAUDE.md`'s *Commands* say. Record what ran and what it said in the log
-entry. **A failure stops any push that deploys** — on a single-branch project, the push is
-the release — and is said in Step 8; a working branch may still be pushed, the failure named
-in the commit message. A repository with nothing to build says so in a line. MAX's M4 is
-this run done claim by claim.
+**If not a repo:** say so plainly in your final summary to the user ("not a git repo, nothing to
+commit") and skip the rest of this step; Steps 8 and 9 still run. Do not suggest `git init`
+unless the user asks — that's their call, not implied by running a checkpoint.
+
+**If it is a repo:**
 
 ```bash
 git status -sb
@@ -517,13 +521,15 @@ context window is, and the owner can (`/context`, or the app's context indicator
    the studio site's repository (§CREDIT)? Say in a line what it would report.
 3. **A `CLAUDE.md` split** — only if Step 4 measured the root past 50 KB: split it by
    §SCALE? Name the sections that would move and their area files in a line.
-4. **What next?**
+4. **The rules the project loads** — only if Step 4 found the session outgrew the *Rules*
+   line: add the option or the kind's files now, through `sync-standards`? Name them.
+5. **What next?**
    - **Compact, then continue** — compact now and carry on with the next task in a fresh
      window.
    - **Compact and stop here** — the session ends at this checkpoint.
    - **Keep going, compact later** — there is room for another task first.
 
-Recommend an option for 4, and say what the recommendation rests on: you cannot measure
+Recommend an option for 5, and say what the recommendation rests on: you cannot measure
 the window, so judge from what you can see — a long session, many large outputs (screenshots,
 logs, file reads), a phase just closed — and suggest the owner checks `/context` when unsure.
 A phase boundary is the usual moment to recommend *Compact, then continue*.
@@ -535,7 +541,8 @@ Then act on the answers, and report in a line or two what was done:
 - **An approved showcase update is filed as §CREDIT says**, kept as an open item when the
   studio's repository cannot be reached.
 - **An approved split is the next piece of work**, done by §SCALE's steps after the pause,
-  not in the follow-up commit: it is too large to ride on Step 7's answer.
+  not in the follow-up commit: it is too large to ride on Step 7's answer. So is an approved
+  change to the rules the project loads, done by `sync-standards`.
 - **Those changes are committed under the answer Step 7 already had** (§GIT, *An approval
   does not generalise*, names this one exception) — one follow-up commit,
   pushed if Step 7 pushed, committed only if Step 7 only committed, left uncommitted (and said
