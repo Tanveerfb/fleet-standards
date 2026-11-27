@@ -184,9 +184,9 @@ Each cost a real session somewhere in this fleet.
 
 ## 6. Skills
 
-**Eight skills come from the `fleet` plugin**, active in every project once it is installed.
-Cloud sessions load no plugins, so the sync copies every skill but `new-project` and
-`machine-inventory` into `.claude/skills/`, and records what it wrote in
+**Nine skills come from the `fleet` plugin**, active in every project once it is installed.
+Cloud sessions load no plugins, so the sync copies every skill but `new-project`,
+`machine-inventory` and `session-family` into `.claude/skills/`, and records what it wrote in
 `.claude/fleet/copied.json` (`sync-standards` Step 5). Never edit a copy in place: send the
 change back with `propose-standard`.
 
@@ -211,6 +211,8 @@ change back with `propose-standard`.
 - **`propose-standard`** — sends a change or request back to `fleet-standards` as an issue.
 - **`machine-inventory`** — records what the machine has installed in `~/.claude/machine.md`,
   so a project prefers it before proposing a tool.
+- **`session-family`** — only when the owner asks for sessions to work together: sets up and
+  runs a family of local sessions (`rules/options/family.md`). Never offered.
 
 **Project-level** skills live in `.claude/skills/` — **not** `.github/skills/`, which Claude
 Code does not scan. One project's two skills sat in the wrong directory, correctly written and

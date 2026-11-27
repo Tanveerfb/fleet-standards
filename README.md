@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/standard-v4.0.0%20Satluj-1d5f86" alt="standard v4.0.0 Satluj">
-  <img src="https://img.shields.io/badge/skills-8-c3245e" alt="8 skills">
+  <img src="https://img.shields.io/badge/skills-9-c3245e" alt="9 skills">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9772b" alt="MIT license"></a>
   <a href="https://tinkertogether.studio"><img src="https://img.shields.io/badge/built%20by-Tinker%20Together-8f5736" alt="Built by Tinker Together"></a>
 </p>
@@ -47,13 +47,13 @@ name (`§GIT`, `§MOTION`) wherever they live.
 | `rules/python.md` | uv, pyright, ruff, pytest; a package or a folder of scripts | Python tools |
 | `rules/game.md` | What a game in an engine reads differently | games |
 | `rules/non-application.md` | What a repository without application code does differently | those repositories |
-| `rules/options/` | Firebase, SQLite, Trello (imported when chosen); AI and the studio credit (read when needed) | projects that chose them |
+| `rules/options/` | Firebase, SQLite, Trello (imported when chosen); AI and the studio credit (read when needed); a family of local sessions (only when asked for) | projects that chose them |
 
 A web project loads the core, app, ui, node and web, about 62 KB; a Python tool loads the
 core, app and python, about 42 KB. A `Rules:` line in `CLAUDE.md` declares the set
 (`Rules: app, ui, node, web · Options: firebase, no-trello`).
 
-**Eight skills** — instructions your agent loads when a phrase triggers them:
+**Nine skills** — instructions your agent loads when a phrase triggers them:
 
 | Skill | Say | What happens |
 | --- | --- | --- |
@@ -65,6 +65,7 @@ core, app and python, about 42 KB. A `Rules:` line in `CLAUDE.md` declares the s
 | `sync-standards` | "sync standards", "upgrade standards" | Brings a project up to the latest standard: one upgrade report of everything that would change, applied on your yes, then checked again |
 | `propose-standard` | "propose a standard change" | Sends a fix or request back to this repo as a GitHub issue (a pull request if you ask) |
 | `machine-inventory` | "machine inventory", "I just installed ffmpeg" | Records what this machine has installed in `~/.claude/machine.md`, so projects prefer it before proposing a tool |
+| `session-family` | "set up a session family", "cross-session family" | Only when you ask: sets up several local sessions to work together, with one manager, a register, and rules for who may message, decide and edit what. Never offered |
 
 **Design motifs** — [`standards/motifs.md`](standards/motifs.md): 35 families of themes
 a project's interface can be designed around, in seven groups — Stationery, Classroom,
@@ -98,8 +99,8 @@ In any Claude Code session:
 ```
 
 The skills appear as `fleet:checkpoint`, `fleet:relay`, `fleet:new-project`,
-`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards`, `fleet:propose-standard`
-and `fleet:machine-inventory`.
+`fleet:design-motif`, `fleet:ai-setup`, `fleet:sync-standards`, `fleet:propose-standard`,
+`fleet:machine-inventory` and `fleet:session-family`.
 To receive updates automatically, open `/plugin` → **Marketplaces** → `tanveerfb` →
 **Enable auto-update** (it is off by default). Otherwise run
 `/plugin marketplace update tanveerfb` now and then.
@@ -142,8 +143,8 @@ node fleet-standards/standards/scripts/install-skills.mjs
 
 | Installs | To | Read by |
 | --- | --- | --- |
-| The eight skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
-| The eight skills | `~/.codex/skills/` | OpenAI Codex |
+| The nine skills | `~/.agents/skills/` | Gemini CLI, GitHub Copilot, Cursor |
+| The nine skills | `~/.codex/skills/` | OpenAI Codex |
 | The rules set, templates and scripts | `~/.agents/fleet/` | The skills, which look for the standard there |
 
 Restart your agent afterwards. To update: `git pull` in the clone and run the installer again
@@ -275,7 +276,8 @@ standards/                        the standard — also the `fleet` plugin
   adopting-the-standard.md        bringing an existing project onto the standard
   templates/                      starting files for a project
   skills/                         checkpoint, relay, new-project, design-motif, ai-setup,
-                                  sync-standards, propose-standard, machine-inventory
+                                  sync-standards, propose-standard, machine-inventory,
+                                  session-family
   process-x.md                    Process X: the whole-product audit, step by step
   hooks/hooks.json                startup check: offers sync-standards when rules fall behind;
                                   relay after a compact or a resume; shell-write guard:

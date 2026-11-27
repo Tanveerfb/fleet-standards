@@ -267,6 +267,9 @@ untrue or incomplete:
   privacy policy, terms and cookie notice promise with what `data-model.md` records and the
   code does. Say in Step 8 whether they still agree; a promise nothing implements is a
   defect to raise, never a line to reword unasked.
+- **`docs/family.md`**, in a project whose `CLAUDE.md` declares `Family:` (§FAMILY) — a
+  family's manager updates the register's owner and *Awake* lines; any family session with
+  members awake runs the cross-checkpoint: what went stale on each side, one line each way.
 - **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
 - Any other document the project keeps that the session's changes made untrue.
 

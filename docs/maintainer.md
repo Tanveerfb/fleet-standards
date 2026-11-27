@@ -47,8 +47,8 @@ versions of the same rules file at once.
   `standards/.claude-plugin/plugin.json`), and, if the skill reads a new file from the
   standard, that file in `REFERENCE` in `standards/scripts/standard.mjs`. Decide whether
   projects get a copy: `copy-skills-to-project.mjs` copies every skill except those in its
-  `SKIP_SKILLS` list (today `new-project` and `machine-inventory`, which a cloud session has
-  no use for). Keep the description within the budget under *Checks*.
+  `SKIP_SKILLS` list (today `new-project`, `machine-inventory` and `session-family`, which a
+  cloud session has no use for). Keep the description within the budget under *Checks*.
 - **The startup check** — `standards/hooks/hooks.json` runs
   `standards/scripts/check-rules-version.mjs` when a session starts. It prints only when the
   project's rules are behind the plugin's copy and the owner has not declined that version;

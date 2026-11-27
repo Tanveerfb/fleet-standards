@@ -66,6 +66,11 @@ section, `PROJECT.md`) and say in the report that the convention isn't
 followed. A `=== HANDOFF ===` block from another plugin is a hint, not the
 record — where it disagrees with `Start here`, report the disagreement.
 
+**A session in a family sets cross-session first.** If `CLAUDE.md` declares `Family:`
+(`rules/options/family.md` §FAMILY), set cross-session from who is active before anything
+else, as the `session-family` skill's Step 2 says, and give it one line of the report. No
+`Family:` line: nothing to do, and never offer one.
+
 ## After a compact or a resume
 
 The fleet's `SessionStart` hook (matcher `compact|resume`) asks for relay first. **It runs in

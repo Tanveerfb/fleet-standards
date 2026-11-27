@@ -52,6 +52,7 @@ core. The rest are loaded only where they apply:
 | `rules/options/trello.md`, `firebase.md`, `sqlite.md` | Things a project opts into at setup | Projects that chose them |
 | `rules/options/ai.md` | AI and model features | Read on demand by projects that chose it |
 | `rules/options/credit.md` | The studio credit and showcase | Read on demand, by the skills that reach its steps |
+| `rules/options/family.md` | A family of local sessions that message each other | Projects whose owner asked for one; never asked at setup |
 
 | Kind of repository | Loads |
 | --- | --- |
@@ -72,7 +73,8 @@ files declared. A section that divides between files keeps its name in each.
 
 **The options are asked about once.** `new-project` and `sync-standards` ask about each —
 the studio credit, a Trello board, Firebase or SQLite, AI — and record the answer, so a project that
-never opted in has still been asked.
+never opted in has still been asked. A family of sessions is the exception: it is added only
+when the owner asks for one, and no skill offers it.
 
 **Two options are read, not imported.** `rules/options/ai.md`: `CLAUDE.md` and
 `src/lib/ai/CLAUDE.md` each carry a line saying to read it before any work on an AI feature;

@@ -236,7 +236,9 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    `no-trello`, `credit` or `no-credit`): item 1 copies what this part declares, so an option
    missing from it is never copied or updated. Those two also keep their details on their own
    lines (`Trello board:`; `Studio credit:` and `Studio showcase:`). With no studio in the
-   owner's file the credit is not asked and not listed. An option is copied and
+   owner's file the credit is not asked and not listed. **`family` is never asked about**
+   (§SCOPE): where `Options:` already declares it, its file is copied and updated like any
+   other; where it does not, say nothing of it. An option is copied and
    imported like any other file, except two that are read on demand (§SCOPE): `credit`,
    which is copied but never imported — the skills read it when they reach its step, so
    read it before asking the credit questions — and `ai`: add the template's
@@ -394,7 +396,7 @@ skills are never on that list (`.claude/fleet/copied.json` records what the sync
 `relay` or `checkpoint`): the script never overwrites it and copies the rest. Name it to the
 owner; keeping it is a granted divergence for `conventions.md`, and taking the fleet skill
 means the owner renames or retires theirs first.
-Otherwise run the same command without `--check`. It writes every skill but `new-project` and `machine-inventory` to `.claude/skills/` and the files
+Otherwise run the same command without `--check`. It writes every skill but `new-project`, `machine-inventory` and `session-family` to `.claude/skills/` and the files
 they read to `.claude/fleet/`, and adds two hooks to `.claude/settings.json`, merged with
 whatever the file already holds: the §AGENTS shell-write hook
 (`.claude/fleet/scripts/block-shell-writes.mjs`) and the relay-after-compact hook
