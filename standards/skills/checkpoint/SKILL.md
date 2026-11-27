@@ -257,20 +257,39 @@ untrue or incomplete:
   `CLAUDE.md`** (`wc -c`, or the file's size in PowerShell): past 50 KB, propose a split by
   §SCALE in Step 9's question, with the sections that would move and where. Never split
   unasked.
+
+**Then §DOCS's set, row for row** — each when its "Updated when" happened this session
+(`docs/STATUS.md`, `docs/log.md` and `docs/record/` are Step 3's):
+
+- **`conventions.md`** — a decision changed: an exception the owner granted, a choice
+  specific to this project, the profile block or Python's shape, a row of the document map.
 - **`decisions.md`** — the session's choices appended, and its "declined, never again" index
   at the top gaining a line for anything the owner ruled out.
-- **`components.md`**, **`docs/architecture.md`**, **`data-model.md`**, **`environment.md`**
-  and **`.env.example`** — where the session added, moved or removed what they list.
-  Where this session built or changed an interface piece or a shared helper, name in the log
-  entry what else does the same job, and whether it was joined, changed with it, or left
-  apart and why (§OWNER's three checks). "Nothing else does" is a fine answer, once searched
-  for.
+- **`design-system.md`** — a token or a rule changed: colours and their contrast ratios,
+  type, spacing, motion tokens, an exclusion, the motif record (`rules/ui.md` §DESIGN).
+- **`components.md`**, or its table in `design-system.md` — a component added, moved or
+  removed. Where this session built or changed an interface piece or a shared helper, name
+  in the log entry what else does the same job, and whether it was joined, changed with it,
+  or left apart and why (§OWNER's three checks). "Nothing else does" is a fine answer, once
+  searched for.
+- **`data-model.md`** — an entity, a relationship or an invariant changed.
+- **`environment.md`** and **`.env.example`** — a variable, a credential or an external
+  account appeared or went. Names, purposes and owners; never a value.
+- **`issues.md`** — an issue found, or closed, this session.
+- **`roadmap.md`** — a phase started or finished.
+- **`docs/architecture.md`** and the area `CLAUDE.md` files (§SCALE) — a module added, moved
+  or removed updates the map; a rule or trap that belongs to one area goes in that folder's
+  `CLAUDE.md`, not the root one.
 - **`docs/specs/`** (§SPECS) — if this session built or advanced work from a spec, update its
   status line: `in progress`, or `built` once its done-means criteria are verified. Without a
   board, the status word in the spec is the whole record; with one, Step 6 moves the card.
-- **Area `CLAUDE.md` files and `docs/architecture.md`** (§SCALE) — a module added, moved or
-  removed updates the map; a rule or trap that belongs to one area goes in that folder's
-  `CLAUDE.md`, not the root one.
+
+**And the records other rules keep:**
+
+- **A design the owner locked this session** (§OWNER) — the approved mockup is moved to
+  `docs/design/<name>.html` with its `decisions.md` entry. Drafts are gitignored, so a lock
+  that is not moved never reaches git: check for one before the git step.
+- **`demo-shortcuts.md`** (`rules/app.md` §SHORTCUTS) — a shortcut taken or paid back.
 - **The legal pages against `data-model.md`** (§SECURITY, *A legal page is a spec*) — when
   this session touched data storage, retention or what a form collects, compare what the
   privacy policy, terms and cookie notice promise with what `data-model.md` records and the
