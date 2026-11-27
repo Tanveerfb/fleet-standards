@@ -292,7 +292,11 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    without the owner's yes for that item; each is a setting or a workflow, never a guess.
    - *Branch protection.* *If the project has a GitHub remote and `conventions.md` records
      no protection gap,* read the default branch's protection (`gh api
-     repos/<owner>/<repo>/branches/<branch>/protection`). A 404 means none: if force pushes
+     repos/<owner>/<repo>/branches/<branch>/protection`) **and the rulesets that apply to it**
+     (`gh api repos/<owner>/<repo>/rules/branches/<branch>`): a branch guarded by a ruleset
+     answers 404 on the first call and is protected all the same. `deletion` and
+     `non_fast_forward` rules there are the two the standard asks for everywhere, and
+     `pull_request` the one a multi-branch project needs. A 404 with no such rules means none: if force pushes
      or deletion are allowed, or a multi-branch project does not require pull requests, say
      so and offer to turn it on (the owner's yes; the same call `new-project` Step 4.5 makes).
      **A 403 saying the feature needs another plan** (a private repository on a free plan)
