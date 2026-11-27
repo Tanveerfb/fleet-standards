@@ -36,6 +36,12 @@ versions of the same rules file at once.
   `sync-standards` a Step 4 check if projects already on the standard need it. The installer
   and the project copies need nothing: `REFERENCE` in `standards/scripts/standard.mjs` lists
   the `rules` folder whole.
+- **The CI templates** (`templates/gates.yml`, `gates-python.yml`) pin every action by
+  commit. At each release, look up the current release of each action (`gh api
+  repos/<owner>/<action>/releases`), take the newest that is at least two weeks old, and
+  pin its commit (`gh api repos/<owner>/<action>/commits/<tag>`); the tests check the pins
+  are commits, not that they are current. The first template shipped a major behind what
+  the fleet's own projects already ran.
 - **Skills, templates** — no version bump. The plugin has no `version` field on purpose, so
   every commit to `main` is an update for anyone with auto-update on.
 - **`motifs.md`** — adding or changing a family or variant needs no rules version bump, but
