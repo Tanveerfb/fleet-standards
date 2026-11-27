@@ -84,6 +84,7 @@ Then branch:
 | **None** | Not on the standard at all | Stop. This is an adoption, not a sync — a migration that writes `conventions.md` and changes no code. Point at `adopting-the-standard.md` and ask whether to start it. |
 | **Same version, same content** | Current | Say so, then Step 5 only. |
 | **Same version, different content** | Edited in place inside this project | Show the diff. That edit is either a fix the master should get — offer `propose-standard` — or a local divergence that belongs in `conventions.md`. Never overwrite it silently. |
+| **Same version, different content, and the master is a named folder whose changelog's top entry says `unreleased`** | A pilot of the next release: its version line is not bumped until it ships | Tell the two apart first: compare the project's files with the master's **last release** (`git -C <master> show <the release's commit>:standards/<file>`, the commit that dated the newest released changelog entry). No difference: the project is unedited and behind the pilot, so Steps 2–6, and say in the report that the version line will not move until the release. A difference: the row above, for those lines. |
 | **Older** | Behind | Steps 2–6. |
 | **Newer than the master** | The master is behind, or the plugin copy is stale | Stop and say which. Never downgrade. |
 
