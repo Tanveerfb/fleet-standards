@@ -52,6 +52,14 @@ dependency-cruiser or madge.
 - A small library such as `@t3-oss/env-nextjs` does the same job; the owner chooses (§AGENTS)
 - **Before pushing server-rendered changes, deploy a preview.** A green local build does not
   prove a dynamic route works on the platform (`adopting-the-standard.md`, section 5)
+- **Security headers from the first deploy.** `next.config` sets a baseline on every route
+  through `headers()`: `Content-Security-Policy: frame-ancestors 'self'` (or
+  `X-Frame-Options: SAMEORIGIN`), `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy: strict-origin-when-cross-origin`, and `Strict-Transport-Security` where
+  the host doesn't add it. A fuller Content-Security-Policy is the project's choice, recorded
+  in `decisions.md`. **`images.remotePatterns` names the project's own hosts and buckets**,
+  never a wildcard over a shared service — `/v0/b/<project>.firebasestorage.app/**`, not
+  `/v0/b/**`
 
 *§RUNTIME's version pinning and the startup check are in `rules/node.md`.*
 
