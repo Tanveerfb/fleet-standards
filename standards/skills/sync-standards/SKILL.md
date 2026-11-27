@@ -313,6 +313,15 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
      uses one,* say which; removing them is the owner's.
    A project with no GitHub remote skips this check and says so.
 
+   **n. CI runs the gates (§BUILD).** *If the project has a GitHub remote, gates to run (a
+   Node or web project, a Python package) and no workflow that runs them,* offer the
+   template for its kind: `${CLAUDE_PLUGIN_ROOT}/templates/gates.yml`, or
+   `gates-python.yml`, copied to `.github/workflows/` with `cp` on the owner's yes, as for
+   any workflow. Say what it needs first: `.nvmrc` and a committed lockfile for Node,
+   `uv.lock` for Python. *If a workflow already runs some of the gates,* name the ones it
+   lacks and leave the file to the owner. A build that needs secrets is said, not solved
+   here: the template's comment says how.
+
    **A release that needs a new check adds it here**, as the next letter, and names it in its
    changelog entry's *What a project must change* list, so every later sync runs it and a
    project several versions behind takes the same path.

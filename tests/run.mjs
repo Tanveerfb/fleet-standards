@@ -230,6 +230,21 @@ section("Credential hook (standards/templates/pre-commit)");
 }
 
 // ---------------------------------------------------------------------------------------------
+section("CI templates (standards/templates/gates*.yml)");
+{
+  // A workflow a project copies in runs unattended: the same rules §SECURITY sets for any.
+  for (const name of ["gates.yml", "gates-python.yml"]) {
+    const text = read(`standards/templates/${name}`);
+    const uses = [...text.matchAll(/^\s*-?\s*uses:\s*(\S+)/gm)].map((m) => m[1]);
+    const unpinned = uses.filter((u) => !/@[0-9a-f]{40}$/.test(u));
+    check(`${name}: ${uses.length} actions, each pinned by commit`, uses.length >= 2 && unpinned.length === 0, unpinned.join(", "));
+    check(`${name}: read-only permissions`, /^permissions:\n  contents: read$/m.test(text));
+    check(`${name}: no secret is read`, !/\$\{\{\s*secrets\./.test(text));
+    check(`${name}: a timeout`, /timeout-minutes:\s*\d+/.test(text));
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
 section("Relay after compact (standards/scripts/after-compact.mjs)");
 {
   const script = join(S, "scripts", "after-compact.mjs");

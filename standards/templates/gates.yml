@@ -1,0 +1,72 @@
+name: gates
+
+# The fleet standard's gates in CI (rules/node.md §BUILD): typecheck, lint, tests and build
+# on every push and every pull request. Copy to .github/workflows/gates.yml. The agent still
+# runs the gates by hand during work; this is the net, not the method.
+#
+# It finds the package manager from the lockfile (pnpm-lock.yaml, else npm), so nothing here
+# needs editing for either. A step whose script the project does not have is skipped.
+# A build that needs secrets: say in a comment which steps are skipped and why; never put a
+# secret in this file.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gates-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      # pnpm projects only. Reads the version from package.json's "packageManager" (§NPM).
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        if: hashFiles('pnpm-lock.yaml') != ''
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ hashFiles('pnpm-lock.yaml') != '' && 'pnpm' || 'npm' }}
+
+      - name: Install
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            echo "PM=pnpm" >> "$GITHUB_ENV"
+            pnpm install --frozen-lockfile
+          else
+            echo "PM=npm" >> "$GITHUB_ENV"
+            npm ci
+          fi
+
+      # Next.js generates its route types (PageProps, RouteContext); a fresh checkout has
+      # none, and tsc fails without them.
+      - name: Next.js route types
+        if: hashFiles('next.config.*') != ''
+        run: npx --no-install next typegen
+
+      - name: Typecheck
+        run: npx --no-install tsc --noEmit
+
+      - name: Lint
+        run: $PM run --if-present lint
+
+      - name: Tests
+        run: $PM run --if-present test
+
+      # The project's own gates go here, one step each, e.g.:
+      # - name: Contrast audit
+      #   run: $PM run audit:contrast
+
+      - name: Build
+        run: $PM run --if-present build

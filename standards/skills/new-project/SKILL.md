@@ -181,6 +181,11 @@ Each on its own yes from the owner (§GIT, *An approval does not generalise*):
    Through the repository's settings or `gh api`; where the plan does not allow it, record
    the gap in `conventions.md`. This step outlives the session: if the first push has not
    happened, put it in `Start here` as the first open item.
+4. **The gates in CI (§BUILD),** for a kind with gates to run: copy
+   `${CLAUDE_PLUGIN_ROOT}/templates/gates.yml` (Node and web) or `gates-python.yml` (a
+   Python package) to `.github/workflows/gates.yml` with `cp`; a project of two kinds takes
+   both, the second under its own name. It needs `.nvmrc` (Node) and the lockfile committed.
+   A folder of scripts, a game and a repository without application code take none.
 
 ## Step 5 — Design first, where there is a visual surface
 
