@@ -108,6 +108,25 @@ start or end. Eleven of its twelve findings are fixed:
   rules ask of code already live.
 - *Adding an option* also adds a kind's file to a project that outgrew its *Rules* line.
 
+A real sync of the studio's two repositories, the first of any project on v4, proved the
+release and found nine more faults, all fixed: a pilot against an unreleased master is told
+from a local edit; **copies are compared and written with LF**, so a Windows checkout no
+longer shows every file changed, and the credential hook is copied by the script so it
+cannot arrive with line endings that stop it running; a rules file left behind by a declined
+option is reported and removed on a yes; a moot exception can become the project's own
+rule; the `AGENTS.md` and `GEMINI.md` pointers are compared with the template; the upgrade
+report covers Step 5; and the sync closes by running the update check.
+
+### The update check
+
+**A release now reaches a project by itself.** The plugin's check ran only when a session
+was new, and compared the project with the installed plugin, which does not update unless
+the marketplace's auto-update is on: so a release reached no one. It now also runs when a
+session is resumed or compacted (at most once a day per project), and **once a day asks
+GitHub what the released version is**: one small public file, nothing about the project
+sent, silent when offline, off with `FLEET_MASTER_URL=off`. Where the plugin is behind, the
+agent asks whether to update it and then sync. A no stays quiet until a newer version.
+
 ### What a project must change
 
 `sync-standards` does each of these, or lists it, in its upgrade report.

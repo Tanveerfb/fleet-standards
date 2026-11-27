@@ -218,11 +218,14 @@ kickoff prompt for your agent.
   found it. Nothing changes until you say yes; afterwards it runs the checks again and says
   what is still left. A project coming from v3's single file takes the same path. You rarely
   need to remember:
-  when a new session starts in a project whose rules are behind the plugin's copy, the
-  plugin's startup check has the agent ask whether to sync. Say no, and it stays quiet until
-  a newer version ships. `relay` makes the same check, which covers cloud sessions (they do
-  not install plugins) and other agents. Turn on the marketplace's auto-update, or the
-  plugin's own copy goes stale and the check has nothing new to compare against.
+  the plugin's update check has the agent ask you. It runs when a session starts, and at
+  most once a day per project when one is resumed or compacted. It compares the project's
+  rules with the plugin's copy, and **once a day asks GitHub what the released version is**
+  (one small public file is fetched; nothing about your project is sent; offline, it stays
+  silent). So a release reaches you even when the plugin has not updated itself: the agent
+  then asks whether to update the plugin and sync. Say no, and it stays quiet until a newer
+  version ships. Set `FLEET_MASTER_URL=off` to stop it asking GitHub. `relay` makes the
+  same check, which covers cloud sessions (they do not install plugins) and other agents.
 - Agents change files with their editor tools, never the shell, so you see a reviewable diff.
   The plugin enforces it: a hook refuses inline Python or Node scripts and heredocs that
   write files (`§AGENTS`); `sync-standards` adds the same hook to each project for cloud
@@ -279,10 +282,10 @@ standards/                        the standard — also the `fleet` plugin
                                   sync-standards, propose-standard, machine-inventory,
                                   session-family
   process-x.md                    Process X: the whole-product audit, step by step
-  hooks/hooks.json                startup check: offers sync-standards when rules fall behind;
+  hooks/hooks.json                update check: offers sync-standards when rules fall behind;
                                   relay after a compact or a resume; shell-write guard:
                                   refuses inline scripts and file-writing heredocs (§AGENTS)
-  scripts/check-rules-version.mjs the script behind the startup check
+  scripts/check-rules-version.mjs the script behind the update check
   scripts/after-compact.mjs       the script behind relay-after-compact
   scripts/block-shell-writes.mjs  the script behind the shell-write guard
   scripts/copy-skills-to-project.mjs  copies the skills into a project for cloud sessions

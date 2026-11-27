@@ -311,9 +311,10 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   mkdirSync(none);
   const data = join(scratch, "data");
   const state = join(data, "sync-declined.json");
+  // FLEET_MASTER_URL "off": no test asks the network what is released.
   const hook = (project, withData = true) =>
     run("node", [script], {
-      env: { ...process.env, CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, ...(withData ? { CLAUDE_PLUGIN_DATA: data } : {}) },
+      env: { ...process.env, FLEET_MASTER_URL: "off", CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, ...(withData ? { CLAUDE_PLUGIN_DATA: data } : {}) },
     });
   const decline = (v) => run("node", [script, "--decline", state, behind, v]);
 
@@ -336,6 +337,35 @@ section("Startup check (standards/scripts/check-rules-version.mjs)");
   writeFileSync(state, "null");
   check("a state file holding null: still speaks", hook(behind).stdout.includes("additionalContext"));
   check("and --decline over it records the version", decline(rulesVersion).status === 0 && JSON.parse(readFileSync(state, "utf8"))[behind] === rulesVersion);
+
+  // A release newer than the installed plugin, and sessions that resume or compact.
+  {
+    const data2 = join(scratch, "data-released");
+    const released = join(scratch, "released.md");
+    writeFileSync(released, "# Project Rules\n**Version:** 99.0.0\n");
+    const ask = (project, source, url = released, dir = data2) =>
+      run("node", [script], {
+        input: source ? JSON.stringify({ source }) : "",
+        env: { ...process.env, FLEET_MASTER_URL: url, CLAUDE_PROJECT_DIR: project, CLAUDE_PLUGIN_ROOT: S, CLAUDE_PLUGIN_DATA: dir },
+      });
+    const first = ask(current, "startup");
+    check("a release newer than the plugin: says so, and to update the plugin first", first.stdout.includes("v99.0.0 is released") && first.stdout.includes("claude plugin marketplace update tanveerfb"), first.stdout);
+    const cache = JSON.parse(readFileSync(join(data2, "update-check.json"), "utf8"));
+    check("the answer is remembered with its time", cache.latest === "99.0.0" && typeof cache.checkedAt === "number");
+    writeFileSync(released, "# Project Rules\n**Version:** 100.0.0\n");
+    check("within a day the remembered answer is used, not asked for again", ask(current, "startup").stdout.includes("v99.0.0"));
+    check("a resumed session already asked today: silent", silent(ask(current, "resume")));
+    check("a compacted one too", silent(ask(current, "compact")));
+    const fresh = join(scratch, "data-resume");
+    check("a resumed session not yet asked today: speaks", ask(current, "resume", released, fresh).stdout.includes("v100.0.0 is released"));
+    check("and then stays quiet for the day", silent(ask(current, "resume", released, fresh)));
+    check("a new session is always asked", ask(current, "startup", released, fresh).stdout.includes("is released"));
+    run("node", [script, "--decline", join(fresh, "sync-declined.json"), current, "100.0.0"]);
+    check("declining the released version: silent until a newer one", silent(ask(current, "startup", released, fresh)));
+    const offline = join(scratch, "data-offline");
+    check("an unreachable master: silent, never an error", ask(current, "startup", join(scratch, "no-such-file.md"), offline).status === 0 && silent(ask(current, "startup", join(scratch, "no-such-file.md"), offline)));
+    check("the plugin's own version is not reported as a release", silent(ask(current, "startup", join(S, "project-rules.md"), join(scratch, "data-same"))));
+  }
 
   // The declared set (rules-line.mjs): a current core with the set wrong is not silent.
   const setProject = (name, claude, files) => {

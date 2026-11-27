@@ -56,12 +56,18 @@ versions of the same rules file at once.
   projects get a copy: `copy-skills-to-project.mjs` copies every skill except those in its
   `SKIP_SKILLS` list (today `new-project`, `machine-inventory` and `session-family`, which a
   cloud session has no use for). Keep the description within the budget under *Checks*.
-- **The startup check** — `standards/hooks/hooks.json` runs
-  `standards/scripts/check-rules-version.mjs` when a session starts. It prints only when the
-  project's rules are behind the plugin's copy and the owner has not declined that version;
-  declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by project path. It
-  must stay silent on every error and never block a session. Test it by pointing
-  `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` at a scratch folder.
+- **The update check** — `standards/hooks/hooks.json` runs
+  `standards/scripts/check-rules-version.mjs` on every `SessionStart`: always on `startup`,
+  and at most once a day per project on `compact|resume` (the owner keeps sessions alive,
+  so a startup-only check never ran for them). It prints when the project's rules are
+  behind the plugin's copy, **or behind what is released on `main`**, which it asks GitHub
+  for once a day (`raw.githubusercontent.com`, the core's version line; the answer and the
+  time are kept in `${CLAUDE_PLUGIN_DATA}/update-check.json`). The plugin does not update
+  itself unless the marketplace's auto-update is on, so before this a release reached no
+  one. The owner's declines live in `${CLAUDE_PLUGIN_DATA}/sync-declined.json`, keyed by
+  project path. It must stay silent on every error, offline, and with `FLEET_MASTER_URL=off`,
+  and never block a session. Test it by pointing `CLAUDE_PROJECT_DIR`, `CLAUDE_PLUGIN_ROOT`
+  and `CLAUDE_PLUGIN_DATA` at a scratch folder, and `FLEET_MASTER_URL` at a local file.
   Claude Code only: cloud sessions and other agents rely on `relay` Step 7 instead.
 - **The shell-write hook** — `standards/hooks/hooks.json` also runs
   `standards/scripts/block-shell-writes.mjs` before every Bash command (§AGENTS). It exits 2
