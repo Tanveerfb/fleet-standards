@@ -703,6 +703,28 @@ section("Skill copies (standards/scripts/copy-skills-to-project.mjs)");
     copy();
   }
 
+  // Line endings (the tinker-together pilot, T2 and T3): a Windows checkout holds CRLF.
+  {
+    const crlf = join(scratch, "crlf");
+    mkdirSync(crlf);
+    writeFileSync(join(crlf, "project-rules.md"), `**Version:** ${rulesVersion}\n`);
+    run("node", [script, crlf]);
+    const relay = join(crlf, ".claude", "skills", "relay", "SKILL.md");
+    const guard = join(crlf, ".claude", "fleet", "scripts", "block-shell-writes.mjs");
+    check("copies are written with LF", !readFileSync(relay, "utf8").includes("\r") && !readFileSync(guard, "utf8").includes("\r"));
+    for (const f of [relay, guard]) writeFileSync(f, readFileSync(f, "utf8").replace(/\n/g, "\r\n"));
+    const again = run("node", [script, crlf, "--check"]);
+    check("a copy that differs only in line endings is not a change, nor an edit", again.status === 0 && !again.stdout.includes("edited"), again.stdout);
+    const hookFile = join(crlf, ".githooks", "pre-commit");
+    check("--credential-hook --check on a project without it: reports, writes nothing", run("node", [script, crlf, "--credential-hook", "--check"]).status === 1 && !existsSync(hookFile));
+    run("node", [script, crlf, "--credential-hook"]);
+    check("--credential-hook writes the hook with LF", existsSync(hookFile) && !readFileSync(hookFile, "utf8").includes("\r"));
+    writeFileSync(hookFile, readFileSync(hookFile, "utf8").replace(/\n/g, "\r\n"));
+    const endings = run("node", [script, crlf, "--credential-hook"]);
+    check("a CRLF hook is rewritten, and said to differ in line endings only", endings.stdout.includes("line endings") && !readFileSync(hookFile, "utf8").includes("\r"), endings.stdout);
+    check("and nothing else is written by --credential-hook", run("node", [script, crlf, "--credential-hook", "--check"]).status === 0);
+  }
+
   // The hooks without the skill copies (the pilots, P4).
   {
     const declined = join(scratch, "hooks-only");

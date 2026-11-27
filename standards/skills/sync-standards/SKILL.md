@@ -77,6 +77,14 @@ again, then stop.
   compared with the master's. No *Rules* line means the project is still on the single
   file from before v4: Step 4 moves it onto the set.
 
+**Compare content, never line endings.** A Windows checkout with `core.autocrlf` holds CRLF,
+so a plain diff shows a whole file changed. Diff with
+`git diff --no-index --ignore-cr-at-eol` (or `diff --strip-trailing-cr`); the scripts already
+compare this way.
+
+**On Windows, run the scripts from PowerShell** if Git Bash prints a Node version manager's
+environment error or turns `/e/...` into a wrong path: `node "<full Windows path>" …`.
+
 Then branch:
 
 | Project copy | Meaning | Do |
@@ -381,7 +389,7 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
 **The hook scripts are shown before they are copied.** They run unattended, on every shell
 command and after every compact, from a master copied off `main`. For each
 `.claude/fleet/scripts/` line `--check` lists as new or changed, show the owner the diff
-(`git diff --no-index <the project's copy> <the master's>`, or the master file whole when
+(`git diff --no-index --ignore-cr-at-eol <the project's copy> <the master's>`, or the master file whole when
 it is new) and say what the change does, before the run that writes it. A change nobody can
 explain is not copied; raise it as §SECURITY says.
 
@@ -419,7 +427,10 @@ inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never 
 **The credential hook (§SECURITY).** If `.githooks/pre-commit` is missing, or differs from
 `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit`, show the difference and ask before copying —
 a project may have narrowed the pattern on purpose, which is a `propose-standard` candidate
-rather than something to overwrite. Copy with `cp` (never retype it), then:
+rather than something to overwrite. Copy it with the script, never `cp` and never retyped:
+`node "${CLAUDE_PLUGIN_ROOT}/scripts/copy-skills-to-project.mjs" "<project root>"
+--credential-hook` writes it with LF line endings whatever the master checkout holds (a
+CRLF hook does not run). Then:
 
 ```bash
 git config core.hooksPath .githooks

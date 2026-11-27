@@ -159,7 +159,10 @@ standard's files alone; the work's own files come with the work.
 - **`AGENTS.md` and `GEMINI.md`** — the pointer from `templates/AGENTS.template.md`; in an
   existing `AGENTS.md`, above any generated block, never inside it.
 - **The credential hook (§SECURITY)** — copy `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit` to
-  `.githooks/pre-commit` with `cp`, then `git config core.hooksPath .githooks`. Mark it
+  `.githooks/pre-commit` with `cp`, check it has LF line endings (a CRLF hook does not run:
+  `git ls-files --eol` after staging, or copy it with `copy-skills-to-project.mjs
+  --credential-hook` once the project has its rules file), then
+  `git config core.hooksPath .githooks`. Mark it
   executable when the owner's first commit adds it (`git add --chmod=+x`). Copy
   `${CLAUDE_PLUGIN_ROOT}/templates/.gitattributes` to the project root with it, so the hook
   and any shell script keep LF on a Windows checkout (§GIT).
