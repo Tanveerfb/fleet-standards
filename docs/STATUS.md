@@ -23,10 +23,16 @@ skill `session-family`. **Phase 6 is built** (`5641882` to `2be287e`): `checkpoi
 (`checkpoint-document-map`, `relay-rules-line`; seventeen in all). **Phase 7 is written
 but for the release's own lines:** the changelog entry `4.1.0 · Satluj — unreleased` is in;
 the version line still reads 4.0.0 and the README's *Versions* line too, both set at the
-release. **Next is phase 8:** a real sync of `tinker-together`, run by the "Tinker Together
-Main" session on one message from here against this checkout; the owner answers its
-questions there, and no approval is relayed. Then phase 9: the evals for what changed (the
-owner's go, they cost usage), the version and date, and the release on `git CPR`. No open
+release. **Phase 8 is done:** the "Tinker Together Main" session synced the studio's site
+and its admin repository for real against this checkout, on the owner's answers there
+(`docs/audits/2026-11-27-pilot-tinker-together.md`); its nine findings are built as T1 to
+T9, with the owner's pick of **an update check that asks GitHub once a day** and runs on
+resume and compact (`f024f7e`). **All seventeen evals score 1.00 with the plugin** on the
+final skills (2026-11-27; about $5.30 with three reruns). **What is left is the release
+itself, on the owner's `git CPR`:** the version line to 4.1.0, the changelog's date, the
+README's *Versions* line, a checkpoint with its log entry, then the merge pull request into
+`main`. Not verified: a second real sync showing the T fixes work; the two synced
+repositories hold pre-fix copies, uncommitted, until their owner's checkpoint. No open
 questions.
 **Blocked on:** nothing.
 **Don't trust:** no `sync-standards` has run against a real project on v4 — only the
