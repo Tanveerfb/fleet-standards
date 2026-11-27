@@ -435,6 +435,10 @@ and `GEMINI.md` (Gemini CLI), each holding the pointer from
 `${CLAUDE_PLUGIN_ROOT}/templates/AGENTS.template.md`. `CLAUDE.md` stays the one file with
 content; these only point at it. If a tool already generated an `AGENTS.md` (Next.js does,
 inside a `<!-- BEGIN:… -->` block), add the pointer above the block and never edit inside it.
+**Compare each pointer with the template, as the credential hook is compared**, not only
+for being there: a pointer from before v4 names `project-rules.md` alone, so another agent
+never reads the files under `rules/`. Show the difference and bring it up to the template
+on a yes, keeping any generated block and anything the project added below the pointer.
 
 **The credential hook (§SECURITY).** If `.githooks/pre-commit` is missing, or differs from
 `${CLAUDE_PLUGIN_ROOT}/templates/pre-commit`, show the difference and ask before copying —
@@ -498,7 +502,15 @@ name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 
 **Run the upgrade report's checks again, read-only**, on the project as it now is. Every
 item the sync was to do should be gone; anything still there is reported plainly as not
-done, with why, never left out.
+done, with why, never left out. Three checks close it, each said in the report:
+
+- **the startup check is silent:** run
+  `node "${CLAUDE_PLUGIN_ROOT}/scripts/check-rules-version.mjs"` from the project root. It
+  prints nothing when the rules are current and the *Rules* line matches the folder;
+- **`AGENTS.md` and `GEMINI.md` exist** and match the template, unless the project recorded
+  a refusal of them (an earlier sync left one repository with neither, and nothing noticed);
+- **`copy-skills-to-project.mjs --check` says every copy is current**, where the project
+  takes the copies.
 
 - Version moved from → to, or "already current".
 - The upgrade report's items: done, left for later (and to whom), or still failing.
