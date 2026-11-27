@@ -281,6 +281,13 @@ Report, in this order and briefly:
 request of the owner's already waiting, the report comes first and the request is handled
 straight after it: that request is the go-ahead.
 
+**With nobody to answer** (a scheduled run, an Action; §ASK), the task the run was started
+for is the go-ahead, and it is still handled after the report. Whatever the report puts
+under *the user's call* is written into *Start here*'s **Blocked on**, with a recommendation
+each, where the session may write; nothing there is decided for the owner. **An unexplained
+change to what runs unattended still stops the run** (§SECURITY): write it up and do
+nothing else.
+
 This is the deliberate design: a stale handoff usually means someone else worked
 in the repo, and the user needs to know that before an agent acts on it. Ask for
 the go-ahead. If the handoff turned out to be perfectly accurate and the entry
