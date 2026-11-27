@@ -14,7 +14,7 @@
 //       command, with the paths filled in, because the agent's shell does not get the
 //       plugin's environment variables.
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { rulesProblems } from "./rules-line.mjs";
@@ -91,11 +91,19 @@ try {
     try {
       claude = readFileSync(join(projectDir, "CLAUDE.md"), "utf8");
     } catch {}
+    // The standard's files sitting in the project's rules/ folder, declared or not.
+    const present = [];
+    for (const dir of ["rules", "rules/options"]) {
+      try {
+        for (const name of readdirSync(join(projectDir, dir))) if (name.endsWith(".md")) present.push(`${dir}/${name}`);
+      } catch {}
+    }
     const problems = claude
       ? rulesProblems(
           claude,
           (file) => existsSync(join(projectDir, file)),
           (file) => existsSync(join(pluginRoot, file)),
+          present,
         )
       : [];
     if (problems.length) {

@@ -419,6 +419,11 @@ section("The Rules line reader (standards/scripts/rules-line.mjs)");
     check("so a declared file left unimported is not a problem", rulesProblems(text, () => true).length === 0, rulesProblems(text, () => true).join("; "));
     check("but a missing one still is", rulesProblems(text, (f) => f !== "rules/game.md").length === 1);
     check("without the marker, an unimported file is reported", rulesProblems("Rules: app\n", () => true).length === 1);
+    // A file left behind after its option was declined (the tinker-together pilot, T5).
+    const left = "Rules: app · Options: no-trello\n@rules/app.md\n";
+    const found = rulesProblems(left, () => true, () => true, ["rules/app.md", "rules\\options\\trello.md", "rules/options/mine.md"].filter((f) => !f.includes("mine")));
+    check("a standard file in rules/ the line does not declare is reported", found.length === 1 && found[0].includes("rules/options/trello.md"), found.join("; "));
+    check("a file the standard does not have is the project's own, and left alone", rulesProblems(left, () => true, (f) => f !== "rules/options/mine.md", ["rules/options/mine.md"]).length === 0);
   }
   check("imports read one per line", JSON.stringify(rulesImports("@project-rules.md\n@rules/app.md\n@./rules/ui.md\ntext @rules/no.md\n")) === JSON.stringify(["rules/app.md", "rules/ui.md"]));
 }

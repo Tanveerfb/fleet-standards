@@ -447,7 +447,11 @@ If the project uses husky (a `.husky/` folder), leave `core.hooksPath` to husky 
 **Imports match the *Rules* line (§SCOPE).** Check `CLAUDE.md` has one import line for the
 core and one for each declared file (`ai` excepted: it is read on demand), that each
 imported file exists in the project, and that nothing is imported that the line does not
-declare. Say what differs and fix it on a yes. A line ending `· read, not imported` has no
+declare. **A file of the standard's in `rules/` that the line does not declare** is a
+leftover: an option declined by editing the line (`no-trello`) leaves its file behind, and
+nothing loads or updates it. Name each and remove it on the owner's yes (`git rm`). A file
+there that is not the standard's is item 0's business, not this one's. Say what differs and
+fix it on a yes. A line ending `· read, not imported` has no
 import lines by the owner's decision: check only that each declared file exists.
 
 ## Adding an option to a project already on the set
