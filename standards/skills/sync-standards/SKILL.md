@@ -456,6 +456,13 @@ from Step 4 (c). Steps 0 and 1 still run first, so the option comes from a curre
    (§DOCS).
 4. One line in `decisions.md`: the option, the date, why.
 
+**A kind's file is added the same way** when a project outgrows its *Rules* line: a tool that
+gained an interface takes `ui`; a second language takes its file (`python` beside a web
+app, §SCOPE: a project of two kinds loads both); a repository that gained application code
+takes `app` and its language's file in place of `non-application`. Copy the file into
+`rules/`, add its name to the *Rules* part and its import, and for a kind change replace the
+profile block in `conventions.md`. The checkpoint offers this when a session made it true.
+
 Dropping an option is the same in reverse, on the owner's word: the file, the import and the
 name go; `decisions.md` says why. Git follows §GIT, as for a sync.
 

@@ -252,11 +252,20 @@ untrue or incomplete:
   commands and scripts, environment variables, deployment, screenshots. A new feature, a new
   script, a renamed command, a new env var, a changed setup step: each one is a README change.
 - **`CLAUDE.md`** and any area `CLAUDE.md` files — commands, the technology table, the
-  `Deploys`, `Trello board` and `Motif` lines, traps found this session. A replaced line
+  identity lines (`Deploys`, `Rules`, `Trello board`, `Motif`, the studio lines,
+  `Area files · Map`), traps found this session. A replaced line
   moves to `docs/record/` (Step 3); it is not kept beside the new one. **Measure the root
   `CLAUDE.md`** (`wc -c`, or the file's size in PowerShell): past 50 KB, propose a split by
   §SCALE in Step 9's question, with the sections that would move and where. Never split
   unasked.
+- **What the project loads (§SCOPE).** The *Rules* line says which rules files apply, and a
+  session can outgrow it: a repository without application code gained some; a tool gained
+  an interface; a second language arrived (a Python package beside a web app); a backend, an
+  AI feature or a board appeared (a `firebase` dependency, a SQLite driver, a model SDK). If
+  this session added one, say which files or option the project now needs and offer, in
+  Step 9's question, `sync-standards`' *Adding an option* or the new kind's files. Never
+  copy a rules file or edit the *Rules* line unasked; the same goes for a kind or option
+  the session removed.
 
 **Then §DOCS's set, row for row** — each when its "Updated when" happened this session
 (`docs/STATUS.md`, `docs/log.md` and `docs/record/` are Step 3's):
