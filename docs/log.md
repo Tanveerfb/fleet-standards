@@ -47,6 +47,10 @@ same session, resumed nine days after v4.0.0 ("lets continue"), now on Fable 5.2
   Checked at this checkpoint: tests pass, both plugin validations pass, sizes re-measured
   (the README said 62 and 42 KB for a web project and a Python tool; they are 67 and 44, and
   it now says so).
+- **Released**, checked after the merge: pull request #45 merged into `main` as `d849deb`
+  (a merge commit, after its checks passed); `main` reads `**Version:** 4.1.0` and holds
+  nine skills; CI on `main` succeeded; issues #35 to #39 and #41 to #44 closed with it, and
+  pull request #40. No tag, as before.
 
 **The mistakes worth keeping.**
 - My brief to the pilot said `tinker-together` was on 3.8.0 with no *Rules* line, from the

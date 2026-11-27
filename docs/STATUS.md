@@ -11,8 +11,9 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 **State:** **v4.1.0 · Satluj is released to `main`** by the 2026-11-27 checkpoint's
 `git CPR max`, as a merge pull request from the working branch
 `claude/new-project-mockup-zp2h2z` (local branch `v4.0.0`, its name from the earlier
-release). The newest entry of `docs/log.md` names the pull request; if `main`'s version line
-does not read 4.1.0, the release did not land and that entry says why.
+release): pull request #45, merged as `d849deb`, CI green on `main`, the nine proposal
+issues closed. This line and the log's *Released* item came in the checkpoint's follow-up
+commit, so they are on the working branch, not yet on `main`.
 **Next:** nothing is in flight. The two repositories the pilot synced
 (`tinker-together` and its admin) hold copies from before the pilot's own fixes, uncommitted
 until their owner's checkpoint there: a second sync after the plugin updates brings them the
