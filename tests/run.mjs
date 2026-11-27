@@ -201,6 +201,9 @@ section("Credential hook (standards/templates/pre-commit)");
     "API_KEY= assignment": "API_KEY" + `=${k(20)}`,
     "apiKey in code": "const apiKey" + ` = '${k(20)}';`,
     "sk- token": "OPENAI=" + "sk" + `-${k(24)}`,
+    "sk- token at the start of a line": "sk" + `-${k(24)}`,
+    "sk- token after a quote": 'key: "' + "sk" + `-${k(24)}"`,
+    "sk- token after a space": "the key is " + "sk" + `-${k(24)}`,
     "Google API key": "key: " + "AI" + `za${k(35, "B")}`,
     "Discord webhook URL": "hook = https://discord" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
     "Discord webhook URL, old domain": "https://discordapp" + `.com/api/webhooks/${k(18, "1")}/${k(40)}`,
@@ -218,6 +221,12 @@ section("Credential hook (standards/templates/pre-commit)");
   writeFileSync(join(dir, "prose.md"), "Invite: https://discord.com/invite/abc and the docs at discord.com/developers/docs/resources/webhook.\n");
   run("git", ["add", "prose.md"], { cwd: dir });
   check("passes: a Discord link that is not a webhook", runHook() === 0);
+  // A word ending in "sk" before a long hyphenated tail is not a key (issue #41).
+  for (const slug of ["the-real-risk-were-not-talking-about-today", "task-list-for-the-next-release-cycle", "desk-booking-system-for-the-office"]) {
+    writeFileSync(join(dir, "prose.md"), `Source: https://example.com/articles/${slug}\n`);
+    run("git", ["add", "prose.md"], { cwd: dir });
+    check(`passes: a slug with a word ending in sk (${slug.split("-").slice(0, 3).join("-")}…)`, runHook() === 0);
+  }
 }
 
 // ---------------------------------------------------------------------------------------------
