@@ -134,7 +134,10 @@ the standard's) and every check in item 4, from (a) to the last, against the pro
 anything; a `rules/` stop goes at the top of the report, so the owner sees it before saying
 yes. Add each *What a project must change* item from the changelog entries it is behind
 (entries before 4.0.0 have no such list: their "What a project does" lines, where they have
-them, serve). The result is **one upgrade report**, a line per item:
+them, serve). **Step 5's items belong in it too**, found the same read-only way: the skill
+copies and hooks (`copy-skills-to-project.mjs --check`), the credential hook
+(`--credential-hook --check`), the `AGENTS.md` and `GEMINI.md` pointers, the plugin wiring
+and the imports. The result is **one upgrade report**, a line per item:
 what is there now, what the sync will do, or what is left for later and to whom (history in
 `docs/STATUS.md` goes at the next checkpoint: say how many entries). Items that need the
 owner's value are marked. An item that does not apply is left out; an empty report is a fine
