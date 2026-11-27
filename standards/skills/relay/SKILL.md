@@ -136,6 +136,22 @@ and abandoned entries are what stop you re-proposing a dead end. Where the
 file opens with a "declined, never again" index, read that too: it is short,
 and it is the list of things not to propose.
 
+## Step 3b — Read `conventions.md`, and any rules the project reads rather than imports
+
+`conventions.md` is not loaded by itself, and it is where a project says how it differs:
+
+- **the profile block** at the top, in a game or a repository without application code, and
+  a Python project's shape (package or folder of scripts);
+- **the granted exceptions.** A divergence recorded as granted is settled (§SCOPE): never
+  raise it as a finding, never "fix" it;
+- **the open table**: known backlog, which is not this session's news either;
+- **the document map** (*§DOCS Document set — mapped, not duplicated*): where this project
+  keeps each document, which is where the steps above and the checkpoint look.
+
+**A project whose *Rules* line ends `· read, not imported`** loads none of its rules files
+by itself. Read the core and each file the line declares now, before the report: the rules
+apply all the same.
+
 ## Step 4 — Check git reality
 
 ```bash
