@@ -68,15 +68,18 @@ since they read the skills from this folder.
 
 | Pick | Problem | Outcome |
 | --- | --- | --- |
-| T1 | 1: a pilot against an unreleased master | |
-| T2, T3 | 2, 3: line endings, in the script and the skill | |
-| T4 | 4: a family already running | |
-| T5 | 5: a rules file the line no longer declares | |
-| T6 | 6: a moot exception restated as the project's rule | |
-| T7 | 7: the upgrade report covers Step 5 | |
-| T8 | 8: the gates template's pins | |
-| S | the Windows line; the startup check run after a sync | |
-| T9 | 9, 10: the pointers compared with the template, and re-checked in Step 6 (the owner: "Yes, both parts"; this reverses 2026-11-18's "not picked" for problem 14) | |
+| T1 | 1: a pilot against an unreleased master | **built** `9d32f7f` |
+| T2, T3 | 2, 3: line endings, in the script and the skill | **built** `444b92e`: copies compared and written with LF; `--credential-hook`; six tests |
+| T4 | 4: a family already running | **built** `47cc076` |
+| T5 | 5: a rules file the line no longer declares | **built** `b4b4ddd`: reported by `rules-line.mjs`; two tests |
+| T6 | 6: a moot exception restated as the project's rule | **built** `15b1bea` |
+| T7 | 7: the upgrade report covers Step 5 | **built** `c69dd70` |
+| T8 | 8: the gates template's pins | **built** `f51da01`: checkout v7.0.1, setup-node v7.1.0 |
+| S | the Windows line; the startup check run after a sync | **built** with `444b92e` and `aa7a693` |
+| T9 | 9, 10: the pointers compared with the template, and re-checked in Step 6 (the owner: "Yes, both parts"; this reverses 2026-11-18's "not picked" for problem 14) | **built** `aa7a693` |
+
+Every pick is built; the update check is `f024f7e`. Not done: a second real sync to see the
+fixes work. The two repositories synced here hold the pre-fix copies until their next sync.
 
 Also picked the same day, from the owner: **the update check asks GitHub once a day** and
 runs on resume and compact too (the startup check had never spoken: it ran only on a new

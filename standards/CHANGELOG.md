@@ -141,8 +141,11 @@ agent asks whether to update it and then sync. A no stays quiet until a newer ve
    sync; the work is the project's.
 5. **(m) Branch protection** is read again where an earlier sync said a ruleset-protected
    branch had none.
-6. **Step 5:** the credential hook is offered again, for the `sk-` fix. Nothing else: the
-   new §OWNER checks, the phone engines and §FAMILY ask nothing of a project at sync.
+6. **Step 5:** the credential hook is offered again, for the `sk-` fix; a rules file the
+   *Rules* line no longer declares (a declined option's) is removed on a yes; `AGENTS.md`
+   and `GEMINI.md` are brought up to the template, so other agents read the files under
+   `rules/`. Nothing else: the new §OWNER checks, the phone engines and §FAMILY ask nothing
+   of a project at sync.
 
 ---
 
