@@ -489,6 +489,11 @@ first time an agent duplicates something or works in the wrong place.
   Actions secrets has none
 - **An unexplained change under `.github/workflows/` is an incident until proven
   otherwise.** Do not run it, do not "fix" it; tell the owner first
+- **A legal page is a spec.** Whatever a privacy policy, terms or cookie notice promises —
+  what is collected, who it is shared with, how long it is kept, how it is deleted — is
+  built, tested where it is logic, and recorded in `data-model.md` beside the entity it
+  covers. A change to either side changes the other in the same commit. A promise nothing
+  implements is a defect, not a wording issue: fix the code or, on the owner's yes, the page
 
 ---
 

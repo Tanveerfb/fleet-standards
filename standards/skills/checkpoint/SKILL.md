@@ -258,6 +258,11 @@ untrue or incomplete:
 - **Area `CLAUDE.md` files and `docs/architecture.md`** (§SCALE) — a module added, moved or
   removed updates the map; a rule or trap that belongs to one area goes in that folder's
   `CLAUDE.md`, not the root one.
+- **The legal pages against `data-model.md`** (§SECURITY, *A legal page is a spec*) — when
+  this session touched data storage, retention or what a form collects, compare what the
+  privacy policy, terms and cookie notice promise with what `data-model.md` records and the
+  code does. Say in Step 8 whether they still agree; a promise nothing implements is a
+  defect to raise, never a line to reword unasked.
 - **A `CHANGELOG.md`**, if the project keeps one — an entry for what shipped.
 - Any other document the project keeps that the session's changes made untrue.
 
