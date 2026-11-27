@@ -613,3 +613,38 @@ How each open point was settled, by question:
 
 `main` is protected since 2026-11-27 by a ruleset of the owner's ("Main": no deletion, no
 force push), read back through the API.
+
+## 2026-11-27 — v4.1.0: what was decided while it was built
+
+- **The pilot ran in the project's own session.** The owner: the "Tinker Together Main"
+  session "is actually active right now ... you can send it a message". One message asked it
+  to sync against this checkout; every question went to the owner there, and nothing was
+  relayed as an approval. It synced the studio's site and its admin repository and reported
+  eleven findings (`docs/audits/2026-11-27-pilot-tinker-together.md`). The owner picked
+  every fix, T1 to T9, **including the `AGENTS.md` pointer check declined on 2026-11-18**
+  (problem 14 then): a real project had shown it biting.
+- **The update check asks GitHub once a day**, and runs on resume and compact. The owner:
+  "projects automatically don't know ... no project has done that so far to me". Why it had
+  never spoken: it ran only on a new session, and the owner resumes and compacts; and it
+  compared with the installed plugin, which does not update unless the marketplace's
+  auto-update is on. Turned down: no network, with the owner turning auto-update on; the
+  same check copied into projects for cloud sessions (relay still covers those).
+- **The banner carries the exact version**, `v4.1.0 · Satluj`, rebuilt at each release (the
+  owner's pick). Turned down: `v4 · Satluj`, true for every 4.x with one rebuild (the
+  agent's recommendation); leaving it at v4.0.0.
+- **All seventeen evals were run** on the owner's "All 17", then three again after the
+  pilot's fixes changed their skills.
+
+Calls the agent made, for the owner to overrule:
+
+- **`templates/gates.yml` finds pnpm or npm from the lockfile**, where the plan said the
+  sync would fill the manager in: no one edits the file.
+- **`astral-sh/setup-uv` is pinned one release back** (v10.3.3), the newest being a week old:
+  nothing younger than two weeks is pinned in a workflow that runs unattended
+  (`docs/maintainer.md`).
+- **`relay-rules-line`, a case written this session, failed on its first run** because its
+  grader asked for the core to be read on a project that imports it. The reply was right;
+  the grader and relay's sentence were corrected.
+- **The fleet `session-family` skill is the owner's machine-wide copy without the first
+  family's project names.** The owner's copy in `~/.claude/skills/` was not touched; with
+  v4.1 installed both exist until the owner removes theirs.
