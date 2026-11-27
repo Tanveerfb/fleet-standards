@@ -14,10 +14,11 @@ snapshot, rewritten in place: what is true now, never a stack. **History lives i
 `8a9b8ae`, CI green on `main`, issues #20 to #33 closed. All seven phases of v4 are done.
 This line and the log's *Released* item came in the checkpoint's follow-up commit, so they
 are on the working branch, not yet on `main`.
-**Next:** nothing is in flight. Projects sync to v4 when their owner next works in them
-(`decisions.md`, 2026-11-18: real pilot syncs after the release); the dry run's reports for
-five of them are in `docs/audits/2026-11-18-pilot-dry-run.md`, a head start for those syncs.
-The open items below are the owner's.
+**Next:** **v4.1.0 is planned, nothing built** (`docs/specs/v4.1.md`, 2026-11-27): the nine
+proposals #35 to #39 and #41 to #44, all in; `checkpoint` and `relay` brought in line (the
+owner picked G1 to G5 and G7 to G12, not G6); sync checks n and o, and check m reading
+rulesets; a real sync of `tinker-together` before the merge. Start at the spec's phase 1 on
+the owner's go. No open questions.
 **Blocked on:** nothing.
 **Don't trust:** no `sync-standards` has run against a real project on v4 — only the
 read-only dry run; the pilot fixes (P1 to P17) are written and, where they touch a script,
@@ -95,10 +96,9 @@ November 2026, each followed by a "restore". `.github/workflows/` holds only `ch
 the repository's own workflow; the release removed its one v4 line (`fetch-depth: 0`, on the
 owner's yes). No Actions secrets are set. The owner's incident record is in Drive.
 
-**`main` is not protected** (checked 2026-11-18: the API answers 404, "Branch not
-protected", so the plan allows it). §SECURITY says it should be; turning it on is the
-owner's setting (the steps are in the plans repo's `owner-setup.md`, and `sync-standards`
-check m now offers it in projects).
+**`main` is protected by a ruleset** ("Main", the owner's, read back 2026-11-27: deletion
+and force pushes refused). The older branch-protection API still answers 404 for it, which
+is what `sync-standards` check m reads: v4.1 fixes the check.
 
 **The owner was told, and it is theirs to act on:** a file named `comfy_api_key.txt` sits in
 plain text in `E:\Installed`. It was not opened.
@@ -107,9 +107,10 @@ plain text in `E:\Installed`. It was not opened.
 
 ## Open items
 
-1. **Protect `main`** (above). The owner's setting.
-2. **Update the installed plugin** on the PC (above), then let projects sync to v4 as they
-   are next worked on; the dry-run reports are a head start. `toll-kits` stops at its
+1. **Build v4.1.0** (`docs/specs/v4.1.md`), on the owner's go.
+2. **The installed plugin:** a v4.0.0 copy is in the PC's plugin cache (seen 2026-11-27);
+   not confirmed as the active one. Projects sync to v4 as they are next worked on; the
+   dry-run reports are a head start. `toll-kits` stops at its
    `rules/` folder (a hook mirrors files into it), and `godot-toll` and `toll-kits` keep their
    own `relay` and `checkpoint`.
 3. **GitHub's private vulnerability reporting is off** on the repository (checked

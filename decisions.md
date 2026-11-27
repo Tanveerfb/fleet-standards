@@ -587,3 +587,29 @@ in between. The calls made under it:
 - **The release is a merge pull request into `main`**, as v3.8.0 was (pull request #19), not a
   squash; this repository has no `CLAUDE.md` *Deploys* line to say otherwise. Issues #20 to
   #33 close with it (`decisions.md`, 2026-11-13).
+
+## 2026-11-27 — v4.1.0 planned: all nine proposals, and checkpoint and relay
+
+Nine proposals arrived after v4.0.0 (issues #35 to #39, #41 to #44). The owner: all of them
+go in — "they are there for a reason and they were put there on my yes as well". The owner
+also asked that `checkpoint` and `relay` be brought in line with how v4 lays the rules out,
+"mainly in terms of documentation and other management". The plan is `docs/specs/v4.1.md`.
+
+How each open point was settled, by question:
+
+- **#36, the gates in CI:** one Node template serving pnpm or npm, and a Python one. Turned
+  down: Node only; the proposal's npm workflow as it is.
+- **#42, phone engines:** the rule short in `rules/web.md`, the commands in
+  `~/.claude/machine.md`. Turned down: the commands in the rules file.
+- **#35, #37, #38 in projects already live:** the sync flags them, read-only (a new check).
+  Turned down: the changelog only.
+- **Proof:** one real sync, `tinker-together`, against the branch before the merge. Turned
+  down: another project; evals only.
+- **Checkpoint and relay:** an independent audit found twelve gaps; the owner picked all but
+  G6 (relay's credential-hook check on husky).
+- **A minor release carries its major's river name:** `4.1.0 · Satluj`. This settles the
+  point left open on 2026-11-18.
+- **`session-family` is not copied into projects:** a family is local sessions only.
+
+`main` is protected since 2026-11-27 by a ruleset of the owner's ("Main": no deletion, no
+force push), read back through the API.
