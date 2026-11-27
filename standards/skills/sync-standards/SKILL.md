@@ -120,9 +120,12 @@ Read the `CHANGELOG.md` entries between the two versions and tell the owner, bri
   document's own numbered sections (a spec's §2) are not the standard's: count only
   references to it.
 - **Granted exceptions this touches.** Read `conventions.md`: an exception against a rule
-  that changed may now be moot, or may now need restating. **A moot one is offered for
-  removal**, quoted with the rule that made it moot, and removed on the owner's yes in Step 4
-  (a line in `decisions.md` says why). Known case: exceptions against §MOTION, moot since
+  that changed may now be moot, or may now need restating. **A moot one is put to the owner
+  with three answers**, quoted with the rule that made it moot: **remove it**; **keep it as
+  the project's own rule**, where it carries limits the project still wants (an exception
+  that said "motion allowed here, within these bounds" is, once the rule is gone, simply the
+  project's rule about motion: it is retitled, and its limits stay); or **leave it**. Step 4
+  does what was answered (a line in `decisions.md` says why). Known case: exceptions against §MOTION, moot since
   v4 left animation to the owner at the mockup stage. An exception against §FIREBASE in a
   project that does not load the Firebase option is moot the same way.
 
@@ -300,8 +303,10 @@ declined, and why if the owner said. Relay reads it and stops offering that vers
    **k. Python's shape (§PYTHON).** *If the project loads `python` and `conventions.md` does
    not say whether it is a package or a folder of scripts,* ask once and write it in.
 
-   **l. Moot exceptions.** The ones Step 2 offered and the owner approved are removed from
-   `conventions.md`, with a line in `decisions.md` saying which rule made each moot.
+   **l. Moot exceptions.** Each one Step 2 put to the owner is removed from `conventions.md`,
+   or moved out of the granted exceptions and restated as a rule of the project's own with
+   its limits kept, as the owner answered; a line in `decisions.md` says which rule made
+   each moot. Never drop a limit the project still relies on by removing its exception.
 
    **m. The repository's security settings (§SECURITY).** Read first, change nothing
    without the owner's yes for that item; each is a setting or a workflow, never a guess.
