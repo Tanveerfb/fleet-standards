@@ -440,6 +440,9 @@ ever disagree, §GIT wins and this table is the fault. `max` changes the depth, 
 - **Local only:** never add a remote unasked.
 - **What to stage:** what this session changed, by path. Never `git add -A` or `git add .`:
   list any other change in the tree and ask whether it goes in.
+- **A credential hook copied in this session** (`.githooks/pre-commit`, by `new-project` or
+  `sync-standards`) is staged executable: `git add --chmod=+x .githooks/pre-commit`. Those
+  skills leave the bit for this commit, since staging is not theirs to do.
 - **Multi-branch, before the push made without asking:** check that the branch checked out
   (`git branch --show-current`) is not the production branch the *Deploys* line names. If it
   is, stop and ask: that push would be a release, which only `git CPR` authorises.
