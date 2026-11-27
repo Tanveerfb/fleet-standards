@@ -25,6 +25,14 @@ The dials combine: `git CPR max` is an exhaustive checkpoint, committed and push
 release. Which column of Step 7's table applies comes from the *Deploys* line of `CLAUDE.md`
 (`project-rules.md` §GIT), and from whether this is a cloud session.
 
+**With nobody to answer** (a scheduled run, an Action, a session the owner left to finish;
+§ASK): the checkpoint still runs whole, and asks nothing. Every question it would have asked
+(Step 2's proposals, a commit or push that needed a yes, Step 9's) is written into *Start
+here*'s **Blocked on**, each with its options and a recommendation. Git takes the column the
+session has without a yes: the cloud column in a cloud session; otherwise nothing that
+needed asking is done, and the tree is left as it is and said so. Never a release. Step 9's
+pause is skipped; the questions wait for the owner's next relay.
+
 ## Overview
 
 A checkpoint has four parts, done in order:
@@ -190,8 +198,9 @@ pass: a brief never gains a "was", a record never loses a line.
    time and taught several of them things that were no longer true.
 
 **Content to cover — and which file each goes in.** This list is the format; the templates
-(`templates/STATUS.template.md`, `templates/log.template.md`) follow it heading for heading,
-and `relay` reads the snapshot's sections by these names. Adapt the wording to the project,
+(`templates/STATUS.template.md`, `templates/log.template.md`) follow it part for part (the
+template sets *Things that will save a session* as a quoted block inside *Start here*), and
+`relay` reads the snapshot's sections by these names. Adapt the wording to the project,
 never the set.
 
 **The snapshot, `docs/STATUS.md`**, in this order:
@@ -367,7 +376,8 @@ might match, and never create one.
 
 This step runs on **every** checkpoint, with or without the `git` prefix — the board is not
 git, and updating it is part of the documentation pass. Use the Trello MCP tools
-(`mcp__Trello__*`; load them with ToolSearch if they are deferred). If they are unavailable,
+(whatever the session calls them: find them by "Trello", and load them if they are
+deferred). If they are unavailable,
 say so in Step 8 and carry on — a missing connector never blocks the git step.
 
 **`docs/STATUS.md` is the record and the board mirrors it.** Read the board's lists and
@@ -582,7 +592,8 @@ Never run `/compact` yourself, and never assume the owner will. It is their call
 
 ## MAX protocol
 
-Runs only for `checkpoint MAX` / `git checkpoint max`. Standard mode reconstructs the session
+Runs only where the owner said `max`: `checkpoint MAX`, `git checkpoint max`, `CPR max`,
+`git CPR max`. Standard mode reconstructs the session
 from your own context, which is exactly where hallucination and quiet omission enter. MAX
 replaces recollection with verification. Everything below is required.
 
