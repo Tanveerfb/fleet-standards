@@ -18,12 +18,16 @@ are on the working branch, not yet on `main`.
 **Phases 1 to 5 are built and pushed** (commits `1145956` to `5beca2e`): all nine proposals
 (#35 to #39, #41 to #44), check m reading rulesets, sync checks n (the gates in CI) and o
 (read-only findings), the two gates templates, `rules/options/family.md` and the ninth
-skill `session-family`. **Next is phase 6:** `checkpoint` and `relay`, the owner's picks G1
-to G5 and G7 to G12 (not G6), one commit each, in the spec's table. Then phase 7 (changelog
-`4.1.0 · Satluj`, README, version), phase 8 (a real sync of `tinker-together`, run by the
-"Tinker Together Main" session on a message from here; the owner answers its questions
-there), phase 9 (evals for what changed, release on `git CPR`). The version line still
-reads 4.0.0. No open questions.
+skill `session-family`. **Phase 6 is built** (`5641882` to `2be287e`): `checkpoint` and
+`relay`, the owner's picks G1 to G5 and G7 to G12 (not G6); two new eval cases, never run
+(`checkpoint-document-map`, `relay-rules-line`; seventeen in all). **Phase 7 is written
+but for the release's own lines:** the changelog entry `4.1.0 · Satluj — unreleased` is in;
+the version line still reads 4.0.0 and the README's *Versions* line too, both set at the
+release. **Next is phase 8:** a real sync of `tinker-together`, run by the "Tinker Together
+Main" session on one message from here against this checkout; the owner answers its
+questions there, and no approval is relayed. Then phase 9: the evals for what changed (the
+owner's go, they cost usage), the version and date, and the release on `git CPR`. No open
+questions.
 **Blocked on:** nothing.
 **Don't trust:** no `sync-standards` has run against a real project on v4 — only the
 read-only dry run; the pilot fixes (P1 to P17) are written and, where they touch a script,

@@ -23,7 +23,8 @@ versions of the same rules file at once.
   release, with the next letter, so the sync's upgrade report finds it in every project
   behind.
 - **The changelog heading** is `## x.y.z · Name — yyyy-mm-dd`. The name is the major
-  version's river, from the five rivers of Punjab: v4 Satluj, v5 Beas, v6 Ravi, v7 Chenab,
+  version's river, and every minor and patch release of that major carries it (`4.1.0 ·
+  Satluj`; the owner, 2026-11-27). The rivers are the five of Punjab: v4 Satluj, v5 Beas, v6 Ravi, v7 Chenab,
   v8 Jhelum. A new series starts after v8 (`decisions.md`, 2026-11-18). The name stays on the
   surface: the README, the changelog heading and the release notes. Rules and skills stay
   plain. While a release is being built, its entry reads `— unreleased` in place of the
